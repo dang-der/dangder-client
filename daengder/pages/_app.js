@@ -5,6 +5,3 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp;
-
-// test pull request
-// test test PR ~~!!!
