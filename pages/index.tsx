@@ -1,8 +1,8 @@
 
 export default function Home() {
   return (
-   <>
-   <button>버튼이에요</button>
-   </>
+    <>
+      <div>메인 페이지 입니다.</div>
+    </>
   );
 }
