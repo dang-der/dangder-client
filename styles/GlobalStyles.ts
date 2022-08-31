@@ -1,5 +1,5 @@
 import { css } from "@emotion/react"
-
+import styled from "@emotion/styled";
 
 export const globalStyles = css`
   * {
@@ -128,4 +128,8 @@ export const globalStyles = css`
     border-collapse: collapse;
     border-spacing: 0;
   }
-  `;
+`;
+
+export const Wrapper = styled.div`
+  max-width: 36rem;
+`;
