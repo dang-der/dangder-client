@@ -8,23 +8,12 @@ export const globalStyles = css`
     box-sizing: border-box;
     font-size: 16px;
   }
-  html,
-  body,
-  div,
-  span,
+
   applet,
   object,
   iframe,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
   blockquote,
   pre,
-  a,
   abbr,
   acronym,
   address,
@@ -48,22 +37,12 @@ export const globalStyles = css`
   dl,
   dt,
   dd,
-  ol,
-  ul,
-  li,
   fieldset,
   form,
   label,
   legend,
   table,
-  caption,
-  tbody,
-  tfoot,
-  thead,
-  tr,
-  th,
-  td,
-  article,
+  caption article,
   aside,
   canvas,
   details,
@@ -100,9 +79,6 @@ export const globalStyles = css`
   nav,
   section {
     display: block;
-  }
-  body {
-    line-height: 1;
   }
   ol,
   ul {
