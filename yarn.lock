@@ -3937,6 +3937,11 @@ react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-swipeable-list@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-swipeable-list/-/react-swipeable-list-1.6.0.tgz#b2621266cd1c7c54eebcb69cacd21f8d05741c68"
+  integrity sha512-ClOkXoXONBvcFX4Upawj/hhuQSiDYbOzPxLM1ba13aiPW0MmjS2OwmjbEOh4yALs5FpZipATy6ddq4kWBO096A==
+
 react-tinder-card@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/react-tinder-card/-/react-tinder-card-1.5.0.tgz#3ecc1431dd97cac191ab932215fb6c3ea0df7cbf"
