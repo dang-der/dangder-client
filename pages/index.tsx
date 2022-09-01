@@ -1,8 +1,5 @@
+import DogMainPage from "../src/DogMainPage/DogMatinPage.container";
 
 export default function Home() {
-  return (
-    <>
-      <div>메인 페이지 입니다.</div>
-    </>
-  );
+  return <DogMainPage />;
 }
