@@ -1,4 +1,4 @@
-import DogMainPage from "../src/DogMainPage/DogMatinPage.container";
+import DogMainPage from "../src/Main/DogMainPage.container";
 
 export default function Home() {
   return <DogMainPage />;
