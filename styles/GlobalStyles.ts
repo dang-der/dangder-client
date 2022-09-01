@@ -1,4 +1,4 @@
-import { css } from "@emotion/react"
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const globalStyles = css`
@@ -34,11 +34,9 @@ export const globalStyles = css`
   del,
   dfn,
   em,
-  img,
   ins,
   kbd,
   q,
-  s,
   samp,
   small,
   strike,
@@ -88,9 +86,6 @@ export const globalStyles = css`
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
   }
   /* HTML5 display-role reset for older browsers */
   article,
