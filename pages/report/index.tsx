@@ -1,3 +1,5 @@
+import DogReport from "../../src/Report/reportMain/DogReport.container";
+
 export default function ReportPage() {
-    return <div>신고 페이지 입니다. </div>;
+    return <DogReport />
   }
