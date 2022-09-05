@@ -5,9 +5,9 @@ interface ISubmitButtonProps {
 }
 
 export const Wrapper = styled.div`
-  width: 25.875rem;
+  /* width: 25.875rem;
   height: auto;
-  background-color: #d9d9d9;
+  background-color: #ffffff; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +18,7 @@ export const ReportInfo = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  background-color: #d9d9d9;
+  background-color: #ffffff;
 `;
 
 export const ReportInfoTop = styled.div`
@@ -28,13 +28,13 @@ export const ReportInfoTop = styled.div`
 `;
 
 export const ReportIcon = styled.div`
-  width: 3rem;
-  height: 3rem;
-  border-bottom: 1.4rem solid red;
-  border-top: 0.8rem solid transparent;
-  border-left: 0.8rem solid transparent;
-  border-right: 0.8rem solid transparent;
-  margin-top: 15.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-bottom: 2.4rem solid red;
+    border-top: 1.6rem solid transparent;
+    border-left: 1.6rem solid transparent;
+    border-right: 1.6rem solid transparent;
+    margin-top: 15.5rem;;
 `;
 
 export const ReportTitle = styled.div`
@@ -47,6 +47,7 @@ export const ReportTitle = styled.div`
 export const ReportInfoMid = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
 `;
 
 export const ReportContentInput = styled.textarea`
@@ -56,7 +57,6 @@ export const ReportContentInput = styled.textarea`
   font-weight: 200;
   color: #929292;
   margin-top: 2.19rem;
-  margin-left: 1rem;
   border: none;
   border-radius: 0.65rem;
   min-width: 6.75rem;
@@ -71,7 +71,7 @@ export const ReportContentSecret = styled.div`
   font-size: 1rem;
   font-weight: 275;
   color: #000000;
-  margin-top: 6rem;
+  margin-top: 1.875rem;
   margin-left: 3rem;
 `;
 
@@ -84,7 +84,7 @@ export const NextButton = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 3.125rem;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   background-color: ${(props: ISubmitButtonProps) =>
     props.isActive ? "#304ffe" : "#d9d9d9"};
 `;

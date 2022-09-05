@@ -1,9 +1,6 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-  width: 25.875rem;
-  height: auto;
-  background-color: #d9d9d9;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,7 +11,7 @@ export const ReportInfo = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  background-color: #d9d9d9;
+  background-color: #ffffff;
 `;
 
 export const ReportInfoTop = styled.div`
@@ -24,13 +21,13 @@ export const ReportInfoTop = styled.div`
 `;
 
 export const ReportIcon = styled.div`
-  width: 3rem;
-  height: 3rem;
-  border-bottom: 1.4rem solid red;
-  border-top: 0.8rem solid transparent;
-  border-left: 0.8rem solid transparent;
-  border-right: 0.8rem solid transparent;
-  margin-top: 15.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-bottom: 2.4rem solid red;
+    border-top: 1.6rem solid transparent;
+    border-left: 1.6rem solid transparent;
+    border-right: 1.6rem solid transparent;
+    margin-top: 15.5rem;
 `;
 
 export const ReportTitle = styled.div`
