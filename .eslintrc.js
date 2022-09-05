@@ -36,5 +36,7 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/restrict-plus-operands": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
   },
 };

@@ -1,103 +1,145 @@
 import * as S from "./DogMainPage.styles";
-import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 import TinderCard from "react-tinder-card";
+import { v4 as uuidv4 } from "uuid";
 import Head from "next/head";
-import CloseIcon from "@mui/icons-material/Close";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FlashOnIcon from "@mui/icons-material/FlashOn";
+import Link from "next/link";
+import InfoIcon from "@mui/icons-material/Info";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useRouter } from "next/router";
 
-const customCss = `.swipe {
-  position: absolute;
+const defaultCss = `
+#root > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
-.cardContainer {
-  width: 90vw;
-  // max-width: 260px;
-  // height: 300px;
+.app > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
-.card {
-  background-color: #fff;
-  width: 80vw;
-  max-width: 50.8rem;
-  // height: 300px;
-  // box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30);
-  border-radius: 20px;
-  // background-size: cover;
-  // background-position: center;
+.row {
+	flex-direction: row !important;
 }
 
-.cardContent {
-  width: 100%;
-  height: 100%;
+.row > * {
+	margin: 5px;
 }
 
-.swipe:last-of-type {
+.swipe {
+	position: absolute;
+}
 
-}`;
+
+@keyframes popup {
+	0% {
+		transform: scale(1, 1);
+	}
+	10% {
+		transform: scale(1.1, 1.1);
+	}
+	30% {
+		transform: scale(0.9, 0.9);
+	}
+	50% {
+		transform: scale(1, 1);
+	}
+	57% {
+		transform: scale(1, 1);
+	}
+	64% {
+		transform: scale(1, 1);
+	}
+	100% {
+		transform: scale(1, 1);
+	}
+}
+`;
 
 export default function DogMainPageUI(props: any) {
+  const router = useRouter();
+  console.log(router);
+
+  const [lastDirection, setLastDirection] = useState();
+
+  const swiped = (direction: any, nameToDelete: any) => {
+    console.log(`removing: ${nameToDelete}`);
+    setLastDirection(direction);
+  };
+
+  const outOfFrame = (name: string) => {
+    console.log(name + " left the screen!");
+  };
+
+  // 상세페이지로 이동
+  // const MoveToDogDetailPage = () => {
+  //   router.push(`/${router.query.dogId}`);
+  // };
+
   return (
     <>
       <Head>
-        <style>{customCss}</style>
+        <style>{defaultCss}</style>
       </Head>
+      <S.LocationWrapper>
+        <S.LocationButton onClick={props.getLocation}>
+          <S.LocationIcon />
+        </S.LocationButton>
+      </S.LocationWrapper>
       <S.Wrapper>
-        <div className="cardContainer">
-          {props.dogList.map((el: any, index: any) => (
-            <TinderCard
-              className="swipe"
-              ref={props.childRefs[index]}
-              key={uuidv4()}
-              onSwipe={(dir) => props.swiped(dir, index)}
-              onCardLeftScreen={(dir) => props.outOfFrame(el.name, index)}
-            >
-              <S.DogProfile className="card">
-                <S.DogPhoto src={el.url} />
-                <S.DogInfo>
-                  <S.DogInfoHeader>
-                    <S.DogName>{el.name}</S.DogName>
-                    <S.DogAge>{el.age}</S.DogAge>
-                  </S.DogInfoHeader>
-                  <S.DogInfoBody>
-                    <S.DogDistance>{el.distance}km</S.DogDistance>
-                    <S.DogPlay>{el.play}</S.DogPlay>
-                  </S.DogInfoBody>
-                </S.DogInfo>
-              </S.DogProfile>
-            </TinderCard>
-          ))}
-        </div>
-        <S.ButtonWrapper>
-          <S.SwipeButtons>
-            <S.DislikeButton
-              // style={{ backgroundColor: !props.canSwipe && "#c3c4d3" }}
-              onClick={() => {
-                props.swipe("left");
-              }}
-            >
-              <CloseIcon />
-            </S.DislikeButton>
-            <S.LikeButton
-              // style={{ backgroundColor: !props.canSwipe && "#c3c4d3" }}
-              onClick={() => props.swipe("right")}
-            >
-              <FavoriteIcon />
-            </S.LikeButton>
-            <S.PowerPassButton>
-              <FlashOnIcon />
-            </S.PowerPassButton>
-          </S.SwipeButtons>
-        </S.ButtonWrapper>
         <div>
-          {props.lastDirection ? (
-            <h2 key={props.lastDirection} className="infoText">
-              You swiped {props.lastDirection}
-            </h2>
-          ) : (
-            <h2 className="infoText"></h2>
-          )}
+          <S.DogCardWrapper className="cardContainer">
+            {props.dogList.map((character: any) => (
+              <TinderCard
+                className="swipe"
+                key={uuidv4()}
+                onSwipe={(dir) => swiped(dir, character.name)}
+                onCardLeftScreen={() => outOfFrame(character.name)}
+                preventSwipe={["left", "right"]}
+              >
+                <S.DogProfile
+                  style={{ backgroundImage: "url(" + character.url + ")" }}
+                  className="card"
+                >
+                  <S.DogInfo>
+                    <S.DogInfoHeader>
+                      <S.DogInfoTitle>
+                        <S.DogName>{character.name}</S.DogName>
+                        <S.DogAge>, {character.age}</S.DogAge>
+                      </S.DogInfoTitle>
+                      <InfoIcon />
+                    </S.DogInfoHeader>
+                    <S.DogInfoBody>
+                      <S.DistanceWrapper>
+                        <LocationOnIcon />
+                        <S.DogDistance>{character.distance}km</S.DogDistance>
+                      </S.DistanceWrapper>
+                      <S.DogPlay>{character.play}</S.DogPlay>
+                    </S.DogInfoBody>
+                  </S.DogInfo>
+                </S.DogProfile>
+              </TinderCard>
+            ))}
+          </S.DogCardWrapper>
+          <Link href="/payments">
+            <S.PassButton>
+              <S.SparkIcon />
+            </S.PassButton>
+          </Link>
         </div>
+        {/* 스와이프가 잘 작동하는지 확인 */}
+        {lastDirection ? (
+          <h2 className="infoText" style={{ position: "fixed", bottom: "2vh" }}>
+            You swiped {lastDirection}
+          </h2>
+        ) : (
+          <h2 className="infoText" />
+        )}
       </S.Wrapper>
     </>
   );
