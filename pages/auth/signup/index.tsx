@@ -1,3 +1,5 @@
+import SignUpContainer from "../../../src/Components/Units/Auth/SingUp/SignUp.container";
+
 export default function SignUpPage() {
-  return <div>회원가입 페이지 입니다. </div>;
+  return <SignUpContainer />;
 }
