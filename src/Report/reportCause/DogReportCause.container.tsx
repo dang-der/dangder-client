@@ -13,7 +13,7 @@ export default function DogReportCause() {
     } else { 
         setIsActive(false);
       }
-    router.push('/reportCause')
+    router.push('/report/success')
   }
 
   return (
