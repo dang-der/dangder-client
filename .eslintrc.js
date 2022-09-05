@@ -34,6 +34,7 @@ module.exports = {
     "react/display-name": "off",
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-floating-promises" : 'off'
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-empty-function": "off",
   },
 };
