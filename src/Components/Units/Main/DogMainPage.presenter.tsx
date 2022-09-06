@@ -132,14 +132,6 @@ export default function DogMainPageUI(props: any) {
             </S.PassButton>
           </Link>
         </div>
-        {/* 스와이프가 잘 작동하는지 확인 */}
-        {lastDirection ? (
-          <h2 className="infoText" style={{ position: "fixed", bottom: "2vh" }}>
-            You swiped {lastDirection}
-          </h2>
-        ) : (
-          <h2 className="infoText" />
-        )}
       </S.Wrapper>
     </>
   );
