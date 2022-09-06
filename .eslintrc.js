@@ -38,5 +38,7 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/restrict-plus-operands": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/no-misused-promises":"off",
+   "@typescript-eslint/prefer-nullish-coalescing" : 'off'
   },
 };

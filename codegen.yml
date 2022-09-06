@@ -1,0 +1,7 @@
+schema: https://recipemaker.shop/graphql
+generates:
+ ./src/Commons/Types/Generated/types.ts:
+  plugins:
+   - typescript
+  config:
+   typesPrefix: I
