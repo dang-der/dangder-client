@@ -12,7 +12,11 @@ interface ControllerType {
   next: () => void;
   prev: () => void;
 }
-export default function SignUpUI() {
+
+interface SignUpUIprops{
+  handleSignUp : ( inputs : any ) =>void
+}
+export default function SignUpUI({handleSignUp} : SignUpUIprops) {
   const [inputs] = useRecoilState(signUpInputState);
 
   useEffect(() => {
@@ -32,6 +36,10 @@ export default function SignUpUI() {
   const onClickPrev = () => {
     controller?.current.prev();
   };
+
+  const onClickSignUp = ( inputs: any)=>{
+    handleSignUp(inputs)
+  }
 
   return (
     <S.Wrapper>
