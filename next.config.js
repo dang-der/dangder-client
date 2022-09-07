@@ -1,13 +1,8 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   trailingSlash: true,
-  generateBuildId: () => "dangder",
-  exportPathMap: () => ({
-    "/": { page: "/" },
-    "/test": { page: "/test" },
-    "/404": { page: "/404" },
-  }),
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -16,6 +11,12 @@ const nextConfig = {
     });
     return config;
   },
+  generateBuildId: () => "dangder",
+  exportPathMap: () => ({
+    "/": { page: "/" },
+    "/test": { page: "/test" },
+    "/404": { page: "/404" },
+  }),
 };
 
 module.exports = nextConfig;
