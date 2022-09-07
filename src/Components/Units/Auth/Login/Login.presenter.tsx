@@ -8,24 +8,30 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object({
-  email: yup.string().required("이메일을 입력해주세요."),
+  email: yup.string().matches(
+    /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/gi,  "이메일 아이디를 @까지 정확하게 입력해 주세요."
+  ).required("이메일을 입력해주세요."),
   password: yup
     .string()
-    .min(4, "비밀번호는 4자리 이상이어야 합니다.")
-    .max(10, "비밀번호는 10자리 이하여야 합니다.")
+    .matches(/[^A-Za-z0-9$]/gi, "영문+숫자 조합 8~16자리의 비밀번호를 입력해 주세요.")
     .required("비밀번호를 입력해주세요"),
 });
 
-export default function LoginUI() {
+interface LoginUIProps{
+  handleUserLogin : (inputs :any) =>void
+}
+
+export default function LoginUI({handleUserLogin} : LoginUIProps) {
   const router = useRouter();
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
 
-  const onClickLogin = (inputs: any) => {
-    console.log("onClickLogin", inputs);
-  };
+  const onClickLogin = (inputs : any) =>{
+    handleUserLogin(inputs)
+  }
+ 
 
   const onClickSignUp = () => {
     router.push("/auth/signup");
@@ -34,6 +40,7 @@ export default function LoginUI() {
   const onClickResetPassword = () => {
     router.push("/auth/password-reset");
   };
+
   return (
     <S.Wrapper onSubmit={handleSubmit(onClickLogin)}>
       <S.LogoImage src="/logo.png" />

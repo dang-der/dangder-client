@@ -41,5 +41,7 @@ module.exports = {
     "@typescript-eslint/prefer-optional-chain": "off",
     "import/no-absolute-path": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
   },
 };

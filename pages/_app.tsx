@@ -4,6 +4,7 @@ import { globalStyles } from "../styles/GlobalStyles";
 import "antd/dist/antd.css";
 import { RecoilRoot } from "recoil";
 import Layout from "../src/Components/Commons/layout";
+import ApolloSetting from "../src/Commons/Settings/apollosetting";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,6 +14,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        <ApolloSetting>
+          <Global styles={globalStyles} />
+          <Component {...pageProps} />
+        </ApolloSetting>
       </RecoilRoot>
     </>
   );

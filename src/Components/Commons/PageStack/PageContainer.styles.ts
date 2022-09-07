@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   padding: 1.5rem;
 `;
@@ -21,7 +21,7 @@ interface NextButtonStyleProps {
 export const NextButton = styled.button`
   width: 100%;
   border-radius: 6.25rem;
-  height: 4.5rem;
+  height: 3.125rem;
   background-color: ${(props: NextButtonStyleProps) =>
     props.isActive ? "#304ffe" : "gray"};
   color: white;
