@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 import { signUpInputState } from "../../../../../Commons/Store/Auth/SignUpState";
 
 const schema = yup.object({
-  password: yup.string().required("비밀번호를 입력해주세요."),
+  password: yup.string().matches(/[^A-Za-z0-9$]/gi, "특수문자를 포함해 주세요").required("비밀번호를 입력해주세요."),
   passwordCheck: yup
     .string()
     .oneOf([yup.ref("password"), null], "비밀번호가 일치하지 않습니다.")

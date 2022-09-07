@@ -8,30 +8,45 @@ import AuthCodeInputPage from "./Page/AuthCodeInputPage";
 import EmailInputPage from "./Page/EmailInputPage";
 import PasswordInputPage from "./Page/PasswordInputPage";
 
+import { v4 as uuid } from "uuid"
+
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
 
+interface SignUpUIprops{
+  handleSignUp : ( inputs : any ) => Promise<boolean>
+}
+export default function SignUpUI({handleSignUp} : SignUpUIprops) {
 
-export default function SignUpUI() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [inputs] = useRecoilState(signUpInputState);
+  const [inputs, ] = useRecoilState(signUpInputState);
 
-  const onClickNext = (index: number, currentPageInfo: any, data: any) => {
-    if (!data.isActiveButton) return;
-    setCurrentPageIndex(index);
+  const onClickNext = async (index: number, currentPageInfo: any, data: any) => {
+    // 이메일 입력 페이지
+    // if (index - 1 === 0) {
+    //   const result = await handleSignUp(data.email)
+    //   result && setCurrentPageIndex(index)
+    // }
+
+    // if (!data.E)
+    setCurrentPageIndex(index)
   };
 
   const controller = useMemo(() => {
     return new PageController({
-      pages: Array(3)
-        .fill(0)
-        .map((e, i) => (
-          <Page key={i}>
-            <EmailInputPage />
-          </Page>
-        )),
+      pages: [
+          
+            <EmailInputPage key={uuid()}/>, 
+            <AuthCodeInputPage key={uuid()}/>, 
+            <PasswordInputPage key={uuid()}/>
+        
+        ],
       onClickNext,
     });
   }, []);
+
+  const onClickSignUp = ( inputs: any)=>{
+    handleSignUp(inputs)
+  }
 
   return (
     <S.Wrapper>
