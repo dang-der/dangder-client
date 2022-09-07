@@ -8,17 +8,9 @@ import AuthCodeInputPage from "./Page/AuthCodeInputPage";
 import EmailInputPage from "./Page/EmailInputPage";
 import PasswordInputPage from "./Page/PasswordInputPage";
 
-<<<<<<< HEAD
-import * as S from "./SignUp.styles";
-
-=======
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
 
-interface ControllerType {
-  next: () => void;
-  prev: () => void;
-}
->>>>>>> 38090cb (:fire: 220906 - [move] : 공통적으로 사용되는 스타일 Commons의 PageStack으로 이동)
+
 export default function SignUpUI() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [inputs] = useRecoilState(signUpInputState);
