@@ -9,7 +9,8 @@ import EmailInputPage from "./Page/EmailInputPage";
 import PasswordInputPage from "./Page/PasswordInputPage";
 
 import { v4 as uuid } from "uuid"
-import * as S from "./SignUp.styles";
+
+import * as S from "../../../Commons/PageStack/PageContainer.styles";
 
 interface SignUpUIprops{
   handleSignUp : ( inputs : any ) =>void
