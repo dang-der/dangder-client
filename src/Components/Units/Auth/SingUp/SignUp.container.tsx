@@ -1,12 +1,15 @@
 import { useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
-import { CREATE_USER } from "./Page/SignUp.queries";
+import { IMutation, IMutationCreateMailTokenArgs, IMutationCreateUserArgs, IMutationVerifyMailTokenArgs } from "../../../../Commons/Types/Generated/types";
+import { CREATE_MAIL_TOKEN, CREATE_USER, VERIFY_MAIL_TOKEN } from "./Page/SignUp.queries";
 import SignUpUI from "./SignUp.presenter";
 
 export default function SignUpContainer() {
   const router = useRouter()
   const [createUser] = useMutation<Pick<IMutation, "createUser">, IMutationCreateUserArgs>(CREATE_USER)
+  const [createMailToken] = useMutation<Pick<IMutation, "createMailToken">, IMutationCreateMailTokenArgs>(CREATE_MAIL_TOKEN)
+  const [verifyMailToken] = useMutation<Pick<IMutation, "verifyMailToken">, IMutationVerifyMailTokenArgs>(VERIFY_MAIL_TOKEN)
 
   const handleSignUp = async (inputs: any) => {
     try {

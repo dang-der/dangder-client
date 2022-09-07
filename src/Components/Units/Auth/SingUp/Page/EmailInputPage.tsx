@@ -8,10 +8,12 @@ import { signUpInputState } from "../../../../../Commons/Store/Auth/SignUpState"
 import * as S from "./Page.styles";
 
 const schema = yup.object({
-  email: yup.string().matches(
+  email: yup.string()
+  .matches(
     /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/gi,
     "이메일(@, com, net 등)을 입력해주세요"
-  ).required("이메일을 입력해주세요."),
+  )
+  .required("이메일을 입력해주세요."),
 });
 
 export default function EmailInputPage() {

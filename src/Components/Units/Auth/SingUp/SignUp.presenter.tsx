@@ -1,41 +1,45 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { signUpInputState } from "../../../../Commons/Store/Auth/SignUpState";
+import { PageController } from "../../../Commons/PageStack/Controller";
 import Page from "../../../Commons/PageStack/Page";
 import PageStack from "../../../Commons/PageStack/PageStack";
 import AuthCodeInputPage from "./Page/AuthCodeInputPage";
 import EmailInputPage from "./Page/EmailInputPage";
 import PasswordInputPage from "./Page/PasswordInputPage";
 
+import { v4 as uuid } from "uuid"
 import * as S from "./SignUp.styles";
-interface ControllerType {
-  next: () => void;
-  prev: () => void;
-}
 
 interface SignUpUIprops{
   handleSignUp : ( inputs : any ) =>void
 }
 export default function SignUpUI({handleSignUp} : SignUpUIprops) {
+
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [inputs] = useRecoilState(signUpInputState);
 
-  useEffect(() => {
-    console.log("signupInput", inputs);
-  }, [inputs]);
+  useEffect(()=>{
+    console.log(inputs)
+  }, [inputs])
 
-  const controller = useRef<ControllerType>({
-    next: () => {},
-    prev: () => {},
-  });
-
-  const onClickNext = () => {
-    if (!inputs.isActiveButton) return;
-    controller?.current.next();
+  const onClickNext = (index: number, currentPageInfo: any, data: any) => {
+    if (!data.isActiveButton) return;
+    setCurrentPageIndex(index);
   };
 
-  const onClickPrev = () => {
-    controller?.current.prev();
-  };
+  const controller = useMemo(() => {
+    return new PageController({
+      pages: [
+          
+            <EmailInputPage key={uuid()}/>, 
+            <AuthCodeInputPage key={uuid()}/>, 
+            <PasswordInputPage key={uuid()}/>
+        
+        ],
+      onClickNext,
+    });
+  }, []);
 
   const onClickSignUp = ( inputs: any)=>{
     handleSignUp(inputs)
@@ -44,7 +48,7 @@ export default function SignUpUI({handleSignUp} : SignUpUIprops) {
   return (
     <S.Wrapper>
       <S.PageStackWrapper>
-        <PageStack controller={controller}>
+        <PageStack currentPageIndex={currentPageIndex}>
           <Page>
             <EmailInputPage />
           </Page>
@@ -57,7 +61,11 @@ export default function SignUpUI({handleSignUp} : SignUpUIprops) {
         </PageStack>
       </S.PageStackWrapper>
 
-      <S.NextButton onClick={onClickNext} isActive={inputs.isActiveButton}>
+      <S.NextButton
+        type="button"
+        onClick={() => controller.nextPage(inputs)}
+        isActive={inputs.isActiveButton}
+      >
         {Object.values(inputs).every((e) => e) ? "완료" : "다음"}
       </S.NextButton>
     </S.Wrapper>
