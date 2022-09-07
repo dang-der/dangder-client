@@ -4,7 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import LineInput from "../../../../Commons/LineInputs/LineInput";
 import * as S from "./Page.styles";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { profileInputState } from "../../../../../Commons/Store/Profile/ProfileInitState";
 
 const schema = yup.object({
   registrationNumber: yup
@@ -29,14 +31,27 @@ const schema = yup.object({
 });
 
 export default function RegistrationNumberInputPage() {
+  const [, setInputs] = useRecoilState(profileInputState);
   const { register, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
 
-  useEffect(() => {
-    console.log("formstate", formState);
-  });
+  const onChangeRegisterNumber = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs((p) => ({ ...p, registerNumber: e.target.value }));
+  };
+
+  const onChangeOwnerBirthYear = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs((p) => ({ ...p, ownerBirthYear: Number(e.target.value) }));
+  };
+
+  const onChangeOwnerBirthMonth = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs((p) => ({ ...p, ownerBirthMonth: Number(e.target.value) }));
+  };
+
+  const onChangeOwnerBirthDay = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs((p) => ({ ...p, ownerBirthDay: Number(e.target.value) }));
+  };
 
   return (
     <S.Wrapper>
@@ -49,6 +64,7 @@ export default function RegistrationNumberInputPage() {
       </S.GuidanceWrapper>
       <LineInput
         register={register}
+        registerOption={{ onChange: onChangeRegisterNumber }}
         type="number"
         name="registrationNumber"
         placeholder="댕댕이의 등록번호를 입력해주세요."
@@ -62,6 +78,7 @@ export default function RegistrationNumberInputPage() {
       <S.BirthdayWrapper>
         <LineInput
           register={register}
+          registerOption={{ onChange: onChangeOwnerBirthYear }}
           type="number"
           name="birthYear"
           placeholder="1995"
@@ -71,6 +88,7 @@ export default function RegistrationNumberInputPage() {
 
         <LineInput
           register={register}
+          registerOption={{ onChange: onChangeOwnerBirthMonth }}
           type="number"
           name="birthMonth"
           placeholder="06"
@@ -80,6 +98,7 @@ export default function RegistrationNumberInputPage() {
 
         <LineInput
           register={register}
+          registerOption={{ onChange: onChangeOwnerBirthDay }}
           type="number"
           name="birthDay"
           placeholder="06"

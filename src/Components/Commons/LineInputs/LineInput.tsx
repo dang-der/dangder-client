@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export interface LineInputProps {
   register: any;
+  registerOption?: any;
   type: string;
   name: string;
   placeholder?: string;
@@ -22,6 +23,7 @@ const Wrapper = styled.div`
 
 export default function LineInput({
   register,
+  registerOption,
   type,
   name,
   placeholder,
@@ -31,7 +33,7 @@ export default function LineInput({
     <Wrapper>
       <input
         type={type}
-        {...register(name)}
+        {...register(name, registerOption)}
         placeholder={placeholder}
         style={style}
       />
