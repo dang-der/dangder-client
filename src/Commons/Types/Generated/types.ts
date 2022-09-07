@@ -11,6 +11,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  Upload: any;
 };
 
 export type IAvoidBreed = {
@@ -79,6 +80,14 @@ export type IDog = {
   userId: IUser;
 };
 
+export type IDogImage = {
+  __typename?: 'DogImage';
+  dog: IDog;
+  id: Scalars['String'];
+  img: Scalars['String'];
+  isMain: Scalars['Boolean'];
+};
+
 export type IInterest = {
   __typename?: 'Interest';
   dogs: Array<IDog>;
@@ -93,25 +102,38 @@ export type ILocation = {
   lng: Scalars['Float'];
 };
 
+export type ILocationInput = {
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
+};
+
 export type IMutation = {
   __typename?: 'Mutation';
+  createAvoidBreed: Array<IAvoidBreed>;
   createBlockUser: IBlockUser;
   createCharacter: ICharacter;
   createDog: IDog;
   createInterest: IInterest;
-  createMailToken: Scalars['String'];
+  createMailToken: Scalars['Boolean'];
   createPayment: IPayment;
   createUser: IUser;
   deleteCharacter: Scalars['Boolean'];
   deleteDog: Scalars['Boolean'];
   deleteInterest: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
+  getdoginfo: Scalars['Boolean'];
   logout: Scalars['String'];
   restoreAccessToken: Scalars['String'];
   updateDog: IDog;
   updateUser: IUser;
+  uploadFile: Array<Scalars['String']>;
   userLogin: Scalars['String'];
   verifyMailToken: Scalars['Boolean'];
+};
+
+
+export type IMutationCreateAvoidBreedArgs = {
+  createAvoidBreedInput: ICreateAvoidBreedInput;
 };
 
 
@@ -173,6 +195,12 @@ export type IMutationDeleteUserArgs = {
 };
 
 
+export type IMutationGetdoginfoArgs = {
+  birth: Scalars['String'];
+  registerNumber: Scalars['String'];
+};
+
+
 export type IMutationUpdateDogArgs = {
   id: Scalars['String'];
   updateDogInput: IUpdateDogInput;
@@ -182,6 +210,11 @@ export type IMutationUpdateDogArgs = {
 export type IMutationUpdateUserArgs = {
   email: Scalars['String'];
   updateUserInput: IUpdateUserInput;
+};
+
+
+export type IMutationUploadFileArgs = {
+  files: Array<Scalars['Upload']>;
 };
 
 
@@ -215,10 +248,14 @@ export type IQuery = {
   __typename?: 'Query';
   fetchBlockUser: IBlockUser;
   fetchBlockUsers: Array<IBlockUser>;
+  fetchBreeds: IBreed;
   fetchCharacters: Array<ICharacter>;
+  fetchDogImage: Array<IDogImage>;
+  fetchDogImages: Array<IDogImage>;
   fetchDogs: Array<IDog>;
   fetchInterests: Array<IInterest>;
   fetchLoginUser: IUser;
+  fetchMainDogImage: Array<IDogImage>;
   fetchUser: IUser;
   fetchUsers: Array<IUser>;
 };
@@ -226,6 +263,21 @@ export type IQuery = {
 
 export type IQueryFetchBlockUserArgs = {
   blockId: Scalars['String'];
+};
+
+
+export type IQueryFetchDogImageArgs = {
+  dogId: Scalars['String'];
+};
+
+
+export type IQueryFetchDogImagesArgs = {
+  dogId: Scalars['String'];
+};
+
+
+export type IQueryFetchMainDogImageArgs = {
+  dogId: Scalars['String'];
 };
 
 
@@ -241,6 +293,7 @@ export type IUpdateDogInput = {
   description?: InputMaybe<Scalars['String']>;
   img?: InputMaybe<Array<Scalars['String']>>;
   interests?: InputMaybe<Array<Scalars['String']>>;
+  locations?: InputMaybe<ILocationInput>;
 };
 
 export type IUpdateUserInput = {
@@ -271,6 +324,10 @@ export type IUser = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type ICreateAvoidBreedInput = {
+  avoidBreed: Array<Scalars['String']>;
+};
+
 export type ICreateDogInput = {
   age: Scalars['Int'];
   avoidBreeds: Array<Scalars['String']>;
@@ -279,4 +336,5 @@ export type ICreateDogInput = {
   description: Scalars['String'];
   img: Array<Scalars['String']>;
   interests: Array<Scalars['String']>;
+  locations: ILocationInput;
 };

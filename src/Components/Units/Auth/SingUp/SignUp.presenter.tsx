@@ -8,7 +8,8 @@ import AuthCodeInputPage from "./Page/AuthCodeInputPage";
 import EmailInputPage from "./Page/EmailInputPage";
 import PasswordInputPage from "./Page/PasswordInputPage";
 
-import * as S from "./SignUp.styles";
+import * as S from "../../../Commons/PageStack/PageContainer.styles";
+
 
 export default function SignUpUI() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
