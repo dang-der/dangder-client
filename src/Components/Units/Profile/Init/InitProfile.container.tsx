@@ -46,7 +46,6 @@ export default function InitProfileContainer() {
       });
 
       console.log("getDogInfo", data);
-
       return true;
     } catch (e) {
       console.log("handleCheckDogRegister", e);

@@ -31,12 +31,13 @@ export default function InitProfileUI({
     console.log("onClickNext", nextIndex);
 
     // 강아지 등록번호 입력 페이지
-    if (nextIndex - 1 === 0) {
-      const result = await handleCheckDogRegisterNumber(data);
-      result && setCurrentPageIndex(nextIndex);
-    }
+    // if (nextIndex - 1 === 0) {
+    //   const result = await handleCheckDogRegisterNumber(data);
+    //   result && setCurrentPageIndex(nextIndex);
+    // }
 
     // 댕댕이 프로필 설정
+    setCurrentPageIndex(nextIndex);
   };
 
   const controller = useMemo(() => {
@@ -69,7 +70,7 @@ export default function InitProfileUI({
       </S.PageStackWrapper>
 
       <S.NextButton isActive={true} onClick={() => controller.nextPage(inputs)}>
-        다음
+        {currentPageIndex === 2 ? "완료" : "다음"}
       </S.NextButton>
     </S.Wrapper>
   );
