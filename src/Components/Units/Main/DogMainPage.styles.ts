@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-self: center;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 `;
 
@@ -16,7 +16,7 @@ export const LocationWrapper = styled.div`
   justify-content: end;
   width: 100vw;
   height: 5rem;
-  padding: 1.5rem;
+  padding: 0.625rem 1.5rem;
 `;
 
 export const LocationButton = styled.div`
@@ -54,6 +54,7 @@ export const DogProfile = styled.div`
   background-size: cover;
   background-position: center;
   background-color: #fff;
+  z-index: -1;
 `;
 
 export const DogInfo = styled.div`
@@ -107,7 +108,7 @@ export const DogPlay = styled.span`
 
 export const PassButton = styled.div`
   position: relative;
-  left: 20.625rem;
+  left: 9.6rem;
   top: 35.375rem;
   display: flex;
   justify-content: center;
@@ -117,6 +118,7 @@ export const PassButton = styled.div`
   background-color: #ffffff;
   border-radius: 50%;
   box-shadow: 0px 4px 4px 0px #00000040;
+  z-index: 1;
 `;
 
 export const SparkIcon = styled(FlashOnIcon)`

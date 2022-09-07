@@ -92,7 +92,7 @@ export default function DogMainPageUI(props: any) {
         </S.LocationButton>
       </S.LocationWrapper>
       <S.Wrapper>
-        <div>
+        <div style={{ position: "absolute" }}>
           <S.DogCardWrapper className="cardContainer">
             {props.dogList.map((character: any) => (
               <TinderCard
@@ -125,21 +125,13 @@ export default function DogMainPageUI(props: any) {
                 </S.DogProfile>
               </TinderCard>
             ))}
+            <Link href="/payments">
+              <S.PassButton>
+                <S.SparkIcon />
+              </S.PassButton>
+            </Link>
           </S.DogCardWrapper>
-          <Link href="/payments">
-            <S.PassButton>
-              <S.SparkIcon />
-            </S.PassButton>
-          </Link>
         </div>
-        {/* 스와이프가 잘 작동하는지 확인 */}
-        {lastDirection ? (
-          <h2 className="infoText" style={{ position: "fixed", bottom: "2vh" }}>
-            You swiped {lastDirection}
-          </h2>
-        ) : (
-          <h2 className="infoText" />
-        )}
       </S.Wrapper>
     </>
   );
