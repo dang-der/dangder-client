@@ -13,20 +13,22 @@ import { v4 as uuid } from "uuid"
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
 
 interface SignUpUIprops{
-  handleSignUp : ( inputs : any ) =>void
+  handleSignUp : ( inputs : any ) => Promise<boolean>
 }
 export default function SignUpUI({handleSignUp} : SignUpUIprops) {
 
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [inputs] = useRecoilState(signUpInputState);
+  const [inputs, ] = useRecoilState(signUpInputState);
 
-  useEffect(()=>{
-    console.log(inputs)
-  }, [inputs])
+  const onClickNext = async (index: number, currentPageInfo: any, data: any) => {
+    // 이메일 입력 페이지
+    // if (index - 1 === 0) {
+    //   const result = await handleSignUp(data.email)
+    //   result && setCurrentPageIndex(index)
+    // }
 
-  const onClickNext = (index: number, currentPageInfo: any, data: any) => {
-    if (!data.isActiveButton) return;
-    setCurrentPageIndex(index);
+    // if (!data.E)
+    setCurrentPageIndex(index)
   };
 
   const controller = useMemo(() => {
