@@ -11,24 +11,38 @@ import PasswordInputPage from "./Page/PasswordInputPage";
 import { v4 as uuid } from "uuid"
 
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
+import { Modal } from "antd";
 
 interface SignUpUIprops{
-  handleSignUp : ( inputs : any ) => Promise<boolean>
+  handleSignUp : (email: string, password: string) => Promise<boolean | undefined>
+  handleCreateMailToken :(email : string) => Promise<boolean | undefined>
+  handleVerifyMailToken : (email: string, code: string) => Promise<boolean | undefined>
 }
-export default function SignUpUI({handleSignUp} : SignUpUIprops) {
+export default function SignUpUI({handleSignUp, handleCreateMailToken, handleVerifyMailToken} : SignUpUIprops) {
 
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [inputs, ] = useRecoilState(signUpInputState);
 
   const onClickNext = async (index: number, currentPageInfo: any, data: any) => {
+    console.log('onClickNext', index)
     // 이메일 입력 페이지
-    // if (index - 1 === 0) {
-    //   const result = await handleSignUp(data.email)
-    //   result && setCurrentPageIndex(index)
-    // }
+    if (index - 1 === 0) {
+      console.log('onClickNext', 'emailInput')
+      const result = await handleCreateMailToken(data?.email)
+      result && setCurrentPageIndex(index)
+    }
+    // 인증번호 입력 페이지
+    if (index - 1 === 1) {
+      console.log('onClickNext', 'codeInput')
+      const result = await handleVerifyMailToken(data?.email, data?.authenticationCode.join(''))
+      result && setCurrentPageIndex(index)
+    }
+    // 비밀번호 입력 페이지
+    if (index - 1 === 2) {
+      const result = await handleSignUp(data?.email, data?.password)
+      result && setCurrentPageIndex(index)
+    }
 
-    // if (!data.E)
-    setCurrentPageIndex(index)
   };
 
   const controller = useMemo(() => {
@@ -44,9 +58,8 @@ export default function SignUpUI({handleSignUp} : SignUpUIprops) {
     });
   }, []);
 
-  const onClickSignUp = ( inputs: any)=>{
-    handleSignUp(inputs)
-  }
+  
+
 
   return (
     <S.Wrapper>
