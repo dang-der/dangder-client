@@ -1,89 +1,44 @@
 import styled from "@emotion/styled";
+import Link from "next/link";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import Today from "/public/today.svg";
-import Main from "/public/main.svg";
-import Chat from "/public/chat.svg";
-import Mypage from "/public/mypage.svg";
-import Head from "next/head";
 
-// interface IMenuProps {
-//   isActive: boolean;
-// }
+interface IMenuProps {
+  isActive?: any;
+}
 
+// TODO: 네비게이션 바를 클릭해서 메뉴 이동하지 않고, url로 이동하는 경우 네비 바 반영이 안되는 이슈
 export default function Navigation() {
   const menus = ["오늘의 댕댕이", "메인", "채팅", "마이 댕댕이"];
   const urls = ["/today.svg", "/main.svg", "/chat.svg", "/mypage.svg"];
+  const links = ["/today", "/", "/chat", "/profile"];
 
-  const [isActive, setActive] = useState(Array(menus.length).fill(false));
+  const [isActive, setActive] = useState(1);
 
-  const onClickToggle = (index: any) => {
-    const newArr = Array(menus.length).fill(false);
-    newArr[index] = true;
-    setActive(newArr);
+  const onClickToggle = (event) => {
+    const activeNav = Number(event.target.id);
+    setActive(activeNav);
   };
 
   return (
-    <>
-      {/* <Head>
-        <style>
-          {`
-            .icon true {
-              fill: "#304FFE";
-            }
-
-            .icon false {
-              fill: "#d9d9d9"
-            }
-
-            .title true {
-              color: "#304FFE";
-            }
-
-            .title false {
-              color: "#d9d9d9";
-            }
-          `}
-        </style>
-      </Head> */}
-      <Wrapper>
-        {/* <MenuItems>
-          {menus.map((menu, index) => (
-            <Menu key={uuidv4()} onClick={() => onClickToggle(index)}>
+    <Wrapper>
+      <MenuItems>
+        {menus.map((menu: string, index: any) => (
+          <Link href={links[index]} key={uuidv4()}>
+            <Menu onClick={onClickToggle}>
               <MenuIcon
-              // src={urls[index]}
-              // className={`${isActive ? "icon true" : "icon false"}`}
+                src={urls[index]}
+                id={index}
+                isActive={index === isActive}
               />
-              <MenuTitle
-              // className={`${isActive ? "title true" : "title false"}`}
-              // onClick={() => onClickToggle(index)}
-              >
+              <MenuTitle id={index} isActive={index === isActive}>
                 {menu}
               </MenuTitle>
             </Menu>
-          ))}
-        </MenuItems> */}
-
-        <MenuItems>
-          <Menu>
-            <TodayIcon src="/today.svg" />
-            <MenuTitle>오늘의 댕댕이</MenuTitle>
-          </Menu>
-          <Menu>
-            <MainIcon src="/main.svg" />
-            <MenuTitle>메인</MenuTitle>
-          </Menu>
-          <Menu>
-            <ChatIcon src="/chat.svg" />
-            <MenuTitle>채팅</MenuTitle>
-          </Menu>
-          <Menu>
-            <MypageIcon src="/mypage.svg" />
-            <MenuTitle>마이 댕댕이</MenuTitle>
-          </Menu>
-        </MenuItems>
-      </Wrapper>
-    </>
+          </Link>
+        ))}
+      </MenuItems>
+    </Wrapper>
   );
 }
 
@@ -110,23 +65,14 @@ const Menu = styled.div`
   flex-grow: 1;
 `;
 
-const MenuTitle = styled.span`
-  color: #d9d9d9;
+const MenuIcon = styled.img<IMenuProps>`
+  filter: ${(props) =>
+    props.isActive
+      ? "invert(41%) sepia(75%) saturate(7098%) hue-rotate(229deg) brightness(97%) contrast(106%)"
+      : "none"};
+`;
+
+const MenuTitle = styled.span<IMenuProps>`
+  color: ${(props) => (props.isActive ? "#304FFE" : "#d9d9d9")};
   font-size: 0.75rem;
-`;
-
-const TodayIcon = styled(Today)`
-  fill: ${(props) => (props.isActive ? "#304FFE" : "#d9d9d9")};
-`;
-
-const MainIcon = styled(Main)`
-  fill: ${(props) => (props.isActive ? "#304FFE" : "#d9d9d9")};
-`;
-
-const ChatIcon = styled(Chat)`
-  fill: ${(props) => (props.isActive ? "#304FFE" : "#d9d9d9")};
-`;
-
-const MypageIcon = styled(Mypage)`
-  fill: ${(props) => (props.isActive ? "#304FFE" : "#d9d9d9")};
 `;
