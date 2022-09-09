@@ -1,10 +1,14 @@
 import { SettingsInputSvideo } from "@mui/icons-material";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { v4 as uuid } from "uuid";
 
 import { signUpInputState } from "../../../../Commons/Store/Auth/SignUpState";
-import { profileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
+import {
+  IProfileInputState,
+  profileInputState,
+} from "../../../../Commons/Store/Profile/ProfileInitState";
 import { ICharacter, IQuery } from "../../../../Commons/Types/Generated/types";
 import { PageController } from "../../../Commons/PageStack/Controller";
 import Page from "../../../Commons/PageStack/Page";
@@ -16,7 +20,7 @@ import RegistrationNumberInputPage from "./Page/RegistrationNumberInputPage";
 
 interface InitProfileUIProps {
   handleCheckDogRegisterNumber: (inputs: any) => Promise<boolean>;
-  handleCreateDog: (inputs: any) => void;
+  handleCreateDog: (inputs: any) => Promise<boolean>;
   selectedData: {
     characters: Pick<IQuery, "fetchCharacters"> | undefined;
     interests: Pick<IQuery, "fetchInterests"> | undefined;
@@ -28,28 +32,42 @@ export default function InitProfileUI({
   handleCreateDog,
   selectedData,
 }: InitProfileUIProps) {
+  const router = useRouter();
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [inputs, setInputs] = useRecoilState(profileInputState);
 
   const onClickNext = async (
-    nextIndex: number,
+    currentIndex: number,
     currentPageInfo: any,
-    data: any
+    data: IProfileInputState
   ) => {
-    console.log("onClickNext", nextIndex);
+    console.log("onClickNext", currentIndex);
 
     // 강아지 등록번호 입력 페이지
-    if (nextIndex - 1 === 0) {
+    if (currentIndex === 0) {
       const result = await handleCheckDogRegisterNumber(data);
-      result && setCurrentPageIndex(nextIndex);
+      result && setCurrentPageIndex(currentIndex + 1);
     }
 
     // 댕댕이 프로필 설정
-    if (nextIndex - 1 === 2) {
-      console.log("onClickNext : 댕댕이 프로필 설정");
-      await handleCreateDog(data);
+    if (currentIndex === 1) {
+      if (
+        data.createDogInput.imageUrls.length < 1 &&
+        (!data.createDogInput.dogBirthYear ||
+          !data.createDogInput.dogBirthMonth ||
+          !data.createDogInput.dogBirthDay) &&
+        !data.createDogInput.introduce
+      ) {
+        // todo : 에러 다이얼로그 띄우기
+        return;
+      }
+      setCurrentPageIndex(currentIndex + 1);
     }
-    setCurrentPageIndex(nextIndex);
+
+    if (currentIndex === 2) {
+      const result = await handleCreateDog(data);
+      result && router.replace("/");
+    }
   };
 
   const controller = useMemo(() => {

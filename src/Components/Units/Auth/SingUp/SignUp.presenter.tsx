@@ -12,54 +12,65 @@ import { v4 as uuid } from "uuid"
 
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
 import { Modal } from "antd";
+import { useRouter } from "next/router";
 
-interface SignUpUIprops{
-  handleSignUp : (email: string, password: string) => Promise<boolean | undefined>
-  handleCreateMailToken :(email : string) => Promise<boolean | undefined>
-  handleVerifyMailToken : (email: string, code: string) => Promise<boolean | undefined>
+interface SignUpUIprops {
+  handleSignUp: (
+    email: string,
+    password: string
+  ) => Promise<boolean | undefined>;
+  handleCreateMailToken: (email: string) => Promise<boolean | undefined>;
+  handleVerifyMailToken: (
+    email: string,
+    code: string
+  ) => Promise<boolean | undefined>;
 }
-export default function SignUpUI({handleSignUp, handleCreateMailToken, handleVerifyMailToken} : SignUpUIprops) {
-
+export default function SignUpUI({
+  handleSignUp,
+  handleCreateMailToken,
+  handleVerifyMailToken,
+}: SignUpUIprops) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [inputs, ] = useRecoilState(signUpInputState);
+  const [inputs] = useRecoilState(signUpInputState);
+  const router = useRouter();
 
-  const onClickNext = async (index: number, currentPageInfo: any, data: any) => {
-    console.log('onClickNext', index)
+  const onClickNext = async (
+    currentIndex: number,
+    currentPageInfo: any,
+    data: any
+  ) => {
+    console.log("onClickNext", currentIndex);
     // 이메일 입력 페이지
-    if (index - 1 === 0) {
-      console.log('onClickNext', 'emailInput')
-      const result = await handleCreateMailToken(data?.email)
-      result && setCurrentPageIndex(index)
+    if (currentIndex === 0) {
+      const result = await handleCreateMailToken(data?.email);
+      result && setCurrentPageIndex(currentIndex + 1);
     }
     // 인증번호 입력 페이지
-    if (index - 1 === 1) {
-      console.log('onClickNext', 'codeInput')
-      const result = await handleVerifyMailToken(data?.email, data?.authenticationCode.join(''))
-      result && setCurrentPageIndex(index)
+    if (currentIndex === 1) {
+      const result = await handleVerifyMailToken(
+        data?.email,
+        data?.authenticationCode.join("")
+      );
+      result && setCurrentPageIndex(currentIndex + 1);
     }
     // 비밀번호 입력 페이지
-    if (index - 1 === 2) {
-      const result = await handleSignUp(data?.email, data?.password)
-      result && setCurrentPageIndex(index)
+    if (currentIndex === 2) {
+      const result = await handleSignUp(data?.email, data?.password);
+      console.log("signUp", result);
+      result && router.replace("/auth/login");
     }
-
   };
 
   const controller = useMemo(() => {
     return new PageController({
       pages: [
-          
-            <EmailInputPage key={uuid()}/>, 
-            <AuthCodeInputPage key={uuid()}/>, 
-            <PasswordInputPage key={uuid()}/>
-        
-        ],
+        <EmailInputPage key={uuid()} />,
+        <AuthCodeInputPage key={uuid()} />,
+        <PasswordInputPage key={uuid()} />,
+      ],
       onClickNext,
     });
   }, []);
-
-  
-
 
   return (
     <S.Wrapper>
