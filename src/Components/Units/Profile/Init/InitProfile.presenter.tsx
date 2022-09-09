@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 
 import { signUpInputState } from "../../../../Commons/Store/Auth/SignUpState";
 import { profileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
+import { ICharacter, IQuery } from "../../../../Commons/Types/Generated/types";
 import { PageController } from "../../../Commons/PageStack/Controller";
 import Page from "../../../Commons/PageStack/Page";
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
@@ -15,10 +16,17 @@ import RegistrationNumberInputPage from "./Page/RegistrationNumberInputPage";
 
 interface InitProfileUIProps {
   handleCheckDogRegisterNumber: (inputs: any) => Promise<boolean>;
+  handleCreateDog: (inputs: any) => void;
+  selectedData: {
+    characters: Pick<IQuery, "fetchCharacters"> | undefined;
+    interests: Pick<IQuery, "fetchInterests"> | undefined;
+  };
 }
 
 export default function InitProfileUI({
   handleCheckDogRegisterNumber,
+  handleCreateDog,
+  selectedData,
 }: InitProfileUIProps) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [inputs, setInputs] = useRecoilState(profileInputState);
@@ -31,12 +39,16 @@ export default function InitProfileUI({
     console.log("onClickNext", nextIndex);
 
     // 강아지 등록번호 입력 페이지
-    // if (nextIndex - 1 === 0) {
-    //   const result = await handleCheckDogRegisterNumber(data);
-    //   result && setCurrentPageIndex(nextIndex);
-    // }
+    if (nextIndex - 1 === 0) {
+      const result = await handleCheckDogRegisterNumber(data);
+      result && setCurrentPageIndex(nextIndex);
+    }
 
     // 댕댕이 프로필 설정
+    if (nextIndex - 1 === 2) {
+      console.log("onClickNext : 댕댕이 프로필 설정");
+      await handleCreateDog(data);
+    }
     setCurrentPageIndex(nextIndex);
   };
 
@@ -44,7 +56,7 @@ export default function InitProfileUI({
     return new PageController({
       pages: [
         <RegistrationNumberInputPage key={uuid()} />,
-        <ProfileInput2Page key={uuid()} />,
+        <ProfileInputPage key={uuid()} />,
         <ProfileInput2Page key={uuid()} />,
       ],
       onClickNext,
@@ -64,7 +76,15 @@ export default function InitProfileUI({
           </Page>
 
           <Page>
-            <ProfileInput2Page />
+            {selectedData.characters?.fetchCharacters &&
+            selectedData.interests?.fetchInterests ? (
+              <ProfileInput2Page
+                characters={selectedData.characters.fetchCharacters}
+                interests={selectedData.interests.fetchInterests}
+              />
+            ) : (
+              <div>loading...</div>
+            )}
           </Page>
         </PageStack>
       </S.PageStackWrapper>

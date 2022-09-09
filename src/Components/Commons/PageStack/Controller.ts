@@ -16,17 +16,18 @@ export class PageController {
   }
 
   nextPage(inputs: any) {
-    console.log("PageController", inputs);
+
     if (this.currentPageIndex > this.pages.length - 1) return;
     this.currentPageIndex += 1;
+
     this.onClickNext(
       this.currentPageIndex,
-      this.pages[this.currentPageIndex],
+      this.currentPageIndex <= this.pages.length - 1
+        ? this.pages[this.currentPageIndex]
+        : null,
       inputs
     );
+
   }
 
-  showCurrentPage(index: number) {
-    return this.pages[index];
-  }
 }

@@ -58,14 +58,6 @@ export const BirthdayWrapper = styled.div`
   }
 `;
 
-export const UploadImageButton = styled.img`
-  width: 4.813rem;
-  height: 5.375rem;
-  border-radius: 1rem;
-  margin-right: 0.813rem;
-  margin-top: 0.875rem;
-`;
-
 export const CheckBirthUnknowingnessWrapper = styled.div`
   display: flex;
   input {
@@ -102,6 +94,7 @@ export const Tag = styled.span`
     props.isSelected ? "#304FFE" : "#767676"};
   border-radius: 6.25rem;
   margin-right: 0.813rem;
+  margin-bottom: 0.813rem;
   cursor: pointer;
   background-color: ${(props) => (props.isSelected ? "#304FFE12" : "#ffffff")};
 `;
