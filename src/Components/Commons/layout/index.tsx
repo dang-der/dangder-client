@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import LogoHeader from "./logo_header";
@@ -25,6 +26,27 @@ interface ILayoutProps {
   children: ReactNode;
 }
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: bisque;
+`;
+
+const HeaderWrapper = styled.div`
+  background-color: aliceblue;
+`;
+
+const ContentsWrapper = styled.div`
+  flex-grow: 1;
+  background-color: aquamarine;
+`;
+
+const TabWrapper = styled.div`
+  background-color: antiquewhite;
+`;
+
 // TODO: 불필요한 리렌더링 막기
 export default function Layout(props: ILayoutProps) {
   const router = useRouter();
@@ -34,11 +56,13 @@ export default function Layout(props: ILayoutProps) {
   const isShowNavigation = SHOW_NAVIGATION.includes(router.pathname);
 
   return (
-    <>
-      {isShowLogoHeader && <LogoHeader />}
-      {isShowPageHeader && <PageHeader />}
-      <div>{props.children}</div>
-      {isShowNavigation && <Navigation />}
-    </>
+    <Wrapper>
+      <HeaderWrapper>
+        {isShowLogoHeader && <LogoHeader />}
+        {isShowPageHeader && <PageHeader />}
+      </HeaderWrapper>
+      <ContentsWrapper>{props.children}</ContentsWrapper>
+      <TabWrapper>{isShowNavigation && <Navigation />}</TabWrapper>
+    </Wrapper>
   );
 }

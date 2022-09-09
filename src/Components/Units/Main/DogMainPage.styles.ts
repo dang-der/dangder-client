@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-self: center;
-  width: 100vw;
+  width: 100%;
   height: 100%;
   overflow: hidden;
 `;
@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 export const LocationWrapper = styled.div`
   display: flex;
   justify-content: end;
-  width: 100vw;
+  width: 100%;
   height: 5rem;
   padding: 0.625rem 1.5rem;
 `;
@@ -39,7 +39,7 @@ export const DogCardWrapper = styled.section`
   display: flex;
   justify-content: center;
   align-self: center;
-  width: 100vw;
+  width: 100%;
 `;
 
 export const DogProfile = styled.div`
