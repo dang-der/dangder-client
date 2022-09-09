@@ -6,6 +6,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import LineInput from "../../../../Commons/LineInputs/LineInput";
 import * as S from "./Page.styles";
+import ImageFileInput from "../../../../Commons/FileInput/ImageFileInput";
+import { useRecoilState } from "recoil";
+import { profileInputState } from "../../../../../Commons/Store/Profile/ProfileInitState";
+import { ChangeEvent } from "react";
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
 const schema = yup.object({
   birthYear: yup
@@ -20,7 +25,7 @@ const schema = yup.object({
     .required("생년월일을 입력해주세요."),
   birthDay: yup
     .number()
-    .typeError("") 
+    .typeError("")
     .max(31, "올바른 생년월일을 입력해주세요.")
     .required("생년월일을 입력해주세요."),
   introduce: yup
@@ -30,10 +35,89 @@ const schema = yup.object({
     .required("내용을 입력해주세요."),
 });
 export default function ProfileInputPage() {
+  const [inputs, setInputs] = useRecoilState(profileInputState);
+
   const { register, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
+
+  const onChangeFile = (index: number) => (file: File) => {
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (data) => {
+      if (typeof data.target?.result !== "string") return;
+      const fileUrl = data.target?.result;
+
+      setInputs((p) => {
+        const copy = [...p.createDogInput.imageUrls];
+        copy[index] = fileUrl;
+
+        const fileCopy = [...p.createDogInput.imageFiles];
+        fileCopy[index] = file;
+
+        return {
+          ...p,
+          createDogInput: {
+            ...p.createDogInput,
+            imageUrls: copy,
+            imageFiles: fileCopy,
+          },
+        };
+      });
+    };
+  };
+
+  const onChangeOwnerBirthYear = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs((p) => ({
+      ...p,
+      createDogInput: {
+        ...p.createDogInput,
+        dogBirthYear: Number(e.target.value),
+      },
+    }));
+  };
+
+  const onChangeOwnerBirthMonth = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs((p) => ({
+      ...p,
+      createDogInput: {
+        ...p.createDogInput,
+        dogBirthMonth: Number(e.target.value),
+      },
+    }));
+  };
+
+  const onChangeOwnerBirthDay = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs((p) => ({
+      ...p,
+      createDogInput: {
+        ...p.createDogInput,
+        dogBirthDay: Number(e.target.value),
+      },
+    }));
+  };
+
+  const onChangeCheckUnknownBirth = (e: CheckboxChangeEvent) => {
+    setInputs((p) => ({
+      ...p,
+      createDogInput: {
+        ...p.createDogInput,
+        isUnknownDogBirth: e.target.checked,
+      },
+    }));
+  };
+
+  const onChangeIntroduce = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInputs((p) => ({
+      ...p,
+      createDogInput: {
+        ...p.createDogInput,
+        introduce: e.target.value,
+      },
+    }));
+  };
 
   return (
     <S.Wrapper>
@@ -51,11 +135,12 @@ export default function ProfileInputPage() {
       <S.RowWrapper>
         {Array(3)
           .fill(0)
-          .map((e) => (
-            <div key={uuid()}>
-              <S.UploadImageButton src="/ic_upload_image.svg" />
-              <input type="file" hidden />
-            </div>
+          .map((e, i) => (
+            <ImageFileInput
+              key={uuid()}
+              onChangeFile={onChangeFile(i)}
+              defaultImageUrl={inputs.createDogInput.imageUrls[i]}
+            />
           ))}
       </S.RowWrapper>
       <S.MiniGuidanceText style={{ marginTop: "1rem" }}>
@@ -66,6 +151,7 @@ export default function ProfileInputPage() {
       <S.BirthdayWrapper>
         <LineInput
           register={register}
+          registerOption={{ onChange: onChangeOwnerBirthYear }}
           type="number"
           name="birthYear"
           placeholder="1995"
@@ -75,6 +161,7 @@ export default function ProfileInputPage() {
 
         <LineInput
           register={register}
+          registerOption={{ onChange: onChangeOwnerBirthMonth }}
           type="number"
           name="birthMonth"
           placeholder="06"
@@ -84,6 +171,7 @@ export default function ProfileInputPage() {
 
         <LineInput
           register={register}
+          registerOption={{ onChange: onChangeOwnerBirthDay }}
           type="number"
           name="birthDay"
           placeholder="06"
@@ -98,17 +186,18 @@ export default function ProfileInputPage() {
           " "}
       </S.ErrorText>
       <S.CheckBirthUnknowingnessWrapper style={{ marginTop: "1rem" }}>
-        <Checkbox />
+        <Checkbox onChange={onChangeCheckUnknownBirth} />
         <S.MiniGuidanceText>댕댕이의 생년월일을 몰라요!</S.MiniGuidanceText>
       </S.CheckBirthUnknowingnessWrapper>
 
-      <S.SubTitleWrapper
-        style={{ marginTop: "1rem" }}
-        {...register("introduce")}
-      >
+      <S.SubTitleWrapper style={{ marginTop: "1rem" }}>
         댕댕이의 소개글을 작성해주세요. (5자이상 200자이내)
       </S.SubTitleWrapper>
-      <S.IntroduceTextField />
+      <S.IntroduceTextField
+        {...register("introduce", {
+          onChange: onChangeIntroduce,
+        })}
+      />
       <S.ErrorText></S.ErrorText>
     </S.Wrapper>
   );
