@@ -43,7 +43,7 @@ export default function LoginUI({handleUserLogin} : LoginUIProps) {
 
   return (
     <S.Wrapper onSubmit={handleSubmit(onClickLogin)}>
-      <S.LogoImage src="/logo.png" />
+      <S.LogoImage src="/logo.svg" />
 
       <S.InputErrorWrapper>
         <S.InputWrapper>

@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
+import TinderCard from "react-tinder-card";
 
 export const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-self: center;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  flex-grow: 1;
 `;
 
 export const LocationWrapper = styled.div`
@@ -35,38 +37,48 @@ export const LocationIcon = styled(MyLocationIcon)`
   font-size: 2rem;
 `;
 
-export const DogCardWrapper = styled.section`
+export const DogCardWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-self: center;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  height: 100%;
+  z-index: 1;
+`;
+
+export const TinderCardWrapper = styled(TinderCard)`
+  position: absolute;
+  width: calc(576px - 4rem);
+  max-width: 576px;
+  height: calc(100vh - 17rem);
+  @media screen and (max-width: 576px) {
+    width: calc(100vw - 4rem);
+  }
 `;
 
 export const DogProfile = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
-  width: 80vw;
-  height: 37.25rem;
-  box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 10px 10px 0px rgba(150, 150, 150, 0.3);
   border-radius: 20px;
   background-size: cover;
   background-position: center;
   background-color: #fff;
+  padding: 1rem;
   z-index: -1;
 `;
 
 export const DogInfo = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  left: 1.25rem;
-  bottom: 2rem;
+  width: 100%;
 `;
 
 export const DogInfoHeader = styled.header`
-  width: 18.438rem;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -107,18 +119,18 @@ export const DogPlay = styled.span`
 `;
 
 export const PassButton = styled.div`
-  position: relative;
-  left: 9.6rem;
-  top: 35.375rem;
+  position: absolute;
+  right: -1rem;
+  bottom: -1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 4rem;
+  height: 4rem;
   background-color: #ffffff;
   border-radius: 50%;
   box-shadow: 0px 4px 4px 0px #00000040;
-  z-index: 1;
+  z-index: 2;
 `;
 
 export const SparkIcon = styled(FlashOnIcon)`

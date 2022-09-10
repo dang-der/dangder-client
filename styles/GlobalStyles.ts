@@ -2,6 +2,13 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const globalStyles = css`
+  html {
+    min-width: 300px;
+    font-size: 16px;
+    @media screen and (max-width: 576px) {
+      font-size: calc((100vh * 100vw / 370944px) * 15px);
+    }
+  }
   body {
     width: 100%;
     height: 100%;
@@ -15,8 +22,6 @@ export const globalStyles = css`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: ${process.browser &&
-    ((window.innerHeight * window.innerWidth) / 370944) * 16 + "px"};
   }
 
   applet,

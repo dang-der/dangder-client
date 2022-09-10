@@ -31,20 +31,19 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: bisque;
 `;
 
 const HeaderWrapper = styled.div`
-  background-color: aliceblue;
+  height: 4rem;
 `;
 
 const ContentsWrapper = styled.div`
   flex-grow: 1;
-  background-color: aquamarine;
+  margin: 0 1.5rem;
 `;
 
 const TabWrapper = styled.div`
-  background-color: antiquewhite;
+  height: 4rem;
 `;
 
 // TODO: 불필요한 리렌더링 막기
@@ -62,7 +61,11 @@ export default function Layout(props: ILayoutProps) {
         {isShowPageHeader && <PageHeader />}
       </HeaderWrapper>
       <ContentsWrapper>{props.children}</ContentsWrapper>
-      <TabWrapper>{isShowNavigation && <Navigation />}</TabWrapper>
+      {isShowNavigation && (
+        <TabWrapper>
+          <Navigation />
+        </TabWrapper>
+      )}
     </Wrapper>
   );
 }
