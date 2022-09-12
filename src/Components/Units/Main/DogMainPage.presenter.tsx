@@ -1,6 +1,5 @@
 import * as S from "./DogMainPage.styles";
 import { useState } from "react";
-import TinderCard from "react-tinder-card";
 import { v4 as uuidv4 } from "uuid";
 import Head from "next/head";
 import Link from "next/link";
@@ -9,33 +8,6 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useRouter } from "next/router";
 
 const defaultCss = `
-#root > div {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.app > div {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.row {
-	flex-direction: row !important;
-}
-
-.row > * {
-	margin: 5px;
-}
-
-.swipe {
-	position: absolute;
-}
-
-
 @keyframes popup {
 	0% {
 		transform: scale(1, 1);
@@ -63,23 +35,16 @@ const defaultCss = `
 
 export default function DogMainPageUI(props: any) {
   const router = useRouter();
-  console.log(router);
 
   const [lastDirection, setLastDirection] = useState();
 
   const swiped = (direction: any, nameToDelete: any) => {
-    console.log(`removing: ${nameToDelete}`);
     setLastDirection(direction);
   };
 
-  const outOfFrame = (name: string) => {
-    console.log(name + " left the screen!");
+  const MoveToDogDetailPage = () => {
+    router.push(`/${router.query.dogId}`);
   };
-
-  // 상세페이지로 이동
-  // const MoveToDogDetailPage = () => {
-  //   router.push(`/${router.query.dogId}`);
-  // };
 
   return (
     <div
@@ -90,7 +55,9 @@ export default function DogMainPageUI(props: any) {
         flexDirection: "column",
       }}
     >
-      <Head>{/* <style>{defaultCss}</style> */}</Head>
+      <Head>
+        <style>{defaultCss}</style>
+      </Head>
       <S.LocationWrapper>
         <S.LocationButton onClick={props.getLocation}>
           <S.LocationIcon />
@@ -101,8 +68,7 @@ export default function DogMainPageUI(props: any) {
           {props.dogList.map((character: any) => (
             <S.TinderCardWrapper
               key={uuidv4()}
-              onSwipe={(dir) => swiped(dir, character.name)}
-              onCardLeftScreen={() => outOfFrame(character.name)}
+              onSwipe={(dir: any) => swiped(dir, character.name)}
               preventSwipe={["up", "down"]}
             >
               <S.DogProfile
@@ -122,7 +88,7 @@ export default function DogMainPageUI(props: any) {
                   </S.DogInfoHeader>
                   <S.DogInfoBody>
                     <S.DistanceWrapper>
-                      <LocationOnIcon />
+                      <LocationOnIcon onClick={MoveToDogDetailPage} />
                       <S.DogDistance>{character.distance}km</S.DogDistance>
                     </S.DistanceWrapper>
                     <S.DogPlay>{character.play}</S.DogPlay>
