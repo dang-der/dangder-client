@@ -114,7 +114,6 @@ export const globalStyles = css`
     border-collapse: collapse;
     border-spacing: 0;
   }
-
 `;
 
 export const Wrapper = styled.div`
