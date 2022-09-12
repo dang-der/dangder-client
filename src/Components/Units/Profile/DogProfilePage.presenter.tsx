@@ -13,7 +13,6 @@ export default function DogProfilePageUI() {
   return (
     <S.Wrapper>
       <S.DogProfileWrapper>
-        <S.DogProfileHeader>댕댕이 프로필</S.DogProfileHeader>
         <S.DogProfile>
           <S.DogPhoto src="/dog1.jpg" />
           <S.DogInfo>
