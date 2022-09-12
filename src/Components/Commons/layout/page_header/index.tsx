@@ -41,9 +41,17 @@ export default function PageHeader() {
     },
   ];
 
-  const pageTitleRef = useRef<HTMLSpanElement | null>(null);
+  const pageTitleRef = useRef<HTMLSpanElement>(null);
 
   const [title, setTitle] = useState("");
+  console.log("=========================");
+  console.log("처음 title: ", title);
+
+  useEffect(() => {
+    setTitle(title);
+    if (!pageTitleRef.current) return;
+    pageTitleRef.current.innerText = title;
+  }, [title]);
 
   useEffect(() => {
     for (let i = 0; i < pages.length; i++) {
@@ -51,9 +59,10 @@ export default function PageHeader() {
         setTitle(pages[i].title);
         if (!pageTitleRef.current) return;
         pageTitleRef.current.innerText = title;
+        console.log("ref: ", pageTitleRef.current);
       }
     }
-  }, [title]);
+  }, [router.pathname]);
 
   return (
     <Wrapper>
