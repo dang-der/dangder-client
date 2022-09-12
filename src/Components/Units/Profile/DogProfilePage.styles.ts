@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { style } from "@mui/system";
 import InfoIcon from "@mui/icons-material/Info";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
