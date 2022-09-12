@@ -28,7 +28,6 @@ interface ILayoutProps {
 // TODO: 불필요한 리렌더링 막기
 export default function Layout(props: ILayoutProps) {
   const router = useRouter();
-  console.log(router);
   const isShowLogoHeader = SHOW_LOGO_HEADERS.includes(router.pathname);
   const isShowPageHeader = SHOW_PAGE_HEADERS.includes(router.pathname);
   const isShowNavigation = SHOW_NAVIGATION.includes(router.pathname);
