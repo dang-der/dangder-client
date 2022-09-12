@@ -34,6 +34,102 @@ export default function ChatListContainer() {
       roomId: "asdfasdfasdf",
       lastMessage: "asdfasdfa",
     },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
+    {
+      other: {
+        name: "dsfasdf",
+        image: "/favicon.png",
+      },
+      roomId: "asdfasdfasdf",
+      lastMessage: "asdfasdfa",
+    },
   ];
   return <ChatListUI chatList={fakeChatList} />;
 }

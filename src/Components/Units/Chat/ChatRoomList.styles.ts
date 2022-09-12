@@ -24,14 +24,19 @@ interface SwipeMenuStyleProps {
   backgroundColor: string;
 }
 export const SwipeMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: white;
   width: 5rem;
-  padding: 1rem;
+  height: 100%;
   font-size: 0.7rem;
   background-color: ${(props: SwipeMenuStyleProps) =>
     props.backgroundColor || "white"};
+`;
+
+export const SwipeContentsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 `;

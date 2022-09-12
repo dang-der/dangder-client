@@ -1,12 +1,19 @@
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
+
 import ChatDateDividerItem from "./ChatDateDividerItem/ChatDateDividerItem";
 import ChatMessageItem from "./ChatMessageItem/ChatMessageItem";
 import * as S from "./ChatRoom.styles";
+import { useState } from "react";
 
 export default function ChatRoomUI() {
   const router = useRouter();
+
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
   const onClickSend = (inputs: any) => {
@@ -16,14 +23,21 @@ export default function ChatRoomUI() {
     });
   };
 
-  const onClickBackArrow = () => {
-    router.back();
+  const onClickPlusIcon = () => {
+    setIsOpenMenu((p) => !p);
+  };
+
+  const onClickPlaceShare = () => {
+    router.push(`${router.asPath}place`);
+  };
+
+  const onClickPlanShare = () => {
+    router.push(`${router.asPath}plan`);
   };
 
   return (
     <S.Wrapper>
       <S.ChatHeader>
-        <S.BackArrow onClick={onClickBackArrow}>👈🏼</S.BackArrow>
         <S.OtherDogContainer>
           <S.OtherDogImage src="/favicon.ico" />
           <S.OtherDogName>오전이</S.OtherDogName>
@@ -47,9 +61,38 @@ export default function ChatRoomUI() {
             return <ChatMessageItem key={uuid()} isMine={i % 4 === 0} />;
           })}
       </S.ChatMessagesWrapper>
-      <S.ChatInputWrapper onSubmit={handleSubmit(onClickSend)}>
-        <S.MessageInput {...register("message")} />
-        <S.SendButton>전송</S.SendButton>
+
+      <S.ChatInputWrapper isOpen={isOpenMenu}>
+        <S.MessageInputWrapper onSubmit={handleSubmit(onClickSend)}>
+          <S.IconWrapper onClick={onClickPlusIcon}>
+            <AddRoundedIcon />
+          </S.IconWrapper>
+          <S.MessageInput
+            {...register("message")}
+            placeholder="메세지를 입력해주세요."
+          />
+          <S.IconWrapper>
+            <SendRoundedIcon />
+          </S.IconWrapper>
+        </S.MessageInputWrapper>
+
+        {isOpenMenu && (
+          <S.BottomMenuContainerWrapper>
+            <S.MenuWrapper onClick={onClickPlaceShare}>
+              <S.MenuCircle>
+                <img src="/ic_marker_white.svg" />
+              </S.MenuCircle>
+              <span>장소공유</span>
+            </S.MenuWrapper>
+
+            <S.MenuWrapper onClick={onClickPlanShare}>
+              <S.MenuCircle>
+                <CalendarMonthRoundedIcon />
+              </S.MenuCircle>
+              <span>일정공유</span>
+            </S.MenuWrapper>
+          </S.BottomMenuContainerWrapper>
+        )}
       </S.ChatInputWrapper>
     </S.Wrapper>
   );
