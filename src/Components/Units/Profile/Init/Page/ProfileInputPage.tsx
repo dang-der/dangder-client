@@ -11,22 +11,20 @@ import { useRecoilState } from "recoil";
 import { profileInputState } from "../../../../../Commons/Store/Profile/ProfileInitState";
 import { ChangeEvent } from "react";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
+import BirthInput from "../../../../Commons/LineInputs/BirthInput/BirthInput";
 
 const schema = yup.object({
   birthYear: yup
-    .number()
-    .lessThan(2022, "올바른 생년월일을 입력해주세요.")
-    .required("생년월일을 입력해주세요.")
-    .typeError(""),
+    .string()
+    .max(4, "올바른 생년월일을 입력해주세요.")
+    .required("생년월일을 입력해주세요."),
   birthMonth: yup
-    .number()
-    .typeError("")
-    .max(12, "올바른 생년월일을 입력해주세요.")
+    .string()
+    .max(2, "올바른 생년월일을 입력해주세요.")
     .required("생년월일을 입력해주세요."),
   birthDay: yup
-    .number()
-    .typeError("")
-    .max(31, "올바른 생년월일을 입력해주세요.")
+    .string()
+    .max(2, "올바른 생년월일을 입력해주세요.")
     .required("생년월일을 입력해주세요."),
   introduce: yup
     .string()
@@ -69,32 +67,32 @@ export default function ProfileInputPage() {
     };
   };
 
-  const onChangeOwnerBirthYear = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeDogBirthYear = (year: number) => {
     setInputs((p) => ({
       ...p,
       createDogInput: {
         ...p.createDogInput,
-        dogBirthYear: Number(e.target.value),
+        dogBirthYear: year,
       },
     }));
   };
 
-  const onChangeOwnerBirthMonth = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeDogBirthMonth = (month: number) => {
     setInputs((p) => ({
       ...p,
       createDogInput: {
         ...p.createDogInput,
-        dogBirthMonth: Number(e.target.value),
+        dogBirthMonth: month,
       },
     }));
   };
 
-  const onChangeOwnerBirthDay = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeDogBirthDay = (day: number) => {
     setInputs((p) => ({
       ...p,
       createDogInput: {
         ...p.createDogInput,
-        dogBirthDay: Number(e.target.value),
+        dogBirthDay: day,
       },
     }));
   };
@@ -148,37 +146,13 @@ export default function ProfileInputPage() {
       </S.MiniGuidanceText>
 
       <S.SubTitleWrapper style={{ marginTop: "1rem" }}>생일</S.SubTitleWrapper>
-      <S.BirthdayWrapper>
-        <LineInput
-          register={register}
-          registerOption={{ onChange: onChangeOwnerBirthYear }}
-          type="number"
-          name="birthYear"
-          placeholder="1995"
-          style={{ textAlign: "center" }}
-        />
-        <span>년</span>
+      <BirthInput
+        register={register}
+        onChangeYear={onChangeDogBirthYear}
+        onChangeMonth={onChangeDogBirthMonth}
+        onChangeDay={onChangeDogBirthDay}
+      />
 
-        <LineInput
-          register={register}
-          registerOption={{ onChange: onChangeOwnerBirthMonth }}
-          type="number"
-          name="birthMonth"
-          placeholder="06"
-          style={{ textAlign: "center" }}
-        />
-        <span>월</span>
-
-        <LineInput
-          register={register}
-          registerOption={{ onChange: onChangeOwnerBirthDay }}
-          type="number"
-          name="birthDay"
-          placeholder="06"
-          style={{ textAlign: "center" }}
-        />
-        <span>일</span>
-      </S.BirthdayWrapper>
       <S.ErrorText>
         {formState.errors.birthYear?.message ??
           formState.errors.birthMonth?.message ??
