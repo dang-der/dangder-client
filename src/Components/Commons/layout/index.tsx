@@ -40,6 +40,10 @@ const HeaderWrapper = styled.div`
 const ContentsWrapper = styled.div`
   flex-grow: 1;
   margin: 0 1.5rem;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none !important; // 윈도우 크롬 등
+  }
 `;
 
 const TabWrapper = styled.div`

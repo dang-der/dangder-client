@@ -23,6 +23,10 @@ export const FETCH_MY_DOG = gql`
                 id
                 interest
             }
+            avoidBreeds{
+                avoidBreed
+                dog
+            }
             characters{
                 id
                 character
@@ -38,7 +42,7 @@ export const FETCH_MY_DOG = gql`
 `
 
 export const CREATE_LIKE = gql`
-  mutation createLike($sendId: String, $receiveId: String) {
+  mutation createLike($sendId: String!, $receiveId: String!) {
     createLike(sendId: $sendId, receiveId: $receiveId) {
         id
         receiveId

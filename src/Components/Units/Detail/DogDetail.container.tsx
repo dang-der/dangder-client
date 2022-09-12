@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { useRouter } from "next/router"
-import { IMutation, IMutationCreateLikeArgs, IQuery,} from "../../../Commons/Types/Generated/types"
+import { IMutation, IMutationCreateLikeArgs, IQuery, IQueryFetchDogsDistanceArgs, IQueryFetchMyDogArgs,} from "../../../Commons/Types/Generated/types"
 
 import DogDetailUI from "./DogDetail.presenter"
 import { CREATE_LIKE, FETCH_DOG_DISTANCE, FETCH_MY_DOG } from "./DogDetail.queries"
@@ -10,9 +10,9 @@ export default function DogDetail() {
     // const [data] = useQuery<Pick<IQuery, "fetchDogsDistance">, IQueryFetchDogsDistanceArgs>(FETCH_DOG_DISTANCE)
     // const [data] = useQuery<Pick<IQuery, "fetchMyDog">, IQueryFetchMyDogArgs>(FETCH_MY_DOG)
     
-    const {data: distanceData} = useQuery<Pick<IQuery, "fetchDogsDistance">>(FETCH_DOG_DISTANCE)
+    const {data: distanceData} = useQuery<Pick<IQuery, "fetchDogsDistance">, IQueryFetchDogsDistanceArgs>(FETCH_DOG_DISTANCE)
 
-    const {data:interestsData} = useQuery(FETCH_MY_DOG)
+    const {data:interestsData} = useQuery<Pick<IQuery, "fetchMyDog">, IQueryFetchMyDogArgs>(FETCH_MY_DOG)
 
     const [createLike] = useMutation<
     Pick<IMutation, "createLike">,
@@ -35,6 +35,8 @@ export default function DogDetail() {
     return (
         <DogDetailUI 
         handleCreateLike={handleCreateLike}
+        distanceData={distanceData}
+        interestsData={interestsData}
         />
     )
 }
