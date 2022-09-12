@@ -89,9 +89,6 @@ export default function InitProfileContainer() {
   const handleCreateDog =
     (location: { lat: number; lng: number } | undefined) =>
     async (inputs: IProfileInputState) => {
-      console.log("handleCreateDog", inputs);
-      console.log("location", location);
-
       const ownerBirth =
         String(inputs.ownerBirthYear).substring(2) +
         String(inputs.ownerBirthMonth).padStart(2, "0") +
@@ -133,8 +130,10 @@ export default function InitProfileContainer() {
           },
         });
         console.log("handleCreateDog", result);
+        return result?.createDog;
       } catch (e) {
         console.log("handleClickCreateDog", e);
+        return false;
       }
     };
 

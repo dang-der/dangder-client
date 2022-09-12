@@ -62,18 +62,18 @@ export default function SignUpContainer() {
     if(!password) return false
     
     try {
-    const {data} = await createUser({
+    const { data } = await createUser({
       variables: {
         createUserInput: {
-          email ,
-          password ,
-          pet : true,
-          phone : 'dddd'
+          email,
+          password,
+          pet: false,
+          phone: "dddd",
         },
       },
     });
-    alert("회원가입을 축하드립니다.");
-    router.replace("/");
+
+    return (data?.createUser?.id?.length || "") > 0;
   } catch (error) {
     if (error instanceof Error) Modal.error({content: error.message})
     return false

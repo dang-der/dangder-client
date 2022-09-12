@@ -2,11 +2,26 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const globalStyles = css`
+  html {
+    min-width: 300px;
+    font-size: 16px;
+    @media screen and (max-width: 576px) {
+      font-size: calc((100vh * 100vw / 370944px) * 15px);
+    }
+  }
+  body {
+    width: 100%;
+    height: 100%;
+    > div {
+      width: 100%;
+      height: 100%;
+      background-color: #d9d9d9;
+    }
+  }
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 16px;
   }
 
   applet,
@@ -102,5 +117,8 @@ export const globalStyles = css`
 `;
 
 export const Wrapper = styled.div`
-  max-width: 36rem;
+  max-width: 576px;
+  margin: 0 auto;
+  background-color: white;
+  height: 100%;
 `;

@@ -14,18 +14,18 @@ export default function LoginContainer() {
   
 
   const handleUserLogin = async (inputs: any) => { 
-    console.log("onClickLogin", inputs);
-    const result = await userLogin({ 
+    
+    const result = await userLogin({
       variables: { ...inputs },
-    })
-    const accessToken = result.data?.userLogin || ''
+    });
+    const accessToken = result.data?.userLogin || "";
 
-    console.log('userLogin',accessToken)
     if (!accessToken) {
-      alert("로그인에 실패였습니다. 다시 시도해 주세요.")
-      
+      alert("로그인에 실패였습니다. 다시 시도해 주세요.");
     }
-    setAccessToken(accessToken )
+    setAccessToken(accessToken);
+    
+
     router.replace("/")
   };
 

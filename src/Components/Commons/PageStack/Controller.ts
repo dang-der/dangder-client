@@ -18,7 +18,6 @@ export class PageController {
   nextPage(inputs: any) {
 
     if (this.currentPageIndex > this.pages.length - 1) return;
-    this.currentPageIndex += 1;
 
     this.onClickNext(
       this.currentPageIndex,
@@ -28,6 +27,7 @@ export class PageController {
       inputs
     );
 
+    this.currentPageIndex += 1;
   }
 
 }
