@@ -44,8 +44,6 @@ export default function PageHeader() {
   const pageTitleRef = useRef<HTMLSpanElement>(null);
 
   const [title, setTitle] = useState("");
-  console.log("=========================");
-  console.log("처음 title: ", title);
 
   useEffect(() => {
     setTitle(title);
