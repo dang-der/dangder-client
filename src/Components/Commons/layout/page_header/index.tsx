@@ -70,7 +70,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: 3.1rem;
   padding: 2.5rem;
 `;
