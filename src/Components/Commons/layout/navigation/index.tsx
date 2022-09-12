@@ -7,7 +7,6 @@ interface IMenuProps {
   isActive?: any;
 }
 
-// TODO: 네비게이션 바를 클릭해서 메뉴 이동하지 않고, url로 이동하는 경우 네비 바 반영이 안되는 이슈
 export default function Navigation() {
   const menus = ["오늘의 댕댕이", "메인", "채팅", "마이 댕댕이"];
   const urls = ["/today.svg", "/main.svg", "/chat.svg", "/mypage.svg"];
@@ -61,6 +60,7 @@ const Menu = styled.div`
   justify-content: space-evenly;
   align-items: center;
   flex-grow: 1;
+  flex-basis: 0;
 `;
 
 const MenuIcon = styled.img<IMenuProps>`
