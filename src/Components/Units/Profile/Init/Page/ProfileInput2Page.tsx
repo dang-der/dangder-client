@@ -95,7 +95,7 @@ export default function ProfileInput2Page({
       </S.TagWrapper>
 
       <S.SubTitleWrapper>
-        우리 댕댕이이가 무서워하는 견종을 선택해주세요.
+        우리 댕댕이가 무서워하는 견종을 선택해주세요.
       </S.SubTitleWrapper>
       <S.TagWrapper>
         {fakeAvoid.map((e, i) => (
