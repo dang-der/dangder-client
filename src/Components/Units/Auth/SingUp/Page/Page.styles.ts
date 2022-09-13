@@ -29,3 +29,10 @@ export const AuthCodeBox = styled.input`
   font-size: 1.8rem;
   font-weight: 700;
 `;
+
+export const ErrorTextWrapper = styled.span`
+  font-size: 0.875rem;
+  color: red;
+  margin-top: 5px;
+`;
+

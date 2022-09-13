@@ -8,12 +8,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object({
-  email: yup.string().matches(
-    /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/gi,  "이메일 아이디를 @까지 정확하게 입력해 주세요."
-  ).required("이메일을 입력해주세요."),
+  mail: yup
+    .string()
+    .matches(
+      /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/gi,
+      "이메일(@, com, net 등)을 입력해주세요"
+    )
+    .required("이메일을 입력해주세요."),
   password: yup
     .string()
-    .matches(/[^A-Za-z0-9$]/gi, "영문+숫자 조합 8~16자리의 비밀번호를 입력해 주세요.")
+    .matches(/[^A-Za-z0-9$]/gi, "영문+숫자 조합 비밀번호를 입력해 주세요.")
     .required("비밀번호를 입력해주세요"),
 });
 
