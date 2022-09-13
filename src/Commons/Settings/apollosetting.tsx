@@ -4,29 +4,28 @@ import { createUploadLink } from "apollo-upload-client";
 import { ReactNode, useEffect } from "react";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { getAccessToken } from "../Library/getAccessToken";
-import { accessTokenState } from "../Store/Auth/AccessToken";
-import { restoreAccessTokenLoadable } from "../Store/Auth/RestoreAccessTokenLoadable";
-
-
+import {
+  accessTokenState,
+  restoreAccessTokenLoadable,
+} from "../Store/Auth/AccessToken";
 
 const APOLLO_CACHE = new InMemoryCache();
 
 interface IApolloSettingProps {
-    children: ReactNode;
-  }
+  children: ReactNode;
+}
 
-  export default function ApolloSetting(props: IApolloSettingProps) {
-    const [accessToken, setAccessToken] = useRecoilState(accessTokenState)
-    const restoreToken = useRecoilValueLoadable(restoreAccessTokenLoadable)
+export default function ApolloSetting(props: IApolloSettingProps) {
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const restoreToken = useRecoilValueLoadable(restoreAccessTokenLoadable);
 
-    useEffect(() => {
-        restoreToken.toPromise().then((newAccessToken) => {
-            setAccessToken(newAccessToken)
-        })
-    }, [])
+  useEffect(() => {
+    restoreToken.toPromise().then((newAccessToken) => {
+      setAccessToken(newAccessToken);
+    });
+  }, []);
 
-
-const errorLink = onError(({ graphQLErrors, operation, forward }) => {
+  const errorLink = onError(({ graphQLErrors, operation, forward }) => {
     // 1-1. 에러를 캐치
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
@@ -34,7 +33,7 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
         if (err.extensions.code === "UNAUTHENTICATED") {
           return fromPromise(
             // 2-1. refreshToken으로 accessToken을 재발급 받기
-            getAccessToken().then((newAccessToken) => {
+            getAccessToken().then((newAccessToken: string) => {
               // 2-2. 재발급 받은 accessToken 저장하기
               setAccessToken(newAccessToken);
 
@@ -63,9 +62,5 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
     cache: APOLLO_CACHE,
     connectToDevTools: true,
   });
-  return (
-    <ApolloProvider client={client}>
-        {props.children}
-    </ApolloProvider>
-  )
-  }
+  return <ApolloProvider client={client}>{props.children}</ApolloProvider>;
+}
