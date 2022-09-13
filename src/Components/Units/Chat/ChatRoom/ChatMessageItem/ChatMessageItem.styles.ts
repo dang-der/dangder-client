@@ -17,18 +17,17 @@ export const Message = styled.div`
   max-width: 70%;
   min-height: 1.6rem;
   height: auto;
-  background-color: ${(props) => (props.isMine ? "#304FFE99" : "#bababa")};
+  background-color: ${(props) => (props.isMine ? "#304FFE" : "#F5F5F5")};
   display: flex;
-  color: white;
-  line-height: 1.1rem;
+  color: ${(props) => (props.isMine ? "white" : "black")};
   align-items: center;
   padding: 1rem;
-  font-size: 0.8rem;
-  border-top-left-radius: 0.8rem;
-  border-top-right-radius: 0.8rem;
+  font-size: 1rem;
+  border-top-left-radius: 1.625rem;
+  border-top-right-radius: 1.625rem;
   border-bottom-left-radius: ${(props: MessageItemStyleProps) =>
-    props.isMine ? "0.8rem" : "0rem"};
+    props.isMine ? "1.625rem" : "0rem"}; 
 
   border-bottom-right-radius: ${(props: MessageItemStyleProps) =>
-    props.isMine ? "0rem" : "0.8rem"};
+    props.isMine ? "0rem" : "1.625rem"};
 `;

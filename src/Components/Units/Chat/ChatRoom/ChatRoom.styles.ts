@@ -2,24 +2,18 @@ import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background-color: aliceblue; */
 `;
 
 export const ChatHeader = styled.div`
   width: 100%;
-  height: 5rem;
   display: flex;
-`;
-
-export const BackArrow = styled.div`
-  width: 3rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.5rem;
+  flex: 0.1 1 0;
 `;
 
 export const OtherDogContainer = styled.div`
@@ -29,14 +23,12 @@ export const OtherDogContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  transform: translateX(-50%);
 `;
 
 export const OtherDogImage = styled.img`
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background-color: rebeccapurple;
   margin-bottom: 0.5rem;
 `;
 
@@ -48,16 +40,17 @@ export const OtherDogName = styled.span`
 export const ChatMessagesWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 4 1 0;
   width: 100%;
   padding: 0.5rem 1.5rem;
-  height: 82%;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none !important; // 윈도우 크롬 등
+  }
 `;
 
-export const ChatInputWrapper = styled.form`
-  position: absolute;
-  bottom: 1rem;
-  width: 95%;
+export const MessageInputWrapper = styled.form`
+  width: calc(576px - 3rem);
   height: 3rem;
   border-radius: 2rem;
 
@@ -66,20 +59,78 @@ export const ChatInputWrapper = styled.form`
   padding: 0.3rem 1rem;
   justify-content: space-between;
   background-color: #f0efef;
+
+  @media screen and (max-width: 576px) {
+    width: 100%;
+  }
+`;
+
+export const IconWrapper = styled.div`
+  color: #304ffe;
+  flex-grow: 0.1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const MessageInput = styled.input`
   height: 2.5rem;
   padding: 0.1rem;
   border: none;
-  width: 90%;
+  flex-grow: 1;
   background-color: transparent;
 `;
 
 export const SendButton = styled.button`
   height: 80%;
+  flex-grow: 0.3;
   background: none;
   border: none;
   color: #b3b3b3;
   font-size: 0.9rem;
+`;
+interface ChatInputWrapperStyleProps {
+  isOpen: boolean;
+}
+export const ChatInputWrapper = styled.div`
+  width: 100%;
+  /* background-color: re; */
+  padding: 0.8rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  transition: all ease 0.1s;
+  flex: ${(props: ChatInputWrapperStyleProps) => (props.isOpen ? "1.2" : "0.1")}
+    1 0;
+`;
+
+export const BottomMenuContainerWrapper = styled.div`
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+`;
+
+export const MenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 1.3rem;
+  svg {
+    color: white;
+  }
+  span {
+    margin-top: 0.5rem;
+    color: #767676;
+  }
+`;
+
+export const MenuCircle = styled.div`
+  background-color: #fdc500;
+  width: 2.938rem;
+  height: 2.938rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
