@@ -14,6 +14,13 @@ export type Scalars = {
   Upload: any;
 };
 
+export type IAdminUser = {
+  __typename?: 'AdminUser';
+  account: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+};
+
 export type IAvoidBreed = {
   __typename?: 'AvoidBreed';
   avoidBreed: Scalars['String'];
@@ -98,6 +105,7 @@ export type IDog = {
   locations: ILocation;
   name: Scalars['String'];
   registerNumber: Scalars['String'];
+  sendId: Array<ILike>;
   updatedAt: Scalars['DateTime'];
   userId: IUser;
 };
@@ -119,6 +127,7 @@ export type IInterest = {
 
 export type ILike = {
   __typename?: 'Like';
+  createdAt: Scalars['DateTime'];
   id: Scalars['String'];
   receiveId: Scalars['String'];
   sendId: IDog;
@@ -138,8 +147,14 @@ export type ILocationInput = {
 
 export type IMutation = {
   __typename?: 'Mutation';
+  /** Return : 발급된 Admin AccessToken */
+  adminLogin: Scalars['String'];
+  /** Return : Admin User 로그아웃 성공여부 (true / false) */
+  adminLogout: Scalars['Boolean'];
   cancelPayment: IPayment;
   cancelPaymentForPoints: IPayment;
+  /** Return : 가입성공한 관리자 계정 정보 */
+  createAdminUser: IAdminUser;
   createAvoidBreed: Array<IAvoidBreed>;
   createBlockUser: IBlockUser;
   createCharacter: ICharacter;
@@ -148,26 +163,44 @@ export type IMutation = {
   createDog: IDog;
   createIamportAuth: Scalars['Boolean'];
   createInterest: IInterest;
+  /** 이 댕댕이에게 좋아요를 누르기 */
   createLike: ILike;
+  /** Return : 메일발송 성공 여부 (true / false) */
   createMailToken: Scalars['Boolean'];
   createPayment: IPayment;
   createPaymentForPoints: IPayment;
   createReport: IReport;
   createUser: IUser;
+  /** Return : 계정 삭제 여부 */
+  deleteAdminUser: Scalars['Boolean'];
   deleteCharacter: Scalars['Boolean'];
   deleteChatRoom: Scalars['Boolean'];
   deleteDog: Scalars['Boolean'];
   deleteInterest: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
   getDogInfo: Scalars['Boolean'];
-  logout: Scalars['String'];
+  /** 내가 좋아요 누른 댕댕이가 나를 좋아요 누른 기록 있는지 조회 */
+  isLike: Scalars['Boolean'];
+  /** Return : 재발급된 AccessToken */
   restoreAccessToken: Scalars['String'];
+  /** Return : 재발급된 AdminAccessToken */
+  restoreAdminAccessToken: Scalars['String'];
   updateDog: IDog;
   updateDogsLocation: ILocation;
   updateUser: IUser;
   uploadFile: Array<Scalars['String']>;
+  /** Return : 발급된 AccessToken */
   userLogin: Scalars['String'];
+  /** Return : 로그아웃 성공여부 (true / false) */
+  userLogout: Scalars['Boolean'];
+  /** Return : 인증토큰 일치 여부 (true / false) */
   verifyMailToken: Scalars['Boolean'];
+};
+
+
+export type IMutationAdminLoginArgs = {
+  account: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -178,6 +211,12 @@ export type IMutationCancelPaymentArgs = {
 
 export type IMutationCancelPaymentForPointsArgs = {
   impUid: Scalars['String'];
+};
+
+
+export type IMutationCreateAdminUserArgs = {
+  account: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -221,8 +260,7 @@ export type IMutationCreateInterestArgs = {
 
 
 export type IMutationCreateLikeArgs = {
-  receiveId: Scalars['String'];
-  sendId: Scalars['String'];
+  createLikeInput: ICreateLikeInput;
 };
 
 
@@ -254,6 +292,11 @@ export type IMutationCreateUserArgs = {
 };
 
 
+export type IMutationDeleteAdminUserArgs = {
+  account: Scalars['String'];
+};
+
+
 export type IMutationDeleteCharacterArgs = {
   id: Scalars['String'];
 };
@@ -282,6 +325,12 @@ export type IMutationDeleteUserArgs = {
 export type IMutationGetDogInfoArgs = {
   dogRegNum: Scalars['String'];
   ownerBirth: Scalars['String'];
+};
+
+
+export type IMutationIsLikeArgs = {
+  receivedId: Scalars['String'];
+  sendId: Scalars['String'];
 };
 
 
@@ -349,10 +398,9 @@ export type IQuery = {
   fetchDogs: Array<IDog>;
   fetchDogsDistance: Array<IDistanceType>;
   fetchInterests: Array<IInterest>;
-  fetchLikes: Array<ILike>;
   fetchLoginUser: IUser;
   fetchMainDogImage: Array<IDogImage>;
-  fetchMyDog: IDog;
+  fetchOneDog: IDog;
   fetchTarget: IReport;
   fetchUser: IUser;
   fetchUsers: Array<IUser>;
@@ -392,17 +440,12 @@ export type IQueryFetchDogsDistanceArgs = {
 };
 
 
-export type IQueryFetchLikesArgs = {
-  receiveId: Scalars['String'];
-};
-
-
 export type IQueryFetchMainDogImageArgs = {
   dogId: Scalars['String'];
 };
 
 
-export type IQueryFetchMyDogArgs = {
+export type IQueryFetchOneDogArgs = {
   id: Scalars['String'];
 };
 
@@ -462,7 +505,6 @@ export type IUser = {
   email: Scalars['String'];
   id: Scalars['String'];
   isCert: Scalars['Boolean'];
-  password: Scalars['String'];
   pet: Scalars['Boolean'];
   phone?: Maybe<Scalars['String']>;
   reportCnt: Scalars['Int'];
@@ -483,4 +525,9 @@ export type ICreateDogInput = {
   interests?: InputMaybe<Array<Scalars['String']>>;
   locations: ILocationInput;
   userId: Scalars['String'];
+};
+
+export type ICreateLikeInput = {
+  receivedId: Scalars['String'];
+  sendId: Scalars['String'];
 };
