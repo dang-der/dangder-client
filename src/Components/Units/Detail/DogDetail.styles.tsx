@@ -6,21 +6,21 @@ export const Wrapper = styled.div`
   /* background-color: red; */
   display: flex;
   flex-direction: column;
-  border-radius: 1.25rem;
+  border-radius: 1.25rem 1.25rem 0rem 0rem;
   margin-top: 1rem;
 `;
 
 export const DetailImageWrapper = styled.div`
   width: 100%;
-  /* height: auto; */
-  border-radius: 1.25rem;
-  margin-bottom: -15rem;
+  height: auto;
+  border-radius: 1.25rem 1.25rem 0rem 0rem;
+  /* margin-bottom: -15rem; */
 `;
 
 export const DetailImage = styled.img`
   width: 100%;
-  /* height: auto; */
-  border-radius: 1.25rem;
+  height: auto;
+  border-radius: 1.25rem 1.25rem 0rem 0rem;
 `;
 
 export const DetailWrapper = styled.div`
@@ -32,7 +32,7 @@ export const DetailWrapper = styled.div`
   justify-content: flex-start;
   /* flex-grow: 1; */
   /* background-color: aliceblue; */
-  border-radius: 1.25rem;
+  border-radius: 1.25rem 1.25rem 0rem 0rem;
 `;
 
 export const DetailMoveBackWrapper = styled.div`
@@ -41,21 +41,21 @@ export const DetailMoveBackWrapper = styled.div`
   margin-right: 4.5rem;
 `;
 
-export const DetailContentMoveBack = styled.img`
-  /* margin-left: 24rem; */
-  width: 3.43rem;
-  height: 3.43rem;
+// export const DetailContentMoveBack = styled.img`
+//   /* margin-left: 24rem; */
+//   width: 3.43rem;
+//   height: 3.43rem;
 
-  /* z-index: 2; */
-  /* border: 1.8rem solid #304ffe;
-    border-radius: 50%; */
-  cursor: pointer;
-`;
+//   /* z-index: 2; */
+//   /* border: 1.8rem solid #304ffe;
+//     border-radius: 50%; */
+//   cursor: pointer;
+// `;
 
 export const DetailContent = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 3.8rem 3.8rem 0rem 0rem;
+  /* border-radius: 3.8rem 3.8rem 0rem 0rem; */
   background-color: #ffffff;
   width: 100%;
   height: auto;
@@ -201,7 +201,7 @@ export const DetailFunctionMoveBack = styled.img`
   height: 6rem;
   /* border: 0.5rem solid red;
     border-radius: 50%; */
-  /* margin-right: 1rem; */
+  margin-right: 1rem;
   cursor: pointer;
 `;
 
@@ -210,7 +210,7 @@ export const DetailFunctionMoveChat = styled.img`
   height: 6rem;
   /* border: 0.5rem solid #b411ff;
     border-radius: 50%; */
-  /* margin-right: 1rem; */
+  margin-right: 1rem;
   cursor: pointer;
 `;
 
