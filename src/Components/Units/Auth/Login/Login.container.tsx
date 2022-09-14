@@ -37,6 +37,7 @@ export default function LoginContainer() {
     if (!accessToken) {
       alert("로그인에 실패였습니다. 다시 시도해 주세요.");
     }
+    
     setAccessToken(accessToken);
 
     fetchLoginUser.toPromise().then((user) => {
