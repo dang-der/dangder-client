@@ -44,6 +44,10 @@ export default function LoginUI({handleUserLogin} : LoginUIProps) {
     router.push("/auth/password-reset");
   };
 
+  const onClickNonmember = () => {
+    router.push("/");
+  };
+
   return (
     <S.Wrapper onSubmit={handleSubmit(onClickLogin)}>
       <S.LogoImage src="/logo.svg" />
@@ -73,6 +77,10 @@ export default function LoginUI({handleUserLogin} : LoginUIProps) {
       <S.JoinWrapper>
         비밀번호를 잊으셨나요?{" "}
         <u onClick={onClickResetPassword}>비밀번호 재설정</u>
+      </S.JoinWrapper>
+
+      <S.JoinWrapper>
+        <u onClick={onClickNonmember}>비회원으로 둘러보기🐾</u>
       </S.JoinWrapper>
     </S.Wrapper>
   );
