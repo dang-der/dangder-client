@@ -8,15 +8,21 @@ import { useRouter } from "next/router";
 export default function DogMainPageUI(props: any) {
   const router = useRouter();
 
+  const [count, setCount] = useState(1);
   const [lastDirection, setLastDirection] = useState();
 
   const swiped = (direction: any, nameToDelete: any) => {
     setLastDirection(direction);
   };
 
+  if (props.AroundDogsData?.length === 0) {
+    console.log("더 이상 스와이프할 강아지가 없습니다!");
+  }
+
   // 상세 페이지로 이동
-  const MoveToDogDetailPage = () => {
-    router.push(`/${router.query.dogId}`);
+  const MoveToDogDetailPage = (event) => {
+    router.push(`/${event.target.id}`);
+    console.log(event.target.id);
   };
 
   return (
@@ -35,44 +41,58 @@ export default function DogMainPageUI(props: any) {
       </S.LocationWrapper>
       <S.Wrapper>
         <S.DogCardWrapper className="cardContainer">
-          {props.AroundDogsData?.map((character: any, index: number) => (
-            <S.TinderCardWrapper
-              className="swipe"
-              key={index}
-              onSwipe={(dir: any) => swiped(dir, character.name)}
-              preventSwipe={["up", "down"]}
+          {props.AroundDogsData?.map((character: any) => (
+            <S.CardWrapper
+              className={"cardWrapper"}
+              key={character.id}
+              onClick={() => {
+                console.log("asdfads");
+              }}
             >
-              <S.DogProfile
-                className="card"
-                style={{
-                  backgroundImage: "url(" + character.img[0].img + ")",
-                  backgroundPosition: "center center",
-                  backgroundSize: "cover",
-                }}
+              <S.TinderCardWrapper
+                className="swipe"
+                id={character.id}
+                key={character.id}
+                onSwipe={(dir: any) => swiped(dir, character.name)}
+                preventSwipe={["up", "down"]}
               >
-                <S.DogInfo>
-                  <S.DogInfoHeader>
-                    <S.DogInfoTitle>
-                      <S.DogName>{character.name}</S.DogName>
-                      <S.DogAge>, {character.age}</S.DogAge>
-                    </S.DogInfoTitle>
-                    <InfoIcon />
-                  </S.DogInfoHeader>
-                  <S.DogInfoBody>
-                    <S.DistanceWrapper>
-                      <LocationOnIcon onClick={MoveToDogDetailPage} />
-                      <S.DogDistance>{character.distance}km</S.DogDistance>
-                    </S.DistanceWrapper>
-                    <S.DogDescription>{character.description}</S.DogDescription>
-                  </S.DogInfoBody>
-                </S.DogInfo>
-              </S.DogProfile>
-              <Link href="/payments">
-                <S.PassButton>
-                  <S.SparkIcon />
-                </S.PassButton>
-              </Link>
-            </S.TinderCardWrapper>
+                <S.DogProfile
+                  className="card"
+                  style={{
+                    backgroundImage: "url(" + character.img[0].img + ")",
+                    backgroundPosition: "center center",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <S.DogInfo>
+                    <S.DogInfoHeader>
+                      <S.DogInfoTitle>
+                        <S.DogName>{character.name}</S.DogName>
+                        <S.DogAge>, {character.age}</S.DogAge>
+                      </S.DogInfoTitle>
+                      <InfoIcon />
+                    </S.DogInfoHeader>
+                    <S.DogInfoBody>
+                      <S.DistanceWrapper>
+                        <LocationOnIcon
+                          id={character.id}
+                          onClick={MoveToDogDetailPage}
+                        />
+                        <S.DogDistance>{character.distance}km</S.DogDistance>
+                      </S.DistanceWrapper>
+                      <S.DogDescription>
+                        {character.description}
+                      </S.DogDescription>
+                    </S.DogInfoBody>
+                  </S.DogInfo>
+                </S.DogProfile>
+                <Link href="/payments">
+                  <S.PassButton>
+                    <S.SparkIcon />
+                  </S.PassButton>
+                </Link>
+              </S.TinderCardWrapper>
+            </S.CardWrapper>
           ))}
         </S.DogCardWrapper>
       </S.Wrapper>

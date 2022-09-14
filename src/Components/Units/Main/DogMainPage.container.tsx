@@ -1,8 +1,6 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
+import { useState } from "react";
 import {
-  IMutation,
-  IMutationCreateChatRoomArgs,
-  IMutationIsLikeArgs,
   IQuery,
   IQueryFetchAroundDogsArgs,
   IQueryFetchDogsDistanceArgs,
@@ -36,22 +34,6 @@ const FETCH_DOGS_DISTANCE = gql`
   }
 `;
 
-// 매칭 여부
-const IS_LIKE = gql`
-  mutation isLike($sendId: String!, $receivedId: String!) {
-    isLike(sendId: $sendId, receivedId: $receivedId)
-  }
-`;
-
-// 채팅방 생성
-const CREATE_CHAT_ROOM = gql`
-  mutation createChatRoom($dogId: String!, $chatPairId: String!) {
-    createChatRoom(dogId: $dogId, chatPairId: $chatPairId) {
-      id
-    }
-  }
-`;
-
 const getLocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -73,7 +55,10 @@ const getLocation = () => {
 };
 
 export default function DogMainPage() {
-  const { data: AroundDogsData } = useQuery<
+  const [startPage, setStartPage] = useState(1);
+  const [activePage, setActivePage] = useState(1);
+
+  const { data: AroundDogsData, refetch } = useQuery<
     Pick<IQuery, "fetchAroundDogs">,
     IQueryFetchAroundDogsArgs
   >(FETCH_AROUND_DOGS, {
@@ -90,15 +75,6 @@ export default function DogMainPage() {
   });
 
   console.log("distance: ", DogsDistanceData?.fetchDogsDistance);
-
-  const [isLike] = useMutation<Pick<IMutation, "isLike">, IMutationIsLikeArgs>(
-    IS_LIKE
-  );
-
-  const [createChatRoom] = useMutation<
-    Pick<IMutation, "createChatRoom">,
-    IMutationCreateChatRoomArgs
-  >(CREATE_CHAT_ROOM);
 
   return (
     <DogMainPageUI
