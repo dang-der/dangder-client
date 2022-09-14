@@ -2,16 +2,17 @@ import { useRouter } from "next/router";
 import { IQuery } from "../../../Commons/Types/Generated/types";
 import * as S from "./DogDetail.styles";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { MouseEvent } from "react";
 
 interface DogDetailUIProps {
-  handleCreateLike: (data: any) => void;
-  interestsData: Pick<IQuery, "fetchMyDog"> | undefined;
+  handleCreateLike: () => Promise<void>;
+  pickDogData: Pick<IQuery, "fetchOneDog"> | undefined;
   distanceData: Pick<IQuery, "fetchDogsDistance"> | undefined;
 }
 
 export default function DogDetailUI({
   handleCreateLike,
-  interestsData,
+  pickDogData,
   distanceData,
 }: DogDetailUIProps) {
   const router = useRouter();
@@ -20,22 +21,28 @@ export default function DogDetailUI({
     router.back();
   };
 
-  const onClickMoveReport = () => {
-    router.push("/report");
+  const onClickLike = (e: MouseEvent<HTMLElement>) => {
+    handleCreateLike();
   };
-  console.log(interestsData);
+
+  // const onClickMoveReport = () => {
+  //   router.push("/report");
+  // };
+  console.log(pickDogData);
   return (
     <S.Wrapper>
       <S.DetailWrapper>
         <S.DetailImageWrapper>
-          <S.DetailImage>{interestsData?.fetchMyDog.img.img}</S.DetailImage>
+          <S.DetailImage
+            src={pickDogData?.fetchOneDog?.img[0].img}
+          ></S.DetailImage>
         </S.DetailImageWrapper>
 
         <S.DetailContent>
           <S.DetailMaineTitle>
             <S.DetailInfor>
-              <S.DetailName>{interestsData?.fetchMyDog.name},</S.DetailName>
-              <S.DetailAge>{interestsData?.fetchMyDog.age}</S.DetailAge>
+              <S.DetailName>{pickDogData?.fetchOneDog.name},</S.DetailName>
+              <S.DetailAge>{pickDogData?.fetchOneDog.age}</S.DetailAge>
             </S.DetailInfor>
             <S.DetailMoveBackWrapper>
               <S.DetailContentMoveBack
@@ -50,19 +57,19 @@ export default function DogDetailUI({
           <S.DistanceWrapper>
             <LocationOnIcon style={{ cursor: "pointer" }} />
             <S.DetailKm>
-              {distanceData?.fetchDogsDistance?.distance}Km
+              {distanceData?.fetchDogsDistance?.}Km
             </S.DetailKm>
           </S.DistanceWrapper>
           <S.DetailSubTitle>
             <S.DetailIntroduce>
-              {interestsData?.fetchMyDog.description}
+              {pickDogData?.fetchOneDog.description}
             </S.DetailIntroduce>
           </S.DetailSubTitle>
           <S.DetailSubMaineTitle>
             <S.DetailCharacterTitle>성격</S.DetailCharacterTitle>
             <S.DetailCharacterBox>
               <S.DetailCharacter>
-                {interestsData?.fetchMyDog.interests.interest}
+                {pickDogData?.fetchOneDog?.interests[0]}
               </S.DetailCharacter>
               {/* <S.DetailCharacter>애교쟁이</S.DetailCharacter> 
                             <S.DetailCharacter>활발함</S.DetailCharacter>  */}
@@ -72,7 +79,7 @@ export default function DogDetailUI({
             <S.DetailCharacterTitle>관심사</S.DetailCharacterTitle>
             <S.DetailCharacterBox>
               <S.DetailCharacter>
-                {interestsData?.fetchMyDog.characters.character}
+                {pickDogData?.fetchOneDog?.characters[0]}
               </S.DetailCharacter>
               {/* <S.DetailCharacter>공놀이</S.DetailCharacter> 
                             <S.DetailCharacter>물놀이</S.DetailCharacter>  */}
@@ -82,7 +89,7 @@ export default function DogDetailUI({
             <S.DetailCharacterTitle>기피견종</S.DetailCharacterTitle>
             <S.DetailCharacterBox>
               <S.DetailCharacter>
-                {interestsData?.fetchMyDog.avoidBreeds.avoidBreed}
+                {pickDogData?.fetchOneDog?.avoidBreeds[0]}
               </S.DetailCharacter>
               {/* <S.DetailCharacter>공놀이</S.DetailCharacter> 
                             <S.DetailCharacter>물놀이</S.DetailCharacter>  */}
@@ -94,10 +101,7 @@ export default function DogDetailUI({
               src="/backIcon1.png"
             />
             <S.DetailFunctionMoveChat src="/passIcon.png" />
-            <S.DetailFunctionLike
-              onClick={handleCreateLike}
-              src="/likeIcon.png"
-            />
+            <S.DetailFunctionLike onClick={onClickLike} src="/likeIcon.png" />
           </S.DetailFunctionIconWrapper>
         </S.DetailContent>
       </S.DetailWrapper>
