@@ -3,44 +3,46 @@ import styled from "@emotion/styled";
 export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: red;
+  /* background-color: red; */
   display: flex;
   flex-direction: column;
-  border-radius: 1.25rem;
-`;
-
-export const DetailImageWrapper = styled.div`
-  width: 100%;
-  height: auto;
   border-radius: 1.25rem;
   margin-top: 1rem;
 `;
 
+export const DetailImageWrapper = styled.div`
+  width: 100%;
+  /* height: auto; */
+  border-radius: 1.25rem;
+  margin-bottom: -15rem;
+`;
+
 export const DetailImage = styled.img`
   width: 100%;
-  height: auto;
+  /* height: auto; */
   border-radius: 1.25rem;
 `;
 
 export const DetailWrapper = styled.div`
+  /* margin-top: 1rem; */
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  flex-grow: 1;
-  background-color: aliceblue;
+  justify-content: flex-start;
+  /* flex-grow: 1; */
+  /* background-color: aliceblue; */
   border-radius: 1.25rem;
 `;
 
 export const DetailMoveBackWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-right: 2.5rem;
+  margin-right: 4.5rem;
 `;
 
 export const DetailContentMoveBack = styled.img`
-  margin-left: 24rem;
+  /* margin-left: 24rem; */
   width: 3.43rem;
   height: 3.43rem;
 
@@ -56,26 +58,35 @@ export const DetailContent = styled.div`
   border-radius: 3.8rem 3.8rem 0rem 0rem;
   background-color: #ffffff;
   width: 100%;
+  height: auto;
+  /* z-index: 100; */
+  /* position: relative;
+  bottom: 10rem; */
 `;
 
 export const DetailMaineTitle = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-left: 2.43rem;
+  margin-top: 2.43rem;
 `;
 
 export const DetailInfor = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 2.43rem;
-  margin-top: 3.6975rem;
+  width: 100%;
+  height: 100%;
+  /* margin-left: 2.43rem;
+  margin-top: 3.6975rem; */
 `;
 
 export const DetailName = styled.div`
   font-size: 1.9rem;
   font-weight: 700;
   color: #000000;
-  /* margin-top: 0.2rem; */
+  margin-top: 0.2rem;
 `;
 
 export const DetailAge = styled.div`
@@ -83,7 +94,7 @@ export const DetailAge = styled.div`
   font-weight: 700;
   color: #000000;
   margin-left: 1rem;
-  /* margin-top: 0.2rem; */
+  margin-top: 0.2rem;
 `;
 
 export const DistanceWrapper = styled.div`
@@ -144,7 +155,7 @@ export const DetailIntroduce = styled.div`
 export const DetailSubMaineTitle = styled.div`
   display: flex;
   flex-direction: column;
-  /* margin-top: 3rem; */
+  margin-top: 1rem;
   margin-left: 1.43rem;
 `;
 
