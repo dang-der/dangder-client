@@ -34,11 +34,12 @@ export default function SignUpUI({
   const [inputs] = useRecoilState(signUpInputState);
   const router = useRouter();
 
-  const onClickNext = async (
+  async function onClickNext(
     currentIndex: number,
     currentPageInfo: any,
     data: any
-  ) => {
+  ) {
+    console.log("onClickNext", currentPageIndex);
     console.log("onClickNext", currentIndex);
     // 이메일 입력 페이지
     if (currentIndex === 0) {
@@ -59,7 +60,7 @@ export default function SignUpUI({
       console.log("signUp", result);
       result && router.replace("/auth/login");
     }
-  };
+  }
 
   const controller = useMemo(() => {
     return new PageController({
