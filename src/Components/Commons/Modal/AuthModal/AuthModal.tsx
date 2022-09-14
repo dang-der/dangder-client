@@ -1,6 +1,6 @@
-import { useState, MouseEvent, useEffect } from "react";
+import { MouseEvent } from "react";
 import { useRecoilState } from "recoil";
-import { authModalVisibleState } from "../../../../Commons/Store/Auth/AuthModalState";
+import { authModalVisibleState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 import CustomLayoutModal from "../CustomLayoutModal/CustomLayoutModal";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 

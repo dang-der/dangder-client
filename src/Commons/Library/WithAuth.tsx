@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { authModalVisibleState } from "../Store/Auth/AuthModalState";
+import { authModalVisibleState } from "../Store/Modal/ModalVisibleState";
+
 import { getAccessToken } from "./getAccessToken";
 
 export const withAuth = (Component: ReactNode) => (props: any) => {

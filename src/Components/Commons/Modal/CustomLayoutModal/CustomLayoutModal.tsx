@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import styled from "@emotion/styled";
 
-const DimWrapper = styled.div`
+export const DimWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 50%;
