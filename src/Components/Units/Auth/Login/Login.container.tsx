@@ -1,20 +1,34 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { accessTokenState } from "../../../../Commons/Store/Auth/AccessToken";
-import { IMutation, IMutationUserLoginArgs } from "../../../../Commons/Types/Generated/types";
+import { useEffect } from "react";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
+import {
+  accessTokenState,
+  loggedInUserLoadable,
+} from "../../../../Commons/Store/Auth/AccessToken";
+import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
+import {
+  IMutation,
+  IMutationUserLoginArgs,
+  IQuery,
+} from "../../../../Commons/Types/Generated/types";
 import LoginUI from "./Login.presenter";
-import { USER_LOGIN } from "./Login.queries"
+import { FETCH_LOGIN_USER, USER_LOGIN } from "./Login.queries";
 
 export default function LoginContainer() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [userLogin] = useMutation<Pick<IMutation, "userLogin">, IMutationUserLoginArgs>(USER_LOGIN)
-  const [, setAccessToken] = useRecoilState(accessTokenState)
-  
+  const fetchLoginUser = useRecoilValueLoadable(loggedInUserLoadable);
 
-  const handleUserLogin = async (inputs: any) => { 
-    
+  const [userLogin] = useMutation<
+    Pick<IMutation, "userLogin">,
+    IMutationUserLoginArgs
+  >(USER_LOGIN);
+
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [, setUserInfo] = useRecoilState(userInfoState);
+
+  const handleUserLogin = async (inputs: any) => {
     const result = await userLogin({
       variables: { ...inputs },
     });
@@ -24,14 +38,14 @@ export default function LoginContainer() {
       alert("로그인에 실패였습니다. 다시 시도해 주세요.");
     }
     setAccessToken(accessToken);
-    
 
-    router.replace("/")
+    fetchLoginUser.toPromise().then((user) => {
+      setUserInfo(user);
+
+      if (!user?.pet) router.replace("/profile/init");
+      else router.replace("/");
+    });
   };
 
-  return <LoginUI
-  
-  handleUserLogin={handleUserLogin}
- 
-  />;
+  return <LoginUI handleUserLogin={handleUserLogin} />;
 }
