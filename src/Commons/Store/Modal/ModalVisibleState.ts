@@ -9,3 +9,10 @@ export const nonmemberModalVisible = atom<boolean>({
   key: "nonmemberModalVisible",
   default: false,
 });
+
+export const matchedModalVisibleState = atom<boolean>({
+  key: "matchedModalVisible",
+  default: false,
+});
+
+
