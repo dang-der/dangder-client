@@ -47,6 +47,17 @@ export const DogCardWrapper = styled.div`
 `;
 
 export const TinderCardWrapper = styled(TinderCard)`
+  /* position: absolute; */
+  width: calc(576px - 4rem);
+  max-width: 576px;
+  height: calc(100vh - 17rem);
+  @media screen and (max-width: 576px) {
+    width: calc(100vw - 4rem);
+  }
+  z-index: 1000;
+`;
+
+export const CardWrapper = styled.div`
   position: absolute;
   width: calc(576px - 4rem);
   max-width: 576px;
@@ -113,7 +124,7 @@ export const DogDistance = styled.span`
   font-weight: 500;
 `;
 
-export const DogPlay = styled.span`
+export const DogDescription = styled.span`
   font-size: 1rem;
   font-weight: 500;
 `;
