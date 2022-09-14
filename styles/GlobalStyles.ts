@@ -49,3 +49,7 @@ export const Wrapper = styled.div`
   background-color: white;
   height: 100%;
 `;
+
+export const MainColor = "#304FFE";
+export const SubColor = "#FDC500";
+export const GrayF5 = "#F5F5F5";

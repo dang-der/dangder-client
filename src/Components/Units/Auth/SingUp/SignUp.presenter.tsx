@@ -34,44 +34,30 @@ export default function SignUpUI({
   const [inputs] = useRecoilState(signUpInputState);
   const router = useRouter();
 
-  async function onClickNext(
-    currentIndex: number,
-    currentPageInfo: any,
-    data: any
-  ) {
+  const onClickNext = async () => {
     console.log("onClickNext", currentPageIndex);
-    console.log("onClickNext", currentIndex);
+    console.log("onClickNext", currentPageIndex);
+
     // 이메일 입력 페이지
-    if (currentIndex === 0) {
-      const result = await handleCreateMailToken(data?.email);
-      result && setCurrentPageIndex(currentIndex + 1);
+    if (currentPageIndex === 0) {
+      const result = await handleCreateMailToken(inputs?.email);
+      result && setCurrentPageIndex(currentPageIndex + 1);
     }
     // 인증번호 입력 페이지
-    if (currentIndex === 1) {
+    if (currentPageIndex === 1) {
       const result = await handleVerifyMailToken(
-        data?.email,
-        data?.authenticationCode.join("")
+        inputs?.email,
+        inputs?.authenticationCode.join("")
       );
-      result && setCurrentPageIndex(currentIndex + 1);
+      result && setCurrentPageIndex(currentPageIndex + 1);
     }
     // 비밀번호 입력 페이지
-    if (currentIndex === 2) {
-      const result = await handleSignUp(data?.email, data?.password);
+    if (currentPageIndex === 2) {
+      const result = await handleSignUp(inputs?.email, inputs?.password);
       console.log("signUp", result);
       result && router.replace("/auth/login");
     }
-  }
-
-  const controller = useMemo(() => {
-    return new PageController({
-      pages: [
-        <EmailInputPage key={uuid()} />,
-        <AuthCodeInputPage key={uuid()} />,
-        <PasswordInputPage key={uuid()} />,
-      ],
-      onClickNext,
-    });
-  }, []);
+  };
 
   return (
     <S.Wrapper>
@@ -91,7 +77,7 @@ export default function SignUpUI({
 
       <S.NextButton
         type="button"
-        onClick={() => controller.nextPage(inputs)}
+        onClick={onClickNext}
         isActive={inputs.isActiveButton}
       >
         {Object.values(inputs).every((e) => e) ? "완료" : "다음"}

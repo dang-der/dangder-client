@@ -29,7 +29,7 @@ import {
 
 export default function InitProfileContainer() {
   const [inputs] = useRecoilState(profileInputState);
-  const [user] = useRecoilState(userInfoState);
+  const { contents: user } = useRecoilValueLoadable(loggedInUserLoadable);
 
   console.log("user", user);
 

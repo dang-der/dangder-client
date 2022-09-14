@@ -1,6 +1,7 @@
 import LineInput from "../LineInput";
 import styled from "@emotion/styled";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
+import moment from "moment";
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -32,26 +33,51 @@ export default function BirthInput({
   onChangeMonth,
   onChangeDay,
 }: BirthInputProps) {
+  useEffect(() => {
+    const inputs = [document.getElementById("birthYear"),];
+  }, []);
+
+  const checkOtherChar = (value: string) => {
+    return !isNaN(Number(value)) && Number(value) > 0;
+  };
+
   const onChangeY = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > 4) {
-      e.target.value = e.target.value.substring(0, 4);
-      document.getElementById("birthMonth")?.focus();
+    const value = e.target.value;
+
+    if (!checkOtherChar(value)) {
+      e.target.value = "";
       return;
     }
 
-    onChangeYear(Number(e.target.value));
+    if (value.length >= 4) {
+      document.getElementById("birthMonth")?.focus();
+      e.target.value = value.substring(0, 4);
+      return;
+    }
+
+    onChangeYear(Number(value));
   };
 
   const onChangeM = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > 2) {
-      e.target.value = e.target.value.substring(0, 2);
+    if (!checkOtherChar(e.target.value)) {
+      e.target.value = "";
+      return;
+    }
+
+    if (e.target.value.length >= 2) {
       document.getElementById("birthDay")?.focus();
+      e.target.value = e.target.value.substring(0, 2);
       return;
     }
     onChangeMonth(Number(e.target.value));
   };
 
   const onChangeD = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!checkOtherChar(e.target.value)) {
+      e.target.value = "";
+      return;
+    }
+
     if (e.target.value.length > 2) {
       e.target.value = e.target.value.substring(0, 2);
       return;
@@ -66,6 +92,7 @@ export default function BirthInput({
         registerOption={{ onChange: onChangeY }}
         type="number"
         name="birthYear"
+        id="birthYear"
         placeholder="1995"
         style={{ textAlign: "center", width: "4.5rem" }}
       />

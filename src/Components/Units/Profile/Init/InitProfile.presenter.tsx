@@ -36,50 +36,35 @@ export default function InitProfileUI({
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [inputs, setInputs] = useRecoilState(profileInputState);
 
-  const onClickNext = async (
-    currentIndex: number,
-    currentPageInfo: any,
-    data: IProfileInputState
-  ) => {
-    console.log("onClickNext", currentIndex);
+  const onClickNext = async () => {
+    console.log("onClickNext", currentPageIndex);
 
     // 강아지 등록번호 입력 페이지
-    if (currentIndex === 0) {
-      const result = await handleCheckDogRegisterNumber(data);
-      result && setCurrentPageIndex(currentIndex + 1);
+    if (currentPageIndex === 0) {
+      const result = await handleCheckDogRegisterNumber(inputs);
+      result && setCurrentPageIndex(currentPageIndex + 1);
     }
 
     // 댕댕이 프로필 설정
-    if (currentIndex === 1) {
+    if (currentPageIndex === 1) {
       if (
-        data.createDogInput.imageUrls.length < 1 &&
-        (!data.createDogInput.dogBirthYear ||
-          !data.createDogInput.dogBirthMonth ||
-          !data.createDogInput.dogBirthDay) &&
-        !data.createDogInput.introduce
+        inputs.createDogInput.imageUrls.length < 1 &&
+        (!inputs.createDogInput.dogBirthYear ||
+          !inputs.createDogInput.dogBirthMonth ||
+          !inputs.createDogInput.dogBirthDay) &&
+        !inputs.createDogInput.introduce
       ) {
         // todo : 에러 다이얼로그 띄우기
         return;
       }
-      setCurrentPageIndex(currentIndex + 1);
+      setCurrentPageIndex(currentPageIndex + 1);
     }
 
-    if (currentIndex === 2) {
-      const result = await handleCreateDog(data);
+    if (currentPageIndex === 2) {
+      const result = await handleCreateDog(inputs);
       result && router.replace("/");
     }
   };
-
-  const controller = useMemo(() => {
-    return new PageController({
-      pages: [
-        <RegistrationNumberInputPage key={uuid()} />,
-        <ProfileInputPage key={uuid()} />,
-        <ProfileInput2Page key={uuid()} />,
-      ],
-      onClickNext,
-    });
-  }, []);
 
   return (
     <S.Wrapper>
@@ -107,7 +92,7 @@ export default function InitProfileUI({
         </PageStack>
       </S.PageStackWrapper>
 
-      <S.NextButton isActive={true} onClick={() => controller.nextPage(inputs)}>
+      <S.NextButton isActive={true} onClick={onClickNext}>
         {currentPageIndex === 2 ? "완료" : "다음"}
       </S.NextButton>
     </S.Wrapper>
