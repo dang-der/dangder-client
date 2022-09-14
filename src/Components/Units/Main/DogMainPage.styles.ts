@@ -113,7 +113,7 @@ export const DogDistance = styled.span`
   font-weight: 500;
 `;
 
-export const DogPlay = styled.span`
+export const DogDescription = styled.span`
   font-size: 1rem;
   font-weight: 500;
 `;

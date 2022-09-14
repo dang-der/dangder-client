@@ -14,6 +14,7 @@ export default function DogMainPageUI(props: any) {
     setLastDirection(direction);
   };
 
+  // 상세 페이지로 이동
   const MoveToDogDetailPage = () => {
     router.push(`/${router.query.dogId}`);
   };
@@ -34,17 +35,17 @@ export default function DogMainPageUI(props: any) {
       </S.LocationWrapper>
       <S.Wrapper>
         <S.DogCardWrapper className="cardContainer">
-          {props.dogList.map((character: any) => (
+          {props.AroundDogsData?.map((character: any, index: number) => (
             <S.TinderCardWrapper
               className="swipe"
-              key={character}
+              key={index}
               onSwipe={(dir: any) => swiped(dir, character.name)}
               preventSwipe={["up", "down"]}
             >
               <S.DogProfile
                 className="card"
                 style={{
-                  backgroundImage: "url(" + character.url + ")",
+                  backgroundImage: "url(" + character.img[0].img + ")",
                   backgroundPosition: "center center",
                   backgroundSize: "cover",
                 }}
@@ -62,7 +63,7 @@ export default function DogMainPageUI(props: any) {
                       <LocationOnIcon onClick={MoveToDogDetailPage} />
                       <S.DogDistance>{character.distance}km</S.DogDistance>
                     </S.DistanceWrapper>
-                    <S.DogPlay>{character.play}</S.DogPlay>
+                    <S.DogDescription>{character.description}</S.DogDescription>
                   </S.DogInfoBody>
                 </S.DogInfo>
               </S.DogProfile>
