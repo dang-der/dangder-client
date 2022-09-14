@@ -42,17 +42,14 @@ export default function RegistrationNumberInputPage() {
 
   const onChangeOwnerBirthYear = (year: number) => {
     setInputs((p) => ({ ...p, ownerBirthYear: year }));
-    if (year > 0) reset({ birthYear: year });
   };
 
   const onChangeOwnerBirthMonth = (month: number) => {
     setInputs((p) => ({ ...p, ownerBirthMonth: month }));
-    if (month > 0) reset({ birthMonth: month });
   };
 
   const onChangeOwnerBirthDay = (day: number) => {
     setInputs((p) => ({ ...p, ownerBirthDay: day }));
-    if (day > 0) reset({ birthDay: day });
   };
 
   return (

@@ -171,9 +171,7 @@ export type IMutation = {
   adminLogin: Scalars['String'];
   /** Return : Admin User 로그아웃 성공여부 (true / false) */
   adminLogout: Scalars['Boolean'];
-
   /** Return : 삭제된 결제 정보 */
-
   cancelPayment: IPayment;
   /** Return : 포인트 취소내역 */
   cancelPaymentForPoints: IPayment;
@@ -182,7 +180,6 @@ export type IMutation = {
   /** 기피견종 목록 추가 */
   createAvoidBreeds: Array<IAvoidBreed>;
   /** Return : 차단된 유저 정보 */
-  createAvoidBreed: Array<IAvoidBreed>;
   createBlockUser: IBlockUser;
   createCharacter: ICharacter;
   /** Return : 생성된 채팅 메시지 정보 */
@@ -217,7 +214,7 @@ export type IMutation = {
   /** Return : deletedAt(유저 정보 삭제된 시간) */
   deleteUser: Scalars['Boolean'];
   getDogInfo: Scalars['Boolean'];
-  /** 내가 좋아요 누른 댕댕이가 나를 좋아요 누른 기록 있는지 조회 */
+  /** return : 내가 좋아요 누른 댕댕이가 나를 좋아요 누른 기록 있는지 조회 */
   isLike: Scalars['Boolean'];
   /** Return : 재발급된 AccessToken */
   restoreAccessToken: Scalars['String'];
@@ -260,9 +257,8 @@ export type IMutationCreateAdminUserArgs = {
 };
 
 
-
-export type IMutationCreateAvoidBreedArgs = {
-  createAvoidBreedInput: ICreateAvoidBreedInput;
+export type IMutationCreateAvoidBreedsArgs = {
+  CreateAvoidBreedsInput: ICreateAvoidBreedsInput;
 };
 
 
@@ -477,7 +473,6 @@ export type IQuery = {
   fetchDogs: Array<IDog>;
   fetchDogsDistance: Array<IDistanceType>;
   fetchInterests: Array<IInterest>;
-
   /** Return : 로그인한 유저 데이터 */
   fetchLoginUser: IUser;
   fetchMainDogImage: Array<IDogImage>;
@@ -532,11 +527,9 @@ export type IQueryFetchDogsArgs = {
 };
 
 
-
 export type IQueryFetchDogsDistanceArgs = {
   id: Scalars['String'];
 };
-
 
 
 export type IQueryFetchMainDogImageArgs = {
@@ -544,11 +537,9 @@ export type IQueryFetchMainDogImageArgs = {
 };
 
 
-
 export type IQueryFetchMyDogArgs = {
   userId: Scalars['String'];
 };
-
 
 
 export type IQueryFetchOneDogArgs = {

@@ -37,19 +37,11 @@ export default function BirthInput({
     const inputs = [document.getElementById("birthYear"),];
   }, []);
 
-  const checkOtherChar = (value: string) => {
-    return !isNaN(Number(value)) && Number(value) > 0;
-  };
 
   const onChangeY = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (!checkOtherChar(value)) {
-      e.target.value = "";
-      return;
-    }
-
-    if (value.length >= 4) {
+    if (value.length > 4) {
       document.getElementById("birthMonth")?.focus();
       e.target.value = value.substring(0, 4);
       return;
@@ -59,12 +51,7 @@ export default function BirthInput({
   };
 
   const onChangeM = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!checkOtherChar(e.target.value)) {
-      e.target.value = "";
-      return;
-    }
-
-    if (e.target.value.length >= 2) {
+    if (e.target.value.length > 2) {
       document.getElementById("birthDay")?.focus();
       e.target.value = e.target.value.substring(0, 2);
       return;
@@ -73,11 +60,6 @@ export default function BirthInput({
   };
 
   const onChangeD = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!checkOtherChar(e.target.value)) {
-      e.target.value = "";
-      return;
-    }
-
     if (e.target.value.length > 2) {
       e.target.value = e.target.value.substring(0, 2);
       return;

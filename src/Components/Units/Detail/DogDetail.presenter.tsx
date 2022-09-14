@@ -57,7 +57,7 @@ export default function DogDetailUI({
           <S.DistanceWrapper>
             <LocationOnIcon style={{ cursor: "pointer" }} />
             <S.DetailKm>
-              {distanceData?.fetchDogsDistance?.}Km
+              {/* {distanceData?.fetchDogsDistance?.}Km */}
             </S.DetailKm>
           </S.DistanceWrapper>
           <S.DetailSubTitle>

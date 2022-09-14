@@ -47,7 +47,7 @@ export const DogCardWrapper = styled.div`
 `;
 
 export const TinderCardWrapper = styled(TinderCard)`
-  /* position: absolute; */
+  position: absolute;
   width: calc(576px - 4rem);
   max-width: 576px;
   height: calc(100vh - 17rem);
