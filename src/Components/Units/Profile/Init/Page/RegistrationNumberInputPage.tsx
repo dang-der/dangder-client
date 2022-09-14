@@ -13,6 +13,7 @@ import BirthInput from "../../../../Commons/LineInputs/BirthInput/BirthInput";
 const schema = yup.object({
   registrationNumber: yup
     .string()
+    .max(15, "15자 이상 입력이 불가합니다.")
     .required("댕댕이의 등록번호를 입력해주세요."),
   birthYear: yup
     .string()
@@ -30,7 +31,7 @@ const schema = yup.object({
 
 export default function RegistrationNumberInputPage() {
   const [, setInputs] = useRecoilState(profileInputState);
-  const { register, formState } = useForm({
+  const { register, formState, reset } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
@@ -41,14 +42,17 @@ export default function RegistrationNumberInputPage() {
 
   const onChangeOwnerBirthYear = (year: number) => {
     setInputs((p) => ({ ...p, ownerBirthYear: year }));
+    if (year > 0) reset({ birthYear: year });
   };
 
   const onChangeOwnerBirthMonth = (month: number) => {
     setInputs((p) => ({ ...p, ownerBirthMonth: month }));
+    if (month > 0) reset({ birthMonth: month });
   };
 
   const onChangeOwnerBirthDay = (day: number) => {
     setInputs((p) => ({ ...p, ownerBirthDay: day }));
+    if (day > 0) reset({ birthDay: day });
   };
 
   return (

@@ -6,14 +6,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { signUpInputState } from "../../../../../Commons/Store/Auth/SignUpState";
 import * as S from "./Page.styles";
+import LineInput from "../../../../Commons/LineInputs/LineInput";
 
 const schema = yup.object({
-  email: yup.string()
-  .matches(
-    /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/gi,
-    "이메일(@, com, net 등)을 입력해주세요"
-  )
-  .required("이메일을 입력해주세요."),
+  email: yup
+    .string()
+    .matches(
+      /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/gi,
+      "이메일(@, com, net 등)을 입력해주세요"
+    )
+    .required("이메일을 입력해주세요."),
 });
 
 export default function EmailInputPage() {
@@ -33,8 +35,7 @@ export default function EmailInputPage() {
       email: e.target.value,
     }));
 
-    // todo : 입력값 체크 로직 변경
-    if (formState.isValid) {
+    if (e.target.value.length > 0) {
       setSignUpInputs((p) => ({ ...p, isActiveButton: true }));
     }
   };
@@ -45,15 +46,15 @@ export default function EmailInputPage() {
         이메일을 <br /> 입력해주세요.
       </S.GuidanceWrapper>
 
-      <input
+      <LineInput
+        register={register}
+        registerOption={{ onChange: onChangeEmail }}
         type="email"
         style={{ width: "100%" }}
+        name="email"
         placeholder="이메일을 입력해주세요."
-        {...register("email", {
-          onChange: onChangeEmail,
-        })}
       />
-      <p>에러메세지 출력 부분</p>
+      <S.ErrorTextWrapper>{formState.errors.email?.message}</S.ErrorTextWrapper>
     </S.Wrapper>
   );
 }

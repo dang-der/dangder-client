@@ -6,13 +6,17 @@ import * as S from "./Page.styles";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { signUpInputState } from "../../../../../Commons/Store/Auth/SignUpState";
+import LineInput from "../../../../Commons/LineInputs/LineInput";
 
 const schema = yup.object({
-  password: yup.string().matches(/[^A-Za-z0-9$]/gi, "특수문자를 포함해 주세요").required("비밀번호를 입력해주세요."),
+  password: yup
+    .string()
+    .matches(/[^A-Za-z0-9$]/gi, "영문+숫자 조합 비밀번호를 입력해 주세요.")
+    .required("비밀번호를 입력해주세요"),
   passwordCheck: yup
     .string()
     .oneOf([yup.ref("password"), null], "비밀번호가 일치하지 않습니다.")
-    .required("비밀번호를 확인해주세."),
+    .required("비밀번호를 확인해주세요."),
 });
 
 export default function PasswordInputPage() {
@@ -50,27 +54,31 @@ export default function PasswordInputPage() {
       </S.GuidanceWrapper>
 
       <div>
-        <input
-          type="text"
+        <LineInput
+          register={register}
+          registerOption={{ onChange: onChangePassword }}
+          type="password"
           style={{ width: "100%" }}
+          name="password"
           placeholder="비밀번호를 입력해주세요."
-          {...register("password", {
-            onChange: onChangePassword,
-          })}
         />
-        <span>{formState.errors.password?.message}</span>
+        <S.ErrorTextWrapper>
+          {formState.errors.password?.message}
+        </S.ErrorTextWrapper>
       </div>
 
-      <div>
-        <input
-          type="text"
+      <div style={{ marginTop: "1rem" }}>
+        <LineInput
+          register={register}
+          registerOption={{ onChange: onChangePasswordCheck }}
+          type="password"
           style={{ width: "100%" }}
+          name="passwordCheck"
           placeholder="비밀번호를 다시 입력해주세요."
-          {...register("passwordCheck", {
-            onChange: onChangePasswordCheck,
-          })}
         />
-        <span>{formState.errors.passwordCheck?.message}</span>
+        <S.ErrorTextWrapper>
+          {formState.errors.passwordCheck?.message}
+        </S.ErrorTextWrapper>
       </div>
     </S.Wrapper>
   );

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { MainColor } from "../../../../../styles/GlobalStyles";
 
 export const Wrapper = styled.form`
   display: flex;
@@ -50,6 +51,10 @@ export const LoginButton = styled.button`
   border: none;
   border-radius: 100px;
   margin: 3rem 0;
+  background-color: ${MainColor};
+  color: white;
+  font-weight: 700;
+  font-size: 1.5rem;
 `;
 
 export const JoinWrapper = styled.span`

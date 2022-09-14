@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_DOG_INFO = gql`
-  mutation getdoginfo($registerNumber: String!, $birth: String!) {
-    getdoginfo(registerNumber: $registerNumber, birth: $birth)
+  mutation getDogInfo($dogRegNum: String!, $ownerBirth: String!) {
+    getDogInfo(dogRegNum: $dogRegNum, ownerBirth: $ownerBirth)
   }
 `;
 
@@ -24,17 +24,16 @@ export const FETCH_INTERESTS = gql`
   }
 `;
 
-// todo : userId 받아오는 부분 아직 배포 안됨. 배포되면 userId 가져오는 부분 추가할 것
 export const CREATE_DOG = gql`
   mutation createDog(
     $createDogInput: createDogInput!
-    $registerNumber: String!
-    $birth: String!
+    $dogRegNum: String!
+    $ownerBirth: String!
   ) {
     createDog(
       createDogInput: $createDogInput
-      registerNumber: $registerNumber
-      birth: $birth
+      dogRegNum: $dogRegNum
+      ownerBirth: $ownerBirth
     ) {
       id
       name

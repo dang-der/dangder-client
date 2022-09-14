@@ -8,12 +8,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object({
-  email: yup.string().matches(
-    /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/gi,  "이메일 아이디를 @까지 정확하게 입력해 주세요."
-  ).required("이메일을 입력해주세요."),
-  password: yup
+  email: yup
     .string()
-    .matches(/[^A-Za-z0-9$]/gi, "영문+숫자 조합 8~16자리의 비밀번호를 입력해 주세요.")
+    .matches(
+      /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/gi,
+      "이메일 아이디를 @까지 정확하게 입력해 주세요.")
+    .required("이메일을 입력해주세요."),
+  password: yup          
+    .string() 
+    .matches(/[^A-Za-z0-9$]/gi, "영문+숫자 조합 비밀번호를 입력해 주세요.")
     .required("비밀번호를 입력해주세요"),
 });
 
@@ -39,6 +42,10 @@ export default function LoginUI({handleUserLogin} : LoginUIProps) {
 
   const onClickResetPassword = () => {
     router.push("/auth/password-reset");
+  };
+
+  const onClickNonmember = () => {
+    router.push("/");
   };
 
   return (
@@ -70,6 +77,10 @@ export default function LoginUI({handleUserLogin} : LoginUIProps) {
       <S.JoinWrapper>
         비밀번호를 잊으셨나요?{" "}
         <u onClick={onClickResetPassword}>비밀번호 재설정</u>
+      </S.JoinWrapper>
+
+      <S.JoinWrapper>
+        <u onClick={onClickNonmember}>비회원으로 둘러보기🐾</u>
       </S.JoinWrapper>
     </S.Wrapper>
   );

@@ -3,7 +3,9 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useGeolocation from "react-hook-geolocation";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { loggedInUserLoadable } from "../../../../Commons/Store/Auth/AccessToken";
+import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 import {
   IProfileInputState,
   profileInputState,
@@ -11,9 +13,10 @@ import {
 import {
   IMutation,
   IMutationCreateDogArgs,
-  IMutationGetdoginfoArgs,
+  IMutationGetDogInfoArgs,
   IMutationUploadFileArgs,
   IQuery,
+  IUser,
 } from "../../../../Commons/Types/Generated/types";
 import InitProfileUI from "./InitProfile.presenter";
 import {
@@ -26,8 +29,12 @@ import {
 
 export default function InitProfileContainer() {
   const [inputs] = useRecoilState(profileInputState);
+  const { contents: user } = useRecoilValueLoadable(loggedInUserLoadable);
+
+  console.log("user", user);
 
   const geo = useGeolocation();
+
   const { data: charactersData } =
     useQuery<Pick<IQuery, "fetchCharacters">>(FETCH_CHARACTERS);
 
@@ -35,8 +42,8 @@ export default function InitProfileContainer() {
     useQuery<Pick<IQuery, "fetchInterests">>(FETCH_INTERESTS);
 
   const [getDogInfo] = useMutation<
-    Pick<IMutation, "getdoginfo">,
-    IMutationGetdoginfoArgs
+    Pick<IMutation, "getDogInfo">,
+    IMutationGetDogInfoArgs
   >(GET_DOG_INFO);
 
   const [createDog] = useMutation<
@@ -73,8 +80,8 @@ export default function InitProfileContainer() {
     try {
       const { data } = await getDogInfo({
         variables: {
-          registerNumber: inputs.registerNumber,
-          birth,
+          dogRegNum: inputs.registerNumber,
+          ownerBirth: birth,
         },
       });
 
@@ -87,8 +94,10 @@ export default function InitProfileContainer() {
   };
 
   const handleCreateDog =
-    (location: { lat: number; lng: number } | undefined) =>
+    (location: { lat: number; lng: number } | undefined, user: IUser) =>
     async (inputs: IProfileInputState) => {
+      console.log("handleCheckDogRegisterNumber", user);
+
       const ownerBirth =
         String(inputs.ownerBirthYear).substring(2) +
         String(inputs.ownerBirthMonth).padStart(2, "0") +
@@ -124,13 +133,14 @@ export default function InitProfileContainer() {
                 lng: location?.lng || 0,
               },
               img: filesData.uploadFile,
+              userId: user?.id || "",
             },
-            registerNumber: inputs.registerNumber,
-            birth: ownerBirth,
+            dogRegNum: inputs.registerNumber,
+            ownerBirth,
           },
         });
         console.log("handleCreateDog", result);
-        return result?.createDog;
+        return !!result?.createDog;
       } catch (e) {
         console.log("handleClickCreateDog", e);
         return false;
@@ -139,17 +149,20 @@ export default function InitProfileContainer() {
 
   return (
     <>
-      {geo.latitude && (
+      {geo.latitude && user && (
         <InitProfileUI
           selectedData={{
             characters: charactersData,
             interests: interestsData,
           }}
           handleCheckDogRegisterNumber={handleCheckDogRegisterNumber}
-          handleCreateDog={handleCreateDog({
-            lat: geo.latitude,
-            lng: geo.longitude,
-          })}
+          handleCreateDog={handleCreateDog(
+            {
+              lat: geo.latitude,
+              lng: geo.longitude,
+            },
+            user
+          )}
         />
       )}
     </>
