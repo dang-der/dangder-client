@@ -53,3 +53,4 @@ export const MainColor = "#304FFE";
 export const SubColor = "#FDC500";
 export const GrayF5 = "#F5F5F5";
 export const Gray76 = "#767676";
+export const GrayD9 = "#D9D9D9";
