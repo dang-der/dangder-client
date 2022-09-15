@@ -43,7 +43,6 @@ export const loggedInUserLoadable = selector({
       return result.fetchLoginUser;
     } catch (e) {
       console.log("fetchLoginUserError", e);
-      return;
     }
   },
 });
