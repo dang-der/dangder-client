@@ -1,11 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
 import moment from "moment";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useGeolocation from "react-hook-geolocation";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { loggedInUserLoadable } from "../../../../Commons/Store/Auth/AccessToken";
-import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 import {
   IProfileInputState,
   profileInputState,
@@ -18,6 +16,7 @@ import {
   IQuery,
   IUser,
 } from "../../../../Commons/Types/Generated/types";
+import ErrorModal from "../../../Commons/Modal/ErrorModal/ErrorModal";
 import InitProfileUI from "./InitProfile.presenter";
 import {
   CREATE_DOG,
@@ -28,6 +27,8 @@ import {
 } from "./InitProfile.queries";
 
 export default function InitProfileContainer() {
+  const [regNumErrorVisible, setRegNumErrorVisible] = useState(false);
+
   const [inputs] = useRecoilState(profileInputState);
   const { contents: user } = useRecoilValueLoadable(loggedInUserLoadable);
 
@@ -89,6 +90,7 @@ export default function InitProfileContainer() {
       return true;
     } catch (e) {
       console.log("handleCheckDogRegister", e);
+      setRegNumErrorVisible(true);
       return false;
     }
   };
@@ -149,6 +151,13 @@ export default function InitProfileContainer() {
 
   return (
     <>
+      <ErrorModal
+        title="등록된 댕댕이의 정보를 <br/> 찾을 수 없습니다."
+        subTitle="입력한 정보와 등록한 정보가 일치한지 <br/> 다시 확인해주세요."
+        visible={regNumErrorVisible}
+        setVisible={setRegNumErrorVisible}
+      />
+
       {geo.latitude && user && (
         <InitProfileUI
           selectedData={{
