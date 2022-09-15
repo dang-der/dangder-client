@@ -29,10 +29,7 @@ import {
 export default function InitProfileContainer() {
   const [regNumErrorVisible, setRegNumErrorVisible] = useState(false);
 
-  const [inputs] = useRecoilState(profileInputState);
   const { contents: user } = useRecoilValueLoadable(loggedInUserLoadable);
-
-  console.log("user", user);
 
   const geo = useGeolocation();
 
@@ -57,9 +54,6 @@ export default function InitProfileContainer() {
     IMutationUploadFileArgs
   >(UPLOAD_FILE);
 
-  useEffect(() => {
-    console.log("input change", inputs);
-  }, [inputs]);
 
   const handleCheckDogRegisterNumber = async (inputs: any) => {
     console.log("handleCheckDogRegisterNumber", inputs);
@@ -116,6 +110,7 @@ export default function InitProfileContainer() {
         const { data: filesData } = await uploadFiles({
           variables: { files: inputs.createDogInput.imageFiles },
         });
+
         if (!filesData) {
           // todo : 이미지 등록 실패 다이얼로그 띄우기
           return false;
@@ -124,7 +119,7 @@ export default function InitProfileContainer() {
         const { data: result } = await createDog({
           variables: {
             createDogInput: {
-              age: Number(age),
+              age: Number(age) || 1,
               description: inputs.createDogInput.introduce,
               birthday: dogBirth,
               interests: inputs.createDogInput.interests,

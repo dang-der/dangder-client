@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
@@ -17,8 +17,7 @@ import { FETCH_LOGIN_USER, USER_LOGIN } from "./Login.queries";
 
 export default function LoginContainer() {
   const router = useRouter();
-
-  const fetchLoginUser = useRecoilValueLoadable(loggedInUserLoadable);
+  const client = useApolloClient();
 
   const [userLogin] = useMutation<
     Pick<IMutation, "userLogin">,
@@ -37,15 +36,17 @@ export default function LoginContainer() {
     if (!accessToken) {
       alert("로그인에 실패였습니다. 다시 시도해 주세요.");
     }
-    
+
     setAccessToken(accessToken);
 
-    fetchLoginUser.toPromise().then((user) => {
-      setUserInfo(user);
+    const { data } = await client.query({ query: FETCH_LOGIN_USER });
 
-      if (!user?.pet) router.replace("/profile/init");
-      else router.replace("/");
-    });
+    if (!data) return;
+
+    setUserInfo(data.fetchLoginUser);
+
+    if (!data.fetchLoginUser.pet) router.replace("/profile/init");
+    else router.replace("/");
   };
 
   return <LoginUI handleUserLogin={handleUserLogin} />;
