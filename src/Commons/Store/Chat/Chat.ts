@@ -15,6 +15,7 @@ export interface PlanMessageStateProps {
   data: DayValue;
   time: string;
 }
+
 export const planMessageState = atom<PlanMessageStateProps>({
   key: "placeMessageState",
   default: { data: null, time: "" },

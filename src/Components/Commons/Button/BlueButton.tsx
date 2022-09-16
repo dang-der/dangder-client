@@ -5,6 +5,7 @@ interface BlueButtonStyleProps {
   isActive?: boolean;
 }
 export const Wrapper = styled.button`
+  cursor: pointer;
   width: 100%;
   border-radius: 6.25rem;
   height: 3.125rem;
@@ -33,11 +34,17 @@ export default function BlueButton({
   style,
   isActive,
 }: LargeButtonProps) {
+  console.log(onClick);
+
+  const onClickButton = () => {
+    console.log("onClickButton");
+    // onClick();
+  };
   return (
     <Wrapper
       isActive={isActive !== undefined ? isActive : true}
       type="button"
-      onClick={() => onClick()}
+      onClick={onClickButton}
       style={{ ...style }}
       disabled={isActive !== undefined ? !isActive : true}
     >

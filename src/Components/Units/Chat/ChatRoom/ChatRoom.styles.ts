@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Gray76 } from "../../../../../styles/GlobalStyles";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -65,13 +66,14 @@ export const MessageInputWrapper = styled.form`
   }
 `;
 
-export const IconWrapper = styled.div`
+export const IconWrapper = styled.button`
   color: #304ffe;
   flex-grow: 0.1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: none;
 `;
 
 export const MessageInput = styled.input`
@@ -133,4 +135,28 @@ export const MenuCircle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const EnterMessage = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 1.5rem 0;
+  color: ${Gray76};
+`;
+
+interface OpenMenuIconWrapperStyleProps {
+  isOpen: boolean;
+}
+
+export const OpenMenuIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    transform: ${(props: OpenMenuIconWrapperStyleProps) =>
+      props.isOpen ? "rotate(45deg)" : "rotate(0deg)"};
+    transition: all ease 0.4s;
+  }
 `;
