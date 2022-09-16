@@ -1,4 +1,4 @@
-import { Stack } from "../src/Components/Units/test/DogMainPage.container.stack";
+import { Stack } from "../src/Components/Units/Main/DogMainPage.container.stack";
 import styled from "@emotion/styled";
 import { gql, useQuery } from "@apollo/client";
 import {
@@ -97,39 +97,42 @@ const DogCardWrapper = styled(Stack)`
 `;
 
 const Item = styled.div`
-  background-color: red;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: left;
+  align-items: left;
   width: calc(576px - 4rem);
   max-width: 576px;
   height: calc(100vh - 17rem);
   @media screen and (max-width: 576px) {
     width: calc(100vw - 4rem);
   }
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
+  border-radius: 12px;
+  user-select: none;
 `;
 
 const DogProfile = styled.img`
   width: 100%;
   height: 100%;
-  background-color: rebeccapurple;
 `;
 
-export const DogName = styled.span`
+const DogName = styled.span`
   font-size: 2.5rem;
   font-weight: bold;
   margin-right: 3px;
 `;
 
-export const DogAge = styled.span`
+const DogAge = styled.span`
   font-size: 2.5rem;
   font-weight: bold;
 `;
 
-export const DogDescription = styled.span`
+const DogDescription = styled.span`
   font-size: 1rem;
   font-weight: 500;
 `;

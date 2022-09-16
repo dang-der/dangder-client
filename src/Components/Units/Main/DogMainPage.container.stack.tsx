@@ -4,6 +4,7 @@ import { Card } from "./DogMainPage.container.card";
 
 export const Stack = ({ onVote, children }) => {
   const [stack, setStack] = useState(Children.toArray(children));
+  // const [stack, setStack] = useState([children]);
 
   const pop = (array) => {
     return array.filter((_, index) => {
@@ -22,6 +23,7 @@ export const Stack = ({ onVote, children }) => {
     <>
       <Frame>
         {stack.map((item, index) => {
+          console.log(stack);
           const isTop = index === stack.length - 1;
           return (
             <Card

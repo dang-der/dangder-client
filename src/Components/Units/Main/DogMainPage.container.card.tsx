@@ -75,9 +75,7 @@ export const Card = ({ children, onVote, ...props }) => {
       animate={controls}
       dragConstraints={constrained && { left: 0, right: 0, top: 0, bottom: 0 }}
       dragElastic={1}
-      ref={(e) => {
-        cardElem.current = e;
-      }}
+      ref={cardElem}
       style={{ x }}
       onDrag={getTrajectory}
       onDragEnd={() => flyAway(500)}
