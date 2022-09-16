@@ -1,15 +1,25 @@
 import styled from "@emotion/styled";
-import InfoIcon from "@mui/icons-material/Info";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   width: 100%;
   height: 100%;
-  padding: 0px 10px;
 `;
 
-export const DogProfileWrapper = styled.div``;
+export const DogProfileWrapper = styled.div`
+  width: calc(576px - 4rem);
+  max-width: 576px;
+  height: calc(100vh - 20rem);
+  @media screen and (max-width: 576px) {
+    width: calc(100vw - 4rem);
+  }
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+`;
 
 export const DogProfileHeader = styled.span`
   display: flex;
@@ -21,17 +31,20 @@ export const DogProfileHeader = styled.span`
 
 export const DogProfile = styled.div`
   position: relative;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  z-index: -1;
+  align-items: flex-end;
+  z-index: 1;
 `;
 
 export const DogPhoto = styled.img`
-  width: 23.7rem;
-  height: 24rem;
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
-  box-shadow: 0px 10px 53px 0px rgba(0, 0, 0, 0.3);
+  background-size: cover;
+  background-position: center;
 `;
 
 export const DogInfo = styled.div`
@@ -49,13 +62,14 @@ export const DogInfoHeader = styled.div`
 `;
 
 export const DogName = styled.span`
-  font-weight: 600;
+  font-size: 1.875rem;
+  font-weight: 700;
   margin-right: 3px;
 `;
 
 export const DogAge = styled.span`
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.875rem;
+  font-weight: 700;
 `;
 
 export const DogInfoBody = styled.div`
@@ -65,87 +79,64 @@ export const DogInfoBody = styled.div`
   align-items: left;
 `;
 
-export const DogDistance = styled.span`
-  font-size: 1rem;
+export const DogDescription = styled.span`
+  font-size: 1.25rem;
+  font-weight: 400;
 `;
 
-export const DogPlay = styled.span`
-  font-size: 1rem;
+export const ProfileEditButtonWrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  bottom: 0;
 `;
 
 export const ProfileEditButton = styled.div`
+  position: relative;
+  bottom: 2vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: -20px auto;
-  width: 7.8rem;
-  height: 2.7rem;
+  width: 7.625rem;
+  height: 3.125rem;
   border: none;
+  color: #ffffff;
   font-size: 1.25rem;
-  font-weight: 500;
-  background-color: #ffffff;
-  box-shadow: 0px 10px 53px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  font-weight: 600;
+  background-color: #304ffe;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border-radius: 30px;
   z-index: 1;
 `;
 
-export const DogMoneyWrapper = styled.div`
+export const SettingWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 24.3rem;
-  height: 9rem;
-  background-color: #f1f1f1;
-  border-radius: 20px;
-  padding: 5px;
-  margin-top: 30px;
-`;
-
-export const DogMoneyHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const title = styled.span``;
-
-export const InfomationIcon = styled(InfoIcon)`
-  font-size: 1.25rem;
-`;
-
-export const DogMoneyBody = styled.div``;
-
-export const Amount = styled.span`
-  font-size: 1.5rem;
-  font-weight: 700;
-`;
-
-export const LeftArrowIcon = styled(KeyboardArrowLeftIcon)`
-  font-size: 1.25rem;
-`;
-
-export const DogMoneyButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 9.5rem;
-  height: 1.875rem;
-  color: #ffffff;
-  background-color: #304ffe;
-  border-radius: 15px;
+  width: 100%;
+  height: 2rem;
+  background-color: #ffffff;
+  margin-top: 20px;
 `;
 
 export const DogProfileSetting = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
-  background-color: #ffffff;
-  padding: 2px;
-  margin-top: 20px;
+  padding: 0.6rem 0;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
 `;
 
-export const SettingButton = styled.div``;
+export const SettingSpan = styled.span`
+  color: #040404;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0 1rem;
+`;
 
-export const RightArrowIcon = styled(KeyboardArrowRightIcon)``;
+export const RightArrowIcon = styled(KeyboardArrowRightIcon)`
+  color: #040404;
+  font-size: 1.5rem;
+`;

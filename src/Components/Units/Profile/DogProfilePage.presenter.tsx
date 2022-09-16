@@ -1,54 +1,39 @@
 import Link from "next/link";
 import * as S from "./DogProfilePage.styles";
 
-// 댕댕이 프로필 api
-const dogInfo = {
-  name: "kkimi",
-  age: 1,
-  distance: 2,
-  play: "공놀이가 좋은",
-};
-
-export default function DogProfilePageUI() {
+export default function DogProfilePageUI(props: any) {
   return (
     <S.Wrapper>
       <S.DogProfileWrapper>
         <S.DogProfile>
-          <S.DogPhoto src="/dog1.jpg" />
+          {console.log(props.MyDogData)}
+          <S.DogPhoto src={props.MyDogData?.img.img} />
           <S.DogInfo>
             <S.DogInfoHeader>
-              <S.DogName>{dogInfo.name}</S.DogName>
-              <S.DogAge>{dogInfo.age}</S.DogAge>
+              <S.DogName>{props.MyDogData?.name}, </S.DogName>
+              <S.DogAge>{props.MyDogData?.age}</S.DogAge>
             </S.DogInfoHeader>
             <S.DogInfoBody>
-              <S.DogDistance>{dogInfo.distance}km</S.DogDistance>
-              <S.DogPlay>{dogInfo.play}</S.DogPlay>
+              <S.DogDescription>
+                {props.MyDogData?.description}
+              </S.DogDescription>
             </S.DogInfoBody>
           </S.DogInfo>
         </S.DogProfile>
-        <Link href="/profile/edit">
-          <S.ProfileEditButton>수정</S.ProfileEditButton>
-        </Link>
+        <S.ProfileEditButtonWrapper>
+          <Link href="/profile/edit">
+            <S.ProfileEditButton>수정</S.ProfileEditButton>
+          </Link>
+        </S.ProfileEditButtonWrapper>
       </S.DogProfileWrapper>
-      <S.DogMoneyWrapper>
-        <S.DogMoneyHeader>
-          <S.title>댕더 머니</S.title>
-          <S.InfomationIcon />
-        </S.DogMoneyHeader>
-        <S.DogMoneyBody>
-          <S.LeftArrowIcon />
-          <S.Amount>0</S.Amount>KRW
-        </S.DogMoneyBody>
-        <Link href="/payments">
-          <S.DogMoneyButton>충전</S.DogMoneyButton>
-        </Link>
-      </S.DogMoneyWrapper>
-      <S.DogProfileSetting>
+      <S.SettingWrapper>
         <Link href="/settings">
-          <S.SettingButton>설정</S.SettingButton>
+          <S.DogProfileSetting>
+            <S.SettingSpan>설정</S.SettingSpan>
+            <S.RightArrowIcon />
+          </S.DogProfileSetting>
         </Link>
-        <S.RightArrowIcon />
-      </S.DogProfileSetting>
+      </S.SettingWrapper>
     </S.Wrapper>
   );
 }

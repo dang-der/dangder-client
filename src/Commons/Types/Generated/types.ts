@@ -53,13 +53,25 @@ export type IChatMessage = {
   __typename?: 'ChatMessage';
   chatRoom: IChatRoom;
   id: Scalars['String'];
-  isRead: Scalars['Boolean'];
-  sendMessage: Scalars['String'];
+  lat?: Maybe<Scalars['Float']>;
+  lng?: Maybe<Scalars['Float']>;
+  meetAt?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  senderId: Scalars['String'];
+};
+
+/** 메시지 데이터 입력형식 */
+export type IChatMessageInput = {
+  lat?: InputMaybe<Scalars['Float']>;
+  lng?: InputMaybe<Scalars['Float']>;
+  meetAt?: InputMaybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']>;
   senderId: Scalars['String'];
 };
 
 export type IChatRoom = {
   __typename?: 'ChatRoom';
+  chatMessages: Array<IChatMessage>;
   chatPairId: Scalars['String'];
   dog: IDog;
   id: Scalars['String'];
@@ -85,7 +97,7 @@ export type ICreateOrderInput = {
 export type ICreateProductInput = {
   category: Scalars['String'];
   description: Scalars['String'];
-  price?: InputMaybe<Scalars['Int']>;
+  price: Scalars['Int'];
   productName: Scalars['String'];
 };
 
@@ -184,7 +196,7 @@ export type IMutation = {
   createCharacter: ICharacter;
   /** Return : 생성된 채팅 메시지 정보 */
   createChatMessage: IChatMessage;
-  /** 생성된 채팅방 정보 */
+  /** Return : 생성된 채팅방 정보 */
   createChatRoom: IChatRoom;
   createDog: IDog;
   createIamportAuth: Scalars['Boolean'];
@@ -218,6 +230,8 @@ export type IMutation = {
   getDogInfo: Scalars['Boolean'];
   /** return : 내가 좋아요 누른 댕댕이가 나를 좋아요 누른 기록 있는지 조회 */
   isLike: Scalars['Boolean'];
+  /** Return : 참가할 채팅방 정보(fetch + create) */
+  joinChatRoom: IChatRoom;
   /** Return : 재발급된 AccessToken */
   restoreAccessToken: Scalars['String'];
   /** Return : 재발급된 AdminAccessToken */
@@ -277,8 +291,8 @@ export type IMutationCreateCharacterArgs = {
 
 
 export type IMutationCreateChatMessageArgs = {
-  sendMessage: Scalars['String'];
-  senderId: Scalars['String'];
+  chatMessageInput: IChatMessageInput;
+  chatRoomId: Scalars['String'];
 };
 
 
@@ -395,8 +409,16 @@ export type IMutationIsLikeArgs = {
 };
 
 
+export type IMutationJoinChatRoomArgs = {
+  chatPairId: Scalars['String'];
+  dogId: Scalars['String'];
+};
+
+
 export type IMutationUpdateDogArgs = {
-  id: Scalars['String'];
+  dogId: Scalars['String'];
+  dogRegNum?: InputMaybe<Scalars['String']>;
+  ownerBirth?: InputMaybe<Scalars['String']>;
   updateDogInput: IUpdateDogInput;
 };
 
@@ -492,10 +514,12 @@ export type IQuery = {
   fetchBreeds: IBreed;
   /** 성격 정보 조회 */
   fetchCharacters: Array<ICharacter>;
-  /** Return : senderId로 찾은 메시지 정보 */
-  fetchChatMessagesBySenderId: Array<IChatMessage>;
-  /** 조회된 채팅방 정보(조회 실패시 false) */
+  /** Return : chatRoomId로 찾은 메시지들의 정보 */
+  fetchChatMessagesByChatRoomId: Array<IChatMessage>;
+  /** Return : 조회된 채팅방 정보 */
   fetchChatRoom: IChatRoom;
+  /** Return : dogId로 참가한 채팅방들의 정보 */
+  fetchChatRooms: Array<IChatRoom>;
   fetchDogImage: Array<IDogImage>;
   /**  Return : 모든 강아지 정보 */
   fetchDogs: Array<IDog>;
@@ -535,13 +559,18 @@ export type IQueryFetchBlockUserArgs = {
 };
 
 
-export type IQueryFetchChatMessagesBySenderIdArgs = {
-  senderId: Scalars['String'];
+export type IQueryFetchChatMessagesByChatRoomIdArgs = {
+  chatRoomId: Scalars['String'];
 };
 
 
 export type IQueryFetchChatRoomArgs = {
   chatPairId: Scalars['String'];
+  dogId: Scalars['String'];
+};
+
+
+export type IQueryFetchChatRoomsArgs = {
   dogId: Scalars['String'];
 };
 
@@ -685,7 +714,7 @@ export type ICreateDogInput = {
   birthday: Scalars['String'];
   characters?: InputMaybe<Array<Scalars['String']>>;
   description: Scalars['String'];
-  img: Array<Scalars['String']>;
+  img?: InputMaybe<Array<Scalars['String']>>;
   interests?: InputMaybe<Array<Scalars['String']>>;
   locations: ILocationInput;
   userId: Scalars['String'];
