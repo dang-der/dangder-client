@@ -1,25 +1,13 @@
-import { useApolloClient, useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
+import { useQuery } from "@apollo/client";
 import {
   IQuery,
   IQueryFetchDogImageArgs,
   IQueryFetchMyDogArgs,
 } from "../../../Commons/Types/Generated/types";
 import DogProfilePageUI from "./DogProfilePage.presenter";
-import {
-  FETCH_LOGIN_USER,
-  FETCH_MY_DOG,
-  FETCH_DOG_IMAGE,
-} from "./DogProfilePage.queries";
+import { FETCH_MY_DOG, FETCH_DOG_IMAGE } from "./DogProfilePage.queries";
 
 export default function DogProfilePage() {
-  const router = useRouter();
-  const client = useApolloClient();
-
-  // const { data } = await client.query({ query:s FETCH_LOGIN_USER });
-
-  // if (!data) return;
-
   const { data: MyDogData } = useQuery<
     Pick<IQuery, "fetchMyDog">,
     IQueryFetchMyDogArgs
