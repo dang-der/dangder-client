@@ -21,6 +21,7 @@
     "@mui/material": "^5.10.3",
     "antd": "^4.22.8",
     "apollo-upload-client": "^17.0.0",
+    "framer-motion": "6.3.11",
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",
     "moment": "^2.29.4",
