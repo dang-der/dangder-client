@@ -3,6 +3,9 @@ import { IQuery } from "../../../Commons/Types/Generated/types";
 import * as S from "./DogDetail.styles";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { MouseEvent } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 interface DogDetailUIProps {
   handleCreateLike: () => Promise<void>;
@@ -25,6 +28,14 @@ export default function DogDetailUI({
     handleCreateLike();
   };
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   // const onClickMoveReport = () => {
   //   router.push("/report");
   // };
@@ -33,9 +44,25 @@ export default function DogDetailUI({
     <S.Wrapper>
       <S.DetailWrapper>
         <S.DetailImageWrapper>
-          <S.DetailImage
-            src={pickDogData?.fetchOneDog?.img[0].img}
-          ></S.DetailImage>
+          <Slider
+            dots={settings.dots}
+            infinite={settings.infinite}
+            speed={settings.speed}
+            slidesToShow={settings.slidesToShow}
+            slidesToScroll={settings.slidesToScroll}
+          >
+            <S.DetailImage
+              src={pickDogData?.fetchOneDog?.img[0].img}
+            ></S.DetailImage>
+            <S.DetailImage
+              // src={"/dog2.jpeg"}
+              src={pickDogData?.fetchOneDog?.img[0]?.img}
+            ></S.DetailImage>
+            <S.DetailImage
+              // src={"/dog5.jpeg"}
+              src={pickDogData?.fetchOneDog?.img[0]?.img}
+            ></S.DetailImage>
+          </Slider>
         </S.DetailImageWrapper>
 
         <S.DetailContent>
@@ -45,10 +72,10 @@ export default function DogDetailUI({
               <S.DetailAge>{pickDogData?.fetchOneDog.age}</S.DetailAge>
             </S.DetailInfor>
             <S.DetailMoveBackWrapper>
-              <S.DetailContentMoveBack
+              {/* <S.DetailContentMoveBack
                 onClick={onClickMoveBack}
                 src="/backIcon.png"
-              />
+              /> */}
             </S.DetailMoveBackWrapper>
             {/* <S.DetailReport>
                             <S.DetailMoveReport onClick={onClickMoveReport}></S.DetailMoveReport>

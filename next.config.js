@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   trailingSlash: true,
   webpack: (config) => {
@@ -14,7 +14,6 @@ const nextConfig = {
   generateBuildId: () => "dangder",
   exportPathMap: () => ({
     "/": { page: "/" },
-    "/test": { page: "/test" },
     "/404": { page: "/404" },
   }),
 };

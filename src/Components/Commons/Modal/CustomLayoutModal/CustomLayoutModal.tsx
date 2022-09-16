@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import styled from "@emotion/styled";
 
-const DimWrapper = styled.div`
+export const DimWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 50%;
@@ -11,7 +11,7 @@ const DimWrapper = styled.div`
   max-width: 576px;
   width: 100%;
   height: 100%;
-  background-color: #00000099;
+  background-color: #000000cc;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -13,7 +13,7 @@ const schema = yup.object({
     .string()
     .matches(
       /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/gi,
-      "이메일(@, com, net 등)을 입력해주세요"
+      "이메일 아이디를 @까지 정확하게 입력해 주세요."
     )
     .required("이메일을 입력해주세요."),
 });
