@@ -31,6 +31,7 @@ export const DogProfileHeader = styled.span`
 
 export const DogProfile = styled.div`
   position: relative;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -39,12 +40,21 @@ export const DogProfile = styled.div`
   z-index: 1;
 `;
 
-export const DogPhoto = styled.img`
+export const DogProfileImageWrapper = styled.div`
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+`;
+
+export const DogPhoto = styled.img`
+  width: calc(576px - 4rem);
+  max-width: 576px;
+  height: calc(100vh - 20rem);
+  @media screen and (max-width: 576px) {
+    width: calc(100vw - 4rem);
+  }
   background-size: cover;
   background-position: center;
+  border-radius: 10px;
 `;
 
 export const DogInfo = styled.div`

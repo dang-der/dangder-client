@@ -2,10 +2,15 @@ import { useApolloClient, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
   IQuery,
+  IQueryFetchDogImageArgs,
   IQueryFetchMyDogArgs,
 } from "../../../Commons/Types/Generated/types";
 import DogProfilePageUI from "./DogProfilePage.presenter";
-import { FETCH_LOGIN_USER, FETCH_MY_DOG } from "./DogProfilePage.queries";
+import {
+  FETCH_LOGIN_USER,
+  FETCH_MY_DOG,
+  FETCH_DOG_IMAGE,
+} from "./DogProfilePage.queries";
 
 export default function DogProfilePage() {
   const router = useRouter();
@@ -22,5 +27,15 @@ export default function DogProfilePage() {
     variables: { userId: "5fa492f0-4fb4-4c32-9454-fbc6aab34704" },
   });
 
-  return <DogProfilePageUI MyDogData={MyDogData?.fetchMyDog} />;
+  const { data: MyDogImage } = useQuery<
+    Pick<IQuery, "fetchDogImage">,
+    IQueryFetchDogImageArgs
+  >(FETCH_DOG_IMAGE);
+
+  return (
+    <DogProfilePageUI
+      MyDogData={MyDogData?.fetchMyDog}
+      MyDogImage={MyDogImage}
+    />
+  );
 }

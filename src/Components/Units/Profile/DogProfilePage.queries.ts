@@ -23,3 +23,11 @@ export const FETCH_MY_DOG = gql`
     }
   }
 `;
+
+export const FETCH_DOG_IMAGE = gql`
+  query fetchDogImage($dogId: String!) {
+    fetchDogImage(dogId: $dogId) {
+      img
+    }
+  }
+`;
