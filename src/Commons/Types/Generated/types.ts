@@ -147,7 +147,7 @@ export type IInterest = {
 
 export type ILike = {
   __typename?: 'Like';
-  createdAt: Scalars['DateTime'];
+  createdAt: Scalars['String'];
   id: Scalars['String'];
   receiveId: Scalars['String'];
   sendId: IDog;
@@ -191,7 +191,7 @@ export type IMutation = {
   /** 관심사 항목 생성 */
   createInterest: IInterest;
   /** return : 이 댕댕이에게 좋아요를 누르기 */
-  createLike: ILike;
+  createLike: Scalars['Boolean'];
   /** Return : 메일발송 성공 여부 (true / false) */
   createMailToken: Scalars['Boolean'];
   createOrder: IOrder;
@@ -211,6 +211,8 @@ export type IMutation = {
   deleteChatRoom: Scalars['Boolean'];
   deleteDog: Scalars['Boolean'];
   deleteInterest: Scalars['Boolean'];
+  deleteOrder: Scalars['Boolean'];
+  deleteProduct: Scalars['Boolean'];
   /** Return : deletedAt(유저 정보 삭제된 시간) */
   deleteUser: Scalars['Boolean'];
   getDogInfo: Scalars['Boolean'];
@@ -222,6 +224,8 @@ export type IMutation = {
   restoreAdminAccessToken: Scalars['String'];
   updateDog: IDog;
   updateDogsLocation: ILocation;
+  updateOrder: IOrder;
+  updateProduct: IProduct;
   /** Return : 바뀐 유저 정보 */
   updateUser: IUser;
   /** Return : 버킷 주소 (파일 위치). prefix : [https://storage.googleapis.com/] */
@@ -364,6 +368,16 @@ export type IMutationDeleteInterestArgs = {
 };
 
 
+export type IMutationDeleteOrderArgs = {
+  id: Scalars['String'];
+};
+
+
+export type IMutationDeleteProductArgs = {
+  id: Scalars['String'];
+};
+
+
 export type IMutationDeleteUserArgs = {
   email: Scalars['String'];
 };
@@ -394,6 +408,18 @@ export type IMutationUpdateDogsLocationArgs = {
 };
 
 
+export type IMutationUpdateOrderArgs = {
+  id: Scalars['String'];
+  updateOrderInput: IUpdateOrderInput;
+};
+
+
+export type IMutationUpdateProductArgs = {
+  id: Scalars['String'];
+  updateProductInput: IUpdateProductInput;
+};
+
+
 export type IMutationUpdateUserArgs = {
   email: Scalars['String'];
   updateUserInput: IUpdateUserInput;
@@ -421,6 +447,7 @@ export type IOrder = {
   address: Scalars['String'];
   comment: Scalars['String'];
   createdAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
   goodsQnt: Scalars['Int'];
   id: Scalars['String'];
   phone: Scalars['String'];
@@ -445,6 +472,7 @@ export type IPayment = {
 export type IProduct = {
   __typename?: 'Product';
   category: Scalars['String'];
+  deletedAt: Scalars['DateTime'];
   description: Scalars['String'];
   id: Scalars['String'];
   price: Scalars['Int'];
@@ -482,6 +510,7 @@ export type IQuery = {
   fetchOneDog: IDog;
   fetchOrderById: IOrder;
   fetchOrderByPhone: IOrder;
+  fetchProduct: IProduct;
   /** Return : 신고 정보 */
   fetchTarget: IReport;
   /** return : 좋아요 많이 받은 12마리 댕댕이 */
@@ -557,6 +586,11 @@ export type IQueryFetchOrderByPhoneArgs = {
 };
 
 
+export type IQueryFetchProductArgs = {
+  id: Scalars['String'];
+};
+
+
 export type IQueryFetchTargetArgs = {
   targetId: Scalars['String'];
 };
@@ -582,9 +616,10 @@ export type IReport = {
 /** 인기댕댕 */
 export type ITodayLikeDogOutput = {
   __typename?: 'TodayLikeDogOutput';
+  age: Scalars['Int'];
   id: Scalars['String'];
-  receivedId: Scalars['String'];
-  sendId: Scalars['String'];
+  mainImg: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type IUpdateDogInput = {
@@ -597,6 +632,21 @@ export type IUpdateDogInput = {
   interests?: InputMaybe<Array<Scalars['String']>>;
   locations?: InputMaybe<ILocationInput>;
   userId?: InputMaybe<Scalars['String']>;
+};
+
+export type IUpdateOrderInput = {
+  address?: InputMaybe<Scalars['String']>;
+  comment?: InputMaybe<Scalars['String']>;
+  goodsQnt?: InputMaybe<Scalars['Int']>;
+  phone?: InputMaybe<Scalars['String']>;
+  receiver?: InputMaybe<Scalars['String']>;
+};
+
+export type IUpdateProductInput = {
+  category?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['Int']>;
+  productName?: InputMaybe<Scalars['String']>;
 };
 
 export type IUpdateUserInput = {
@@ -615,13 +665,16 @@ export type IUser = {
   __typename?: 'User';
   createdAt: Scalars['DateTime'];
   ddMoney: Scalars['Int'];
+  dog: IDog;
   donateGrade: Scalars['String'];
   donateTotal: Scalars['Int'];
   email: Scalars['String'];
   id: Scalars['String'];
   isCert: Scalars['Boolean'];
+  payment: IPayment;
   pet: Scalars['Boolean'];
-  phone?: Maybe<Scalars['String']>;
+  phone: Scalars['String'];
+  report: IReport;
   reportCnt: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
 };
