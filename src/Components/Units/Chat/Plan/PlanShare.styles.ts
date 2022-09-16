@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   padding: 0 1rem;
   display: flex;
   flex-direction: column;
+  background-color: white;
 `;
 
 export const SubTitleWrapper = styled.span`

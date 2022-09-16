@@ -4,20 +4,45 @@ import { v4 as uuid } from "uuid";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
+import Map from "../../../Commons/Map/Map";
 
-import ChatDateDividerItem from "./ChatDateDividerItem/ChatDateDividerItem";
 import ChatMessageItem from "./ChatMessageItem/ChatMessageItem";
 import * as S from "./ChatRoom.styles";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { IInfo, IMessage } from "./ChatRoom.container";
+import { DimWrapper } from "../../../Commons/Modal/CustomLayoutModal/CustomLayoutModal";
 
-export default function ChatRoomUI() {
-  const router = useRouter();
+import PlaceShareContainer from "../Place/PlaceShare.container";
+import PlanShareContainer from "../Plan/PlanShare.container";
+import ChatPlaceItem from "./ChatPlaceItem/ChatPlaceItem";
+import ChatPlanItem from "./ChatPlanItem/ChatPlanItem";
 
+interface ChatRoomUIProps {
+  handleEmitSend: ({ type, data }: { type: string; data: any }) => void;
+  messages: IMessage[];
+  myInfo: IInfo | undefined;
+}
+
+export default function ChatRoomUI({
+  handleEmitSend,
+  messages,
+  myInfo,
+}: ChatRoomUIProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isOpenPlace, setIsOpenPlace] = useState(false);
+  const [isOpenPlan, setIsOpenPlan] = useState(false);
+
+  const bottomRef = useRef<HTMLDivElement>(null);
+
   const { register, handleSubmit, reset } = useForm();
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  });
 
   const onClickSend = (inputs: any) => {
     console.log("onClickSend", inputs);
+    handleEmitSend({ type: "text", data: { message: inputs.message } });
     reset({
       message: "",
     });
@@ -27,16 +52,34 @@ export default function ChatRoomUI() {
     setIsOpenMenu((p) => !p);
   };
 
-  const onClickPlaceShare = () => {
-    router.push(`${router.asPath}place`);
+  const togglePlaceShare = () => {
+    setIsOpenPlace((p) => !p);
   };
 
-  const onClickPlanShare = () => {
-    router.push(`${router.asPath}plan`);
+  const togglePlanShare = () => {
+    setIsOpenPlan((p) => !p);
   };
 
   return (
     <S.Wrapper>
+      {isOpenPlace && (
+        <DimWrapper>
+          <PlaceShareContainer
+            handleEmitSend={handleEmitSend}
+            toggleModal={togglePlaceShare}
+          />
+        </DimWrapper>
+      )}
+
+      {isOpenPlan && (
+        <DimWrapper>
+          <PlanShareContainer
+            handleEmitSend={handleEmitSend}
+            toggleModal={togglePlanShare}
+          />
+        </DimWrapper>
+      )}
+
       <S.ChatHeader>
         <S.OtherDogContainer>
           <S.OtherDogImage src="/favicon.ico" />
@@ -45,27 +88,31 @@ export default function ChatRoomUI() {
       </S.ChatHeader>
 
       <S.ChatMessagesWrapper>
-        {/* todo : 메세지 날짜가 변경되는 부분에서 날짜 구분 컴포넌트 넣어주기 */}
-        {Array(10)
-          .fill(0)
-          .map((e, i) => {
-            // todo : 로그인된 사용자 강아지 id랑 아닌 강아지id랑 비교해서 isMine비교
-            if (i % 3 === 0) {
-              return (
-                <>
-                  <ChatDateDividerItem date={"0000년 00월 00일"} />
-                  <ChatMessageItem isMine={i % 4 === 0} />
-                </>
-              );
-            }
-            return <ChatMessageItem key={uuid()} isMine={i % 4 === 0} />;
-          })}
+        {messages.map(({ type, data, dog }: IMessage, i) => {
+          if (type === "text")
+            return (
+              <ChatMessageItem
+                key={i}
+                message={data.message}
+                isMine={dog.id === myInfo?.dog.id}
+              />
+            );
+
+          if (type === "place")
+            return <ChatPlaceItem key={i} dog={dog} data={data} />;
+          if (type === "plan")
+            return <ChatPlanItem key={i} dog={dog} data={data} />;
+          return <S.EnterMessage key={i}>{data.message}</S.EnterMessage>;
+        })}
+        <div ref={bottomRef}></div>
       </S.ChatMessagesWrapper>
 
       <S.ChatInputWrapper isOpen={isOpenMenu}>
         <S.MessageInputWrapper onSubmit={handleSubmit(onClickSend)}>
-          <S.IconWrapper onClick={onClickPlusIcon}>
-            <AddRoundedIcon />
+          <S.IconWrapper type="button" onClick={onClickPlusIcon}>
+            <S.OpenMenuIconWrapper isOpen={isOpenMenu}>
+              <AddRoundedIcon />
+            </S.OpenMenuIconWrapper>
           </S.IconWrapper>
           <S.MessageInput
             {...register("message")}
@@ -78,14 +125,14 @@ export default function ChatRoomUI() {
 
         {isOpenMenu && (
           <S.BottomMenuContainerWrapper>
-            <S.MenuWrapper onClick={onClickPlaceShare}>
+            <S.MenuWrapper onClick={togglePlaceShare}>
               <S.MenuCircle>
                 <img src="/ic_marker_white.svg" />
               </S.MenuCircle>
               <span>장소공유</span>
             </S.MenuWrapper>
 
-            <S.MenuWrapper onClick={onClickPlanShare}>
+            <S.MenuWrapper onClick={togglePlanShare}>
               <S.MenuCircle>
                 <CalendarMonthRoundedIcon />
               </S.MenuCircle>

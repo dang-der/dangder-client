@@ -14,7 +14,7 @@ export const Wrapper = styled.button`
   font-size: 1.5rem;
   border: none;
 
-  @media (min-width: 576px) {
+  @media (min-width: 575px) {
     width: calc(576px - 3rem);
   }
 `;

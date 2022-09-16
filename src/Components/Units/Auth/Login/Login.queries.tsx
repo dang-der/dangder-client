@@ -12,6 +12,12 @@ import { gql } from "@apollo/client";
         id
         email
         pet
+        dog {
+          id
+          name
+          age
+          gender
+        }
       }
     }
   `;

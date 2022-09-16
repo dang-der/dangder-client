@@ -24,6 +24,7 @@ interface IMapProps {
 function Map({ position, address, onChangeMarker }: IMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>();
+  const [marker, setMarker] = useState<any>();
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -34,9 +35,20 @@ function Map({ position, address, onChangeMarker }: IMapProps) {
       window.kakao.maps.load(() => {
         const coords = new window.kakao.maps.LatLng(33.450701, 126.570667);
 
+        const imageSrc = "/ic_marker.svg";
+        const imageSize = new window.kakao.maps.Size(64, 69);
+
+        const markerImage = new window.kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize
+        );
+
         const marker = new window.kakao.maps.Marker({
           position: coords,
+          image: markerImage,
         });
+
+        setMarker(marker);
 
         const options = {
           center: coords,
@@ -48,6 +60,8 @@ function Map({ position, address, onChangeMarker }: IMapProps) {
 
         setMap(map);
         marker.setMap(map);
+
+        if (!onChangeMarker) return;
 
         window.kakao.maps.event.addListener(map, "click", (mouseEvent: any) => {
           console.log("map Click", mouseEvent.latLng);
@@ -70,11 +84,7 @@ function Map({ position, address, onChangeMarker }: IMapProps) {
 
     if (position?.lat && position?.lng) {
       const coord = new window.kakao.maps.LatLng(position.lat, position.lng);
-      const marker = new window.kakao.maps.Marker({
-        position: coord,
-      });
-
-      marker.setMap(map);
+      marker.setPosition(coord);
       map.setCenter(coord);
     }
   }, [position, map, address]);
