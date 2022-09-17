@@ -544,8 +544,8 @@ export type IQuery = {
   fetchDogs: Array<IDog>;
   fetchDogsDistance: Array<IDistanceType>;
   fetchInterests: Array<IInterest>;
-  /** Return : 로그인한 유저 데이터 */
-  fetchLoginUser: IUser;
+  /** Return : 로그인한 유저, 유저의 강아지 데이터 */
+  fetchLoginUser: IUserOutput;
   fetchMainDogImage: Array<IDogImage>;
   /** 유저 정보로 내 강아지 정보 조회 */
   fetchMyDog: IDog;
@@ -725,6 +725,13 @@ export type IUser = {
   report: IReport;
   reportCnt: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
+};
+
+/** fetchLoginUser 의 Return Type */
+export type IUserOutput = {
+  __typename?: 'UserOutput';
+  dog?: Maybe<IDog>;
+  user?: Maybe<IUser>;
 };
 
 export type ICreateDogInput = {
