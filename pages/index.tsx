@@ -7,6 +7,8 @@ import {
   IQueryFetchAroundDogsArgs,
 } from "../src/Commons/Types/Generated/types";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../src/Commons/Store/Auth/UserInfoState";
 
 // 로그인 유저 정보 조회
 const FETCH_LOGIN_USER = gql`
@@ -36,38 +38,36 @@ const FETCH_AROUND_DOGS = gql`
 `;
 
 export default function Main() {
+  const [userInfo, _] = useRecoilState(userInfoState);
+
   const [aroundDogsList, setAroundDogsList] = useState<IDog[] | undefined>();
   const [startPage, setStartPage] = useState(1);
   const [activePage, setActivePage] = useState(1);
 
-  const { data: LoginUserData } =
-    useQuery<Pick<IQuery, "fetchLoginUser">>(FETCH_LOGIN_USER);
+  console.log(userInfo);
 
-  const userId = String(LoginUserData?.fetchLoginUser.id);
-  const MyDogId = String(LoginUserData?.fetchLoginUser.dog.id);
+  // const { data: AroundDogsData, refetch } = useQuery<
+  //   Pick<IQuery, "fetchAroundDogs">,
+  //   IQueryFetchAroundDogsArgs
+  // >(FETCH_AROUND_DOGS, {
+  //   variables: { id: MyDogId, page: 1 },
+  // });
 
-  const { data: AroundDogsData, refetch } = useQuery<
-    Pick<IQuery, "fetchAroundDogs">,
-    IQueryFetchAroundDogsArgs
-  >(FETCH_AROUND_DOGS, {
-    variables: { id: MyDogId, page: 1 },
-  });
+  // useEffect(() => {
+  //   if (!AroundDogsData?.fetchAroundDogs) return;
+  //   setAroundDogsList(AroundDogsData?.fetchAroundDogs);
+  //   console.log("mount: ", AroundDogsData?.fetchAroundDogs);
+  // }, []);
 
-  useEffect(() => {
-    if (!AroundDogsData?.fetchAroundDogs) return;
-    setAroundDogsList(AroundDogsData?.fetchAroundDogs);
-    console.log("mount: ", AroundDogsData?.fetchAroundDogs);
-  }, []);
-
-  useEffect(() => {
-    if (!AroundDogsData?.fetchAroundDogs) return;
-    setAroundDogsList(AroundDogsData?.fetchAroundDogs);
-    console.log("change: ", AroundDogsData?.fetchAroundDogs);
-  }, [AroundDogsData]);
+  // useEffect(() => {
+  //   if (!AroundDogsData?.fetchAroundDogs) return;
+  //   setAroundDogsList(AroundDogsData?.fetchAroundDogs);
+  //   console.log("change: ", AroundDogsData?.fetchAroundDogs);
+  // }, [AroundDogsData]);
 
   return (
     <Wrapper>
-      <DogCardWrapper onVote={(item, vote) => console.log(item.props, vote)}>
+      {/* <DogCardWrapper onVote={(item, vote) => console.log(item.props, vote)}>
         {(AroundDogsData?.fetchAroundDogs || []).map((el: IDog, i) => (
           <Item key={el.id} className="item">
             <DogProfile src="/dog1.jpg" />
@@ -76,7 +76,7 @@ export default function Main() {
             <DogDescription>{el.description}</DogDescription>
           </Item>
         ))}
-      </DogCardWrapper>
+      </DogCardWrapper> */}
     </Wrapper>
   );
 }
