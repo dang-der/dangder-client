@@ -17,10 +17,10 @@ import { gql } from "@apollo/client";
           name
           age
           gender
-          img {
-            id
-            # img
-          }
+          # img {
+          #   id
+          #   # img
+          # }
         }
       }
     }
