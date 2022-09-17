@@ -13,6 +13,12 @@ import { v4 as uuid } from "uuid"
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
+import { useMutation } from "@apollo/client";
+import { USER_LOGIN } from "../Login/Login.queries";
+import {
+  IMutation,
+  IMutationUserLoginArgs,
+} from "../../../../Commons/Types/Generated/types";
 
 interface SignUpUIprops {
   handleSignUp: (
@@ -54,8 +60,9 @@ export default function SignUpUI({
     // 비밀번호 입력 페이지
     if (currentPageIndex === 2) {
       const result = await handleSignUp(inputs?.email, inputs?.password);
+
       console.log("signUp", result);
-      result && router.replace("/auth/login");
+      // result && router.replace("/auth/login");
     }
   };
 

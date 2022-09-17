@@ -1,9 +1,11 @@
 import { useMutation, useQuery } from "@apollo/client";
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useGeolocation from "react-hook-geolocation";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { loggedInUserLoadable } from "../../../../Commons/Store/Auth/AccessToken";
+import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 import {
   IProfileInputState,
   profileInputState,
@@ -27,11 +29,10 @@ import {
 } from "./InitProfile.queries";
 
 export default function InitProfileContainer() {
-  const [regNumErrorVisible, setRegNumErrorVisible] = useState(false);
-
-  const { contents: user } = useRecoilValueLoadable(loggedInUserLoadable);
-
+  const router = useRouter();
   const geo = useGeolocation();
+
+  const [regNumErrorVisible, setRegNumErrorVisible] = useState(false);
 
   const { data: charactersData } =
     useQuery<Pick<IQuery, "fetchCharacters">>(FETCH_CHARACTERS);
@@ -53,7 +54,6 @@ export default function InitProfileContainer() {
     Pick<IMutation, "uploadFile">,
     IMutationUploadFileArgs
   >(UPLOAD_FILE);
-
 
   const handleCheckDogRegisterNumber = async (inputs: any) => {
     console.log("handleCheckDogRegisterNumber", inputs);
@@ -90,10 +90,8 @@ export default function InitProfileContainer() {
   };
 
   const handleCreateDog =
-    (location: { lat: number; lng: number } | undefined, user: IUser) =>
+    (location: { lat: number; lng: number } | undefined) =>
     async (inputs: IProfileInputState) => {
-      console.log("handleCheckDogRegisterNumber", user);
-
       const ownerBirth =
         String(inputs.ownerBirthYear).substring(2) +
         String(inputs.ownerBirthMonth).padStart(2, "0") +
@@ -130,7 +128,7 @@ export default function InitProfileContainer() {
                 lng: location?.lng || 0,
               },
               img: filesData.uploadFile,
-              userId: user?.id || "",
+              userId: String(router.query.user || ""),
             },
             dogRegNum: inputs.registerNumber,
             ownerBirth,
@@ -153,20 +151,17 @@ export default function InitProfileContainer() {
         setVisible={setRegNumErrorVisible}
       />
 
-      {geo.latitude && user && (
+      {geo.latitude && (
         <InitProfileUI
           selectedData={{
             characters: charactersData,
             interests: interestsData,
           }}
           handleCheckDogRegisterNumber={handleCheckDogRegisterNumber}
-          handleCreateDog={handleCreateDog(
-            {
-              lat: geo.latitude,
-              lng: geo.longitude,
-            },
-            user
-          )}
+          handleCreateDog={handleCreateDog({
+            lat: geo.latitude,
+            lng: geo.longitude,
+          })}
         />
       )}
     </>
