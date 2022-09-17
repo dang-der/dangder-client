@@ -10,13 +10,11 @@ const SHOW_LOGO_HEADERS = ["/", "/[dogId]"];
 // TODO: 채팅방 - 약속 설정에 페이지 타이틀 헤더 추가
 const SHOW_PAGE_HEADERS = [
   "/auth/password-reset",
-  "/auth/signup",
   "/today",
   "/chat/[roomId]",
   "/chat",
   "/profile",
   "/profile/edit",
-  "/profile/init",
   "/settings",
 ];
 
@@ -59,10 +57,14 @@ export default function Layout(props: ILayoutProps) {
 
   return (
     <Wrapper>
-      <HeaderWrapper>
-        {isShowLogoHeader && <LogoHeader />}
-        {isShowPageHeader && <PageHeader />}
-      </HeaderWrapper>
+      {isShowLogoHeader ||
+        (isShowPageHeader && (
+          <HeaderWrapper>
+            {isShowLogoHeader && <LogoHeader />}
+            {isShowPageHeader && <PageHeader />}
+          </HeaderWrapper>
+        ))}
+
       <ContentsWrapper>{props.children}</ContentsWrapper>
       {isShowNavigation && (
         <TabWrapper>

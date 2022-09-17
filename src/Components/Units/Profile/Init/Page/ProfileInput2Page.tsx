@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { profileInputState } from "../../../../../Commons/Store/Profile/ProfileInitState";
 import {
@@ -40,11 +40,15 @@ export default function ProfileInput2Page({
   ];
   const fakeAvoid = ["진돗개", "코네카르소", "불독"];
 
+  useEffect(() => {
+    console.log(inputs);
+  }, [inputs]);
+
   const onClickValue = (category: string, value: string) => () => {
     setInputs((p) => {
       const copy = [...p.createDogInput[category]];
 
-      inputs.createDogInput.interests.includes(value)
+      inputs.createDogInput[category].includes(value)
         ? copy.splice(copy.indexOf(value), 1)
         : copy.push(value);
 
@@ -79,7 +83,7 @@ export default function ProfileInput2Page({
         ))}
       </S.TagWrapper>
 
-      <S.SubTitleWrapper>
+      <S.SubTitleWrapper style={{ marginTop: "2.5rem" }}>
         우리 댕댕이의 관심사를 설정해주세요.
       </S.SubTitleWrapper>
       <S.TagWrapper>
@@ -94,7 +98,7 @@ export default function ProfileInput2Page({
         ))}
       </S.TagWrapper>
 
-      <S.SubTitleWrapper>
+      <S.SubTitleWrapper style={{ marginTop: "2.5rem" }}>
         우리 댕댕이가 무서워하는 견종을 선택해주세요.
       </S.SubTitleWrapper>
       <S.TagWrapper>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { signUpInputState } from "../../../../Commons/Store/Auth/SignUpState";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 
 import Page from "../../../Commons/PageStack/Page";
 import PageStack from "../../../Commons/PageStack/PageStack";
@@ -56,8 +57,17 @@ export default function SignUpUI({
     }
   };
 
+  const onClickPrevPage = () => {
+    if (currentPageIndex - 1 < 0) return;
+    setCurrentPageIndex((p) => p - 1);
+  };
+
   return (
     <S.Wrapper>
+      <S.Header>
+        <ArrowBackRoundedIcon onClick={onClickPrevPage} />
+        <span>회원가입</span>
+      </S.Header>
       <S.PageStackWrapper>
         <PageStack currentPageIndex={currentPageIndex}>
           <Page>

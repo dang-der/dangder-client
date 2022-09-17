@@ -11,6 +11,7 @@ export const Wrapper = styled.div`
 export const GuidanceWrapper = styled.h1`
   font-weight: 700;
   font-size: 2.1rem;
+  margin-bottom: 3.5rem;
 `;
 
 export const SubTitleWrapper = styled.span`
