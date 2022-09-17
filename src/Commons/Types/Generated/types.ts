@@ -58,21 +58,24 @@ export type ICharacter = {
 export type IChatMessage = {
   __typename?: "ChatMessage";
   chatRoom: IChatRoom;
-  id: Scalars["String"];
-  lat?: Maybe<Scalars["Float"]>;
-  lng?: Maybe<Scalars["Float"]>;
-  meetAt?: Maybe<Scalars["String"]>;
-  message?: Maybe<Scalars["String"]>;
-  senderId: Scalars["String"];
+  id: Scalars['String'];
+  lat?: Maybe<Scalars['Float']>;
+  lng?: Maybe<Scalars['Float']>;
+  meetAt?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  senderId: Scalars['String'];
+  type: Scalars['String'];
+
 };
 
 /** 메시지 데이터 입력형식 */
 export type IChatMessageInput = {
-  lat?: InputMaybe<Scalars["Float"]>;
-  lng?: InputMaybe<Scalars["Float"]>;
-  meetAt?: InputMaybe<Scalars["String"]>;
-  message?: InputMaybe<Scalars["String"]>;
-  senderId: Scalars["String"];
+  lat?: InputMaybe<Scalars['Float']>;
+  lng?: InputMaybe<Scalars['Float']>;
+  meetAt?: InputMaybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']>;
+  senderId: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type IChatRoom = {
