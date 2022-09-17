@@ -13,7 +13,6 @@ const nextConfig = {
   },
   generateBuildId: () => "dangder",
   exportPathMap: () => ({
-    "/": { page: "/" },
     "/404": { page: "/404" },
   }),
 };
