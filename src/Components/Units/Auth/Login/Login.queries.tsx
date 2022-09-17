@@ -9,14 +9,20 @@ export const USER_LOGIN = gql`
 export const FETCH_LOGIN_USER = gql`
   query fetchLoginUser {
     fetchLoginUser {
-      id
-      email
-      pet
+      user {
+        id
+        email
+        pet
+      }
       dog {
         id
         name
         age
         gender
+        description
+        img {
+          img
+        }
       }
     }
   }
