@@ -17,8 +17,8 @@ const LottieWrapper = styled.div`
   width: 50%;
 `;
 interface LoadingModalProps {
-  visible: boolean;
-  setVisible: Dispatch<SetStateAction<boolean>>;
+  visible?: boolean;
+  setVisible?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function LoadingModal({
@@ -26,6 +26,8 @@ export default function LoadingModal({
   setVisible,
 }: LoadingModalProps) {
   const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
+    if (!setVisible) return;
+
     if (typeof visible === "boolean") {
       setVisible(visible);
       return;

@@ -33,32 +33,31 @@ export default function InitProfileUI({
   const onClickNext = async () => {
     console.log("onClickNext", currentPageIndex);
 
-    setCurrentPageIndex((p) => p + 1);
-    // // 강아지 등록번호 입력 페이지
-    // if (currentPageIndex === 0) {
-    //   const result = await handleCheckDogRegisterNumber(inputs);
-    //   result && setCurrentPageIndex(currentPageIndex + 1);
-    // }
+    // 강아지 등록번호 입력 페이지
+    if (currentPageIndex === 0) {
+      const result = await handleCheckDogRegisterNumber(inputs);
+      result && setCurrentPageIndex(currentPageIndex + 1);
+    }
 
-    // // 댕댕이 프로필 설정
-    // if (currentPageIndex === 1) {
-    //   if (
-    //     inputs.createDogInput.imageUrls.length < 1 &&
-    //     (!inputs.createDogInput.dogBirthYear ||
-    //       !inputs.createDogInput.dogBirthMonth ||
-    //       !inputs.createDogInput.dogBirthDay) &&
-    //     !inputs.createDogInput.introduce
-    //   ) {
-    //     // todo : 에러 다이얼로그 띄우기
-    //     return;
-    //   }
-    //   setCurrentPageIndex(currentPageIndex + 1);
-    // }
+    // 댕댕이 프로필 설정
+    if (currentPageIndex === 1) {
+      if (
+        inputs.createDogInput.imageUrls.length < 1 &&
+        (!inputs.createDogInput.dogBirthYear ||
+          !inputs.createDogInput.dogBirthMonth ||
+          !inputs.createDogInput.dogBirthDay) &&
+        !inputs.createDogInput.introduce
+      ) {
+        // todo : 에러 다이얼로그 띄우기
+        return;
+      }
+      setCurrentPageIndex(currentPageIndex + 1);
+    }
 
-    // if (currentPageIndex === 2) {
-    //   const result = await handleCreateDog(inputs);
-    //   result && router.replace("/auth/login");
-    // }
+    if (currentPageIndex === 2) {
+      const result = await handleCreateDog(inputs);
+      result && router.replace("/auth/login");
+    }
   };
 
   const onClickPrevPage = () => {
