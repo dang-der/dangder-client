@@ -521,7 +521,7 @@ export type IProduct = {
 };
 
 export type IQuery = {
-  __typename?: 'Query';
+  __typename?: "Query";
   fetchAroundDogs: Array<IDog>;
   /** 기피 견종 목록 조회 */
   fetchAvoidBreeds: Array<IAvoidBreed>;
@@ -547,7 +547,7 @@ export type IQuery = {
   /** Return : 로그인한 유저, 유저의 강아지 데이터 */
   fetchLoginUser: IUserOutput;
   /** 로그인중인 유저의 이용권 유효 여부 확인하기 */
-  fetchLoginUserIsCert: Scalars['Boolean'];
+  fetchLoginUserIsCert: Scalars["Boolean"];
   fetchMainDogImage: Array<IDogImage>;
   /** 유저 정보로 내 강아지 정보 조회 */
   fetchMyDog: IDog;

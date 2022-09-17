@@ -61,6 +61,8 @@ export default function ChatRoomContainer() {
     },
   });
 
+  console.log("ChatRoomContainer", messagesData);
+
   useEffect(() => {
     handleOnMessage();
     handleEmitConnect();
@@ -73,17 +75,22 @@ export default function ChatRoomContainer() {
     if (!messagesData?.fetchChatMessagesByChatRoomId) return;
 
     messagesData.fetchChatMessagesByChatRoomId.forEach((e: IChatMessage) => {
+      console.log("fetchChatMessage", e);
       const { message, lat, lng, meetAt, type } = e;
       const dog =
-        e.senderId === enterRoomInfo?.pairInfo.id
-          ? { id: enterRoomInfo.pairInfo.id, neme: enterRoomInfo.pairInfo.name }
-          : { id: user?.dog.id, name: user?.dog.name };
+        e.senderId === enterRoomInfo?.chatPairDog?.id
+          ? {
+              id: enterRoomInfo.chatPairDog.id,
+              neme: enterRoomInfo.chatPairDog.name,
+            }
+          : { id: enterRoomInfo?.dog?.id, name: enterRoomInfo?.dog?.name };
 
       const messageObj: IMessage = {
         type,
         data: { meetAt, message, lat, lng },
         dog,
       };
+
       setMessages((p) => [...p, messageObj]);
     });
   }, [messagesData]);
