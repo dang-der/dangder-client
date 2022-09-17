@@ -5,7 +5,7 @@ import LogoHeader from "./logo_header";
 import Navigation from "./navigation";
 import PageHeader from "./page_header";
 
-const SHOW_LOGO_HEADERS = ["/", "/[dogId]"];
+const SHOW_LOGO_HEADERS = ["/", `/[dogId]`];
 
 // TODO: 채팅방 - 약속 설정에 페이지 타이틀 헤더 추가
 const SHOW_PAGE_HEADERS = [
@@ -18,7 +18,7 @@ const SHOW_PAGE_HEADERS = [
   "/settings",
 ];
 
-const SHOW_NAVIGATION = ["/", "/[dogId]", "/today", "/chat", "/profile"];
+const SHOW_NAVIGATION = ["/", `/[dogId]`, "/today", "/chat", "/profile"];
 
 interface ILayoutProps {
   children: ReactNode;
