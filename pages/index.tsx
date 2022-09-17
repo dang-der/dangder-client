@@ -14,10 +14,8 @@ import { userInfoState } from "../src/Commons/Store/Auth/UserInfoState";
 const FETCH_LOGIN_USER = gql`
   query fetchLoginUser {
     fetchLoginUser {
-      id
-      dog {
-        id
-      }
+      user
+      dog
     }
   }
 `;
@@ -38,45 +36,47 @@ const FETCH_AROUND_DOGS = gql`
 `;
 
 export default function Main() {
-  const [userInfo, _] = useRecoilState(userInfoState);
-
   const [aroundDogsList, setAroundDogsList] = useState<IDog[] | undefined>();
   const [startPage, setStartPage] = useState(1);
   const [activePage, setActivePage] = useState(1);
 
-  console.log(userInfo);
+  const [userInfo] = useRecoilState(userInfoState);
+  const dogId = String(userInfo?.dog?.id);
 
-  // const { data: AroundDogsData, refetch } = useQuery<
-  //   Pick<IQuery, "fetchAroundDogs">,
-  //   IQueryFetchAroundDogsArgs
-  // >(FETCH_AROUND_DOGS, {
-  //   variables: { id: MyDogId, page: 1 },
-  // });
+  const { data: AroundDogsData, refetch } = useQuery<
+    Pick<IQuery, "fetchAroundDogs">,
+    IQueryFetchAroundDogsArgs
+  >(FETCH_AROUND_DOGS, {
+    variables: { id: dogId, page: 1 },
+  });
 
-  // useEffect(() => {
-  //   if (!AroundDogsData?.fetchAroundDogs) return;
-  //   setAroundDogsList(AroundDogsData?.fetchAroundDogs);
-  //   console.log("mount: ", AroundDogsData?.fetchAroundDogs);
-  // }, []);
+  console.log(AroundDogsData?.fetchAroundDogs);
 
-  // useEffect(() => {
-  //   if (!AroundDogsData?.fetchAroundDogs) return;
-  //   setAroundDogsList(AroundDogsData?.fetchAroundDogs);
-  //   console.log("change: ", AroundDogsData?.fetchAroundDogs);
-  // }, [AroundDogsData]);
+  useEffect(() => {
+    if (!AroundDogsData?.fetchAroundDogs) return;
+    setAroundDogsList(AroundDogsData?.fetchAroundDogs);
+    console.log("mount: ", AroundDogsData?.fetchAroundDogs);
+  }, []);
+
+  useEffect(() => {
+    if (!AroundDogsData?.fetchAroundDogs) return;
+    setAroundDogsList(AroundDogsData?.fetchAroundDogs);
+    console.log("change: ", AroundDogsData?.fetchAroundDogs);
+  }, [AroundDogsData]);
 
   return (
     <Wrapper>
-      {/* <DogCardWrapper onVote={(item, vote) => console.log(item.props, vote)}>
-        {(AroundDogsData?.fetchAroundDogs || []).map((el: IDog, i) => (
-          <Item key={el.id} className="item">
+      <DogCardWrapper onVote={(item, vote) => console.log(item.props, vote)}>
+        {(AroundDogsData?.fetchAroundDogs || []).map((el: IDog) => (
+          <Item key={el.id}>
+            {console.log("this: ", aroundDogsList)}
             <DogProfile src="/dog1.jpg" />
             <DogName>{el.name}</DogName>
             <DogAge>{el.age}</DogAge>
             <DogDescription>{el.description}</DogDescription>
           </Item>
         ))}
-      </DogCardWrapper> */}
+      </DogCardWrapper>
     </Wrapper>
   );
 }
