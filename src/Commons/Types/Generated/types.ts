@@ -58,6 +58,7 @@ export type IChatMessage = {
   meetAt?: Maybe<Scalars['String']>;
   message?: Maybe<Scalars['String']>;
   senderId: Scalars['String'];
+  type: Scalars['String'];
 };
 
 /** 메시지 데이터 입력형식 */
@@ -67,6 +68,7 @@ export type IChatMessageInput = {
   meetAt?: InputMaybe<Scalars['String']>;
   message?: InputMaybe<Scalars['String']>;
   senderId: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type IChatRoom = {
