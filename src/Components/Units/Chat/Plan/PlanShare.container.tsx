@@ -6,9 +6,9 @@ import {
 } from "@amir04lm26/react-modern-calendar-date-picker";
 import { TimePicker } from "antd";
 import moment, { Moment } from "moment";
+import "moment/locale/ko";
 import LargeButton from "../../../Commons/Button/LargeButton";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 const today = {
   year: moment().year(),
@@ -16,18 +16,39 @@ const today = {
   day: moment().date(),
 };
 
-export default function PlanShareContainer() {
-  const router = useRouter();
+interface PlanShareContainerProps {
+  handleEmitSend: (payload: { type: string; data: any }) => void;
+  toggleModal: () => void;
+}
 
+export default function PlanShareContainer({
+  handleEmitSend,
+  toggleModal,
+}: PlanShareContainerProps) {
   const [selectedDay, setSelectedDay] = useState<DayValue>(today);
-  const [selectedTime, setSelectedTime] = useState<Moment | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string>(
+    moment().format("hh:mm a")
+  );
 
   const onChangeTime = (time: Moment | null, timeString: string) => {
-    setSelectedTime(time);
+    setSelectedTime(timeString);
   };
 
   const onClickPlanShare = () => {
-    router.back();
+    const dateTime =
+      selectedDay?.year +
+      String(selectedDay?.month).padStart(2, "0") +
+      String(selectedDay?.day).padStart(2, "0") +
+      " " +
+      moment(selectedTime, "hh:mm a").format("hh:mm a");
+
+    handleEmitSend({
+      type: "plan",
+      data: {
+        meetAt: moment(dateTime, "YYYYMMDD hh:mm a").format("YYYYMMDD hh:mm a"),
+      },
+    });
+    toggleModal();
   };
 
   return (
@@ -53,7 +74,7 @@ export default function PlanShareContainer() {
               use12Hours
               defaultValue={moment()}
               onChange={onChangeTime}
-              format={"h:mm a"}
+              format={"hh:mm a"}
               bordered={false}
             />
           </S.TimePickerWrapper>

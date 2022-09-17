@@ -40,13 +40,10 @@ export default function LoginContainer() {
     setAccessToken(accessToken);
 
     const { data } = await client.query({ query: FETCH_LOGIN_USER });
-
     if (!data) return;
-
     setUserInfo(data.fetchLoginUser);
 
-    if (!data.fetchLoginUser.pet) router.replace("/profile/init");
-    else router.replace("/");
+    router.replace("/");
   };
 
   return <LoginUI handleUserLogin={handleUserLogin} />;

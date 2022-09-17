@@ -67,7 +67,7 @@ export default function PasswordInputPage() {
         </S.ErrorTextWrapper>
       </div>
 
-      <div style={{ marginTop: "1rem" }}>
+      <div style={{ marginTop: "2.5rem" }}>
         <LineInput
           register={register}
           registerOption={{ onChange: onChangePasswordCheck }}

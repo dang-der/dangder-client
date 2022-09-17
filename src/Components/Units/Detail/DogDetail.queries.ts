@@ -52,6 +52,8 @@ export const CREATE_LIKE = gql`
     createLike(createLikeInput: $createLikeInput) {
       id
       receiveId
+      isMatch
+      sendId
     }
   }
 `;

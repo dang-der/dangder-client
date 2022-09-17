@@ -71,7 +71,7 @@ export default function RegistrationNumberInputPage() {
       <S.ErrorText>
         {formState.errors.registrationNumber?.message ?? " "}
       </S.ErrorText>
-      <S.SubTitleWrapper style={{ marginTop: "1rem" }}>
+      <S.SubTitleWrapper style={{ marginTop: "3.5rem" }}>
         견주의 생년월일을 입력해주세요.
       </S.SubTitleWrapper>
 

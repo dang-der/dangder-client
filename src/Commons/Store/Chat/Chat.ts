@@ -1,21 +1,11 @@
-import { DayValue } from "react-modern-calendar-datepicker";
 import { atom } from "recoil";
+import { IChatRoom, IDog } from "../../Types/Generated/types";
 
-export interface PlaceMessageStateProps {
-  lat: number;
-  lng: number;
+interface IChatRoomInfo {
+  roomInfo: IChatRoom;
+  pairInfo: IDog;
 }
-
-export const placeMessageState = atom<PlaceMessageStateProps>({
-  key: "placeMessageState",
-  default: { lat: 0, lng: 0 },
-});
-
-export interface PlanMessageStateProps {
-  data: DayValue;
-  time: string;
-}
-export const planMessageState = atom<PlanMessageStateProps>({
-  key: "placeMessageState",
-  default: { data: null, time: "" },
+export const enteredChatRoomInfoState = atom<IChatRoomInfo | undefined>({
+  key: "enteredChatRoomInfoState",
+  default: undefined,
 });

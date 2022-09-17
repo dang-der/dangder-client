@@ -1,54 +1,62 @@
 import Link from "next/link";
 import * as S from "./DogProfilePage.styles";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-// 댕댕이 프로필 api
-const dogInfo = {
-  name: "kkimi",
-  age: 1,
-  distance: 2,
-  play: "공놀이가 좋은",
-};
+export default function DogProfilePageUI(props: any) {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
-export default function DogProfilePageUI() {
   return (
     <S.Wrapper>
       <S.DogProfileWrapper>
         <S.DogProfile>
-          <S.DogPhoto src="/dog1.jpg" />
+          <S.DogProfileImageWrapper>
+            <Slider
+              dots={settings.dots}
+              infinite={settings.infinite}
+              speed={settings.speed}
+              slidesToShow={settings.slidesToShow}
+              slidesToScroll={settings.slidesToScroll}
+            >
+              <S.DogPhoto src={props.MyDogImage?.img[0].img}></S.DogPhoto>
+              <S.DogPhoto src={props.MyDogImage?.img[0].img}></S.DogPhoto>
+              <S.DogPhoto src={props.MyDogImage?.img[0].img}></S.DogPhoto>
+            </Slider>
+          </S.DogProfileImageWrapper>
+          <S.DogPhoto src={props.MyDogImage} />
           <S.DogInfo>
             <S.DogInfoHeader>
-              <S.DogName>{dogInfo.name}</S.DogName>
-              <S.DogAge>{dogInfo.age}</S.DogAge>
+              <S.DogName>{props.MyDogData?.name}, </S.DogName>
+              <S.DogAge>{props.MyDogData?.age}</S.DogAge>
             </S.DogInfoHeader>
             <S.DogInfoBody>
-              <S.DogDistance>{dogInfo.distance}km</S.DogDistance>
-              <S.DogPlay>{dogInfo.play}</S.DogPlay>
+              <S.DogDescription>
+                {props.MyDogData?.description}
+              </S.DogDescription>
             </S.DogInfoBody>
           </S.DogInfo>
         </S.DogProfile>
-        <Link href="/profile/edit">
-          <S.ProfileEditButton>수정</S.ProfileEditButton>
-        </Link>
+        <S.ProfileEditButtonWrapper>
+          <Link href="/profile/edit">
+            <S.ProfileEditButton>수정</S.ProfileEditButton>
+          </Link>
+        </S.ProfileEditButtonWrapper>
       </S.DogProfileWrapper>
-      <S.DogMoneyWrapper>
-        <S.DogMoneyHeader>
-          <S.title>댕더 머니</S.title>
-          <S.InfomationIcon />
-        </S.DogMoneyHeader>
-        <S.DogMoneyBody>
-          <S.LeftArrowIcon />
-          <S.Amount>0</S.Amount>KRW
-        </S.DogMoneyBody>
-        <Link href="/payments">
-          <S.DogMoneyButton>충전</S.DogMoneyButton>
-        </Link>
-      </S.DogMoneyWrapper>
-      <S.DogProfileSetting>
+      <S.SettingWrapper>
         <Link href="/settings">
-          <S.SettingButton>설정</S.SettingButton>
+          <S.DogProfileSetting>
+            <S.SettingSpan>설정</S.SettingSpan>
+            <S.RightArrowIcon />
+          </S.DogProfileSetting>
         </Link>
-        <S.RightArrowIcon />
-      </S.DogProfileSetting>
+      </S.SettingWrapper>
     </S.Wrapper>
   );
 }

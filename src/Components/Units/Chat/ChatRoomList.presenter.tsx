@@ -11,9 +11,10 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import * as S from "./ChatRoomList.styles";
 import ChatListItem from "./ChatRoomItem/ChatRoomItem";
+import { IChatRoom } from "../../../Commons/Types/Generated/types";
 
 interface ChatListUIProps {
-  chatList: any;
+  chatList: IChatRoom[] | undefined;
 }
 export default function ChatListUI({ chatList }: ChatListUIProps) {
   const onClickMatchCancel = () => {
@@ -38,13 +39,13 @@ export default function ChatListUI({ chatList }: ChatListUIProps) {
     <S.Wrapper>
       <S.ChatListContainer>
         <SwipeableList fullSwipe={false} threshold={0.5} type={ListType.IOS}>
-          {(chatList || []).map((e: any) => {
+          {(chatList || []).map((e: IChatRoom) => {
             return (
               <SwipeableListItem
                 trailingActions={trailingActions()}
                 key={uuid()}
               >
-                <ChatListItem item={e} />
+                <ChatListItem room={e} />
               </SwipeableListItem>
             );
           })}

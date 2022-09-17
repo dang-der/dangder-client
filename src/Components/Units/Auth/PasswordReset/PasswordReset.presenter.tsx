@@ -60,6 +60,7 @@ export default function PasswordResetUI({
   useEffect(() => {
     console.log(buttonActive);
   }, [buttonActive]);
+  
   const onClickAuthRequest = async () => {
     if (timerVisible) return;
     const result = await handleCreateMailToken(getValues("email"));

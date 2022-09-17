@@ -39,6 +39,7 @@
     "recoil": "^0.7.5",
     "recoil-persist": "^4.2.0",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.5.2",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },

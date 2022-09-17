@@ -2,16 +2,15 @@ import { bool } from "yup";
 import * as S from "./ChatMessageItem.styles";
 interface ChatMessageItemProps {
   isMine: boolean;
+  message: string;
 }
-export default function ChatMessageItem({ isMine }: ChatMessageItemProps) {
+export default function ChatMessageItem({
+  isMine,
+  message,
+}: ChatMessageItemProps) {
   return (
     <S.Wrapper isMine={isMine}>
-      <S.Message isMine={isMine}>
-        안녕하세여안녕하세여안녕하세여안녕하세여 안녕하세여 안녕하세여
-        안녕하세여 안녕하세여 안녕하세여 안녕하세여 안녕하세여 안녕하세여
-        안녕하세여 안녕하세여 안녕하세여 안녕하세여 안녕하세여 안녕하세여
-        안녕하세여 안녕하세여 안녕하세여 안녕하세여
-      </S.Message>
+      <S.Message isMine={isMine}>{message}</S.Message>
     </S.Wrapper>
   );
 }

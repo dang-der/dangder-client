@@ -1,5 +1,6 @@
 import { GraphQLClient } from "graphql-request";
 import { atom, selector } from "recoil";
+import { io } from "socket.io-client";
 import { FETCH_LOGIN_USER } from "../../../Components/Units/Auth/Login/Login.queries";
 import { getAccessToken } from "../../Library/getAccessToken";
 import { IQuery } from "../../Types/Generated/types";
@@ -21,28 +22,7 @@ export const restoreAccessTokenLoadable = selector({
   set: ({ set }, newToken) => set(accessTokenState, newToken),
 });
 
-export const loggedInUserLoadable = selector({
-  key: "loggedInUserLoadable",
-  get: async ({ get }) => {
-    const token = get(accessTokenState);
-    if (!token) {
-      console.log("loggedInUserLoadableError", "token없음");
-      return;
-    }
 
-    const client = new GraphQLClient("https://recipemaker.shop/graphql", {
-      credentials: "include",
-      headers: { Authorization: `Bearer ${token}` },
-    });
 
-    try {
-      const result = await client.request<Pick<IQuery, "fetchLoginUser">>(
-        FETCH_LOGIN_USER
-      );
 
-      return result.fetchLoginUser;
-    } catch (e) {
-      console.log("fetchLoginUserError", e);
-    }
-  },
-});
+   

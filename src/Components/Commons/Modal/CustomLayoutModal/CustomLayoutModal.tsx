@@ -16,6 +16,7 @@ export const DimWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 
   @media screen and (max-width: 576px) {
     left: 0;

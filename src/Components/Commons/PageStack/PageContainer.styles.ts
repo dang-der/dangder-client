@@ -30,3 +30,22 @@ export const NextButton = styled.button`
   border: none;
   flex-grow: 0.04;
 `;
+
+export const Header = styled.div`
+  display: flex;
+  width: 100%;
+  height: 4rem;
+  align-items: center;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1.5rem;
+    cursor: pointer;
+  }
+
+  span {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+`;
