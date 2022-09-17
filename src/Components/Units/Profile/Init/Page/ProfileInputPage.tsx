@@ -141,11 +141,13 @@ export default function ProfileInputPage() {
             />
           ))}
       </S.RowWrapper>
-      <S.MiniGuidanceText style={{ marginTop: "1rem" }}>
+      <S.MiniGuidanceText style={{ marginTop: "1.5rem" }}>
         🐾 가장 먼저 등록한 이미지가 대표 이미지로 설정됩니다.
       </S.MiniGuidanceText>
 
-      <S.SubTitleWrapper style={{ marginTop: "1rem" }}>생일</S.SubTitleWrapper>
+      <S.SubTitleWrapper style={{ marginTop: "2.5rem" }}>
+        생일
+      </S.SubTitleWrapper>
       <BirthInput
         register={register}
         onChangeYear={onChangeDogBirthYear}
@@ -164,7 +166,7 @@ export default function ProfileInputPage() {
         <S.MiniGuidanceText>댕댕이의 생년월일을 몰라요!</S.MiniGuidanceText>
       </S.CheckBirthUnknowingnessWrapper>
 
-      <S.SubTitleWrapper style={{ marginTop: "1rem" }}>
+      <S.SubTitleWrapper style={{ marginTop: "2.5rem" }}>
         댕댕이의 소개글을 작성해주세요. (5자이상 200자이내)
       </S.SubTitleWrapper>
       <S.IntroduceTextField

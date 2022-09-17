@@ -1,7 +1,7 @@
 import { useApolloClient, useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { accessTokenState } from "../../../../Commons/Store/Auth/AccessToken";
 import { signUpInputState } from "../../../../Commons/Store/Auth/SignUpState";
@@ -13,6 +13,7 @@ import {
   IMutationUserLoginArgs,
   IMutationVerifyMailTokenArgs,
 } from "../../../../Commons/Types/Generated/types";
+import LoadingModal from "../../../Commons/Modal/Loading/LoadingModal";
 import { FETCH_LOGIN_USER, USER_LOGIN } from "../Login/Login.queries";
 import {
   CREATE_MAIL_TOKEN,
@@ -24,6 +25,8 @@ import SignUpUI from "./SignUp.presenter";
 export default function SignUpContainer() {
   const router = useRouter();
   const client = useApolloClient();
+
+  const [loadingModalVisible, setLoadingModalVisible] = useState(false);
   const [, setAccessToken] = useRecoilState(accessTokenState);
   const [, setUserInfo] = useRecoilState(userInfoState);
 
@@ -51,6 +54,8 @@ export default function SignUpContainer() {
     console.log("handleCreateMailToken", email);
     if (!email) return false;
 
+    setLoadingModalVisible(true);
+
     try {
       const { data } = await createMailToken({
         variables: {
@@ -58,9 +63,11 @@ export default function SignUpContainer() {
         },
       });
 
+      setLoadingModalVisible(false);
       return data?.createMailToken;
     } catch (e) {
       console.log("handleCreateMailTokenError", e);
+      setLoadingModalVisible(true);
       return false;
     }
   };
@@ -88,6 +95,7 @@ export default function SignUpContainer() {
     console.log("handleSignUp", email, password);
     if (!password) return false;
 
+    setLoadingModalVisible(true);
     try {
       const { data } = await createUser({
         variables: {
@@ -99,6 +107,8 @@ export default function SignUpContainer() {
           },
         },
       });
+
+      setLoadingModalVisible(false);
 
       if (!data?.createUser.id) {
         throw Error("회원가입 실패. 관리자에게 문의하세요.");
@@ -114,10 +124,13 @@ export default function SignUpContainer() {
   };
 
   return (
-    <SignUpUI
-      handleCreateMailToken={handleCreateMailToken}
-      handleVerifyMailToken={handleVerifyMailToken}
-      handleSignUp={handleSignUp}
-    />
+    <>
+      {loadingModalVisible && <LoadingModal />}
+      <SignUpUI
+        handleCreateMailToken={handleCreateMailToken}
+        handleVerifyMailToken={handleVerifyMailToken}
+        handleSignUp={handleSignUp}
+      />
+    </>
   );
 }

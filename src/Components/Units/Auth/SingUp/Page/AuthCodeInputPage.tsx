@@ -1,13 +1,19 @@
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { signUpInputState } from "../../../../../Commons/Store/Auth/SignUpState";
+import Timer from "../../../../Commons/Timer/Timer";
 import * as S from "./Page.styles";
 
-export default function AuthCodeInputPage() {
-  const [, setSignUpInputs] = useRecoilState(signUpInputState);
+interface AuthCodeInputPageProps {
+  verifyError: string;
+}
+export default function AuthCodeInputPage({
+  verifyError,
+}: AuthCodeInputPageProps) {
+  const [, setInputs] = useRecoilState(signUpInputState);
 
   useEffect(() => {
-    setSignUpInputs((p) => ({ ...p, isActiveButton: false }));
+    setInputs((p) => ({ ...p, isActiveButton: false }));
   }, []);
 
   const onChangeAuthCode =
@@ -19,7 +25,7 @@ export default function AuthCodeInputPage() {
       }
 
       if (e.target.value.length === 1) {
-        setSignUpInputs((p) => {
+        setInputs((p) => {
           const copy = [...p.authenticationCode];
           copy[index] = e.target.value;
 
@@ -52,6 +58,16 @@ export default function AuthCodeInputPage() {
               onChange={onChangeAuthCode(i)}
             />
           ))}
+      </S.AuthCodeBoxWrapper>
+
+      <S.AuthCodeBoxWrapper style={{ marginTop: "2rem" }}>
+        {verifyError && <S.ErrorTextWrapper>{verifyError}</S.ErrorTextWrapper>}
+        <Timer
+          initialTime={3 * 60 * 1000}
+          onTimerEnd={() => {
+            setInputs((p) => ({ ...p, isActiveButton: false }));
+          }}
+        />
       </S.AuthCodeBoxWrapper>
     </S.Wrapper>
   );

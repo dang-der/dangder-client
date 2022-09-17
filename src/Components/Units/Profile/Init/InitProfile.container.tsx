@@ -19,6 +19,7 @@ import {
   IUser,
 } from "../../../../Commons/Types/Generated/types";
 import ErrorModal from "../../../Commons/Modal/ErrorModal/ErrorModal";
+import LoadingModal from "../../../Commons/Modal/Loading/LoadingModal";
 import InitProfileUI from "./InitProfile.presenter";
 import {
   CREATE_DOG,
@@ -150,6 +151,8 @@ export default function InitProfileContainer() {
         visible={regNumErrorVisible}
         setVisible={setRegNumErrorVisible}
       />
+
+      {!geo.latitude && <LoadingModal />}
 
       {geo.latitude && (
         <InitProfileUI

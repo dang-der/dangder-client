@@ -20,7 +20,7 @@ export default function Timer({ initialTime, onTimerEnd }: TimerProps) {
   }, [time]);
 
   return (
-    <div>
+    <div style={{ fontSize: "0.875rem" }}>
       {(Math.floor(time / (60 * 1000)) + "").padStart(2, "0")} :
       {String(Math.floor((time % (60 * 1000)) / 1000)).padStart(2, "0")}
     </div>

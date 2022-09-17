@@ -1,24 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { signUpInputState } from "../../../../Commons/Store/Auth/SignUpState";
-import { PageController } from "../../../Commons/PageStack/Controller";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+
 import Page from "../../../Commons/PageStack/Page";
 import PageStack from "../../../Commons/PageStack/PageStack";
 import AuthCodeInputPage from "./Page/AuthCodeInputPage";
 import EmailInputPage from "./Page/EmailInputPage";
 import PasswordInputPage from "./Page/PasswordInputPage";
 
-import { v4 as uuid } from "uuid"
-
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
-import { Modal } from "antd";
-import { useRouter } from "next/router";
-import { useMutation } from "@apollo/client";
-import { USER_LOGIN } from "../Login/Login.queries";
-import {
-  IMutation,
-  IMutationUserLoginArgs,
-} from "../../../../Commons/Types/Generated/types";
 
 interface SignUpUIprops {
   handleSignUp: (
@@ -37,13 +28,10 @@ export default function SignUpUI({
   handleVerifyMailToken,
 }: SignUpUIprops) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [inputs] = useRecoilState(signUpInputState);
-  const router = useRouter();
+  const [codeVerifyError, setCodeVerifyError] = useState<string>("");
+  const [inputs, setInputs] = useRecoilState(signUpInputState);
 
   const onClickNext = async () => {
-    console.log("onClickNext", currentPageIndex);
-    console.log("onClickNext", currentPageIndex);
-
     // 이메일 입력 페이지
     if (currentPageIndex === 0) {
       const result = await handleCreateMailToken(inputs?.email);
@@ -55,26 +43,38 @@ export default function SignUpUI({
         inputs?.email,
         inputs?.authenticationCode.join("")
       );
+
+      if (!result) {
+        setCodeVerifyError("인증번호가 일치하지 않습니다.");
+        setInputs((p) => ({ ...p, isActiveButton: false }));
+        return;
+      }
       result && setCurrentPageIndex(currentPageIndex + 1);
     }
     // 비밀번호 입력 페이지
     if (currentPageIndex === 2) {
       const result = await handleSignUp(inputs?.email, inputs?.password);
-
-      console.log("signUp", result);
-      // result && router.replace("/auth/login");
     }
+  };
+
+  const onClickPrevPage = () => {
+    if (currentPageIndex - 1 < 0) return;
+    setCurrentPageIndex((p) => p - 1);
   };
 
   return (
     <S.Wrapper>
+      <S.Header>
+        <ArrowBackRoundedIcon onClick={onClickPrevPage} />
+        <span>회원가입</span>
+      </S.Header>
       <S.PageStackWrapper>
         <PageStack currentPageIndex={currentPageIndex}>
           <Page>
             <EmailInputPage />
           </Page>
           <Page>
-            <AuthCodeInputPage />
+            <AuthCodeInputPage verifyError={codeVerifyError} />
           </Page>
           <Page>
             <PasswordInputPage />
