@@ -17,10 +17,6 @@ export const FETCH_LOGIN_USER = gql`
         name
         age
         gender
-        # img {
-        #   id
-        #   # img
-        # }
       }
     }
   }

@@ -8,6 +8,7 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
+import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { FetchLoginUserHook } from "../Library/FetchLoginUserHook";
@@ -26,12 +27,15 @@ interface IApolloSettingProps {
 }
 
 export default function ApolloSetting(props: IApolloSettingProps) {
+  const router = useRouter();
+
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const restoreToken = useRecoilValueLoadable(restoreAccessTokenLoadable);
 
   useEffect(() => {
+    if (router.asPath.includes("auth")) return;
     restoreToken.toPromise().then((newAccessToken) => {
       setAccessToken(newAccessToken);
     });
