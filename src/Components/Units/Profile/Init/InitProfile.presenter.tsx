@@ -62,7 +62,7 @@ export default function InitProfileUI({
 
     if (currentPageIndex === 2) {
       const result = await handleCreateDog(inputs);
-      result && router.replace("/");
+      result && router.replace("/auth/login");
     }
   };
 

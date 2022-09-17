@@ -5,4 +5,4 @@ function ProfileInitPage() {
   return <InitProfileContainer />;
 }
 
-export default withAuth(ProfileInitPage);
+export default ProfileInitPage;
