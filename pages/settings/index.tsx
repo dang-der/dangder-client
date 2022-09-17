@@ -1,3 +1,5 @@
+import Settings from "../../src/Components/Units/SettingPage/Settings.container";
+
 export default function SettingsPage() {
-  return <div>설정 페이지 입니다. </div>;
+  return <Settings />;
 }
