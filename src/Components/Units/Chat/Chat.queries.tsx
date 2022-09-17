@@ -4,15 +4,19 @@ export const FETCH_CHAT_ROOMS = gql`
   query fetchChatRooms($dogId: String!) {
     fetchChatRooms(dogId: $dogId) {
       id
-      chatPairId
+      chatPairDog {
+        id
+        name
+      }
       dog {
         id
         name
       }
-      # chatMessages {
-      #   id
-      #   message
-      # }
+      lastMessage {
+        senderId
+        type
+        message
+      }
     }
   }
 `;
