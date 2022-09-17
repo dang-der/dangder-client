@@ -11,10 +11,13 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import * as S from "./ChatRoomList.styles";
 import ChatListItem from "./ChatRoomItem/ChatRoomItem";
-import { IChatRoom } from "../../../Commons/Types/Generated/types";
+import {
+  IChatRoom,
+  IChatRoomsOutput,
+} from "../../../Commons/Types/Generated/types";
 
 interface ChatListUIProps {
-  chatList: IChatRoom[] | undefined;
+  chatList: IChatRoomsOutput[] | undefined;
 }
 export default function ChatListUI({ chatList }: ChatListUIProps) {
   const onClickMatchCancel = () => {

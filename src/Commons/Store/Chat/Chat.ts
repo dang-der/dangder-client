@@ -1,11 +1,7 @@
 import { atom } from "recoil";
-import { IChatRoom, IDog } from "../../Types/Generated/types";
+import { IChatRoomsOutput } from "../../Types/Generated/types";
 
-interface IChatRoomInfo {
-  roomInfo: IChatRoom;
-  pairInfo: IDog;
-}
-export const enteredChatRoomInfoState = atom<IChatRoomInfo | undefined>({
+export const enteredChatRoomInfoState = atom<IChatRoomsOutput | undefined>({
   key: "enteredChatRoomInfoState",
   default: undefined,
 });
