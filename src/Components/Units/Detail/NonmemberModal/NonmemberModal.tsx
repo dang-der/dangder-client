@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { DimWrapper } from "../../../Commons/Modal/CustomLayoutModal/CustomLayoutModal";
-import { Wrapper } from "../DogDetail.styles";
+
 import * as S from "./NonmemberModal.styles";
 
 interface NonmemberModalProps {

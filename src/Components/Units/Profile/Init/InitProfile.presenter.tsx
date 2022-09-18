@@ -28,7 +28,7 @@ export default function InitProfileUI({
 }: InitProfileUIProps) {
   const router = useRouter();
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [inputs, setInputs] = useRecoilState(profileInputState);
+  const [inputs, ] = useRecoilState(profileInputState);
 
   const onClickNext = async () => {
     console.log("onClickNext", currentPageIndex);

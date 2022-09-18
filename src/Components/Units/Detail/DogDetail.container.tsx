@@ -43,7 +43,7 @@ export default function DogDetail() {
     if (typeof router.query.dogId !== "string") return;
 
     try {
-      const result = await createLike({
+      await createLike({
         variables: {
           createLikeInput: {
             sendId: "1b74199b-2501-48a8-a2b0-5d6c2f004758",

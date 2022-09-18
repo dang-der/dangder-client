@@ -1,14 +1,12 @@
-import { useQuery } from "@apollo/client";
+
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
 import {
-  IChatRoom,
+  
   IChatRoomsOutput,
-  IQuery,
-  IQueryFetchOneDogArgs,
 } from "../../../../Commons/Types/Generated/types";
-import { FETCH_ONE_DOG } from "../Chat.queries";
+
 
 import * as S from "./ChatRoomItem.styles";
 

@@ -1,11 +1,11 @@
-import { Dispatch, MouseEvent, SetStateAction, useEffect } from "react";
+import { Dispatch, MouseEvent, SetStateAction } from "react";
 
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 
 import * as S from "./DeleteUserModal.styles";
 import CustomLayoutModal from "../../../Commons/Modal/CustomLayoutModal/CustomLayoutModal";
 import { useRouter } from "next/router";
-import { useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   IMutation,
   IMutationDeleteUserArgs,
@@ -29,21 +29,20 @@ export default function DeleteUserModal({
   setVisible,
 }: DeleteUserModalProps) {
   const router = useRouter();
-  const client = useApolloClient();
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
+  const [userInfo] = useRecoilState(userInfoState);
 
   const [deleteUser] = useMutation<
     Pick<IMutation, "deleteUser">,
     IMutationDeleteUserArgs
   >(DELETE_USER);
-  const { data: loginData } =
-    useQuery<Pick<IQuery, "fetchLoginUser">>(FETCH_LOGIN_USER);
-  const { data: userData } = useQuery<
-    Pick<IQuery, "fetchUser">,
-    IQueryFetchUserArgs
-  >(FETCH_USER, {
-    variables: { email: String(router.query.dogId) },
-  });
+  const {} = useQuery<Pick<IQuery, "fetchLoginUser">>(FETCH_LOGIN_USER);
+  const {} = useQuery<Pick<IQuery, "fetchUser">, IQueryFetchUserArgs>(
+    FETCH_USER,
+    {
+      variables: { email: String(router.query.dogId) },
+    }
+  );
 
   const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
     if (typeof visible === "boolean") {
@@ -54,7 +53,7 @@ export default function DeleteUserModal({
   };
 
   // console.log("fetchUser", data?.fetchUser);
-  const onClickDeleteUser = async (email: string | any) => {
+  const onClickDeleteUser = async () => {
     if (!userInfo) return;
 
     try {

@@ -9,7 +9,7 @@ import LineInputWithLabelError from "../../../Commons/LineInputs/LineInputWithLa
 import * as S from "./PasswordReset.styles";
 import Timer from "../../../Commons/Timer/Timer";
 import { ChangeEvent, useEffect, useState } from "react";
-import { SettingsOutlined } from "@mui/icons-material";
+
 
 const schema = yup.object({
   email: yup

@@ -7,7 +7,7 @@ export default function DogReportCause() {
   const router = useRouter()
   const [isActive, setIsActive] = useState(false)
 
-  const onClickNextPage = (props: any) => {
+  const onClickNextPage = () => {
     if(Object.values(onClickNextPage).every((el) => el)) {
         setIsActive(true)
     } else { 

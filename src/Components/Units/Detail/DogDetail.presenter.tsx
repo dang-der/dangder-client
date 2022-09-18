@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { IQuery } from "../../../Commons/Types/Generated/types";
 import * as S from "./DogDetail.styles";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { MouseEvent } from "react";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -15,8 +15,8 @@ interface DogDetailUIProps {
 
 export default function DogDetailUI({
   handleCreateLike,
-  pickDogData,
-  distanceData,
+  pickDogData
+  ,
 }: DogDetailUIProps) {
   const router = useRouter();
 
@@ -24,7 +24,7 @@ export default function DogDetailUI({
     router.back();
   };
 
-  const onClickLike = (e: MouseEvent<HTMLElement>) => {
+  const onClickLike = () => {
     handleCreateLike();
   };
 

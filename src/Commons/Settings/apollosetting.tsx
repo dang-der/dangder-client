@@ -4,7 +4,6 @@ import {
   ApolloProvider,
   fromPromise,
   InMemoryCache,
-  useApolloClient,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
@@ -30,7 +29,7 @@ export default function ApolloSetting(props: IApolloSettingProps) {
   const router = useRouter();
 
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [userInfo, ] = useRecoilState(userInfoState);
 
   const restoreToken = useRecoilValueLoadable(restoreAccessTokenLoadable);
 

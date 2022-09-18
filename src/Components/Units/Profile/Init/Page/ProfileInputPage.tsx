@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import LineInput from "../../../../Commons/LineInputs/LineInput";
+
 import * as S from "./Page.styles";
 import ImageFileInput from "../../../../Commons/FileInput/ImageFileInput";
 import { useRecoilState } from "recoil";

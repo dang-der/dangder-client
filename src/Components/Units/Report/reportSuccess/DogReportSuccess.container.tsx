@@ -6,7 +6,7 @@ export default function DogReportSuccess() {
 
   const router = useRouter()
 
-  const onClickrMainPage = (props: any) => {
+  const onClickrMainPage = () => {
     router.push('/dog')
   }
 

@@ -46,8 +46,8 @@ const schema = yup.object({
 });
 
 export default function DogProfileEditUI({
-  characters,
-  interests,
+  
+  
 }: ProfileInput2PageProps) {
   const [inputs, setInputs] = useRecoilState(profileInputState);
 

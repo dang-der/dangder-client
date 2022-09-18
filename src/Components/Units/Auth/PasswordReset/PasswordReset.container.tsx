@@ -1,5 +1,4 @@
-import { useMutation } from "@apollo/client";
-import { gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
   IMutation,

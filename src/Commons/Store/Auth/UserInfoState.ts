@@ -1,6 +1,6 @@
-import { atom, selector } from "recoil";
-import { IUser, IUserOutput } from "../../Types/Generated/types";
-import { accessTokenState } from "./AccessToken";
+import { atom } from "recoil";
+import {  IUserOutput } from "../../Types/Generated/types";
+
 
 export const userInfoState = atom<IUserOutput | undefined>({
   key: "userInfoState",

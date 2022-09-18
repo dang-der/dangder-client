@@ -1,4 +1,4 @@
-import { bool } from "yup";
+
 import * as S from "./ChatMessageItem.styles";
 interface ChatMessageItemProps {
   isMine: boolean;

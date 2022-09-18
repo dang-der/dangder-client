@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface IMenuProps {
@@ -14,7 +14,8 @@ export default function Navigation() {
 
   const [isActive, setActive] = useState(1);
 
-  const onClickToggle = (event) => {
+  const onClickToggle = (event: MouseEvent<HTMLDivElement>) => {
+    if (!(event.target instanceof HTMLDivElement)) return;
     const activeNav = Number(event.target.id);
     setActive(activeNav);
   };

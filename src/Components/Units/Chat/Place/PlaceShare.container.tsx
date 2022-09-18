@@ -5,7 +5,7 @@ import LargeButton from "../../../Commons/Button/LargeButton";
 import Map from "../../../Commons/Map/Map";
 
 import * as S from "./PlaceShare.styles";
-import BlueButton from "../../../Commons/Button/BlueButton";
+
 
 interface PlaceShareContainerProps {
   handleEmitSend: (payload: { type: string; data: any }) => void;

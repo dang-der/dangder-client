@@ -1,10 +1,10 @@
 import { useApolloClient, useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useRecoilState } from "recoil";
 import { accessTokenState } from "../../../../Commons/Store/Auth/AccessToken";
-import { signUpInputState } from "../../../../Commons/Store/Auth/SignUpState";
+
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 import {
   IMutation,
@@ -14,7 +14,7 @@ import {
   IMutationVerifyMailTokenArgs,
 } from "../../../../Commons/Types/Generated/types";
 import LoadingModal from "../../../Commons/Modal/Loading/LoadingModal";
-import { FETCH_LOGIN_USER, USER_LOGIN } from "../Login/Login.queries";
+import {  USER_LOGIN } from "../Login/Login.queries";
 import {
   CREATE_MAIL_TOKEN,
   CREATE_USER,
@@ -24,11 +24,10 @@ import SignUpUI from "./SignUp.presenter";
 
 export default function SignUpContainer() {
   const router = useRouter();
-  const client = useApolloClient();
 
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
-  const [, setAccessToken] = useRecoilState(accessTokenState);
-  const [, setUserInfo] = useRecoilState(userInfoState);
+  const [, ] = useRecoilState(accessTokenState);
+  const [, ] = useRecoilState(userInfoState);
 
   const [createUser] = useMutation<
     Pick<IMutation, "createUser">,
@@ -45,7 +44,7 @@ export default function SignUpContainer() {
     IMutationVerifyMailTokenArgs
   >(VERIFY_MAIL_TOKEN);
 
-  const [loginUser] = useMutation<
+  const [] = useMutation<
     Pick<IMutation, "userLogin">,
     IMutationUserLoginArgs
   >(USER_LOGIN);
