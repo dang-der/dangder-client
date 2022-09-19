@@ -14,3 +14,12 @@ export const FETCH_AROUND_DOG = gql`
     }
   }
 `;
+
+export const JOIN_CHAT_ROOM = gql`
+  mutation joinChatRoom($dogId: String!, $chatPairId: String!) {
+    joinChatRoom(dogId: $dogId, chatPairId: $chatPairId) {
+      id
+    }
+  }
+`;
+
