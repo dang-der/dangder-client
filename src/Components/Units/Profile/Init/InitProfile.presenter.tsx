@@ -40,7 +40,7 @@ export default function InitProfileUI({
       ownerBirthYear: 0,
       ownerBirthMonth: 0,
       ownerBirthDay: 0,
-      createDogInput: {
+      dogInput: {
         imageUrls: [],
         imageFiles: [],
         dogBirthYear: 0,

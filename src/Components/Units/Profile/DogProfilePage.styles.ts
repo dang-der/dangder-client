@@ -95,6 +95,7 @@ export const DogDescription = styled.span`
 `;
 
 export const ProfileEditButtonWrapper = styled.div`
+  cursor: pointer;
   position: relative;
   display: flex;
   justify-content: center;
