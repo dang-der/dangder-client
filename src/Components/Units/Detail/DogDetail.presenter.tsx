@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { IQuery } from "../../../Commons/Types/Generated/types";
+import { IDog, IQuery } from "../../../Commons/Types/Generated/types";
 import * as S from "./DogDetail.styles";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
@@ -10,12 +10,16 @@ import "slick-carousel/slick/slick-theme.css";
 interface DogDetailUIProps {
   handleCreateLike: () => Promise<void>;
   pickDogData: Pick<IQuery, "fetchOneDog"> | undefined;
-  distanceData: Pick<IQuery, "fetchDogsDistance"> | undefined;
+  handleJoinChatRoom: () => Promise<void>;
+  data: IDog;
+  // distanceData: Pick<IQuery, "fetchDogsDistance"> | undefined;
 }
 
 export default function DogDetailUI({
   handleCreateLike,
+  handleJoinChatRoom,
   pickDogData,
+  data,
 }: DogDetailUIProps) {
   const router = useRouter();
 
@@ -25,6 +29,10 @@ export default function DogDetailUI({
 
   const onClickLike = () => {
     handleCreateLike();
+  };
+
+  const onClickPass = () => {
+    handleJoinChatRoom();
   };
 
   const settings = {
@@ -50,17 +58,13 @@ export default function DogDetailUI({
             slidesToShow={settings.slidesToShow}
             slidesToScroll={settings.slidesToScroll}
           >
-            <S.DetailImage
-              src={pickDogData?.fetchOneDog?.img[0].img}
-            ></S.DetailImage>
-            <S.DetailImage
-              // src={"/dog2.jpeg"}
-              src={pickDogData?.fetchOneDog?.img[0]?.img}
-            ></S.DetailImage>
-            <S.DetailImage
-              // src={"/dog5.jpeg"}
-              src={pickDogData?.fetchOneDog?.img[0]?.img}
-            ></S.DetailImage>
+            {pickDogData?.fetchOneDog.map((e: IDog) => (
+            <S.ImageWrapper key={e.id} id={e.id}>
+                  <S.DetailImage
+                    src={`https://storage.googleapis.com/${e.img}`}
+                  />
+                ))}
+            </S.ImageWrapper>
           </Slider>
         </S.DetailImageWrapper>
 
@@ -80,12 +84,12 @@ export default function DogDetailUI({
                             <S.DetailMoveReport onClick={onClickMoveReport}></S.DetailMoveReport>
                             </S.DetailReport> */}
           </S.DetailMaineTitle>
-          <S.DistanceWrapper>
+          {/* <S.DistanceWrapper>
             <LocationOnIcon style={{ cursor: "pointer" }} />
             <S.DetailKm>
-              {/* {distanceData?.fetchDogsDistance?.}Km */}
+              {distanceData?.fetchDogsDistance?.}Km
             </S.DetailKm>
-          </S.DistanceWrapper>
+          </S.DistanceWrapper> */}
           <S.DetailSubTitle>
             <S.DetailIntroduce>
               {pickDogData?.fetchOneDog.description}
@@ -126,7 +130,10 @@ export default function DogDetailUI({
               onClick={onClickMoveBack}
               src="/backIcon1.png"
             />
-            <S.DetailFunctionMoveChat src="/passIcon.png" />
+            <S.DetailFunctionMoveChat
+              onClick={onClickPass}
+              src="/passIcon.png"
+            />
             <S.DetailFunctionLike onClick={onClickLike} src="/likeIcon.png" />
           </S.DetailFunctionIconWrapper>
         </S.DetailContent>

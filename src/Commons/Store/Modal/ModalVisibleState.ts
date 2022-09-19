@@ -19,4 +19,3 @@ export const passBuyModalVisibleState = atom<boolean>({
   key: "passBuyModalVisibleState",
   default: false,
 });
-
