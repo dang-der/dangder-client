@@ -34,12 +34,8 @@ export default function TodayDogListUI({
     <S.Wrapper>
       {todayDogData ? (
         todayDogData?.fetchTodayDog.map((e: ITodayLikeDogOutput) => (
-          <S.ListWrapper>
-            <S.ListImageWrapper
-              key={e.id}
-              id={e.id}
-              onClick={onClickMoveDogDetail(e.id)}
-            >
+          <S.ListWrapper key={e.id}>
+            <S.ListImageWrapper id={e.id} onClick={onClickMoveDogDetail(e.id)}>
               <S.GradientBox
               // style={{
               //   backgroundImage: `url(${
