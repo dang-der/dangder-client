@@ -18,17 +18,16 @@ import {
 } from "../../../../Commons/Types/Generated/types";
 import { JOIN_CHAT_ROOM } from "../DogMain.queries";
 import { useRouter } from "next/router";
+import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 interface MatchedModalProps {
-  sendId: string;
   receiveId: string;
 }
 
-export default function MatchedModal({ sendId, receiveId }: MatchedModalProps) {
+export default function MatchedModal({ receiveId }: MatchedModalProps) {
   const router = useRouter();
 
-
-export default function MatchedModal() {
+  const [userInfo] = useRecoilState(userInfoState);
   const [visible, setVisible] = useRecoilState(matchedModalVisibleState);
 
   const { data: pairDogData } = useQuery<
@@ -41,6 +40,8 @@ export default function MatchedModal() {
     IMutationJoinChatRoomArgs
   >(JOIN_CHAT_ROOM);
 
+  console.log("MatchedModal", pairDogData);
+
   const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
     if (typeof visible === "boolean") {
       setVisible(visible);
@@ -50,10 +51,11 @@ export default function MatchedModal() {
   };
 
   const onClickChat = async () => {
+    console.log("onClickChat");
     try {
       const { data } = await joinChatRoom({
         variables: {
-          dogId: sendId,
+          dogId: userInfo?.dog?.id || "",
           chatPairId: receiveId,
         },
       });
@@ -71,33 +73,35 @@ export default function MatchedModal() {
   };
 
   return (
-
     <>
-      {visible && (
-        <DimWrapper>
-          <S.CloseIconWrapper onClick={toggleModal}>
-            <CloseRoundedIcon />
-          </S.CloseIconWrapper>
-          <S.Wrapper>
-            <S.DogImageWrapper>
-              <Lottie animationData={ani_matched} loop={true} />
-              <S.DogImage />
-            </S.DogImageWrapper>
-
-            <span>
-              매칭 성공!
-              <br />
-              오전이님과 대화해보세요!
-            </span>
-
-            <BlueButton
-              title="채팅하기"
-              onClick={() => {}}
-              style={{ width: "12.5rem", marginTop: "5rem", fontSize: "1rem" }}
+      <DimWrapper>
+        <S.CloseIconWrapper onClick={toggleModal}>
+          <CloseRoundedIcon />
+        </S.CloseIconWrapper>
+        <S.Wrapper>
+          <S.DogImageWrapper>
+            <Lottie animationData={ani_matched} loop={true} />
+            <S.DogImage
+              src={
+                "https://storage.googleapis.com/" +
+                pairDogData?.fetchOneDog.img[0].img
+              }
             />
-          </S.Wrapper>
-        </DimWrapper>
-      )}
+          </S.DogImageWrapper>
+
+          <span>
+            매칭 성공!
+            <br />
+            {pairDogData?.fetchOneDog.name}님과 대화해보세요!
+          </span>
+
+          <BlueButton
+            title="채팅하기"
+            onClick={onClickChat}
+            style={{ width: "12.5rem", marginTop: "5rem", fontSize: "1rem" }}
+          />
+        </S.Wrapper>
+      </DimWrapper>
     </>
   );
 }

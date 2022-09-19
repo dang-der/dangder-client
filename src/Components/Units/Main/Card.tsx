@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion, useMotionValue, useAnimation } from "framer-motion";
 import styled from "@emotion/styled";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useRouter } from "next/router";
 
 const StyledCard = styled(motion.div)`
   position: absolute;
@@ -17,12 +18,14 @@ const Item = styled.div`
   }
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: 20px;
   box-shadow: 0px 10px 10px 0px rgba(150, 150, 150, 0.3);
   border-radius: 8px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
+  transform: ${() => {
+    const rotation = Math.random() * (2 - -2) + -2;
+    return `rotate(${rotation}deg)`;
+  }};
 `;
 
 interface CardProps {
@@ -32,9 +35,9 @@ interface CardProps {
 }
 
 export const Card = ({ onVote, data, drag }: CardProps) => {
+  const router = useRouter();
   const cardElem = useRef<HTMLDivElement | null>(null);
 
-  console.log("Card", data);
   const x = useMotionValue(0);
   const controls = useAnimation();
 
@@ -110,48 +113,60 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
     return () => unsubscribeX();
   });
 
+  const onClickItem = () => {
+    if (!data[0].id) return;
+    router.push(`/${String(data[0].id)}`);
+  };
+
   return (
-    <StyledCard
-      animate={controls}
-      dragConstraints={constrained && { left: 0, right: 0, top: 0, bottom: 0 }}
-      dragElastic={1}
-      ref={cardElem}
-      style={{ x }}
-      onDrag={getTrajectory}
-      onDragEnd={() => flyAway(500)}
-      whileTap={{ scale: 1.1 }}
-      drag={drag}
-    >
-      <Item
-        style={{
-          backgroundImage: `url(${
-            "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
-          })`,
-          backgroundSize: "cover",
-        }}
+    <>
+      <StyledCard
+        animate={controls}
+        dragConstraints={
+          constrained && { left: 0, right: 0, top: 0, bottom: 0 }
+        }
+        dragElastic={1}
+        ref={cardElem}
+        style={{ x }}
+        onDrag={getTrajectory}
+        onDragEnd={() => flyAway(500)}
+        whileTap={{ scale: 1.1 }}
+        drag={drag}
       >
-        <DogInfoWrapper>
-          <DogHeaderWrapper>
-            <DogHeader>{data[0].name}, &nbsp;</DogHeader>
-            <DogHeader> {data[0].age}</DogHeader>
-          </DogHeaderWrapper>
-          <DogDistance>
-            <LocationOnIcon />
-            {data[1].distance}km
-          </DogDistance>
-          <DogDescription>{data[0].description}</DogDescription>
-        </DogInfoWrapper>
-        <DogPassWrapper>
-          <DogPassIcon src="/passIcon.png" />
-        </DogPassWrapper>
-      </Item>
-    </StyledCard>
+        <Item
+          style={{
+            backgroundImage: `url(${
+              "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
+            })`,
+            backgroundSize: "cover",
+          }}
+          onClick={onClickItem}
+        >
+          <DogInfoWrapper>
+            <DogHeaderWrapper>
+              <DogHeader>{data[0]?.name}, &nbsp;</DogHeader>
+              <DogHeader> {data[0]?.age}</DogHeader>
+            </DogHeaderWrapper>
+            <DogDistance>
+              <LocationOnIcon />
+              {data[1]?.distance}km
+            </DogDistance>
+            <DogDescription>{data[0]?.description}</DogDescription>
+          </DogInfoWrapper>
+        </Item>
+      </StyledCard>
+
+      <DogPassWrapper>
+        <DogPassIcon src="/passIcon.png" />
+      </DogPassWrapper>
+    </>
   );
 };
 
 const DogInfoWrapper = styled.div`
   width: 100%;
   height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -168,13 +183,12 @@ const DogInfoWrapper = styled.div`
 
 const DogHeaderWrapper = styled.div`
   display: flex;
-`;
-
-const DogHeader = styled.span`
   color: #ffffff;
   font-size: 2rem;
   font-weight: 700;
 `;
+
+const DogHeader = styled.span``;
 
 const DogDistance = styled.span`
   display: flex;
@@ -193,7 +207,14 @@ const DogDescription = styled.span`
 `;
 
 const DogPassWrapper = styled.div`
-  position: relative;
+  cursor: pointer;
+  position: absolute;
+  bottom: 1.5rem;
+  right: -1rem;
+  padding: 0;
 `;
 
-const DogPassIcon = styled.img``;
+const DogPassIcon = styled.img`
+  width: 7rem;
+  height: 7rem;
+`;
