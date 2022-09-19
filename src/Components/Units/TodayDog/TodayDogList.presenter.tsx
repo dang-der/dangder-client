@@ -1,34 +1,78 @@
 import { useRouter } from "next/router";
+import { MouseEvent } from "react";
+import {
+  IQuery,
+  ITodayLikeDogOutput,
+} from "../../../Commons/Types/Generated/types";
 import * as S from "./TodayDogList.styles";
 
-export default function TodayDogListUI() {
+interface TodayDogListUIProps {
+  todayDogData: Pick<IQuery, "fetchTodayDog"> | undefined;
+  handleJoinChatRoom: () => Promise<void>;
+}
+
+export default function TodayDogListUI({
+  todayDogData,
+  handleJoinChatRoom,
+}: TodayDogListUIProps) {
   const router = useRouter();
 
-  const onClickMoveDogDetail = () => {
-    router.push("/dogId");
-  };
+  console.log("TodayDogListUI", todayDogData);
+
+  const onClickMoveDogDetail =
+    (dogId: string) => (event: MouseEvent<HTMLDivElement>) => {
+      if (!(event.target instanceof HTMLDivElement)) return;
+      router.push(`/${dogId}`);
+    };
 
   const onClickPass = () => {
-    router.push("/chat");
+    handleJoinChatRoom();
+    console.log(onClickPass, "???");
   };
 
   return (
     <S.Wrapper>
-      <S.ListWrapper>
-        <S.ListImageWrapper onClick={onClickMoveDogDetail}>
-          <S.GradientBox />
-          {/* <S.ListImage src="/dog5.jpeg"></S.ListImage> */}
-          {/* <S.ListImage src={pickDogData?.fetchOneDog?.img[0].img}></S.ListImage> */}
-        </S.ListImageWrapper>
-        <S.ListFunctionIconWrapper>
-          <S.ListFunctionMoveChat onClick={onClickPass} src="/passIcon.png" />
-        </S.ListFunctionIconWrapper>
-        <S.ListInfo>
-          <S.ListName>그릉이,</S.ListName>
-          <S.ListAge>4</S.ListAge>
-        </S.ListInfo>
-        {/* <S.GradientBox /> */}
-      </S.ListWrapper>
+      {todayDogData ? (
+        todayDogData?.fetchTodayDog.map((e: ITodayLikeDogOutput) => (
+          <S.ListWrapper>
+            <S.ListImageWrapper
+              key={e.id}
+              id={e.id}
+              onClick={onClickMoveDogDetail(e.id)}
+            >
+              <S.GradientBox
+              // style={{
+              //   backgroundImage: `url(${
+              //     "https://storage.googleapis.com/" +
+              //       todayDogData?.fetchTodayDog.mainImg[0] || ""
+              //   })`,
+              // }}
+              />
+              <S.ListImage
+                style={{
+                  backgroundImage: `url(${
+                    "https://storage.googleapis.com/" + e.mainImg[0] || ""
+                  })`,
+                }}
+              />
+              {/* <S.ListImage src={todayDogData?.fetchTodayDog.mainImg}></S.ListImage> */}
+            </S.ListImageWrapper>
+            <S.ListFunctionIconWrapper>
+              <S.ListFunctionMoveChat
+                onClick={onClickPass}
+                // src={todayDogData?.fetchTodayDog.mainImg}
+                src="/passIcon.png"
+              />
+            </S.ListFunctionIconWrapper>
+            <S.ListInfo>
+              <S.ListName>{e.name},</S.ListName>
+              <S.ListAge>{e.age}</S.ListAge>
+            </S.ListInfo>
+          </S.ListWrapper>
+        ))
+      ) : (
+        <></>
+      )}
     </S.Wrapper>
   );
 }

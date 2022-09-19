@@ -50,3 +50,9 @@ export const FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID = gql`
     }
   }
 `;
+
+export const DELETE_CHAT_ROOM = gql`
+  mutation deleteChatRoom($id: String!) {
+    deleteChatRoom(id: $id)
+  }
+`;

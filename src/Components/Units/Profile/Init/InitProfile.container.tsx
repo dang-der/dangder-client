@@ -1,18 +1,17 @@
 import { useMutation, useQuery } from "@apollo/client";
 import moment from "moment";
 import { useRouter } from "next/router";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import useGeolocation from "react-hook-geolocation";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
-
-
-import {
-  IProfileInputState,
-} from "../../../../Commons/Store/Profile/ProfileInitState";
+import { IProfileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
 import {
   IMutation,
   IMutationCreateDogArgs,
   IMutationGetDogInfoArgs,
+  IMutationUpdateDogArgs,
   IMutationUploadFileArgs,
   IQuery,
 } from "../../../../Commons/Types/Generated/types";
@@ -24,6 +23,7 @@ import {
   FETCH_CHARACTERS,
   FETCH_INTERESTS,
   GET_DOG_INFO,
+  UPDATE_DOG,
   UPLOAD_FILE,
 } from "./InitProfile.queries";
 
@@ -32,6 +32,7 @@ export default function InitProfileContainer() {
   const geo = useGeolocation();
 
   const [regNumErrorVisible, setRegNumErrorVisible] = useState(false);
+  const [userInfo] = useRecoilState(userInfoState);
 
   const { data: charactersData } =
     useQuery<Pick<IQuery, "fetchCharacters">>(FETCH_CHARACTERS);
@@ -53,6 +54,11 @@ export default function InitProfileContainer() {
     Pick<IMutation, "uploadFile">,
     IMutationUploadFileArgs
   >(UPLOAD_FILE);
+
+  const [updateDog] = useMutation<
+    Pick<IMutation, "updateDog">,
+    IMutationUpdateDogArgs
+  >(UPDATE_DOG);
 
   const handleCheckDogRegisterNumber = async (inputs: any) => {
     console.log("handleCheckDogRegisterNumber", inputs);
@@ -91,21 +97,23 @@ export default function InitProfileContainer() {
   const handleCreateDog =
     (location: { lat: number; lng: number } | undefined) =>
     async (inputs: IProfileInputState) => {
+      console.log("handleCreateDog", router.query);
+
       const ownerBirth =
         String(inputs.ownerBirthYear).substring(2) +
         String(inputs.ownerBirthMonth).padStart(2, "0") +
         String(inputs.ownerBirthDay).padStart(2, "0");
 
       const dogBirth =
-        String(inputs.createDogInput.dogBirthYear) +
-        String(inputs.createDogInput.dogBirthMonth).padStart(2, "0") +
-        String(inputs.createDogInput.dogBirthDay).padStart(2, "0");
+        String(inputs.dogInput.dogBirthYear) +
+        String(inputs.dogInput.dogBirthMonth).padStart(2, "0") +
+        String(inputs.dogInput.dogBirthDay).padStart(2, "0");
 
       const age = moment().diff(moment(dogBirth), "years");
 
       try {
         const { data: filesData } = await uploadFiles({
-          variables: { files: inputs.createDogInput.imageFiles },
+          variables: { files: inputs.dogInput.imageFiles },
         });
 
         if (!filesData) {
@@ -113,14 +121,42 @@ export default function InitProfileContainer() {
           return false;
         }
 
-        const { data: result } = await createDog({
+        if (router.query.init !== "false") {
+          const { data: result } = await createDog({
+            variables: {
+              createDogInput: {
+                age: Number(age) || 1,
+                description: inputs.dogInput.introduce,
+                birthday: dogBirth,
+                interests: inputs.dogInput.interests,
+                characters: inputs.dogInput.characters,
+                avoidBreeds: ["asdfsdf", "불독"],
+                locations: {
+                  lat: location?.lat || 0,
+                  lng: location?.lng || 0,
+                },
+                img: filesData.uploadFile,
+                userId: String(router.query.user || ""),
+              },
+              dogRegNum: inputs.registerNumber,
+              ownerBirth,
+            },
+          });
+          console.log("handleCreateDog", result);
+          return !!result?.createDog;
+        }
+
+        console.log("CreateDog", userInfo);
+        if (!userInfo?.dog) return;
+
+        const { data: result } = await updateDog({
           variables: {
-            createDogInput: {
+            updateDogInput: {
               age: Number(age) || 1,
-              description: inputs.createDogInput.introduce,
+              description: inputs.dogInput.introduce,
               birthday: dogBirth,
-              interests: inputs.createDogInput.interests,
-              characters: inputs.createDogInput.characters,
+              interests: inputs.dogInput.interests,
+              characters: inputs.dogInput.characters,
               avoidBreeds: ["asdfsdf", "불독"],
               locations: {
                 lat: location?.lat || 0,
@@ -131,10 +167,11 @@ export default function InitProfileContainer() {
             },
             dogRegNum: inputs.registerNumber,
             ownerBirth,
+            dogId: userInfo?.dog?.id,
           },
         });
-        console.log("handleCreateDog", result);
-        return !!result?.createDog;
+        console.log("handleUpdateDog", result);
+        return !!result?.updateDog;
       } catch (e) {
         console.log("handleClickCreateDog", e);
         return false;

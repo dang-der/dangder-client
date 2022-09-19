@@ -53,13 +53,13 @@ export const GradientBox = styled.div`
     url("/dog5.jpeg");
 `;
 
-// export const ListImage = styled.img`
-//   width: 15rem;
-//   height: 22rem;
-//   /* width: 100%;
-//   height: 100%; */
-//   border-radius: 1.25rem;
-// `;
+export const ListImage = styled.span`
+  width: 14rem;
+  height: 20rem;
+  /* width: 100%;
+  height: 100%; */
+  border-radius: 1.25rem;
+`;
 
 export const ListFunctionIconWrapper = styled.div`
   display: flex;

@@ -49,16 +49,16 @@ export default function ProfileInputPage() {
       const fileUrl = data.target?.result;
 
       setInputs((p) => {
-        const copy = [...p.createDogInput.imageUrls];
+        const copy = [...p.dogInput.imageUrls];
         copy[index] = fileUrl;
 
-        const fileCopy = [...p.createDogInput.imageFiles];
+        const fileCopy = [...p.dogInput.imageFiles];
         fileCopy[index] = file;
 
         return {
           ...p,
-          createDogInput: {
-            ...p.createDogInput,
+          dogInput: {
+            ...p.dogInput,
             imageUrls: copy,
             imageFiles: fileCopy,
           },
@@ -70,8 +70,8 @@ export default function ProfileInputPage() {
   const onChangeDogBirthYear = (year: number) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         dogBirthYear: year,
       },
     }));
@@ -80,8 +80,8 @@ export default function ProfileInputPage() {
   const onChangeDogBirthMonth = (month: number) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         dogBirthMonth: month,
       },
     }));
@@ -90,8 +90,8 @@ export default function ProfileInputPage() {
   const onChangeDogBirthDay = (day: number) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         dogBirthDay: day,
       },
     }));
@@ -100,8 +100,8 @@ export default function ProfileInputPage() {
   const onChangeCheckUnknownBirth = (e: CheckboxChangeEvent) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         isUnknownDogBirth: e.target.checked,
       },
     }));
@@ -110,8 +110,8 @@ export default function ProfileInputPage() {
   const onChangeIntroduce = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         introduce: e.target.value,
       },
     }));
@@ -137,7 +137,7 @@ export default function ProfileInputPage() {
             <ImageFileInput
               key={uuid()}
               onChangeFile={onChangeFile(i)}
-              defaultImageUrl={inputs.createDogInput.imageUrls[i]}
+              defaultImageUrl={inputs.dogInput.imageUrls[i]}
             />
           ))}
       </S.RowWrapper>

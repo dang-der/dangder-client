@@ -1,5 +1,5 @@
-import TodayDogListUI from "../../src/Components/Units/TodayDog/TodayDogList.presenter";
+import TodayDogList from "../../src/Components/Units/TodayDog/TodayDogList.container";
 
 export default function TodayPage() {
-  return <TodayDogListUI />;
+  return <TodayDogList />;
 }
