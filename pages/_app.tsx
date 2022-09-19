@@ -7,12 +7,14 @@ import { RecoilRoot } from "recoil";
 import Layout from "../src/Components/Commons/layout";
 import ApolloSetting from "../src/Commons/Settings/apollosetting";
 import AuthModal from "../src/Components/Commons/Modal/AuthModal/AuthModal";
+import ExceptionModal from "../src/Components/Commons/Modal/ExceptionModal/ExceptionModal";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Wrapper>
       <RecoilRoot>
         <AuthModal />
+        <ExceptionModal />
         <ApolloSetting>
           <Global styles={globalStyles} />
           <Layout>

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { accessTokenState } from "../../../../Commons/Store/Auth/AccessToken";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 import {
   IMutation,
   IMutationUserLoginArgs,
@@ -22,24 +23,32 @@ export default function LoginContainer() {
 
   const [, setAccessToken] = useRecoilState(accessTokenState);
   const [, setUserInfo] = useRecoilState(userInfoState);
+  const [, setExeptionModal] = useRecoilState(exceptionModalState);
 
   const handleUserLogin = async (inputs: any) => {
-    const result = await userLogin({
-      variables: { ...inputs },
-    });
-    const accessToken = result.data?.userLogin || "";
+    try {
+      const result = await userLogin({
+        variables: { ...inputs },
+      });
+      const accessToken = result.data?.userLogin || "";
 
-    if (!accessToken) {
-      alert("로그인에 실패였습니다. 다시 시도해 주세요.");
+      if (!accessToken) {
+        alert("로그인에 실패였습니다. 다시 시도해 주세요.");
+      }
+
+      setAccessToken(accessToken);
+
+      const { data } = await client.query({ query: FETCH_LOGIN_USER });
+      if (!data) return;
+      setUserInfo(data.fetchLoginUser);
+
+      router.replace("/");
+    } catch (e) {
+      console.log("LoginError", e);
+      if (e instanceof Error) {
+        setExeptionModal({ visible: true, message: e.message });
+      }
     }
-
-    setAccessToken(accessToken);
-
-    const { data } = await client.query({ query: FETCH_LOGIN_USER });
-    if (!data) return;
-    setUserInfo(data.fetchLoginUser);
-
-    router.replace("/");
   };
 
   return <LoginUI handleUserLogin={handleUserLogin} />;
