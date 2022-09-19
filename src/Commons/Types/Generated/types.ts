@@ -75,6 +75,8 @@ export type IChatRoom = {
   __typename?: 'ChatRoom';
   chatMessages: Array<IChatMessage>;
   chatPairId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
   dog: IDog;
   id: Scalars['String'];
 };
@@ -83,7 +85,6 @@ export type IChatRoom = {
 export type IChatRoomsOutput = {
   __typename?: 'ChatRoomsOutput';
   chatPairDog?: Maybe<IDog>;
-  dog?: Maybe<IDog>;
   id?: Maybe<Scalars['String']>;
   lastMessage?: Maybe<IChatMessage>;
 };
@@ -226,6 +227,7 @@ export type IMutation = {
   /** Return : 메일발송 성공 여부 (true / false) */
   createMailToken: Scalars['Boolean'];
   createOrder: IOrder;
+  createPassTicket: IPassTicket;
   /** Return : 생성된 결제 정보 */
   createPayment: IPayment;
   /** Return : 포인트 결제내역 */
@@ -243,6 +245,7 @@ export type IMutation = {
   deleteDog: Scalars['Boolean'];
   deleteInterest: Scalars['Boolean'];
   deleteOrder: Scalars['Boolean'];
+  deletePassTicket: Scalars['Boolean'];
   deleteProduct: Scalars['Boolean'];
   /** Return : deletedAt(유저 정보 삭제된 시간) */
   deleteUser: Scalars['Boolean'];
@@ -406,6 +409,11 @@ export type IMutationDeleteOrderArgs = {
 };
 
 
+export type IMutationDeletePassTicketArgs = {
+  id: Scalars['String'];
+};
+
+
 export type IMutationDeleteProductArgs = {
   id: Scalars['String'];
 };
@@ -500,6 +508,14 @@ export enum IPayment_Status_Enum {
   Payment = 'PAYMENT'
 }
 
+export type IPassTicket = {
+  __typename?: 'PassTicket';
+  createdAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  expiredAt: Scalars['String'];
+  id: Scalars['String'];
+};
+
 export type IPayment = {
   __typename?: 'Payment';
   createdAt: Scalars['DateTime'];
@@ -555,6 +571,7 @@ export type IQuery = {
   fetchOneDog: IDog;
   fetchOrderById: IOrder;
   fetchOrderByPhone: IOrder;
+  fetchPassTicket: IPassTicket;
   fetchProduct: IProduct;
   /** Return : 신고 정보 */
   fetchTarget: IReport;
@@ -572,6 +589,11 @@ export type IQuery = {
 export type IQueryFetchAroundDogsArgs = {
   id: Scalars['String'];
   page: Scalars['Float'];
+};
+
+
+export type IQueryFetchAvoidBreedsArgs = {
+  search?: InputMaybe<Scalars['String']>;
 };
 
 
