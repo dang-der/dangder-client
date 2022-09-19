@@ -15,8 +15,7 @@ interface DogDetailUIProps {
 
 export default function DogDetailUI({
   handleCreateLike,
-  pickDogData
-  ,
+  pickDogData,
 }: DogDetailUIProps) {
   const router = useRouter();
 
