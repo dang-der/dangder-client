@@ -1,5 +1,9 @@
 import { useRouter } from "next/router";
-import { IDog, IQuery } from "../../../Commons/Types/Generated/types";
+import {
+  IDog,
+  IDogImage,
+  IQuery,
+} from "../../../Commons/Types/Generated/types";
 import * as S from "./DogDetail.styles";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
@@ -11,7 +15,6 @@ interface DogDetailUIProps {
   handleCreateLike: () => Promise<void>;
   pickDogData: Pick<IQuery, "fetchOneDog"> | undefined;
   handleJoinChatRoom: () => Promise<void>;
-  data: IDog;
   // distanceData: Pick<IQuery, "fetchDogsDistance"> | undefined;
 }
 
@@ -19,7 +22,6 @@ export default function DogDetailUI({
   handleCreateLike,
   handleJoinChatRoom,
   pickDogData,
-  data,
 }: DogDetailUIProps) {
   const router = useRouter();
 
@@ -43,9 +45,6 @@ export default function DogDetailUI({
     slidesToScroll: 1,
   };
 
-  // const onClickMoveReport = () => {
-  //   router.push("/report");
-  // };
   console.log(pickDogData);
   return (
     <S.Wrapper>
@@ -58,13 +57,13 @@ export default function DogDetailUI({
             slidesToShow={settings.slidesToShow}
             slidesToScroll={settings.slidesToScroll}
           >
-            {pickDogData?.fetchOneDog.map((e: IDog) => (
-            <S.ImageWrapper key={e.id} id={e.id}>
-                  <S.DetailImage
-                    src={`https://storage.googleapis.com/${e.img}`}
-                  />
-                ))}
-            </S.ImageWrapper>
+            {pickDogData?.fetchOneDog.img.map((e: IDogImage) => (
+              <S.ImageWrapper key={e.id} id={e.id}>
+                <S.DetailImage
+                  src={`https://storage.googleapis.com/${e.img}`}
+                />
+              </S.ImageWrapper>
+            ))}
           </Slider>
         </S.DetailImageWrapper>
 
@@ -90,26 +89,36 @@ export default function DogDetailUI({
               {distanceData?.fetchDogsDistance?.}Km
             </S.DetailKm>
           </S.DistanceWrapper> */}
+
           <S.DetailSubTitle>
             <S.DetailIntroduce>
               {pickDogData?.fetchOneDog.description}
             </S.DetailIntroduce>
           </S.DetailSubTitle>
+
           <S.DetailSubMaineTitle>
-            <S.DetailCharacterTitle>성격</S.DetailCharacterTitle>
-            <S.DetailCharacterBox>
-              <S.DetailCharacter>
-                {pickDogData?.fetchOneDog?.interests[0]}
-              </S.DetailCharacter>
-              {/* <S.DetailCharacter>애교쟁이</S.DetailCharacter> 
+            {(pickDogData?.fetchOneDog.characters.length || 0) > 0 && (
+              <div>
+                <S.DetailCharacterTitle>성격</S.DetailCharacterTitle>
+                <S.DetailCharacterBox>
+                  <S.DetailCharacter>
+                    {pickDogData?.fetchOneDog?.characters.map((e) => (
+                      <div key={e.id}>{e.character}</div>
+                    ))}
+                  </S.DetailCharacter>
+                  {/* <S.DetailCharacter>애교쟁이</S.DetailCharacter> 
                             <S.DetailCharacter>활발함</S.DetailCharacter>  */}
-            </S.DetailCharacterBox>
+                </S.DetailCharacterBox>
+              </div>
+            )}
           </S.DetailSubMaineTitle>
+
+          
           <S.DetailSubMaineTitle>
             <S.DetailCharacterTitle>관심사</S.DetailCharacterTitle>
             <S.DetailCharacterBox>
               <S.DetailCharacter>
-                {pickDogData?.fetchOneDog?.characters[0]}
+                {/* {pickDogData?.fetchOneDog?.characters[0]} */}
               </S.DetailCharacter>
               {/* <S.DetailCharacter>공놀이</S.DetailCharacter> 
                             <S.DetailCharacter>물놀이</S.DetailCharacter>  */}
@@ -119,7 +128,7 @@ export default function DogDetailUI({
             <S.DetailCharacterTitle>기피견종</S.DetailCharacterTitle>
             <S.DetailCharacterBox>
               <S.DetailCharacter>
-                {pickDogData?.fetchOneDog?.avoidBreeds[0]}
+                {/* {pickDogData?.fetchOneDog?.avoidBreeds[0]} */}
               </S.DetailCharacter>
               {/* <S.DetailCharacter>공놀이</S.DetailCharacter> 
                             <S.DetailCharacter>물놀이</S.DetailCharacter>  */}
