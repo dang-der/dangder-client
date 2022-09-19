@@ -19,3 +19,17 @@ export const passBuyModalVisibleState = atom<boolean>({
   key: "passBuyModalVisibleState",
   default: false,
 });
+
+interface IExceptionModal {
+  visible: boolean;
+  message: string;
+}
+
+export const exceptionModalState = atom<IExceptionModal>({
+  key: "exceptionModalState",
+  default: {
+    visible: false,
+    message: "",
+  },
+});
+

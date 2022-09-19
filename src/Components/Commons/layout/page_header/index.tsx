@@ -62,9 +62,13 @@ export default function PageHeader() {
     }
   }, [router.pathname]);
 
+  const onClickBackArrow = () => {
+    router.back();
+  };
+
   return (
     <Wrapper>
-      <ArrowBackIcon />
+      <ArrowBackIcon onClick={onClickBackArrow} style={{ cursor: "pointer" }} />
       <span
         ref={pageTitleRef}
         style={{ fontSize: "1.5rem", fontWeight: "700", marginLeft: "1rem" }}

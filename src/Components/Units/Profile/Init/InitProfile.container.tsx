@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useGeolocation from "react-hook-geolocation";
 import { useRecoilState } from "recoil";
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 import { IProfileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
@@ -32,7 +33,9 @@ export default function InitProfileContainer() {
   const geo = useGeolocation();
 
   const [regNumErrorVisible, setRegNumErrorVisible] = useState(false);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
   const [userInfo] = useRecoilState(userInfoState);
+
 
   const { data: charactersData } =
     useQuery<Pick<IQuery, "fetchCharacters">>(FETCH_CHARACTERS);
@@ -117,7 +120,10 @@ export default function InitProfileContainer() {
         });
 
         if (!filesData) {
-          // todo : 이미지 등록 실패 다이얼로그 띄우기
+          setExceptionModal({
+            visible: true,
+            message: "이미지 업로드에 실패했습니다. <br/> 다시 시도해주세요.",
+          });
           return false;
         }
 
@@ -170,10 +176,19 @@ export default function InitProfileContainer() {
             dogId: userInfo?.dog?.id,
           },
         });
+
         console.log("handleUpdateDog", result);
         return !!result?.updateDog;
+
       } catch (e) {
         console.log("handleClickCreateDog", e);
+
+        if (e instanceof Error) {
+          setExceptionModal({
+            visible: true,
+            message: e.message,
+          });
+        }
         return false;
       }
     };

@@ -11,6 +11,7 @@ import ProfileInput2Page from "./Page/ProfileInput2Page";
 import ProfileInputPage from "./Page/ProfileInputPage";
 import RegistrationNumberInputPage from "./Page/RegistrationNumberInputPage";
 import { IQuery } from "../../../../Commons/Types/Generated/types";
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 
 interface InitProfileUIProps {
   handleCheckDogRegisterNumber: (inputs: any) => Promise<boolean>;
@@ -30,13 +31,16 @@ export default function InitProfileUI({
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [inputs, setInputs] = useRecoilState(profileInputState);
 
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
+
+
   useEffect(() => {
     setInputs({
       registerNumber: "",
       ownerBirthYear: 0,
       ownerBirthMonth: 0,
       ownerBirthDay: 0,
-      dogInput: {
+      createDogInput: {
         imageUrls: [],
         imageFiles: [],
         dogBirthYear: 0,
@@ -69,7 +73,7 @@ export default function InitProfileUI({
           !inputs.dogInput.dogBirthDay) &&
         !inputs.dogInput.introduce
       ) {
-        // todo : 에러 다이얼로그 띄우기
+        setExceptionModal({ visible: true, message: "입력값을 확인해주세요." });
         return;
       }
       setCurrentPageIndex(currentPageIndex + 1);
