@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { signUpInputState } from "../../../../../Commons/Store/Auth/SignUpState";
 import Timer from "../../../../Commons/Timer/Timer";

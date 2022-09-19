@@ -1,10 +1,5 @@
 import styled from "@emotion/styled";
 import { memo, useEffect, useRef, useState } from "react";
-import useGeolocation from "react-hook-geolocation";
-import {
-  placeMessageState,
-  PlaceMessageStateProps,
-} from "../../../Commons/Store/Chat/Chat";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -18,7 +13,7 @@ declare const window: typeof globalThis & {
 interface IMapProps {
   position?: { lat: number; lng: number };
   address?: string;
-  onChangeMarker?: (obj: PlaceMessageStateProps) => void;
+  onChangeMarker?: (obj: { lat: number; lng: number }) => void;
 }
 
 function Map({ position, address, onChangeMarker }: IMapProps) {

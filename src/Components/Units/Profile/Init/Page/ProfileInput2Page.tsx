@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { profileInputState } from "../../../../../Commons/Store/Profile/ProfileInitState";
 import {
@@ -13,8 +13,8 @@ interface ProfileInput2PageProps {
   // avoidBreeds: string[];
 }
 export default function ProfileInput2Page({
-  characters,
-  interests,
+  
+  
 }: ProfileInput2PageProps) {
   const [inputs, setInputs] = useRecoilState(profileInputState);
 

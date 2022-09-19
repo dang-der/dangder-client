@@ -1,6 +1,6 @@
-import { useApolloClient, useQuery } from "@apollo/client";
+import {  useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect,  useState } from "react";
 import { useRecoilState } from "recoil";
 
 import { socket } from "../../../../Commons/Socket";
@@ -9,16 +9,15 @@ import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
 
 import {
   IChatMessage,
-  IDog,
+  
   IQuery,
   IQueryFetchChatMessagesByChatRoomIdArgs,
-  IQueryFetchOneDogArgs,
+  
   Maybe,
 } from "../../../../Commons/Types/Generated/types";
-import { FETCH_LOGIN_USER } from "../../Auth/Login/Login.queries";
+
 import {
   FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID,
-  FETCH_ONE_DOG,
 } from "../Chat.queries";
 import ChatRoomUI from "./ChatRoom.presenter";
 

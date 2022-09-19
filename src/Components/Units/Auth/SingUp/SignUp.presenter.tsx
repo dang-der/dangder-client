@@ -53,7 +53,7 @@ export default function SignUpUI({
     }
     // 비밀번호 입력 페이지
     if (currentPageIndex === 2) {
-      const result = await handleSignUp(inputs?.email, inputs?.password);
+      await handleSignUp(inputs?.email, inputs?.password);
     }
   };
 

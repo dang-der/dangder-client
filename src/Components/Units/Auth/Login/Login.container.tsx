@@ -1,16 +1,12 @@
-import { useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import {
-  accessTokenState,
-  loggedInUserLoadable,
-} from "../../../../Commons/Store/Auth/AccessToken";
+
+import { useRecoilState } from "recoil";
+import { accessTokenState } from "../../../../Commons/Store/Auth/AccessToken";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 import {
   IMutation,
   IMutationUserLoginArgs,
-  IQuery,
 } from "../../../../Commons/Types/Generated/types";
 import LoginUI from "./Login.presenter";
 import { FETCH_LOGIN_USER, USER_LOGIN } from "./Login.queries";
@@ -24,7 +20,7 @@ export default function LoginContainer() {
     IMutationUserLoginArgs
   >(USER_LOGIN);
 
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [, setAccessToken] = useRecoilState(accessTokenState);
   const [, setUserInfo] = useRecoilState(userInfoState);
 
   const handleUserLogin = async (inputs: any) => {

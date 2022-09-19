@@ -4,7 +4,6 @@ import { useState } from "react";
 import {
   IMutation,
   IMutationDeleteUserArgs,
-  // IMutationDeleteUserArgs,
 } from "../../../Commons/Types/Generated/types";
 import DeleteUserModal from "./DeleteUserModal/DeleteUserModal";
 import SettingsUI from "./Settings.presenter";
@@ -15,7 +14,7 @@ export default function Settings() {
   const [deleteUserCheckModal, setDeleteUserCheckModal] = useState(false);
 
   const [userLogout] = useMutation<Pick<IMutation, "userLogout">>(USER_LOG_OUT);
-  const [deleteUser] = useMutation<
+  const [] = useMutation<
     Pick<IMutation, "deleteUser">,
     IMutationDeleteUserArgs
   >(DELETE_USER);

@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import LineInput from "../../../../Commons/LineInputs/LineInput";
 import * as S from "./Page.styles";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { useRecoilState } from "recoil";
 import { profileInputState } from "../../../../../Commons/Store/Profile/ProfileInitState";
 import BirthInput from "../../../../Commons/LineInputs/BirthInput/BirthInput";
@@ -31,7 +31,7 @@ const schema = yup.object({
 
 export default function RegistrationNumberInputPage() {
   const [, setInputs] = useRecoilState(profileInputState);
-  const { register, formState, reset } = useForm({
+  const { register, formState  } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });

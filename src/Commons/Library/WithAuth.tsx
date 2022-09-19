@@ -1,6 +1,6 @@
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect } from "react";
+import {  useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { authModalVisibleState } from "../Store/Modal/ModalVisibleState";
 

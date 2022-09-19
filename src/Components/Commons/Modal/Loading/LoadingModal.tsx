@@ -21,19 +21,16 @@ interface LoadingModalProps {
   setVisible?: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function LoadingModal({
-  visible,
-  setVisible,
-}: LoadingModalProps) {
-  const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
-    if (!setVisible) return;
+export default function LoadingModal({ setVisible }: LoadingModalProps) {
+  // const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
+  //   if (!setVisible) return;
 
-    if (typeof visible === "boolean") {
-      setVisible(visible);
-      return;
-    }
-    if (!visible) setVisible((p) => !p);
-  };
+  //   if (typeof visible === "boolean") {
+  //     setVisible(visible);
+  //     return;
+  //   }
+  //   if (!visible) setVisible((p) => !p);
+  // };
 
   return (
     <DimWrapper>

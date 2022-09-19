@@ -1,7 +1,7 @@
 import LineInput from "../LineInput";
 import styled from "@emotion/styled";
 import { ChangeEvent, useEffect } from "react";
-import moment from "moment";
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -33,11 +33,6 @@ export default function BirthInput({
   onChangeMonth,
   onChangeDay,
 }: BirthInputProps) {
-  useEffect(() => {
-    const inputs = [document.getElementById("birthYear"),];
-  }, []);
-
-
   const onChangeY = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 

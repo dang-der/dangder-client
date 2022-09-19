@@ -5,7 +5,7 @@ export default function DogReport() {
 
   const router = useRouter()
 
-  const onClickNextPage = (props: any) => {
+  const onClickNextPage = () => {
     router.push('/report/cause')
   }
 

@@ -28,14 +28,6 @@ export default function ChatPlaceItem({ dog, data }: ChatPlaceItemProps) {
       window.kakao.maps.load(() => {
         const markerPosition = new window.kakao.maps.LatLng(data.lat, data.lng);
 
-        const imageSrc = "/ic_marker.svg";
-        const imageSize = new window.kakao.maps.Size(64, 69);
-
-        const markerImage = new window.kakao.maps.MarkerImage(
-          imageSrc,
-          imageSize
-        );
-
         const marker = {
           position: markerPosition,
         };
@@ -46,7 +38,7 @@ export default function ChatPlaceItem({ dog, data }: ChatPlaceItemProps) {
           marker,
         };
 
-        const staticMap = new window.kakao.maps.StaticMap(
+        new window.kakao.maps.StaticMap(
           staticMapRef.current,
           staticMapOption
         );

@@ -15,6 +15,12 @@ const nextConfig = {
   exportPathMap: () => ({
     "/404": { page: "/404" },
   }),
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;

@@ -27,8 +27,9 @@ module.exports = {
   globals: {
     JSX: true,
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ["react", "@typescript-eslint", "autofix"],
   rules: {
+    "autofix/no-unused-vars": "warn",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react/display-name": "off",

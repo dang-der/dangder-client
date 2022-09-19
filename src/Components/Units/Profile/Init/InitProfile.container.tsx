@@ -1,14 +1,13 @@
 import { useMutation, useQuery } from "@apollo/client";
 import moment from "moment";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import useGeolocation from "react-hook-geolocation";
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
-import { loggedInUserLoadable } from "../../../../Commons/Store/Auth/AccessToken";
-import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
+
+
+
 import {
   IProfileInputState,
-  profileInputState,
 } from "../../../../Commons/Store/Profile/ProfileInitState";
 import {
   IMutation,
@@ -16,7 +15,6 @@ import {
   IMutationGetDogInfoArgs,
   IMutationUploadFileArgs,
   IQuery,
-  IUser,
 } from "../../../../Commons/Types/Generated/types";
 import ErrorModal from "../../../Commons/Modal/ErrorModal/ErrorModal";
 import LoadingModal from "../../../Commons/Modal/Loading/LoadingModal";
