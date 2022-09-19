@@ -6,11 +6,21 @@ export const FETCH_AROUND_DOG = gql`
       id
       name
       age
+      description
       gender
       img {
         id
         img
       }
+    }
+  }
+`;
+
+export const FETCH_DOGS_DISTANCE = gql`
+  query fetchDogsDistance($id: String!) {
+    fetchDogsDistance(id: $id) {
+      dogId
+      distance
     }
   }
 `;
@@ -23,3 +33,18 @@ export const JOIN_CHAT_ROOM = gql`
   }
 `;
 
+export const CREATE_LIKE = gql`
+  mutation createLike($createLikeInput: createLikeInput!) {
+    createLike(createLikeInput: $createLikeInput) {
+      isMatch
+      sendId
+      receiveId
+    }
+  }
+`;
+
+export const FETCH_LOGIN_USER_IS_CERT = gql`
+  query fetchLoginUserIsCert {
+    fetchLoginUserIsCert
+  }
+`;

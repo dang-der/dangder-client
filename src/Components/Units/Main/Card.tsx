@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useMotionValue, useAnimation } from "framer-motion";
 import styled from "@emotion/styled";
-import { IDog } from "../../../Commons/Types/Generated/types";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const StyledCard = styled(motion.div)`
   position: absolute;
@@ -9,31 +9,32 @@ const StyledCard = styled(motion.div)`
 
 const Item = styled.div`
   background: #f9fafb;
-  width: 200px;
-  height: 250px;
+  width: calc(576px - 4rem);
+  max-width: 576px;
+  height: calc(100vh - 17rem);
+  @media screen and (max-width: 576px) {
+    width: calc(100vw - 4rem);
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  text-shadow: 0 10px 10px #d1d5db;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 10px 10px 0px rgba(150, 150, 150, 0.3);
   border-radius: 8px;
-  transform: ${() => {
-    const rotation = Math.random() * (5 - -5) + -5;
-    return `rotate(${rotation}deg)`;
-  }};
+  border: 1px solid red;
 `;
 
 interface CardProps {
   drag: boolean;
   onVote: (result: boolean, direction: string | undefined) => void;
-  data: IDog;
+  data: any;
 }
 
 export const Card = ({ onVote, data, drag }: CardProps) => {
   const cardElem = useRef<HTMLDivElement | null>(null);
 
+  console.log("Card", data);
   const x = useMotionValue(0);
   const controls = useAnimation();
 
@@ -59,7 +60,6 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
     return result;
   };
 
-  // determine direction of swipe based on velocity
   const getDirection = () => {
     return velocity >= 1 ? "right" : velocity <= -1 ? "left" : undefined;
   };
@@ -125,14 +125,75 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
       <Item
         style={{
           backgroundImage: `url(${
-            "https://storage.googleapis.com/" + data.img?.[0].img || ""
+            "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
           })`,
           backgroundSize: "cover",
         }}
       >
-        <p>{data.id}</p>
-        <p>{data.name}</p>
+        <DogInfoWrapper>
+          <DogHeaderWrapper>
+            <DogHeader>{data[0].name}, &nbsp;</DogHeader>
+            <DogHeader> {data[0].age}</DogHeader>
+          </DogHeaderWrapper>
+          <DogDistance>
+            <LocationOnIcon />
+            {data[1].distance}km
+          </DogDistance>
+          <DogDescription>{data[0].description}</DogDescription>
+        </DogInfoWrapper>
+        <DogPassWrapper>
+          <DogPassIcon src="/passIcon.png" />
+        </DogPassWrapper>
       </Item>
     </StyledCard>
   );
 };
+
+const DogInfoWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 1rem;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.05) 66.96%,
+    #000000 100%
+  );
+  border-radius: 8px;
+`;
+
+const DogHeaderWrapper = styled.div`
+  display: flex;
+`;
+
+const DogHeader = styled.span`
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+`;
+
+const DogDistance = styled.span`
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 500;
+`;
+
+const DogDescription = styled.span`
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 400;
+`;
+
+const DogPassWrapper = styled.div`
+  position: relative;
+`;
+
+const DogPassIcon = styled.img``;

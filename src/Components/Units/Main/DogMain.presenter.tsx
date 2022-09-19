@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Card } from "./Card";
-import { IDog } from "../../../Commons/Types/Generated/types";
 
-// basic default styles for container
 const Frame = styled.div`
   width: 100%;
   height: 100%;
@@ -16,14 +14,12 @@ const Frame = styled.div`
 
 interface StackProps {
   onVote: (data: any, vote: boolean, direction: string | undefined) => void;
-  datas: IDog[] | undefined;
+  datas: any;
 }
 
 export default function DogMainUI({ onVote, datas }: StackProps) {
-  console.log("Stack", datas);
   const [stack, setStack] = useState(datas);
 
-  // return new array with last item removed
   const pop = (array: any[] | undefined) => {
     if (!array) return;
 
@@ -33,11 +29,10 @@ export default function DogMainUI({ onVote, datas }: StackProps) {
   };
 
   const handleVote = (
-    item: IDog,
+    item: any,
     vote: boolean,
     direction: string | undefined
   ) => {
-    // update the stack
     const newStack = pop(stack);
     setStack(newStack);
 
@@ -47,12 +42,11 @@ export default function DogMainUI({ onVote, datas }: StackProps) {
   return (
     <>
       <Frame>
-        {(stack || []).map((item, index) => {
-          console.log("items", item);
+        {(stack || []).map((item: any, index: any) => {
           const isTop = index === (stack?.length || 0) - 1;
           return (
             <Card
-              drag={isTop} // Only top card is draggable
+              drag={isTop}
               key={item.id || index}
               onVote={(result, direction) =>
                 handleVote(item, result, direction)
