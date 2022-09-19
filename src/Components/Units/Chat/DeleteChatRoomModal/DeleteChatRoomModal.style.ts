@@ -6,9 +6,8 @@ export const Wrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  margin-top: 0.5rem;
+  justify-content: center;
 `;
 
 export const IconWrapper = styled.div`
@@ -34,3 +33,14 @@ export const SubCautionText = styled.span`
   margin-top: 0.8rem;
 `;
 
+export const ButtonWrapper = styled.button`
+  width: 50%;
+  height: 2.5rem;
+  background-color: red;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 2rem;
+  border: none;
+  margin-top: 2rem;
+`;

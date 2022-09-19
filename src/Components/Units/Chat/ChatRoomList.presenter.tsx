@@ -11,23 +11,29 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import * as S from "./ChatRoomList.styles";
 import ChatListItem from "./ChatRoomItem/ChatRoomItem";
-import {
-  IChatRoom,
-  IChatRoomsOutput,
-} from "../../../Commons/Types/Generated/types";
+import { IChatRoomsOutput } from "../../../Commons/Types/Generated/types";
+import { useState } from "react";
+import DeleteChatRoomModal from "./DeleteChatRoomModal/DeleteChatRoomModal";
 
 interface ChatListUIProps {
   chatList: IChatRoomsOutput[] | undefined;
+  handleDeleteChatRoom: (roomId: string) => void;
 }
-export default function ChatListUI({ chatList }: ChatListUIProps) {
-  const onClickMatchCancel = () => {
-    console.log("onClickMatchCancel");
-  };
+export default function ChatListUI({
+  chatList,
+  handleDeleteChatRoom,
+}: ChatListUIProps) {
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [deletedRoomId, setDeletedRoomId] = useState<string>();
 
-  // todo : 채팅방 아이디 받기
-  const trailingActions = () => (
+  const trailingActions = ({ roomId }: any) => (
     <TrailingActions>
-      <SwipeAction onClick={onClickMatchCancel}>
+      <SwipeAction
+        onClick={() => {
+          setDeletedRoomId(roomId);
+          setDeleteModalVisible((p) => !p);
+        }}
+      >
         <S.SwipeMenu backgroundColor="red">
           <S.SwipeContentsWrapper>
             <CloseRoundedIcon />
@@ -38,22 +44,37 @@ export default function ChatListUI({ chatList }: ChatListUIProps) {
     </TrailingActions>
   );
 
+  const onClickDeleteChatRoom = () => {
+    if (!deletedRoomId) return;
+    handleDeleteChatRoom(deletedRoomId);
+    setDeleteModalVisible(false);
+  };
+
   return (
-    <S.Wrapper>
-      <S.ChatListContainer>
-        <SwipeableList fullSwipe={false} threshold={0.5} type={ListType.IOS}>
-          {(chatList || []).map((e: IChatRoom) => {
-            return (
-              <SwipeableListItem
-                trailingActions={trailingActions()}
-                key={uuid()}
-              >
-                <ChatListItem room={e} />
-              </SwipeableListItem>
-            );
-          })}
-        </SwipeableList>
-      </S.ChatListContainer>
-    </S.Wrapper>
+    <>
+      {deleteModalVisible && (
+        <DeleteChatRoomModal
+          visible={deleteModalVisible}
+          setVisible={setDeleteModalVisible}
+          onClickDeleteChatRoom={onClickDeleteChatRoom}
+        />
+      )}
+      <S.Wrapper>
+        <S.ChatListContainer>
+          <SwipeableList fullSwipe={false} threshold={0.5} type={ListType.IOS}>
+            {(chatList || []).map((e: IChatRoomsOutput) => {
+              return (
+                <SwipeableListItem
+                  trailingActions={trailingActions({ roomId: e.id || "" })}
+                  key={uuid()}
+                >
+                  <ChatListItem room={e} />
+                </SwipeableListItem>
+              );
+            })}
+          </SwipeableList>
+        </S.ChatListContainer>
+      </S.Wrapper>
+    </>
   );
 }
