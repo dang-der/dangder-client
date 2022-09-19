@@ -1,8 +1,7 @@
 import { useMutation } from "@apollo/client";
-import { Modal } from "antd";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { accessTokenState } from "../../../../Commons/Store/Auth/AccessToken";
 
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
@@ -121,7 +120,7 @@ export default function SignUpContainer() {
       router.replace(`/profile/init?user=${data.createUser.id}`);
 
       return (data?.createUser?.id?.length || "") > 0;
-    } catch (error) {
+    } catch (e) {
       if (e instanceof Error) {
         setExceptionModal({ visible: true, message: e.message });
       }
