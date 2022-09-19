@@ -158,7 +158,7 @@ export default function PasswordResetUI({
         <LineInputWithLabelError
           label="비밀번호 변경"
           register={register}
-          type="text"
+          type="password"
           name="password"
           placeholder="변경할 비밀번호를 입력해주세요."
           style={{ width: "100%", flex: "1", marginRight: "1rem" }}
@@ -170,7 +170,7 @@ export default function PasswordResetUI({
         <LineInputWithLabelError
           label="비밀번호 변경 확인"
           register={register}
-          type="text"
+          type="password"
           name="passwordCheck"
           placeholder="변경할 비밀번호를 다시 입력해주세요."
           style={{ width: "100%", flex: "1", marginRight: "1rem" }}
