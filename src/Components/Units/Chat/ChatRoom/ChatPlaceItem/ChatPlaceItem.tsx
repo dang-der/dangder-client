@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { IDog } from "../../../../../Commons/Types/Generated/types";
 import * as S from "./ChatPlaceItem.styles";
 
 declare const window: typeof globalThis & {
@@ -6,8 +7,8 @@ declare const window: typeof globalThis & {
 };
 
 interface ChatPlaceItemProps {
-  dog: { id: string; name: string };
-  data: { lat: number; lng: number };
+  dog?: any;
+  data?: { lat: number; lng: number } | any;
 }
 
 export default function ChatPlaceItem({ dog, data }: ChatPlaceItemProps) {
@@ -38,10 +39,7 @@ export default function ChatPlaceItem({ dog, data }: ChatPlaceItemProps) {
           marker,
         };
 
-        new window.kakao.maps.StaticMap(
-          staticMapRef.current,
-          staticMapOption
-        );
+        new window.kakao.maps.StaticMap(staticMapRef.current, staticMapOption);
       });
     };
   }, []);
@@ -49,7 +47,7 @@ export default function ChatPlaceItem({ dog, data }: ChatPlaceItemProps) {
   return (
     <>
       <S.Wrapper>
-        <S.TitleWrapper>{dog.name}님이 장소를 공유했습니다.</S.TitleWrapper>
+        <S.TitleWrapper>{dog?.name}님이 장소를 공유했습니다.</S.TitleWrapper>
         <S.MapWrapper ref={staticMapRef} />
         <S.ButtonWrapper type="button" onClick={onClickSeePlace}>
           장소보기

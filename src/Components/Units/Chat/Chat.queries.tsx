@@ -7,6 +7,10 @@ export const FETCH_CHAT_ROOMS = gql`
       chatPairDog {
         id
         name
+        # img {
+        #   id
+        #   # img
+        # }
       }
       lastMessage {
         senderId

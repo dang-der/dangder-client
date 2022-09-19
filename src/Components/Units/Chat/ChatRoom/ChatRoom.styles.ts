@@ -27,10 +27,11 @@ export const OtherDogContainer = styled.div`
 `;
 
 export const OtherDogImage = styled.img`
-  width: 2rem;
-  height: 2rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
   margin-bottom: 0.5rem;
+  object-fit: cover;
 `;
 
 export const OtherDogName = styled.span`

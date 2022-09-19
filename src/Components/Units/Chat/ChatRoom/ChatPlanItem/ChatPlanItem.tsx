@@ -5,8 +5,8 @@ import "moment/locale/ko";
 import { Gray76 } from "../../../../../../styles/GlobalStyles";
 
 interface ChatPlanItemProps {
-  dog: { id: string; name: string };
-  data: { meetAt: string };
+  dog: any;
+  data: { meetAt: string } | any;
 }
 
 const Wrapper = styled.div`

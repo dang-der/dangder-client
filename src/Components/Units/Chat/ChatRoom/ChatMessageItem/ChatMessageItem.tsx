@@ -1,8 +1,9 @@
 
+import { Maybe } from "graphql/jsutils/Maybe";
 import * as S from "./ChatMessageItem.styles";
 interface ChatMessageItemProps {
-  isMine: boolean;
-  message: string;
+  isMine: boolean | undefined;
+  message: string | undefined | Maybe<string>;
 }
 export default function ChatMessageItem({
   isMine,
