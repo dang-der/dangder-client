@@ -10,10 +10,10 @@ export const CREATE_USER = gql`
 `;
 
 export const CREATE_MAIL_TOKEN = gql`
-  mutation createMailToken($email: String!) {
-    createMailToken(email: $email)
+  mutation createMailToken($email: String!, $type: String!) {
+    createMailToken(email: $email, type: $type)
   }
-`
+`;
 
 export const VERIFY_MAIL_TOKEN = gql`
   mutation verifyMailToken($email: String!, $code: String!) {

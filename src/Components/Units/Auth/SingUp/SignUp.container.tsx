@@ -1,20 +1,21 @@
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
-import {  useState } from "react";
-import { useRecoilState } from "recoil";
+import { useState } from "react";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import { accessTokenState } from "../../../../Commons/Store/Auth/AccessToken";
 
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 import {
   IMutation,
   IMutationCreateMailTokenArgs,
   IMutationCreateUserArgs,
-  IMutationUserLoginArgs,
   IMutationVerifyMailTokenArgs,
 } from "../../../../Commons/Types/Generated/types";
+
 import LoadingModal from "../../../Commons/Modal/Loading/LoadingModal";
-import {  USER_LOGIN } from "../Login/Login.queries";
+
 import {
   CREATE_MAIL_TOKEN,
   CREATE_USER,
@@ -26,8 +27,9 @@ export default function SignUpContainer() {
   const router = useRouter();
 
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
-  const [, ] = useRecoilState(accessTokenState);
-  const [, ] = useRecoilState(userInfoState);
+  const [,] = useRecoilState(accessTokenState);
+  const [,] = useRecoilState(userInfoState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const [createUser] = useMutation<
     Pick<IMutation, "createUser">,
@@ -44,11 +46,6 @@ export default function SignUpContainer() {
     IMutationVerifyMailTokenArgs
   >(VERIFY_MAIL_TOKEN);
 
-  const [] = useMutation<
-    Pick<IMutation, "userLogin">,
-    IMutationUserLoginArgs
-  >(USER_LOGIN);
-
   const handleCreateMailToken = async (email: string) => {
     console.log("handleCreateMailToken", email);
     if (!email) return false;
@@ -59,6 +56,7 @@ export default function SignUpContainer() {
       const { data } = await createMailToken({
         variables: {
           email,
+          type: "signUp",
         },
       });
 
@@ -66,7 +64,11 @@ export default function SignUpContainer() {
       return data?.createMailToken;
     } catch (e) {
       console.log("handleCreateMailTokenError", e);
-      setLoadingModalVisible(true);
+      setLoadingModalVisible(false);
+      if (e instanceof Error) {
+        setExceptionModal({ visible: true, message: e.message });
+      }
+
       return false;
     }
   };

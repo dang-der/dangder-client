@@ -26,7 +26,7 @@ export const FETCH_INTERESTS = gql`
 
 export const CREATE_DOG = gql`
   mutation createDog(
-    $createDogInput: createDogInput!
+    $createDogInput: CreateDogInput!
     $dogRegNum: String!
     $ownerBirth: String!
   ) {

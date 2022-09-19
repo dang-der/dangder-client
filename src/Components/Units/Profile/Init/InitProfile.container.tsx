@@ -3,12 +3,10 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import {  useState } from "react";
 import useGeolocation from "react-hook-geolocation";
+import { useRecoilState } from "recoil";
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 
-
-
-import {
-  IProfileInputState,
-} from "../../../../Commons/Store/Profile/ProfileInitState";
+import { IProfileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
 import {
   IMutation,
   IMutationCreateDogArgs,
@@ -32,6 +30,7 @@ export default function InitProfileContainer() {
   const geo = useGeolocation();
 
   const [regNumErrorVisible, setRegNumErrorVisible] = useState(false);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const { data: charactersData } =
     useQuery<Pick<IQuery, "fetchCharacters">>(FETCH_CHARACTERS);
@@ -109,7 +108,10 @@ export default function InitProfileContainer() {
         });
 
         if (!filesData) {
-          // todo : 이미지 등록 실패 다이얼로그 띄우기
+          setExceptionModal({
+            visible: true,
+            message: "이미지 업로드에 실패했습니다. <br/> 다시 시도해주세요.",
+          });
           return false;
         }
 
@@ -133,10 +135,18 @@ export default function InitProfileContainer() {
             ownerBirth,
           },
         });
+
         console.log("handleCreateDog", result);
         return !!result?.createDog;
       } catch (e) {
         console.log("handleClickCreateDog", e);
+
+        if (e instanceof Error) {
+          setExceptionModal({
+            visible: true,
+            message: e.message,
+          });
+        }
         return false;
       }
     };

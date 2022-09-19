@@ -21,6 +21,12 @@ export type IAdminUser = {
   id: Scalars['String'];
 };
 
+export type IAroundDogOutput = {
+  __typename?: 'AroundDogOutput';
+  distance: Scalars['Int'];
+  dogId: Scalars['String'];
+};
+
 export type IAvoidBreed = {
   __typename?: 'AvoidBreed';
   avoidBreed: Scalars['String'];
@@ -98,6 +104,18 @@ export type ICreateBlockUserInput = {
   blockId: Scalars['String'];
 };
 
+export type ICreateDogInput = {
+  age: Scalars['Int'];
+  avoidBreeds?: InputMaybe<Array<Scalars['String']>>;
+  birthday?: InputMaybe<Scalars['String']>;
+  characters?: InputMaybe<Array<Scalars['String']>>;
+  description: Scalars['String'];
+  img?: InputMaybe<Array<Scalars['String']>>;
+  interests?: InputMaybe<Array<Scalars['String']>>;
+  locations: ILocationInput;
+  userId: Scalars['String'];
+};
+
 /** 좋아요를 눌렀을 때 매칭여부와 sendId, receiveId */
 export type ICreateLikeOutput = {
   __typename?: 'CreateLikeOutput';
@@ -133,18 +151,11 @@ export type ICreateUserInput = {
   phone?: InputMaybe<Scalars['String']>;
 };
 
-export type IDistanceType = {
-  __typename?: 'DistanceType';
-  distance: Scalars['Int'];
-  dogId: Scalars['String'];
-  id: Scalars['Int'];
-};
-
 export type IDog = {
   __typename?: 'Dog';
   age: Scalars['Int'];
   avoidBreeds: Array<IAvoidBreed>;
-  birthday: Scalars['String'];
+  birthday?: Maybe<Scalars['String']>;
   breeds: Array<IBreed>;
   characters: Array<ICharacter>;
   createdAt: Scalars['DateTime'];
@@ -159,7 +170,7 @@ export type IDog = {
   registerNumber: Scalars['String'];
   sendId: Array<ILike>;
   updatedAt: Scalars['DateTime'];
-  userId: IUser;
+  user: IUser;
 };
 
 export type IDogImage = {
@@ -343,6 +354,7 @@ export type IMutationCreateLikeArgs = {
 
 export type IMutationCreateMailTokenArgs = {
   email: Scalars['String'];
+  type: Scalars['String'];
 };
 
 
@@ -558,7 +570,7 @@ export type IQuery = {
   fetchDogImage: Array<IDogImage>;
   /**  Return : 모든 강아지 정보 */
   fetchDogs: Array<IDog>;
-  fetchDogsDistance: Array<IDistanceType>;
+  fetchDogsDistance: Array<IAroundDogOutput>;
   fetchInterests: Array<IInterest>;
   /** Return : 로그인한 유저, 유저의 강아지 데이터 */
   fetchLoginUser: IUserOutput;
@@ -756,18 +768,6 @@ export type IUserOutput = {
   __typename?: 'UserOutput';
   dog?: Maybe<IDog>;
   user?: Maybe<IUser>;
-};
-
-export type ICreateDogInput = {
-  age: Scalars['Int'];
-  avoidBreeds?: InputMaybe<Array<Scalars['String']>>;
-  birthday: Scalars['String'];
-  characters?: InputMaybe<Array<Scalars['String']>>;
-  description: Scalars['String'];
-  img?: InputMaybe<Array<Scalars['String']>>;
-  interests?: InputMaybe<Array<Scalars['String']>>;
-  locations: ILocationInput;
-  userId: Scalars['String'];
 };
 
 export type ICreateLikeInput = {

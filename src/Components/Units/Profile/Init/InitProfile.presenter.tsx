@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { profileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
@@ -11,6 +11,7 @@ import ProfileInput2Page from "./Page/ProfileInput2Page";
 import ProfileInputPage from "./Page/ProfileInputPage";
 import RegistrationNumberInputPage from "./Page/RegistrationNumberInputPage";
 import { IQuery } from "../../../../Commons/Types/Generated/types";
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 
 interface InitProfileUIProps {
   handleCheckDogRegisterNumber: (inputs: any) => Promise<boolean>;
@@ -28,7 +29,29 @@ export default function InitProfileUI({
 }: InitProfileUIProps) {
   const router = useRouter();
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [inputs, ] = useRecoilState(profileInputState);
+  const [inputs, setInputs] = useRecoilState(profileInputState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
+
+  useEffect(() => {
+    setInputs({
+      registerNumber: "",
+      ownerBirthYear: 0,
+      ownerBirthMonth: 0,
+      ownerBirthDay: 0,
+      createDogInput: {
+        imageUrls: [],
+        imageFiles: [],
+        dogBirthYear: 0,
+        dogBirthMonth: 0,
+        dogBirthDay: 0,
+        isUnknownDogBirth: false,
+        introduce: "",
+        characters: [],
+        interests: [],
+        avoid: [],
+      },
+    });
+  }, []);
 
   const onClickNext = async () => {
     console.log("onClickNext", currentPageIndex);
@@ -48,7 +71,7 @@ export default function InitProfileUI({
           !inputs.createDogInput.dogBirthDay) &&
         !inputs.createDogInput.introduce
       ) {
-        // todo : 에러 다이얼로그 띄우기
+        setExceptionModal({ visible: true, message: "입력값을 확인해주세요." });
         return;
       }
       setCurrentPageIndex(currentPageIndex + 1);
