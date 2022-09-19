@@ -24,6 +24,7 @@ export default function LoginContainer() {
   const [, setUserInfo] = useRecoilState(userInfoState);
 
   const handleUserLogin = async (inputs: any) => {
+    console.log("handleUserLogin", inputs);
     const result = await userLogin({
       variables: { ...inputs },
     });

@@ -58,7 +58,7 @@ export default function DogMainContainer() {
           },
         });
         if (result.data.createLike.isMatch) {
-          MatchedModal();
+          MatchedModal({ sendId: dogId, receiveId: item[0].id });
         }
       }
     } catch (error) {
