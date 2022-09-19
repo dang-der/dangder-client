@@ -88,6 +88,9 @@ export default function SignUpContainer() {
       return data?.verifyMailToken;
     } catch (e) {
       console.log("verifyMailTokenError", e);
+      if (e instanceof Error) {
+        setExceptionModal({ visible: true, message: e.message });
+      }
       return false;
     }
   };
@@ -119,7 +122,9 @@ export default function SignUpContainer() {
 
       return (data?.createUser?.id?.length || "") > 0;
     } catch (error) {
-      if (error instanceof Error) Modal.error({ content: error.message });
+      if (e instanceof Error) {
+        setExceptionModal({ visible: true, message: e.message });
+      }
       return false;
     }
   };
