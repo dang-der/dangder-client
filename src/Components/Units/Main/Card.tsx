@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useMotionValue, useAnimation } from "framer-motion";
 import styled from "@emotion/styled";
-
+import { IDog } from "../../../Commons/Types/Generated/types";
 
 const StyledCard = styled(motion.div)`
   position: absolute;
@@ -28,11 +28,10 @@ const Item = styled.div`
 interface CardProps {
   drag: boolean;
   onVote: (result: boolean, direction: string | undefined) => void;
-  data: any;
+  data: IDog;
 }
 
 export const Card = ({ onVote, data, drag }: CardProps) => {
-  // motion stuff
   const cardElem = useRef<HTMLDivElement | null>(null);
 
   const x = useMotionValue(0);
@@ -66,7 +65,6 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
   };
 
   useEffect(() => {
-    console.log("Card", direction);
     if (!direction) return;
 
     setLastDirection(direction);
@@ -124,7 +122,14 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
       whileTap={{ scale: 1.1 }}
       drag={drag}
     >
-      <Item>
+      <Item
+        style={{
+          backgroundImage: `url(${
+            "https://storage.googleapis.com/" + data.img?.[0].img || ""
+          })`,
+          backgroundSize: "cover",
+        }}
+      >
         <p>{data.id}</p>
         <p>{data.name}</p>
       </Item>

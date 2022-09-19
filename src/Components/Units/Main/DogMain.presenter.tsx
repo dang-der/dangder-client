@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Card } from "./Card";
-
+import { IDog } from "../../../Commons/Types/Generated/types";
 
 // basic default styles for container
 const Frame = styled.div`
@@ -16,10 +16,11 @@ const Frame = styled.div`
 
 interface StackProps {
   onVote: (data: any, vote: boolean, direction: string | undefined) => void;
-  datas: any[] | undefined;
+  datas: IDog[] | undefined;
 }
 
-export const Stack = ({ onVote, datas }: StackProps) => {
+export default function DogMainUI({ onVote, datas }: StackProps) {
+  console.log("Stack", datas);
   const [stack, setStack] = useState(datas);
 
   // return new array with last item removed
@@ -32,7 +33,7 @@ export const Stack = ({ onVote, datas }: StackProps) => {
   };
 
   const handleVote = (
-    item: any,
+    item: IDog,
     vote: boolean,
     direction: string | undefined
   ) => {
@@ -40,7 +41,6 @@ export const Stack = ({ onVote, datas }: StackProps) => {
     const newStack = pop(stack);
     setStack(newStack);
 
-    // run function from onVote prop, passing the current item and value of vote
     onVote(item, vote, direction);
   };
 
@@ -48,6 +48,7 @@ export const Stack = ({ onVote, datas }: StackProps) => {
     <>
       <Frame>
         {(stack || []).map((item, index) => {
+          console.log("items", item);
           const isTop = index === (stack?.length || 0) - 1;
           return (
             <Card
@@ -63,4 +64,4 @@ export const Stack = ({ onVote, datas }: StackProps) => {
       </Frame>
     </>
   );
-};
+}

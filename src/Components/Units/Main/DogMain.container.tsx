@@ -1,25 +1,22 @@
-
-
-
-
-
-import { Stack } from "./Stack";
+import { useQuery } from "@apollo/client";
+import {
+  IQuery,
+  IQueryFetchAroundDogsArgs,
+} from "../../../Commons/Types/Generated/types";
+import DogMainUI from "./DogMain.presenter";
+import { FETCH_AROUND_DOG } from "./DogMain.queries";
 
 export default function DogMainContainer() {
   //   const [userInfo] = useRecoilState(userInfoState);
 
-  const datas = [
-    { id: 1, name: "끼미" },
-    { id: 2, name: "오전이" },
-    { id: 3, name: "끼미" },
-    { id: 4, name: "오전이" },
-    { id: 5, name: "끼미" },
-    { id: 6, name: "오전이" },
-    { id: 7, name: "끼미" },
-    { id: 8, name: "오전이" },
-    { id: 9, name: "끼미" },
-  ];
-  //   const { data } = useQuery(FETCH_AROUND_DOG, { variables: { id: "" } });
+  const { data } = useQuery<
+    Pick<IQuery, "fetchAroundDogs">,
+    IQueryFetchAroundDogsArgs
+  >(FETCH_AROUND_DOG, {
+    variables: { id: "b118e915-e11e-46fa-9033-e745d6a99440", page: 1 },
+  });
+
+  console.log("MainDogContainer", data);
 
   const onVote = (
     item: any,
@@ -28,5 +25,11 @@ export default function DogMainContainer() {
   ) => {
     console.log("DogMainContainer-onVote", item, result, direction);
   };
-  return <Stack onVote={onVote} datas={datas} />;
+  return (
+    <>
+      {data?.fetchAroundDogs && (
+        <DogMainUI onVote={onVote} datas={data?.fetchAroundDogs} />
+      )}
+    </>
+  );
 }
