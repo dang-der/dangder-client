@@ -17,6 +17,13 @@ export const DetailImageWrapper = styled.div`
   /* margin-bottom: -15rem; */
 `;
 
+export const ImageWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  border-radius: 1.25rem 1.25rem 0rem 0rem;
+  /* margin-bottom: -15rem; */
+`;
+
 export const DetailImage = styled.img`
   width: 100%;
   height: auto;

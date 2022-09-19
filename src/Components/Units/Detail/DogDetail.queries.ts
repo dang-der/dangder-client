@@ -1,14 +1,14 @@
 import { gql } from "@apollo/client";
 
-export const FETCH_DOG_DISTANCE = gql`
-  query fetchDogsDistance($id: String!) {
-    fetchDogsDistance(id: $id) {
-      id
-      dogId
-      distance
-    }
-  }
-`;
+// export const FETCH_DOG_DISTANCE = gql`
+//   query fetchDogsDistance($id: String!) {
+//     fetchDogsDistance(id: $id) {
+//       id
+//       dogId
+//       distance
+//     }
+//   }
+// `;
 
 export const FETCH_ONE_DOG = gql`
   query fetchOneDog($id: String!) {
@@ -23,11 +23,8 @@ export const FETCH_ONE_DOG = gql`
         interest
       }
       avoidBreeds {
+        id
         avoidBreed
-        dogs {
-          id
-          name
-        }
       }
       characters {
         id
@@ -38,11 +35,6 @@ export const FETCH_ONE_DOG = gql`
         img
         isMain
       }
-      #   sendId {
-      #     id
-      #     receiveId
-      #     sendId
-      #   }
     }
   }
 `;
@@ -50,10 +42,35 @@ export const FETCH_ONE_DOG = gql`
 export const CREATE_LIKE = gql`
   mutation createLike($createLikeInput: createLikeInput!) {
     createLike(createLikeInput: $createLikeInput) {
-      id
-      receiveId
       isMatch
       sendId
+      receiveId
+    }
+  }
+`;
+
+export const FETCH_LOGIN_USER_IS_CERT = gql`
+  query fetchLoginUserIsCert {
+    fetchLoginUserIsCert
+  }
+`;
+
+export const JOIN_CHAT_ROOM = gql`
+  mutation joinChatRoom($dogId: String!, $chatPairId: String!) {
+    joinChatRoom(dogId: $dogId, chatPairId: $chatPairId) {
+      id
+      chatPairId
+      dog {
+        id
+        name
+        sendId
+      }
+      chatMessages {
+        id
+        senderId
+        type
+        chatRoom
+      }
     }
   }
 `;
