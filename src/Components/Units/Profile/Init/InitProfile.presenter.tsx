@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { profileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
@@ -14,7 +14,7 @@ import { IQuery } from "../../../../Commons/Types/Generated/types";
 
 interface InitProfileUIProps {
   handleCheckDogRegisterNumber: (inputs: any) => Promise<boolean>;
-  handleCreateDog: (inputs: any) => Promise<boolean>;
+  handleCreateDog: (inputs: any) => Promise<boolean | undefined>;
   selectedData: {
     characters: Pick<IQuery, "fetchCharacters"> | undefined;
     interests: Pick<IQuery, "fetchInterests"> | undefined;
@@ -28,7 +28,28 @@ export default function InitProfileUI({
 }: InitProfileUIProps) {
   const router = useRouter();
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [inputs, ] = useRecoilState(profileInputState);
+  const [inputs, setInputs] = useRecoilState(profileInputState);
+
+  useEffect(() => {
+    setInputs({
+      registerNumber: "",
+      ownerBirthYear: 0,
+      ownerBirthMonth: 0,
+      ownerBirthDay: 0,
+      dogInput: {
+        imageUrls: [],
+        imageFiles: [],
+        dogBirthYear: 0,
+        dogBirthMonth: 0,
+        dogBirthDay: 0,
+        isUnknownDogBirth: false,
+        introduce: "",
+        characters: [],
+        interests: [],
+        avoid: [],
+      },
+    });
+  }, []);
 
   const onClickNext = async () => {
     console.log("onClickNext", currentPageIndex);
@@ -42,11 +63,11 @@ export default function InitProfileUI({
     // 댕댕이 프로필 설정
     if (currentPageIndex === 1) {
       if (
-        inputs.createDogInput.imageUrls.length < 1 &&
-        (!inputs.createDogInput.dogBirthYear ||
-          !inputs.createDogInput.dogBirthMonth ||
-          !inputs.createDogInput.dogBirthDay) &&
-        !inputs.createDogInput.introduce
+        inputs.dogInput.imageUrls.length < 1 &&
+        (!inputs.dogInput.dogBirthYear ||
+          !inputs.dogInput.dogBirthMonth ||
+          !inputs.dogInput.dogBirthDay) &&
+        !inputs.dogInput.introduce
       ) {
         // todo : 에러 다이얼로그 띄우기
         return;
