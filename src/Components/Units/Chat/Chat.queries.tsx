@@ -8,10 +8,6 @@ export const FETCH_CHAT_ROOMS = gql`
         id
         name
       }
-      dog {
-        id
-        name
-      }
       lastMessage {
         senderId
         type
