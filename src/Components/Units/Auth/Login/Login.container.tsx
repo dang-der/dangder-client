@@ -26,6 +26,7 @@ export default function LoginContainer() {
   const [, setExeptionModal] = useRecoilState(exceptionModalState);
 
   const handleUserLogin = async (inputs: any) => {
+
     try {
       const result = await userLogin({
         variables: { ...inputs },
@@ -49,6 +50,7 @@ export default function LoginContainer() {
         setExeptionModal({ visible: true, message: e.message });
       }
     }
+
   };
 
   return <LoginUI handleUserLogin={handleUserLogin} />;

@@ -48,4 +48,22 @@ export const UPLOAD_FILE = gql`
   }
 `;
 
+export const UPDATE_DOG = gql`
+  mutation updateDog(
+    $dogId: String!
+    $dogRegNum: String
+    $ownerBirth: String
+    $updateDogInput: UpdateDogInput!
+  ) {
+    updateDog(
+      dogId: $dogId
+      dogRegNum: $dogRegNum
+      ownerBirth: $ownerBirth
+      updateDogInput: $updateDogInput
+    ) {
+      id
+    }
+  }
+`;
+
 

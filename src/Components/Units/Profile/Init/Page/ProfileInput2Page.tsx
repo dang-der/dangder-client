@@ -46,16 +46,16 @@ export default function ProfileInput2Page({
 
   const onClickValue = (category: string, value: string) => () => {
     setInputs((p) => {
-      const copy = [...p.createDogInput[category]];
+      const copy = [...p.dogInput[category]];
 
-      inputs.createDogInput[category].includes(value)
+      inputs.dogInput[category].includes(value)
         ? copy.splice(copy.indexOf(value), 1)
         : copy.push(value);
 
       return {
         ...p,
-        createDogInput: {
-          ...p.createDogInput,
+        dogInput: {
+          ...p.dogInput,
           [category]: copy,
         },
       };
@@ -75,7 +75,7 @@ export default function ProfileInput2Page({
         {fakeCharacters.map((e, i) => (
           <S.Tag
             key={i}
-            isSelected={inputs.createDogInput.characters.includes(e.character)}
+            isSelected={inputs.dogInput.characters.includes(e.character)}
             onClick={onClickValue("characters", e.character)}
           >
             {e.character}
@@ -90,7 +90,7 @@ export default function ProfileInput2Page({
         {fakeInterests.map((e, i) => (
           <S.Tag
             key={i}
-            isSelected={inputs.createDogInput.interests.includes(e.interest)}
+            isSelected={inputs.dogInput.interests.includes(e.interest)}
             onClick={onClickValue("interests", e.interest)}
           >
             {e.interest}

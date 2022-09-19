@@ -15,7 +15,7 @@ import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibl
 
 interface InitProfileUIProps {
   handleCheckDogRegisterNumber: (inputs: any) => Promise<boolean>;
-  handleCreateDog: (inputs: any) => Promise<boolean>;
+  handleCreateDog: (inputs: any) => Promise<boolean | undefined>;
   selectedData: {
     characters: Pick<IQuery, "fetchCharacters"> | undefined;
     interests: Pick<IQuery, "fetchInterests"> | undefined;
@@ -30,7 +30,9 @@ export default function InitProfileUI({
   const router = useRouter();
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [inputs, setInputs] = useRecoilState(profileInputState);
+
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
+
 
   useEffect(() => {
     setInputs({
@@ -65,11 +67,11 @@ export default function InitProfileUI({
     // 댕댕이 프로필 설정
     if (currentPageIndex === 1) {
       if (
-        inputs.createDogInput.imageUrls.length < 1 &&
-        (!inputs.createDogInput.dogBirthYear ||
-          !inputs.createDogInput.dogBirthMonth ||
-          !inputs.createDogInput.dogBirthDay) &&
-        !inputs.createDogInput.introduce
+        inputs.dogInput.imageUrls.length < 1 &&
+        (!inputs.dogInput.dogBirthYear ||
+          !inputs.dogInput.dogBirthMonth ||
+          !inputs.dogInput.dogBirthDay) &&
+        !inputs.dogInput.introduce
       ) {
         setExceptionModal({ visible: true, message: "입력값을 확인해주세요." });
         return;

@@ -27,7 +27,9 @@ interface MatchedModalProps {
 export default function MatchedModal({ sendId, receiveId }: MatchedModalProps) {
   const router = useRouter();
 
-  const [, setVisible] = useRecoilState(matchedModalVisibleState);
+
+export default function MatchedModal() {
+  const [visible, setVisible] = useRecoilState(matchedModalVisibleState);
 
   const { data: pairDogData } = useQuery<
     Pick<IQuery, "fetchOneDog">,
@@ -69,29 +71,33 @@ export default function MatchedModal({ sendId, receiveId }: MatchedModalProps) {
   };
 
   return (
-    <DimWrapper>
-      <S.CloseIconWrapper onClick={toggleModal}>
-        <CloseRoundedIcon />
-      </S.CloseIconWrapper>
-      <S.Wrapper>
-        <S.DogImageWrapper>
-          <Lottie animationData={ani_matched} loop={true} />
 
-          <S.DogImage src={pairDogData?.fetchOneDog.img[0].img || "/pug.jpg"} />
-        </S.DogImageWrapper>
+    <>
+      {visible && (
+        <DimWrapper>
+          <S.CloseIconWrapper onClick={toggleModal}>
+            <CloseRoundedIcon />
+          </S.CloseIconWrapper>
+          <S.Wrapper>
+            <S.DogImageWrapper>
+              <Lottie animationData={ani_matched} loop={true} />
+              <S.DogImage />
+            </S.DogImageWrapper>
 
-        <span>
-          매칭 성공!
-          <br />
-          {pairDogData?.fetchOneDog.name}님과 대화해보세요!
-        </span>
+            <span>
+              매칭 성공!
+              <br />
+              오전이님과 대화해보세요!
+            </span>
 
-        <BlueButton
-          title="채팅하기"
-          onClick={onClickChat}
-          style={{ width: "12.5rem", marginTop: "5rem", fontSize: "1rem" }}
-        />
-      </S.Wrapper>
-    </DimWrapper>
+            <BlueButton
+              title="채팅하기"
+              onClick={() => {}}
+              style={{ width: "12.5rem", marginTop: "5rem", fontSize: "1rem" }}
+            />
+          </S.Wrapper>
+        </DimWrapper>
+      )}
+    </>
   );
 }

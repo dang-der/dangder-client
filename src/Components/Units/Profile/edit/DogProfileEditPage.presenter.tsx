@@ -15,6 +15,8 @@ import { ChangeEvent } from "react";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import ImageFileInput from "../../../Commons/FileInput/ImageFileInput";
 import LineInput from "../../../Commons/LineInputs/LineInput";
+import { userInfo } from "os";
+import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 interface ProfileInput2PageProps {
   characters: ICharacter[];
@@ -45,11 +47,9 @@ const schema = yup.object({
     .required("내용을 입력해주세요."),
 });
 
-export default function DogProfileEditUI({
-  
-  
-}: ProfileInput2PageProps) {
+export default function DogProfileEditUI({}: ProfileInput2PageProps) {
   const [inputs, setInputs] = useRecoilState(profileInputState);
+  const [userInfo] = useRecoilState(userInfoState);
 
   const fakeCharacters: ICharacter[] = [
     { character: "온순함", id: "1", dogs: [] },
@@ -75,16 +75,16 @@ export default function DogProfileEditUI({
 
   const onClickValue = (category: string, value: string) => () => {
     setInputs((p) => {
-      const copy = [...p.createDogInput[category]];
+      const copy = [...p.dogInput[category]];
 
-      inputs.createDogInput.interests.includes(value)
+      inputs.dogInput.interests.includes(value)
         ? copy.splice(copy.indexOf(value), 1)
         : copy.push(value);
 
       return {
         ...p,
-        createDogInput: {
-          ...p.createDogInput,
+        dogInput: {
+          ...p.dogInput,
           [category]: copy,
         },
       };
@@ -105,16 +105,16 @@ export default function DogProfileEditUI({
       const fileUrl = data.target?.result;
 
       setInputs((p) => {
-        const copy = [...p.createDogInput.imageUrls];
+        const copy = [...p.dogInput.imageUrls];
         copy[index] = fileUrl;
 
-        const fileCopy = [...p.createDogInput.imageFiles];
+        const fileCopy = [...p.dogInput.imageFiles];
         fileCopy[index] = file;
 
         return {
           ...p,
-          createDogInput: {
-            ...p.createDogInput,
+          dogInput: {
+            ...p.dogInput,
             imageUrls: copy,
             imageFiles: fileCopy,
           },
@@ -126,8 +126,8 @@ export default function DogProfileEditUI({
   const onChangeOwnerBirthYear = (e: ChangeEvent<HTMLInputElement>) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         dogBirthYear: Number(e.target.value),
       },
     }));
@@ -136,8 +136,8 @@ export default function DogProfileEditUI({
   const onChangeOwnerBirthMonth = (e: ChangeEvent<HTMLInputElement>) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         dogBirthMonth: Number(e.target.value),
       },
     }));
@@ -146,8 +146,8 @@ export default function DogProfileEditUI({
   const onChangeOwnerBirthDay = (e: ChangeEvent<HTMLInputElement>) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         dogBirthDay: Number(e.target.value),
       },
     }));
@@ -156,8 +156,8 @@ export default function DogProfileEditUI({
   const onChangeCheckUnknownBirth = (e: CheckboxChangeEvent) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         isUnknownDogBirth: e.target.checked,
       },
     }));
@@ -166,8 +166,8 @@ export default function DogProfileEditUI({
   const onChangeIntroduce = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputs((p) => ({
       ...p,
-      createDogInput: {
-        ...p.createDogInput,
+      dogInput: {
+        ...p.dogInput,
         introduce: e.target.value,
       },
     }));
@@ -178,7 +178,9 @@ export default function DogProfileEditUI({
       <S.Wrapper>
         <S.ChangeDogWrapper>
           <S.ChangeDogSpan>다른 댕댕이로 등록하고 싶으신가요?</S.ChangeDogSpan>
-          <Link href="/profile/init">
+          <Link
+            href={`/profile/init?user=${userInfo?.user?.id || ""}&init=false`}
+          >
             <a>
               <S.ChangeDogSpan>등록 댕댕이 변경하기 👉🏻</S.ChangeDogSpan>
             </a>
@@ -198,7 +200,7 @@ export default function DogProfileEditUI({
                 <ImageFileInput
                   key={uuid()}
                   onChangeFile={onChangeFile(i)}
-                  defaultImageUrl={inputs.createDogInput.imageUrls[i]}
+                  defaultImageUrl={inputs.dogInput.imageUrls[i]}
                 />
               ))}
           </S.RowWrapper>
@@ -264,9 +266,7 @@ export default function DogProfileEditUI({
           {fakeCharacters.map((e, i) => (
             <S.Tag
               key={i}
-              isSelected={inputs.createDogInput.characters.includes(
-                e.character
-              )}
+              isSelected={inputs.dogInput.characters.includes(e.character)}
               onClick={onClickValue("characters", e.character)}
             >
               {e.character}
@@ -280,7 +280,7 @@ export default function DogProfileEditUI({
           {fakeInterests.map((e, i) => (
             <S.Tag
               key={i}
-              isSelected={inputs.createDogInput.interests.includes(e.interest)}
+              isSelected={inputs.dogInput.interests.includes(e.interest)}
               onClick={onClickValue("interests", e.interest)}
             >
               {e.interest}
