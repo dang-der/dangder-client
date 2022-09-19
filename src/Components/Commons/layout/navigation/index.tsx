@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
-import { useState, MouseEvent } from "react";
+import { useRouter } from "next/router";
+import { useState, MouseEvent, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface IMenuProps {
@@ -8,34 +8,41 @@ interface IMenuProps {
 }
 
 export default function Navigation() {
+  const router = useRouter();
   const menus = ["오늘의 댕댕이", "메인", "채팅", "마이 댕댕이"];
   const urls = ["/today.svg", "/main.svg", "/chat.svg", "/mypage.svg"];
-  const links = ["/today", "/", "/chat", "/profile"];
+  const links = ["/today/", "/", "/chat/", "/profile/"];
 
-  const [isActive, setActive] = useState(1);
+  const [isActive, setActive] = useState(links.indexOf(router.asPath));
 
-  const onClickToggle = (event: MouseEvent<HTMLDivElement>) => {
-    if (!(event.target instanceof HTMLDivElement)) return;
-    const activeNav = Number(event.target.id);
-    setActive(activeNav);
-  };
+  useEffect(() => {
+    setActive(links.indexOf(router.asPath));
+  }, [router]);
+
+  useEffect(() => {
+    console.log("nav - active menu", isActive);
+  }, [isActive]);
+
+  const onClickToggle =
+    (activeIndex: number) => (event: MouseEvent<HTMLDivElement>) => {
+      setActive(activeIndex);
+      router.push(links[activeIndex]);
+    };
 
   return (
     <Wrapper>
       <MenuItems>
         {menus.map((menu: string, index: any) => (
-          <Link href={links[index]} key={uuidv4()}>
-            <Menu onClick={onClickToggle}>
-              <MenuIcon
-                src={urls[index]}
-                id={index}
-                isActive={index === isActive}
-              />
-              <MenuTitle id={index} isActive={index === isActive}>
-                {menu}
-              </MenuTitle>
-            </Menu>
-          </Link>
+          <Menu onClick={onClickToggle(index)} key={uuidv4()}>
+            <MenuIcon
+              src={urls[index]}
+              id={index}
+              isActive={index === isActive}
+            />
+            <MenuTitle id={index} isActive={index === isActive}>
+              {menu}
+            </MenuTitle>
+          </Menu>
         ))}
       </MenuItems>
     </Wrapper>
@@ -45,7 +52,7 @@ export default function Navigation() {
 const Wrapper = styled.div`
   width: 100%;
   height: 4rem;
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
   box-shadow: 2px 0px 4px 0px #00000040;
 `;
 
@@ -56,6 +63,7 @@ const MenuItems = styled.nav`
 `;
 
 const Menu = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
