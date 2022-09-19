@@ -36,6 +36,7 @@ export default function BuyPassTicketModal() {
   };
 
   const onClickBuyPassTicket = () => {
+    console.log("onClickBuyPassTicket");
     const amount = 100;
     const IMP = window.IMP;
     IMP.init("imp70467342");
