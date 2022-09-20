@@ -46,6 +46,7 @@ export const InputWrapper = styled.div`
 `;
 
 export const LoginButton = styled.button`
+  cursor: pointer;
   width: 80%;
   height: 4.5rem;
   border: none;

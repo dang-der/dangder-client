@@ -10,6 +10,8 @@ import EmailInputPage from "./Page/EmailInputPage";
 import PasswordInputPage from "./Page/PasswordInputPage";
 
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
+import { Router } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
 interface SignUpUIprops {
   handleSignUp: (
@@ -27,6 +29,8 @@ export default function SignUpUI({
   handleCreateMailToken,
   handleVerifyMailToken,
 }: SignUpUIprops) {
+  const router = useRouter();
+
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [codeVerifyError, setCodeVerifyError] = useState<string>("");
   const [inputs, setInputs] = useRecoilState(signUpInputState);
@@ -58,6 +62,11 @@ export default function SignUpUI({
   };
 
   const onClickPrevPage = () => {
+    if (currentPageIndex === 0) {
+      router.replace("/auth/login");
+      return;
+    }
+
     if (currentPageIndex - 1 < 0) return;
     setCurrentPageIndex((p) => p - 1);
   };
@@ -82,11 +91,7 @@ export default function SignUpUI({
         </PageStack>
       </S.PageStackWrapper>
 
-      <S.NextButton
-        type="button"
-        onClick={onClickNext}
-        isActive={inputs.isActiveButton}
-      >
+      <S.NextButton type="button" onClick={onClickNext}>
         {Object.values(inputs).every((e) => e) ? "완료" : "다음"}
       </S.NextButton>
     </S.Wrapper>
