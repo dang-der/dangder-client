@@ -1,9 +1,12 @@
 import styled from "@emotion/styled";
+import Link from "next/link";
 
 export default function LogoHeader() {
   return (
     <Wrapper>
-      <Logo src="/logo.svg" />
+      <Link href="/">
+        <Logo src="/logo.svg" />
+      </Link>
     </Wrapper>
   );
 }

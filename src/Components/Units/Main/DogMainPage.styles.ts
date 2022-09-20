@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
+import FemaleIcon from "@mui/icons-material/Female";
+import MaleIcon from "@mui/icons-material/Male";
 
 export const StyledCard = styled(motion.div)`
   position: absolute;
@@ -74,4 +76,12 @@ export const DogPassWrapper = styled.div`
 export const DogPassIcon = styled.img`
   width: 7rem;
   height: 7rem;
+`;
+
+export const DogFemaleIcon = styled(FemaleIcon)`
+  font-size: 1.6rem;
+`;
+
+export const DogMaleIcon = styled(MaleIcon)`
+  font-size: 1.6rem;
 `;
