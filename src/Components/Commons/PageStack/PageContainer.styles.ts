@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { MainColor } from "../../../../styles/GlobalStyles";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -15,15 +16,11 @@ export const PageStackWrapper = styled.div`
   width: 100%;
 `;
 
-interface NextButtonStyleProps {
-  isActive: boolean;
-}
 export const NextButton = styled.button`
   width: 100%;
   border-radius: 6.25rem;
   height: 3.125rem;
-  background-color: ${(props: NextButtonStyleProps) =>
-    props.isActive ? "#304ffe" : "gray"};
+  background-color: ${MainColor};
   color: white;
   font-weight: 700;
   font-size: 1.5rem;
