@@ -5,16 +5,18 @@ export const Wrapper = styled.div`
   height: 100%;
   /* background-color: red; */
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
+  justify-content: space-around;
   /* border-radius: 1.25rem 1.25rem 0rem 0rem; */
   margin-top: 1.5rem;
 `;
 
 export const ListWrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 14rem;
+  height: 20rem;
   margin-top: 1rem;
-  margin-left: 1rem;
+  /* margin-left: 0.5rem; */
   display: flex;
   flex-direction: column;
   /* border-radius: 1.25rem 1.25rem 0rem 0rem; */
@@ -54,8 +56,8 @@ export const GradientBox = styled.div`
 `;
 
 export const ListImage = styled.span`
-  width: 14rem;
-  height: 20rem;
+  width: 12rem;
+  height: 18rem;
   /* width: 100%;
   height: 100%; */
   border-radius: 1.25rem;
