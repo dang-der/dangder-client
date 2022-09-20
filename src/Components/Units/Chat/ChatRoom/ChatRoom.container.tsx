@@ -1,7 +1,8 @@
 import {  useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect,  useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
+import { io } from "socket.io-client";
 
 import { socket } from "../../../../Commons/Socket";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
@@ -9,19 +10,13 @@ import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
 
 import {
   IChatMessage,
-  
   IQuery,
   IQueryFetchChatMessagesByChatRoomIdArgs,
-  
   Maybe,
 } from "../../../../Commons/Types/Generated/types";
 
-import {
-  FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID,
-} from "../Chat.queries";
+import { FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID } from "../Chat.queries";
 import ChatRoomUI from "./ChatRoom.presenter";
-
-
 
 export interface IMessageData {
   message?: string | Maybe<string> | undefined;
@@ -44,7 +39,7 @@ export default function ChatRoomContainer() {
   const [enterRoomInfo] = useRecoilState(enteredChatRoomInfoState);
   const [userInfo] = useRecoilState(userInfoState);
 
-  const { data: messagesData } = useQuery<
+  const { data: messagesData, refetch } = useQuery<
     Pick<IQuery, "fetchChatMessagesByChatRoomId">,
     IQueryFetchChatMessagesByChatRoomIdArgs
   >(FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID, {
@@ -53,13 +48,33 @@ export default function ChatRoomContainer() {
     },
   });
 
+  const socket = useMemo(() => {
+    return io("https://recipemaker.shop/dangderchats", {
+      forceNew: true,
+      transports: ["websocket"],
+    });
+  }, []);
+
   console.log("ChatRoomContainer", messagesData);
 
   useEffect(() => {
+    refetch({ chatRoomId: String(router.query.roomId) });
+    console.log("chatRoom", "refetch", messagesData);
     handleOnMessage();
     handleEmitConnect();
+
+    socket.on("connect_error", (error) => {
+      console.log("socketError", error);
+    });
+
+    // client-side
+    socket.on("connect", () => {
+      console.log("socketConnect", socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+
     return () => {
       socket.disconnect();
+      socket.close();
     };
   }, []);
 
@@ -67,9 +82,6 @@ export default function ChatRoomContainer() {
     if (!messagesData?.fetchChatMessagesByChatRoomId) return;
 
     messagesData.fetchChatMessagesByChatRoomId.forEach((e: IChatMessage) => {
-      console.log("fetchChatMessage", e);
-      console.log("enterRoomInfo", enterRoomInfo);
-
       if (!enterRoomInfo || !userInfo) return;
 
       const { message, lat, lng, meetAt, type } = e;

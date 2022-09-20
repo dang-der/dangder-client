@@ -93,8 +93,6 @@ export default function ChatRoomUI({ handleEmitSend, messages }: ChatRoomUIProps
 
       <S.ChatMessagesWrapper>
         {messages.map(({ type, data, dog }: IMessage, i) => {
-          console.log("ChatMessage", type, data, dog);
-
           if (type === "text")
             return (
               <ChatMessageItem
