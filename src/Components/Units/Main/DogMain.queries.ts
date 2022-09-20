@@ -52,6 +52,7 @@ export const FETCH_LOGIN_USER_IS_CERT = gql`
 export const FETCH_DOGS = gql`
   query fetchDogs($page: Float!) {
     fetchDogs(page: $page) {
+      id
       name
       age
       gender

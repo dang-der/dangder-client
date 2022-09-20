@@ -34,6 +34,7 @@ export default function DogMainUI({ onVote, datas }: StackProps) {
     direction: string | undefined
   ) => {
     const newStack = pop(stack);
+    // stack.pop();
     setStack(newStack);
 
     onVote(item, vote, direction);

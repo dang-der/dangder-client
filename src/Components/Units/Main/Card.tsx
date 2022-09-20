@@ -104,8 +104,16 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
   });
 
   const onClickItem = () => {
+    // try {
+    //   if (userInfo !== undefined) {
     if (!data[0].id) return;
     router.push(`/${String(data[0].id)}`);
+    //   } else {
+
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const { data: loginUserIsCert } = useQuery<
@@ -146,48 +154,53 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
     <>
       <BuyPassTicketModal />
       {userInfo !== undefined ? (
-        <S.StyledCard
-          animate={controls}
-          dragConstraints={
-            constrained && { left: 0, right: 0, top: 0, bottom: 0 }
-          }
-          dragElastic={1}
-          ref={cardElem}
-          style={{ x }}
-          onDrag={getTrajectory}
-          onDragEnd={() => flyAway(500)}
-          whileTap={{ scale: 1.1 }}
-          drag={drag}
-        >
-          <S.Item
-            style={{
-              backgroundImage: `url(${
-                "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
-              })`,
-              backgroundSize: "cover",
-            }}
-            onClick={onClickItem}
+        <>
+          <S.StyledCard
+            animate={controls}
+            dragConstraints={
+              constrained && { left: 0, right: 0, top: 0, bottom: 0 }
+            }
+            dragElastic={1}
+            ref={cardElem}
+            style={{ x }}
+            onDrag={getTrajectory}
+            onDragEnd={() => flyAway(500)}
+            whileTap={{ scale: 1.1 }}
+            drag={drag}
           >
-            <S.DogInfoWrapper>
-              <S.DogHeaderWrapper>
-                <S.DogHeader>{data[0]?.name}, &nbsp;</S.DogHeader>
-                <S.DogHeader> {data[0]?.age}</S.DogHeader>
-                <S.DogHeader>
-                  {data[0]?.gender === "암컷" ? (
-                    <S.DogFemaleIcon />
-                  ) : (
-                    <S.DogMaleIcon />
-                  )}
-                </S.DogHeader>
-              </S.DogHeaderWrapper>
-              <S.DogDistance>
-                <LocationOnIcon />
-                {data[1]?.distance}km
-              </S.DogDistance>
-              <S.DogDescription>{data[0]?.description}</S.DogDescription>
-            </S.DogInfoWrapper>
-          </S.Item>
-        </S.StyledCard>
+            <S.Item
+              style={{
+                backgroundImage: `url(${
+                  "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
+                })`,
+                backgroundSize: "cover",
+              }}
+              onClick={onClickItem}
+            >
+              <S.DogInfoWrapper>
+                <S.DogHeaderWrapper>
+                  <S.DogHeader>{data[0]?.name}, &nbsp;</S.DogHeader>
+                  <S.DogHeader> {data[0]?.age}</S.DogHeader>
+                  <S.DogHeader>
+                    {data[0]?.gender === "암컷" ? (
+                      <S.DogFemaleIcon />
+                    ) : (
+                      <S.DogMaleIcon />
+                    )}
+                  </S.DogHeader>
+                </S.DogHeaderWrapper>
+                <S.DogDistance>
+                  <LocationOnIcon />
+                  {data[1]?.distance}km
+                </S.DogDistance>
+                <S.DogDescription>{data[0]?.description}</S.DogDescription>
+              </S.DogInfoWrapper>
+            </S.Item>
+          </S.StyledCard>
+          <S.DogPassWrapper onClick={onClickPassTicket}>
+            <S.DogPassIcon src="/passIcon.png" />
+          </S.DogPassWrapper>
+        </>
       ) : (
         <S.StyledCard
           animate={controls}
@@ -228,9 +241,6 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
           </S.Item>
         </S.StyledCard>
       )}
-      <S.DogPassWrapper onClick={onClickPassTicket}>
-        <S.DogPassIcon src="/passIcon.png" />
-      </S.DogPassWrapper>
     </>
   );
 };

@@ -42,7 +42,7 @@ export default function DogMainContainer() {
 
   console.log(data);
 
-  const { data: fetchDogs } = useQuery<
+  const { data: fetchDogs, refetch } = useQuery<
     Pick<IQuery, "fetchDogs">,
     IQueryFetchDogsArgs
   >(FETCH_DOGS, {
@@ -82,7 +82,7 @@ export default function DogMainContainer() {
         if (userInfo === undefined) {
           setExceptionModal({
             visible: true,
-            message: "비회원은 좋아요를 누를 수 없습니다.",
+            message: "비회원은 좋아요를 할 수 없습니다.",
           });
           return;
         }
@@ -94,6 +94,8 @@ export default function DogMainContainer() {
             },
           },
         });
+        console.log("item", item);
+        item.pop();
 
         if (createLikeData?.createLike.isMatch) {
           setMatchedModalVisible(true);
