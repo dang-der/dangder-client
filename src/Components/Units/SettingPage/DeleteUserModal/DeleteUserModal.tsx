@@ -36,13 +36,6 @@ export default function DeleteUserModal({
     Pick<IMutation, "deleteUser">,
     IMutationDeleteUserArgs
   >(DELETE_USER);
-  const {} = useQuery<Pick<IQuery, "fetchLoginUser">>(FETCH_LOGIN_USER);
-  const {} = useQuery<Pick<IQuery, "fetchUser">, IQueryFetchUserArgs>(
-    FETCH_USER,
-    {
-      variables: { email: String(router.query.dogId) },
-    }
-  );
 
   const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
     if (typeof visible === "boolean") {
@@ -54,12 +47,12 @@ export default function DeleteUserModal({
 
   // console.log("fetchUser", data?.fetchUser);
   const onClickDeleteUser = async () => {
-    if (!userInfo) return;
+    if (!userInfo?.user) return;
 
     try {
       const { data } = await deleteUser({
         variables: {
-          email: userInfo?.email,
+          email: userInfo?.user?.email,
         },
       });
       console.log("onClickDeleteUser", data);
