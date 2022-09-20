@@ -20,7 +20,7 @@ export const DetailImageWrapper = styled.div`
 
 export const ImageWrapper = styled.div`
   width: 100%;
-  height: auto;
+  height: 35rem;
   border-radius: 1.25rem 1.25rem 0rem 0rem;
   /* margin-bottom: -15rem; */
 `;
@@ -111,21 +111,21 @@ export const DistanceWrapper = styled.div`
   margin-top: 1rem;
 `;
 
-export const DetailKm = styled.div`
-  font-size: 1rem;
-  font-weight: 500;
-  color: #000000;
-  width: 3.5rem;
-  height: 2rem;
-  /* border: 0.06rem solid #000000;
-    border-radius: 1.25rem; */
-  margin-left: 1.25rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
+// export const DetailKm = styled.div`
+//   font-size: 1rem;
+//   font-weight: 500;
+//   color: #000000;
+//   width: 3.5rem;
+//   height: 2rem;
+//   /* border: 0.06rem solid #000000;
+//     border-radius: 1.25rem; */
+//   margin-left: 1.25rem;
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+// `;
 
 // export const DetailReport = styled.div`
 //     /* margin-left: 8.7rem;
@@ -178,7 +178,7 @@ export const DetailCharacterBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  /* margin-top: 1rem; */
+  margin-top: 1rem;
 `;
 
 export const DetailCharacter = styled.div`
@@ -186,23 +186,39 @@ export const DetailCharacter = styled.div`
   font-weight: 400;
   color: ${MainColor};
   /* color: #ffffff; */
-  width: 5.9rem;
-  height: 2.06rem;
-  /* border: 0.06rem solid #d9d9d9;
-    background-color: #d9d9d9;
-    border-radius: 6.25rem; */
+  width: 100%;
+  height: 100%;
+  /* border: 0.06rem solid ${MainColor};
+  border-radius: 6.25rem; */
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  /* align-items: center; */
+  flex-grow: 0.1;
+  /* margin-left: 1rem; */
+`;
+
+export const Tags = styled.div`
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: ${MainColor};
+  /* color: #ffffff; */
+  width: 5rem;
+  height: 2rem;
+  border: 0.06rem solid ${MainColor};
+  border-radius: 6.25rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
 `;
 
 export const DetailFunctionIconWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* margin-top: 1rem; */
+  margin-top: 1rem;
 `;
 
 export const DetailFunctionMoveBack = styled.img`
