@@ -365,6 +365,7 @@ export type IMutationCreateOrderArgs = {
 
 
 export type IMutationCreatePassTicketArgs = {
+  expiredAt: Scalars['String'];
   userId: Scalars['String'];
 };
 

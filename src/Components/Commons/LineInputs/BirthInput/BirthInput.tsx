@@ -1,6 +1,6 @@
 import LineInput from "../LineInput";
 import styled from "@emotion/styled";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -9,18 +9,17 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0 1rem;
+  margin-top: 2rem;
 
   input {
     font-size: 1rem;
-    /* flex-grow: 1; */
+    flex-grow: 1;
     font-weight: 400;
-    background-color: rebeccapurple;
   }
   span {
     font-size: 1.563rem;
     font-weight: 400;
     gap: 0 5px;
-    background-color: rebeccapurple;
   }
 `;
 
@@ -74,7 +73,7 @@ export default function BirthInput({
         name="birthYear"
         id="birthYear"
         placeholder="1995"
-        style={{ textAlign: "center", width: "4.5rem" }}
+        style={{ textAlign: "center" }}
       />
       <span>년</span>
 

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import moment from "moment";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useGeolocation from "react-hook-geolocation";
 import { useRecoilState } from "recoil";
 import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";

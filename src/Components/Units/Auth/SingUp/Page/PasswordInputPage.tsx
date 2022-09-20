@@ -11,7 +11,10 @@ import LineInput from "../../../../Commons/LineInputs/LineInput";
 const schema = yup.object({
   password: yup
     .string()
-    .matches(/[^A-Za-z0-9$]/gi, "영문+숫자 조합 비밀번호를 입력해 주세요.")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/,
+      "영문+숫자 조합 비밀번호를 입력해 주세요."
+    )
     .required("비밀번호를 입력해주세요"),
   passwordCheck: yup
     .string()
@@ -22,13 +25,17 @@ const schema = yup.object({
 export default function PasswordInputPage() {
   const [inputs, setSignUpInputs] = useRecoilState(signUpInputState);
 
-  const { register, formState, getValues } = useForm({
+  const { register, formState, getValues, reset } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
 
   useEffect(() => {
-    setSignUpInputs((p) => ({ ...p, isActiveButton: false }));
+    if (!inputs.password && !inputs.passwordCheck) return;
+    reset({
+      password: inputs.password,
+      passwordCheck: inputs.passwordCheck,
+    });
   }, []);
 
   const onChangePassword = (e: any) => {
@@ -38,12 +45,12 @@ export default function PasswordInputPage() {
     }));
   };
 
-  const onChangePasswordCheck = () => {
+  const onChangePasswordCheck = (e: any) => {
     if (inputs.password !== getValues("passwordCheck")) return;
 
     setSignUpInputs((p) => ({
       ...p,
-      isActiveButton: true,
+      passwordCheck: e.target.value,
     }));
   };
 
