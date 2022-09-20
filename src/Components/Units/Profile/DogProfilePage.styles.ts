@@ -46,14 +46,12 @@ export const DogProfileImageWrapper = styled.div`
 `;
 
 export const DogPhoto = styled.img`
-  /* width: calc(576px - 4rem);
+  width: calc(576px - 4rem);
   max-width: 576px;
   height: calc(100vh - 20rem);
   @media screen and (max-width: 576px) {
     width: calc(100vw - 4rem);
-  } */
-  width: 100%;
-  height: 100%;
+  }
   object-fit: cover;
   background-size: cover;
   background-position: center;
@@ -75,12 +73,14 @@ export const DogInfoHeader = styled.div`
 `;
 
 export const DogName = styled.span`
+  color: #ffffff;
   font-size: 1.875rem;
   font-weight: 700;
   margin-right: 3px;
 `;
 
 export const DogAge = styled.span`
+  color: #ffffff;
   font-size: 1.875rem;
   font-weight: 700;
 `;
@@ -93,6 +93,7 @@ export const DogInfoBody = styled.div`
 `;
 
 export const DogDescription = styled.span`
+  color: #ffffff;
   font-size: 1.25rem;
   font-weight: 400;
 `;
