@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
@@ -14,6 +15,8 @@ import {
   IQuery,
   IQueryFetchOneDogArgs,
 } from "../../../Commons/Types/Generated/types";
+import LikeModal from "../../Commons/Modal/Like/LoadingModal";
+import { FETCH_AROUND_DOG } from "../Main/DogMain.queries";
 import MatchedModal from "../Main/MatchedModal/MatchedModal";
 import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 
@@ -28,6 +31,8 @@ import {
 
 export default function DogDetail() {
   const router = useRouter();
+
+  const [likeModalVisible, setLikeModalVisible] = useState(false);
 
   const [matchVisible, setVisibleMatch] = useRecoilState(
     matchedModalVisibleState
@@ -67,8 +72,15 @@ export default function DogDetail() {
             receiveId: String(router.query.dogId),
           },
         },
+        refetchQueries: [
+          {
+            query: FETCH_AROUND_DOG,
+            variables: { id: userInfo?.dog?.id, page: 1 },
+          },
+        ],
       });
 
+      setLikeModalVisible(true);
       if (!matchUserData?.createLike.isMatch) {
         return;
       }
@@ -115,6 +127,7 @@ export default function DogDetail() {
 
   return (
     <>
+      {likeModalVisible && <LikeModal />}
       {matchVisible && <MatchedModal receiveId={String(router.query.dogId)} />}
       {passVisible && <BuyPassTicketModal />}
       <DogDetailUI

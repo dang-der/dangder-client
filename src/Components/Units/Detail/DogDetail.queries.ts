@@ -17,6 +17,7 @@ export const FETCH_ONE_DOG = gql`
       name
       age
       gender
+      isNeut
       description
       interests {
         id
