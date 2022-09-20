@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import Slider from "react-slick";
 import { MainColor } from "../../../../styles/GlobalStyles";
+import FemaleIcon from "@mui/icons-material/Female";
+import MaleIcon from "@mui/icons-material/Male";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -78,7 +80,7 @@ export const DetailMaineTitle = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   margin-left: 2.43rem;
   margin-top: 2.43rem;
@@ -87,6 +89,7 @@ export const DetailMaineTitle = styled.div`
 export const DetailInfo = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 100%;
   height: 100%;
   /* margin-left: 2.43rem;
@@ -106,6 +109,33 @@ export const DetailAge = styled.div`
   color: #000000;
   margin-left: 1rem;
   margin-top: 0.2rem;
+`;
+
+export const DetailGender = styled.div`
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  /* margin-left: 1rem; */
+  /* margin-top: 0.8rem; */
+`;
+
+export const DogFemaleIcon = styled(FemaleIcon)`
+  font-size: 1.6rem;
+  color: red;
+`;
+
+export const DogMaleIcon = styled(MaleIcon)`
+  font-size: 1.6rem;
+  color: ${MainColor};
+`;
+
+export const DetailIsNeut = styled.div`
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  margin-left: 0.3rem;
+  margin-bottom: 0.3rem;
+  /* margin-top: 0.8rem; */
 `;
 
 export const DistanceWrapper = styled.div`

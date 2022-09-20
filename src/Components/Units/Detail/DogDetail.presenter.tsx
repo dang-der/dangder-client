@@ -72,6 +72,20 @@ export default function DogDetailUI({
               <S.DetailName>{pickDogData?.fetchOneDog.name},</S.DetailName>
               <S.DetailAge>{pickDogData?.fetchOneDog.age}</S.DetailAge>
             </S.DetailInfo>
+            <S.DetailInfo>
+              <S.DetailGender>
+                {pickDogData?.fetchOneDog.gender === "수컷" ? (
+                  <S.DogMaleIcon />
+                ) : (
+                  <S.DogFemaleIcon />
+                )}
+              </S.DetailGender>
+              <S.DetailIsNeut>
+                {pickDogData?.fetchOneDog.isNeut
+                  ? "(중성화 했어요)"
+                  : "(증성화 안했어요)"}
+              </S.DetailIsNeut>
+            </S.DetailInfo>
             <S.DetailMoveBackWrapper>
               {/* <S.DetailContentMoveBack
                 onClick={onClickMoveBack}
