@@ -1,32 +1,18 @@
+import * as S from "./DogMainPage.styles";
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useMotionValue, useAnimation } from "framer-motion";
-import styled from "@emotion/styled";
+import { useMotionValue, useAnimation } from "framer-motion";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useRouter } from "next/router";
-
-const StyledCard = styled(motion.div)`
-  position: absolute;
-`;
-
-const Item = styled.div`
-  background: #f9fafb;
-  width: calc(576px - 4rem);
-  max-width: 576px;
-  height: calc(100vh - 17rem);
-  @media screen and (max-width: 576px) {
-    width: calc(100vw - 4rem);
-  }
-  display: flex;
-  flex-direction: column;
-  font-size: 20px;
-  box-shadow: 0px 10px 10px 0px rgba(150, 150, 150, 0.3);
-  border-radius: 8px;
-  /* border: 1px solid red; */
-  transform: ${() => {
-    const rotation = Math.random() * (2 - -2) + -2;
-    return `rotate(${rotation}deg)`;
-  }};
-`;
+import { FETCH_LOGIN_USER_IS_CERT, JOIN_CHAT_ROOM } from "./DogMain.queries";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  IMutation,
+  IMutationJoinChatRoomArgs,
+  IQuery,
+} from "../../../Commons/Types/Generated/types";
+import { useRecoilState } from "recoil";
+import { passBuyModalVisibleState } from "../../../Commons/Store/Modal/ModalVisibleState";
+import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 
 interface CardProps {
   drag: boolean;
@@ -35,6 +21,8 @@ interface CardProps {
 }
 
 export const Card = ({ onVote, data, drag }: CardProps) => {
+  const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
+
   const router = useRouter();
   const cardElem = useRef<HTMLDivElement | null>(null);
 
@@ -118,9 +106,44 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
     router.push(`/${String(data[0].id)}`);
   };
 
+  const { data: loginUserIsCert } = useQuery<
+    Pick<IQuery, "fetchLoginUserIsCert">
+  >(FETCH_LOGIN_USER_IS_CERT);
+
+  const [joinChatRoom] = useMutation<
+    Pick<IMutation, "joinChatRoom">,
+    IMutationJoinChatRoomArgs
+  >(JOIN_CHAT_ROOM);
+
+  const onClickPassTicket = async () => {
+    if (!loginUserIsCert?.fetchLoginUserIsCert) {
+      setVisible(true);
+    } else {
+      try {
+        const { data: joinChatRoomData } = await joinChatRoom({
+          variables: {
+            dogId: String(router.query.dogId),
+            chatPairId: String(router.query.dogId),
+          },
+        });
+
+        if (!joinChatRoomData?.joinChatRoom.id) {
+          throw Error("채팅방 입장 실패");
+          return;
+        }
+
+        router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
+        setVisible(false);
+      } catch (e) {
+        console.log("handleJoinChatRoomError", e);
+      }
+    }
+  };
+
   return (
     <>
-      <StyledCard
+      <BuyPassTicketModal />
+      <S.StyledCard
         animate={controls}
         dragConstraints={
           constrained && { left: 0, right: 0, top: 0, bottom: 0 }
@@ -133,7 +156,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
         whileTap={{ scale: 1.1 }}
         drag={drag}
       >
-        <Item
+        <S.Item
           style={{
             backgroundImage: `url(${
               "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
@@ -142,79 +165,23 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
           }}
           onClick={onClickItem}
         >
-          <DogInfoWrapper>
-            <DogHeaderWrapper>
-              <DogHeader>{data[0]?.name}, &nbsp;</DogHeader>
-              <DogHeader> {data[0]?.age}</DogHeader>
-            </DogHeaderWrapper>
-            <DogDistance>
+          <S.DogInfoWrapper>
+            <S.DogHeaderWrapper>
+              <S.DogHeader>{data[0]?.name}, &nbsp;</S.DogHeader>
+              <S.DogHeader> {data[0]?.age}</S.DogHeader>
+            </S.DogHeaderWrapper>
+            <S.DogDistance>
               <LocationOnIcon />
               {data[1]?.distance}km
-            </DogDistance>
-            <DogDescription>{data[0]?.description}</DogDescription>
-          </DogInfoWrapper>
-        </Item>
-      </StyledCard>
+            </S.DogDistance>
+            <S.DogDescription>{data[0]?.description}</S.DogDescription>
+          </S.DogInfoWrapper>
+        </S.Item>
+      </S.StyledCard>
 
-      <DogPassWrapper>
-        <DogPassIcon src="/passIcon.png" />
-      </DogPassWrapper>
+      <S.DogPassWrapper onClick={onClickPassTicket}>
+        <S.DogPassIcon src="/passIcon.png" />
+      </S.DogPassWrapper>
     </>
   );
 };
-
-const DogInfoWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding: 1rem;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.05) 66.96%,
-    #000000 100%
-  );
-  border-radius: 8px;
-`;
-
-const DogHeaderWrapper = styled.div`
-  display: flex;
-  color: #ffffff;
-  font-size: 2rem;
-  font-weight: 700;
-`;
-
-const DogHeader = styled.span``;
-
-const DogDistance = styled.span`
-  display: flex;
-  align-items: center;
-  color: #ffffff;
-  font-size: 0.75rem;
-  font-weight: 500;
-`;
-
-const DogDescription = styled.span`
-  display: flex;
-  align-items: center;
-  color: #ffffff;
-  font-size: 0.875rem;
-  font-weight: 400;
-`;
-
-const DogPassWrapper = styled.div`
-  cursor: pointer;
-  position: absolute;
-  bottom: 1.5rem;
-  right: -1rem;
-  padding: 0;
-`;
-
-const DogPassIcon = styled.img`
-  width: 7rem;
-  height: 7rem;
-`;

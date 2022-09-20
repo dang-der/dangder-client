@@ -30,15 +30,10 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
               slidesToShow={settings.slidesToShow}
               slidesToScroll={settings.slidesToScroll}
             >
-              {/* {
-                myDogData?.img.map(()=>{
-
-                })
-              } */}
+              {myDogData?.img.map((el, i) => (
+                <S.DogPhoto src={"https://storage.googleapis.com/" + el.img} />
+              ))}
             </Slider>
-            <S.DogPhoto
-              src={"https://storage.googleapis.com/" + myDogData?.img[0].img}
-            />
           </S.DogProfileImageWrapper>
           <S.DogInfo>
             <S.DogInfoHeader>
