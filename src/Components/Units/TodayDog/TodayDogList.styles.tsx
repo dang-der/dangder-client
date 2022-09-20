@@ -9,11 +9,11 @@ export const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-around;
   /* border-radius: 1.25rem 1.25rem 0rem 0rem; */
-  margin-top: 1.5rem;
+  /* margin-top: 1rem; */
 `;
 
 export const ListWrapper = styled.div`
-  width: 14rem;
+  width: 47%;
   height: 20rem;
   margin-top: 1rem;
   /* margin-left: 0.5rem; */
@@ -25,7 +25,7 @@ export const ListWrapper = styled.div`
 
 export const ListImageWrapper = styled.div`
   width: 100%;
-  height: auto;
+  height: 100%;
   /* width: 15rem;
   height: 22rem; */
   border-radius: 1.25rem;
@@ -33,17 +33,16 @@ export const ListImageWrapper = styled.div`
   /* margin-bottom: -15rem; */
 `;
 
+interface GradientBoxStyleProps {
+  imageUrl: string;
+}
 export const GradientBox = styled.div`
   /* width: 100%;
   height: 100%; */
   display: flex;
   flex-direction: row;
-  width: 14rem;
+  width: 100%;
   height: 20rem;
-  /* display: flex;
-  flex-direction: row; */
-  /* margin-top: -63rem; */
-  /* border: 1px solid #ffffff; */
   border-radius: 1.25rem;
   background-image: linear-gradient(
       180deg,
@@ -52,14 +51,14 @@ export const GradientBox = styled.div`
       rgba(0, 0, 0, 0.7) 85%,
       #000000 116.48%
     ),
-    url("/dog5.jpeg");
+    url(${(props: GradientBoxStyleProps) => props.imageUrl});
+  background-position: center center;
+  background-size: cover;
 `;
 
 export const ListImage = styled.span`
-  width: 12rem;
-  height: 18rem;
-  /* width: 100%;
-  height: 100%; */
+  width: 100%;
+  height: 100%;
   border-radius: 1.25rem;
 `;
 
@@ -83,9 +82,10 @@ export const ListFunctionMoveChat = styled.img`
 export const ListInfo = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
   width: 100%;
   height: 100%;
-  margin-left: 6rem;
+  margin-left: -1rem;
   margin-top: 12rem;
 `;
 
