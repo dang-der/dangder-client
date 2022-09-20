@@ -89,7 +89,6 @@ export default function DogDetailUI({
               {distanceData?.fetchDogsDistance?.}Km
             </S.DetailKm>
           </S.DistanceWrapper> */}
-
           <S.DetailSubTitle>
             <S.DetailIntroduce>
               {pickDogData?.fetchOneDog.description}
@@ -103,36 +102,41 @@ export default function DogDetailUI({
                 <S.DetailCharacterBox>
                   <S.DetailCharacter>
                     {pickDogData?.fetchOneDog?.characters.map((e) => (
-                      <div key={e.id}>{e.character}</div>
+                      <S.Tags key={e.id}>{e.character}</S.Tags>
                     ))}
                   </S.DetailCharacter>
-                  {/* <S.DetailCharacter>애교쟁이</S.DetailCharacter> 
-                            <S.DetailCharacter>활발함</S.DetailCharacter>  */}
                 </S.DetailCharacterBox>
               </div>
             )}
           </S.DetailSubMaineTitle>
 
-          
           <S.DetailSubMaineTitle>
-            <S.DetailCharacterTitle>관심사</S.DetailCharacterTitle>
-            <S.DetailCharacterBox>
-              <S.DetailCharacter>
-                {/* {pickDogData?.fetchOneDog?.characters[0]} */}
-              </S.DetailCharacter>
-              {/* <S.DetailCharacter>공놀이</S.DetailCharacter> 
-                            <S.DetailCharacter>물놀이</S.DetailCharacter>  */}
-            </S.DetailCharacterBox>
+            {(pickDogData?.fetchOneDog.interests.length || 0) > 0 && (
+              <div>
+                <S.DetailCharacterTitle>관심사</S.DetailCharacterTitle>
+                <S.DetailCharacterBox>
+                  <S.DetailCharacter>
+                    {pickDogData?.fetchOneDog?.interests.map((e) => (
+                      <S.Tags key={e.id}>{e.interest}</S.Tags>
+                    ))}
+                  </S.DetailCharacter>
+                </S.DetailCharacterBox>
+              </div>
+            )}
           </S.DetailSubMaineTitle>
           <S.DetailSubMaineTitle>
-            <S.DetailCharacterTitle>기피견종</S.DetailCharacterTitle>
-            <S.DetailCharacterBox>
-              <S.DetailCharacter>
-                {/* {pickDogData?.fetchOneDog?.avoidBreeds[0]} */}
-              </S.DetailCharacter>
-              {/* <S.DetailCharacter>공놀이</S.DetailCharacter> 
-                            <S.DetailCharacter>물놀이</S.DetailCharacter>  */}
-            </S.DetailCharacterBox>
+            {(pickDogData?.fetchOneDog.avoidBreeds.length || 0) > 0 && (
+              <div>
+                <S.DetailCharacterTitle>기피견종</S.DetailCharacterTitle>
+                <S.DetailCharacterBox>
+                  <S.DetailCharacter>
+                    {pickDogData?.fetchOneDog?.avoidBreeds.map((e) => (
+                      <S.Tags key={e.id}>{e.avoidBreed}</S.Tags>
+                    ))}
+                  </S.DetailCharacter>
+                </S.DetailCharacterBox>
+              </div>
+            )}
           </S.DetailSubMaineTitle>
           <S.DetailFunctionIconWrapper>
             <S.DetailFunctionMoveBack
