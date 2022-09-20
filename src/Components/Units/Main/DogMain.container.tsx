@@ -11,6 +11,7 @@ import {
   IMutationCreateLikeArgs,
   IQuery,
   IQueryFetchAroundDogsArgs,
+  IQueryFetchDogsArgs,
   IQueryFetchDogsDistanceArgs,
 } from "../../../Commons/Types/Generated/types";
 import DogMainUI from "./DogMain.presenter";
@@ -18,7 +19,7 @@ import {
   FETCH_AROUND_DOG,
   FETCH_DOGS_DISTANCE,
   CREATE_LIKE,
-  FETCH_LOGIN_USER_IS_CERT,
+  FETCH_DOGS,
 } from "./DogMain.queries";
 import MatchedModal from "./MatchedModal/MatchedModal";
 
@@ -29,14 +30,24 @@ export default function DogMainContainer() {
   const [matchedModalVisible, setMatchedModalVisible] = useRecoilState(
     matchedModalVisibleState
   );
+
   const dogId = String(userInfo?.dog?.id);
 
-  const { data } = useQuery<
+  const { data, refetch } = useQuery<
     Pick<IQuery, "fetchAroundDogs">,
     IQueryFetchAroundDogsArgs
   >(FETCH_AROUND_DOG, {
     variables: { id: dogId, page: 1 },
   });
+
+  const { data: fetchDogs, refetch: nonRefetch } = useQuery<
+    Pick<IQuery, "fetchDogs">,
+    IQueryFetchDogsArgs
+  >(FETCH_DOGS, {
+    variables: { page: 1 },
+  });
+
+  const nonDogsData = fetchDogs?.fetchDogs.map((el) => [el]);
 
   const { data: dogsDistanceData } = useQuery<
     Pick<IQuery, "fetchDogsDistance">,
@@ -44,12 +55,6 @@ export default function DogMainContainer() {
   >(FETCH_DOGS_DISTANCE, {
     variables: { id: dogId },
   });
-
-  const { data: isCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
-    FETCH_LOGIN_USER_IS_CERT
-  );
-
-  console.log("DogMiancontainer", data);
 
   const DogsData = data?.fetchAroundDogs.map((el, i) => [
     el,
@@ -70,6 +75,13 @@ export default function DogMainContainer() {
 
     try {
       if (direction === "right") {
+        if (userInfo === undefined) {
+          setExceptionModal({
+            visible: true,
+            message: "비회원은 좋아요를 할 수 없습니다.",
+          });
+          return;
+        }
         const { data: createLikeData } = await createLike({
           variables: {
             createLikeInput: {
@@ -79,15 +91,12 @@ export default function DogMainContainer() {
           },
         });
 
-        console.log("createLike", createLikeData);
-
         if (createLikeData?.createLike.isMatch) {
           setMatchedModalVisible(true);
           setMatchedId(createLikeData.createLike.receiveId);
         }
       }
     } catch (error) {
-      console.log(error);
       if (error instanceof Error) {
         setExceptionModal({ visible: true, message: error.message });
       }
@@ -97,9 +106,18 @@ export default function DogMainContainer() {
   return (
     <>
       {matchedModalVisible && <MatchedModal receiveId={matchedId} />}
-      {data?.fetchAroundDogs && dogsDistanceData?.fetchDogsDistance && (
-        <DogMainUI onVote={onVote} datas={DogsData} />
-      )}
+      {userInfo !== undefined
+        ? data?.fetchAroundDogs &&
+          dogsDistanceData?.fetchDogsDistance && (
+            <DogMainUI onVote={onVote} datas={DogsData} refetch={refetch} />
+          )
+        : fetchDogs?.fetchDogs && (
+            <DogMainUI
+              onVote={onVote}
+              datas={nonDogsData}
+              nonRefetch={nonRefetch}
+            />
+          )}
     </>
   );
 }
