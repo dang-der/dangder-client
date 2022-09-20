@@ -50,7 +50,7 @@ export default function DogDetailUI({
     <S.Wrapper>
       <S.DetailWrapper>
         <S.DetailImageWrapper>
-          <Slider
+          <S.ReactSlick
             dots={settings.dots}
             infinite={settings.infinite}
             speed={settings.speed}
@@ -64,15 +64,14 @@ export default function DogDetailUI({
                 />
               </S.ImageWrapper>
             ))}
-          </Slider>
+          </S.ReactSlick>
         </S.DetailImageWrapper>
-
         <S.DetailContent>
           <S.DetailMaineTitle>
-            <S.DetailInfor>
+            <S.DetailInfo>
               <S.DetailName>{pickDogData?.fetchOneDog.name},</S.DetailName>
               <S.DetailAge>{pickDogData?.fetchOneDog.age}</S.DetailAge>
-            </S.DetailInfor>
+            </S.DetailInfo>
             <S.DetailMoveBackWrapper>
               {/* <S.DetailContentMoveBack
                 onClick={onClickMoveBack}
@@ -94,7 +93,6 @@ export default function DogDetailUI({
               {pickDogData?.fetchOneDog.description}
             </S.DetailIntroduce>
           </S.DetailSubTitle>
-
           <S.DetailSubMaineTitle>
             {(pickDogData?.fetchOneDog.characters.length || 0) > 0 && (
               <div>

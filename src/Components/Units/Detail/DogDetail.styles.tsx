@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Slider from "react-slick";
 import { MainColor } from "../../../../styles/GlobalStyles";
 
 export const Wrapper = styled.div`
@@ -8,26 +9,27 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 1.25rem 1.25rem 0rem 0rem;
-  margin-top: 1rem;
+  margin-top: 1em;
 `;
 
 export const DetailImageWrapper = styled.div`
   width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 1.25rem 1.25rem 0rem 0rem;
   /* margin-bottom: -15rem; */
 `;
 
 export const ImageWrapper = styled.div`
   width: 100%;
-  height: 35rem;
+  height: 100%;
   border-radius: 1.25rem 1.25rem 0rem 0rem;
   /* margin-bottom: -15rem; */
 `;
 
 export const DetailImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 33rem;
+  object-fit: cover;
   border-radius: 1.25rem 1.25rem 0rem 0rem;
 `;
 
@@ -41,6 +43,18 @@ export const DetailWrapper = styled.div`
   /* flex-grow: 1; */
   /* background-color: aliceblue; */
   border-radius: 1.25rem 1.25rem 0rem 0rem;
+`;
+
+export const DetailContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* border-radius: 3.8rem 3.8rem 0rem 0rem; */
+  background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+  /* z-index: 100; */
+  /* position: relative;
+  bottom: 10rem; */
 `;
 
 export const DetailMoveBackWrapper = styled.div`
@@ -60,20 +74,9 @@ export const DetailMoveBackWrapper = styled.div`
 //   cursor: pointer;
 // `;
 
-export const DetailContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* border-radius: 3.8rem 3.8rem 0rem 0rem; */
-  background-color: #ffffff;
-  width: 100%;
-  height: auto;
-  /* z-index: 100; */
-  /* position: relative;
-  bottom: 10rem; */
-`;
-
 export const DetailMaineTitle = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -81,7 +84,7 @@ export const DetailMaineTitle = styled.div`
   margin-top: 2.43rem;
 `;
 
-export const DetailInfor = styled.div`
+export const DetailInfo = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -245,4 +248,17 @@ export const DetailFunctionLike = styled.img`
   /* border: 0.5rem solid #73f428;
     border-radius: 50%; */
   cursor: pointer;
+`;
+
+export const ReactSlick = styled(Slider)`
+  /* width: 100%;
+  height: 100%; */
+  .slick-dots {
+    display: flex;
+    justify-content: center;
+    height: auto;
+  }
+  /* margin-bottom: 15px; */
+  /* padding: 20px 0; */
+  /* list-style-type: none; */
 `;
