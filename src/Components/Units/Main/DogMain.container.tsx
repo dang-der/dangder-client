@@ -49,8 +49,6 @@ export default function DogMainContainer() {
 
   const nonDogsData = fetchDogs?.fetchDogs.map((el) => [el]);
 
-  console.log("비회원용 댕댕이들: ", nonDogsData);
-
   const { data: dogsDistanceData } = useQuery<
     Pick<IQuery, "fetchDogsDistance">,
     IQueryFetchDogsDistanceArgs
@@ -73,7 +71,7 @@ export default function DogMainContainer() {
     result: boolean,
     direction: string | undefined
   ) => {
-    // console.log("DogMainContainer-onVote", item, result, direction);
+    console.log("DogMainContainer-onVote", item, result, direction);
 
     try {
       if (direction === "right") {
