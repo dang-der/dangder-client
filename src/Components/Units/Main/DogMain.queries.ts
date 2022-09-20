@@ -48,3 +48,17 @@ export const FETCH_LOGIN_USER_IS_CERT = gql`
     fetchLoginUserIsCert
   }
 `;
+
+export const FETCH_DOGS = gql`
+  query fetchDogs($page: Float!) {
+    fetchDogs(page: $page) {
+      name
+      age
+      gender
+      description
+      img {
+        img
+      }
+    }
+  }
+`;
