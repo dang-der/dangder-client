@@ -9,7 +9,8 @@ import LineInputWithLabelError from "../../../Commons/LineInputs/LineInputWithLa
 import * as S from "./PasswordReset.styles";
 import Timer from "../../../Commons/Timer/Timer";
 import { ChangeEvent, useEffect, useState } from "react";
-
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
+import { useRecoilState } from "recoil";
 
 const schema = yup.object({
   email: yup
@@ -47,6 +48,7 @@ export default function PasswordResetUI({
   const [timerVisible, setTimerVisible] = useState<boolean>();
   const [verifyError, setVerifyError] = useState("");
   const [buttonActive, setButtonActive] = useState([false, false]);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const { register, formState, getValues, reset } = useForm({
     resolver: yupResolver(schema),
@@ -60,7 +62,7 @@ export default function PasswordResetUI({
   useEffect(() => {
     console.log(buttonActive);
   }, [buttonActive]);
-  
+
   const onClickAuthRequest = async () => {
     if (timerVisible) return;
     const result = await handleCreateMailToken(getValues("email"));
@@ -75,13 +77,21 @@ export default function PasswordResetUI({
 
     if (!result) {
       setVerifyError("인증번호가 일치하지 않습니다.");
+    } else {
+      setVerifyError("");
     }
 
     setTimerVisible(false);
   };
 
   const onClickUpdate = () => {
-    handleUpdateUser(getValues("email"), getValues("password"));
+    if (Object.values(getValues()).every((e) => e) && verifyError === "") {
+      handleUpdateUser(getValues("email"), getValues("password"));
+      console.log("onClickUpdatePassword");
+      return;
+    }
+
+    setExceptionModal({ visible: true, message: "입력값을 확인해주세요." });
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -111,10 +121,6 @@ export default function PasswordResetUI({
           title="인증요청"
           style={{ fontSize: "0.875rem", width: "6rem" }}
           onClick={onClickAuthRequest}
-          isActive={
-            String(formState.errors.email?.message || "") === "" &&
-            buttonActive[0]
-          }
         />
       </S.InputWrapper>
 
@@ -132,12 +138,8 @@ export default function PasswordResetUI({
 
         <BlueButton
           title="인증확인"
-          style={{ fontSize: "0.875rem", width: "6rem" }}
+          style={{ fontSize: "0.875rem", width: "6rem", lineHight: "1rem" }}
           onClick={onClickVerify}
-          isActive={
-            String(formState.errors.code?.message || "") === "" &&
-            buttonActive[1]
-          }
         />
       </S.InputWrapper>
 
@@ -179,18 +181,7 @@ export default function PasswordResetUI({
       </S.InputWrapper>
 
       <S.ButtonWrapper>
-        <LargeButton
-          title="비밀번호 변경"
-          onClick={onClickUpdate}
-          isActive={
-            String(formState.errors.passwordCheck?.message || "") === "" &&
-            String(formState.errors.password?.message || "") === "" &&
-            String(formState.errors.email?.message || "") === "" &&
-            String(formState.errors.code?.message || "") === "" &&
-            verifyError === "" &&
-            Object.values(getValues()).every((e) => e)
-          }
-        />
+        <LargeButton title="비밀번호 변경" onClick={onClickUpdate} />
       </S.ButtonWrapper>
     </S.Wrapper>
   );
