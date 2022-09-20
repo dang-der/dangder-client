@@ -198,6 +198,7 @@ export type ILike = {
 
 export type ILocation = {
   __typename?: 'Location';
+  dog: IDog;
   id: Scalars['String'];
   lat: Scalars['Float'];
   lng: Scalars['Float'];
@@ -360,6 +361,12 @@ export type IMutationCreateMailTokenArgs = {
 
 export type IMutationCreateOrderArgs = {
   createOrderInput: ICreateOrderInput;
+};
+
+
+export type IMutationCreatePassTicketArgs = {
+  expiredAt: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
@@ -526,6 +533,7 @@ export type IPassTicket = {
   deletedAt: Scalars['DateTime'];
   expiredAt: Scalars['String'];
   id: Scalars['String'];
+  user: IUser;
 };
 
 export type IPayment = {
@@ -670,6 +678,11 @@ export type IQueryFetchOrderByPhoneArgs = {
 };
 
 
+export type IQueryFetchPassTicketArgs = {
+  id: Scalars['String'];
+};
+
+
 export type IQueryFetchProductArgs = {
   id: Scalars['String'];
 };
@@ -755,6 +768,7 @@ export type IUser = {
   email: Scalars['String'];
   id: Scalars['String'];
   isCert: Scalars['Boolean'];
+  passTicket: IPassTicket;
   payment: IPayment;
   pet: Scalars['Boolean'];
   phone: Scalars['String'];

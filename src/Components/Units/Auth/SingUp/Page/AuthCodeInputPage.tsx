@@ -10,11 +10,7 @@ interface AuthCodeInputPageProps {
 export default function AuthCodeInputPage({
   verifyError,
 }: AuthCodeInputPageProps) {
-  const [, setInputs] = useRecoilState(signUpInputState);
-
-  useEffect(() => {
-    setInputs((p) => ({ ...p, isActiveButton: false }));
-  }, []);
+  const [inputs, setInputs] = useRecoilState(signUpInputState);
 
   const onChangeAuthCode =
     (index: number) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +52,10 @@ export default function AuthCodeInputPage({
               id={`code${i}`}
               type="number"
               onChange={onChangeAuthCode(i)}
+              defaultValue={
+                inputs.authenticationCode[i] !== 0 &&
+                inputs.authenticationCode[i]
+              }
             />
           ))}
       </S.AuthCodeBoxWrapper>

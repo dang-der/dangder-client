@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { signUpInputState } from "../../../../Commons/Store/Auth/SignUpState";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 
 import Page from "../../../Commons/PageStack/Page";
@@ -10,71 +7,75 @@ import EmailInputPage from "./Page/EmailInputPage";
 import PasswordInputPage from "./Page/PasswordInputPage";
 
 import * as S from "../../../Commons/PageStack/PageContainer.styles";
-import { Router } from "@mui/icons-material";
-import { useRouter } from "next/router";
+
+import RegistrationNumberInputPage from "./Page/RegistrationNumberInputPage";
+
+import ProfileInput2Page from "./Page/ProfileInput2Page";
+import { useRecoilState } from "recoil";
+import { verifyErrorState } from "../../../../Commons/Store/Auth/SignUpState";
+import ProfileInputPage from "./Page/ProfileInputPage";
+import { IQuery } from "../../../../Commons/Types/Generated/types";
 
 interface SignUpUIprops {
-  handleSignUp: (
-    email: string,
-    password: string
-  ) => Promise<boolean | undefined>;
-  handleCreateMailToken: (email: string) => Promise<boolean | undefined>;
-  handleVerifyMailToken: (
-    email: string,
-    code: string
-  ) => Promise<boolean | undefined>;
+  currentPageIndex: number;
+  handlePrevPage: () => void;
+  handleCreateMailToken: () => void;
+  handleVerifyMailToken: () => void;
+  handleCheckPassword: () => void;
+  handleCheckDogRegisterNumber: () => void;
+  handleProfileInput: () => void;
+  handleCreateUserAndDog: () => void;
+  charactersData: Pick<IQuery, "fetchCharacters"> | undefined;
+  interestsData: Pick<IQuery, "fetchInterests"> | undefined;
+  avoidBreedsData: Pick<IQuery, "fetchAvoidBreeds"> | undefined;
 }
 export default function SignUpUI({
-  handleSignUp,
+  currentPageIndex,
+  handlePrevPage,
   handleCreateMailToken,
   handleVerifyMailToken,
+  handleCheckPassword,
+  handleCheckDogRegisterNumber,
+  handleProfileInput,
+  handleCreateUserAndDog,
+  charactersData,
+  interestsData,
+  avoidBreedsData,
 }: SignUpUIprops) {
-  const router = useRouter();
-
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [codeVerifyError, setCodeVerifyError] = useState<string>("");
-  const [inputs, setInputs] = useRecoilState(signUpInputState);
-
-  const onClickNext = async () => {
-    // 이메일 입력 페이지
+  const [verifyError] = useRecoilState(verifyErrorState);
+  const onClickNext = () => {
     if (currentPageIndex === 0) {
-      const result = await handleCreateMailToken(inputs?.email);
-      result && setCurrentPageIndex(currentPageIndex + 1);
-    }
-    // 인증번호 입력 페이지
-    if (currentPageIndex === 1) {
-      const result = await handleVerifyMailToken(
-        inputs?.email,
-        inputs?.authenticationCode.join("")
-      );
-
-      if (!result) {
-        setCodeVerifyError("인증번호가 일치하지 않습니다.");
-        setInputs((p) => ({ ...p, isActiveButton: false }));
-        return;
-      }
-      result && setCurrentPageIndex(currentPageIndex + 1);
-    }
-    // 비밀번호 입력 페이지
-    if (currentPageIndex === 2) {
-      await handleSignUp(inputs?.email, inputs?.password);
-    }
-  };
-
-  const onClickPrevPage = () => {
-    if (currentPageIndex === 0) {
-      router.replace("/auth/login");
+      handleCreateMailToken();
       return;
     }
 
-    if (currentPageIndex - 1 < 0) return;
-    setCurrentPageIndex((p) => p - 1);
+    if (currentPageIndex === 1) {
+      handleVerifyMailToken();
+      return;
+    }
+
+    if (currentPageIndex === 2) {
+      handleCheckPassword();
+      return;
+    }
+
+    if (currentPageIndex === 3) {
+      handleCheckDogRegisterNumber();
+      return;
+    }
+
+    if (currentPageIndex === 4) {
+      handleProfileInput();
+      return;
+    }
+
+    handleCreateUserAndDog();
   };
 
   return (
     <S.Wrapper>
       <S.Header>
-        <ArrowBackRoundedIcon onClick={onClickPrevPage} />
+        <ArrowBackRoundedIcon onClick={handlePrevPage} />
         <span>회원가입</span>
       </S.Header>
       <S.PageStackWrapper>
@@ -82,17 +83,35 @@ export default function SignUpUI({
           <Page>
             <EmailInputPage />
           </Page>
+
           <Page>
-            <AuthCodeInputPage verifyError={codeVerifyError} />
+            <AuthCodeInputPage verifyError={verifyError} />
           </Page>
+
           <Page>
             <PasswordInputPage />
+          </Page>
+
+          <Page>
+            <RegistrationNumberInputPage />
+          </Page>
+
+          <Page>
+            <ProfileInputPage />
+          </Page>
+
+          <Page>
+            <ProfileInput2Page
+              interests={interestsData?.fetchInterests}
+              characters={charactersData?.fetchCharacters}
+              avoidBreeds={avoidBreedsData?.fetchAvoidBreeds}
+            />
           </Page>
         </PageStack>
       </S.PageStackWrapper>
 
       <S.NextButton type="button" onClick={onClickNext}>
-        {Object.values(inputs).every((e) => e) ? "완료" : "다음"}
+        {currentPageIndex === 5 ? "가입" : "다음"}
       </S.NextButton>
     </S.Wrapper>
   );

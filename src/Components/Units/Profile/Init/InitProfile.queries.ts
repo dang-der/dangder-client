@@ -24,6 +24,15 @@ export const FETCH_INTERESTS = gql`
   }
 `;
 
+export const FETCH_AVOID_BREEDS = gql`
+  query fetchAvoidBreeds {
+    fetchAvoidBreeds {
+      id
+      avoidBreed
+    }
+  }
+`;
+
 export const CREATE_DOG = gql`
   mutation createDog(
     $createDogInput: CreateDogInput!
