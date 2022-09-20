@@ -1,7 +1,14 @@
 import { useMutation, useQuery } from "@apollo/client";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
+  exceptionModalState,
+  matchedModalVisibleState,
+} from "../../../Commons/Store/Modal/ModalVisibleState";
+import {
+  IMutation,
+  IMutationCreateLikeArgs,
   IQuery,
   IQueryFetchAroundDogsArgs,
   IQueryFetchDogsDistanceArgs,
@@ -16,7 +23,12 @@ import {
 import MatchedModal from "./MatchedModal/MatchedModal";
 
 export default function DogMainContainer() {
+  const [matchedId, setMatchedId] = useState<string>("");
   const [userInfo] = useRecoilState(userInfoState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
+  const [matchedModalVisible, setMatchedModalVisible] = useRecoilState(
+    matchedModalVisibleState
+  );
   const dogId = String(userInfo?.dog?.id);
 
   const { data } = useQuery<
@@ -33,12 +45,21 @@ export default function DogMainContainer() {
     variables: { id: dogId },
   });
 
+  const { data: isCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
+    FETCH_LOGIN_USER_IS_CERT
+  );
+
+  console.log("DogMiancontainer", data);
+
   const DogsData = data?.fetchAroundDogs.map((el, i) => [
     el,
     dogsDistanceData?.fetchDogsDistance[i],
   ]);
 
-  const [createLike] = useMutation(CREATE_LIKE);
+  const [createLike] = useMutation<
+    Pick<IMutation, "createLike">,
+    IMutationCreateLikeArgs
+  >(CREATE_LIKE);
 
   const onVote = async (
     item: any,
@@ -49,7 +70,7 @@ export default function DogMainContainer() {
 
     try {
       if (direction === "right") {
-        const result = await createLike({
+        const { data: createLikeData } = await createLike({
           variables: {
             createLikeInput: {
               sendId: dogId,
@@ -57,24 +78,28 @@ export default function DogMainContainer() {
             },
           },
         });
-        if (result.data.createLike.isMatch) {
-          MatchedModal({ sendId: dogId, receiveId: item[0].id });
+
+        console.log("createLike", createLikeData);
+
+        if (createLikeData?.createLike.isMatch) {
+          setMatchedModalVisible(true);
+          setMatchedId(createLikeData.createLike.receiveId);
         }
       }
     } catch (error) {
       console.log(error);
+      if (error instanceof Error) {
+        setExceptionModal({ visible: true, message: error.message });
+      }
     }
   };
 
-  const { data: isCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
-    FETCH_LOGIN_USER_IS_CERT
-  );
-
-  console.log(isCert);
-
   return (
     <>
-      {data?.fetchAroundDogs && <DogMainUI onVote={onVote} datas={DogsData} />}
+      {matchedModalVisible && <MatchedModal receiveId={matchedId} />}
+      {data?.fetchAroundDogs && dogsDistanceData?.fetchDogsDistance && (
+        <DogMainUI onVote={onVote} datas={DogsData} />
+      )}
     </>
   );
 }

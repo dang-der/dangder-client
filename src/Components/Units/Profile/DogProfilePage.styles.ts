@@ -46,12 +46,15 @@ export const DogProfileImageWrapper = styled.div`
 `;
 
 export const DogPhoto = styled.img`
-  width: calc(576px - 4rem);
+  /* width: calc(576px - 4rem);
   max-width: 576px;
   height: calc(100vh - 20rem);
   @media screen and (max-width: 576px) {
     width: calc(100vw - 4rem);
-  }
+  } */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   background-size: cover;
   background-position: center;
   border-radius: 10px;
@@ -95,6 +98,7 @@ export const DogDescription = styled.span`
 `;
 
 export const ProfileEditButtonWrapper = styled.div`
+  cursor: pointer;
   position: relative;
   display: flex;
   justify-content: center;

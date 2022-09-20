@@ -14,6 +14,7 @@ import {
   IMutationCreatePaymentArgs,
 } from "../../../Commons/Types/Generated/types";
 import { CREATE_PAYMENT } from "./Payment.queries";
+import { FETCH_LOGIN_USER_IS_CERT } from "../Detail/DogDetail.queries";
 
 declare const window: typeof globalThis & {
   IMP: any;
@@ -60,9 +61,11 @@ export default function BuyPassTicketModal() {
                 impUid: rsp.imp_uid,
                 payMoney: amount,
               },
+              refetchQueries: [{ query: FETCH_LOGIN_USER_IS_CERT }],
             });
 
             if (!data?.createPayment.id) {
+              setVisible(false);
               return;
             }
           } catch (e) {

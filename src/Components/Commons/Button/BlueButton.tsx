@@ -28,25 +28,14 @@ interface LargeButtonProps {
   style?: any;
 }
 
-export default function BlueButton({
-  title,
-  onClick,
-  style,
-  isActive,
-}: LargeButtonProps) {
-  console.log(onClick);
-
-  const onClickButton = () => {
-    console.log("onClickButton");
-    // onClick();
-  };
+export default function BlueButton({ title, onClick, style, isActive }: LargeButtonProps) {
   return (
     <Wrapper
       isActive={isActive !== undefined ? isActive : true}
       type="button"
-      onClick={onClickButton}
+      onClick={onClick}
       style={{ ...style }}
-      disabled={isActive !== undefined ? !isActive : true}
+      disabled={isActive !== undefined ? !isActive : false}
     >
       {title}
     </Wrapper>

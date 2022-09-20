@@ -26,11 +26,12 @@ export default function ChatListItemContainer({
     router.push(`/chat/${String(room?.id || "")}`);
   };
 
+  console.log("Rooms", room);
   return (
     <S.Wrapper onClick={handleClickItem}>
-      {/* <S.DogImage
-        src={"https://storage.googleapis.com/" + room.chatPairDog?.img[0].img}
-      /> */}
+      <S.DogImage
+        src={"https://storage.googleapis.com/" + room.chatPairDog?.img?.[0].img}
+      />
       <S.ContentsWrapper>
         <S.AnotherDogName>{room.chatPairDog?.name}</S.AnotherDogName>
         <S.Message>마지막 메세지 내용</S.Message>

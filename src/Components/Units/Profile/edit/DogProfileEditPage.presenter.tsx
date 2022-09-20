@@ -9,14 +9,16 @@ import { useRecoilState } from "recoil";
 import { profileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
 import {
   ICharacter,
+  IDog,
   IInterest,
 } from "../../../../Commons/Types/Generated/types";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import ImageFileInput from "../../../Commons/FileInput/ImageFileInput";
 import LineInput from "../../../Commons/LineInputs/LineInput";
 import { userInfo } from "os";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
+import BirthInput from "../../../Commons/LineInputs/BirthInput/BirthInput";
 
 interface ProfileInput2PageProps {
   characters: ICharacter[];
@@ -47,7 +49,11 @@ const schema = yup.object({
     .required("내용을 입력해주세요."),
 });
 
-export default function DogProfileEditUI({}: ProfileInput2PageProps) {
+interface DogProfileEditUIProps {
+  myDog: IDog | undefined;
+}
+
+export default function DogProfileEditUI({ myDog }: DogProfileEditUIProps) {
   const [inputs, setInputs] = useRecoilState(profileInputState);
   const [userInfo] = useRecoilState(userInfoState);
 
@@ -72,6 +78,10 @@ export default function DogProfileEditUI({}: ProfileInput2PageProps) {
     { id: "8", interest: "qewrq", dogs: [] },
   ];
   const fakeAvoid = ["진돗개", "코네카르소", "불독"];
+
+  useEffect(() => {
+    if (!myDog) return;
+  }, [myDog]);
 
   const onClickValue = (category: string, value: string) => () => {
     setInputs((p) => {
@@ -123,7 +133,7 @@ export default function DogProfileEditUI({}: ProfileInput2PageProps) {
     };
   };
 
-  const onChangeOwnerBirthYear = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeBirthYear = (e: ChangeEvent<HTMLInputElement>) => {
     setInputs((p) => ({
       ...p,
       dogInput: {
@@ -133,7 +143,7 @@ export default function DogProfileEditUI({}: ProfileInput2PageProps) {
     }));
   };
 
-  const onChangeOwnerBirthMonth = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeBirthMonth = (e: ChangeEvent<HTMLInputElement>) => {
     setInputs((p) => ({
       ...p,
       dogInput: {
@@ -143,7 +153,7 @@ export default function DogProfileEditUI({}: ProfileInput2PageProps) {
     }));
   };
 
-  const onChangeOwnerBirthDay = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeBirthDay = (e: ChangeEvent<HTMLInputElement>) => {
     setInputs((p) => ({
       ...p,
       dogInput: {
@@ -210,35 +220,12 @@ export default function DogProfileEditUI({}: ProfileInput2PageProps) {
           <S.SubTitleWrapper style={{ marginTop: "1rem" }}>
             생일
           </S.SubTitleWrapper>
-          <S.BirthdayWrapper>
-            <LineInput
-              register={register}
-              registerOption={{ onChange: onChangeOwnerBirthYear }}
-              type="number"
-              name="birthYear"
-              placeholder="1995"
-              style={{ textAlign: "center" }}
-            />
-            <span>년</span>
-            <LineInput
-              register={register}
-              registerOption={{ onChange: onChangeOwnerBirthMonth }}
-              type="number"
-              name="birthMonth"
-              placeholder="06"
-              style={{ textAlign: "center" }}
-            />
-            <span>월</span>
-            <LineInput
-              register={register}
-              registerOption={{ onChange: onChangeOwnerBirthDay }}
-              type="number"
-              name="birthDay"
-              placeholder="06"
-              style={{ textAlign: "center" }}
-            />
-            <span>일</span>
-          </S.BirthdayWrapper>
+          <BirthInput
+            register={register}
+            onChangeDay={onChangeBirthDay}
+            onChangeMonth={onChangeBirthMonth}
+            onChangeYear={onChangeBirthYear}
+          />
           <S.ErrorText>
             {formState.errors.birthYear?.message ??
               formState.errors.birthMonth?.message ??
@@ -249,7 +236,7 @@ export default function DogProfileEditUI({}: ProfileInput2PageProps) {
             <Checkbox onChange={onChangeCheckUnknownBirth} />
             <S.MiniGuidanceText>댕댕이의 생년월일을 몰라요!</S.MiniGuidanceText>
           </S.CheckBirthUnknowingnessWrapper>
-          <S.SubTitleWrapper style={{ marginTop: "1rem" }}>
+          <S.SubTitleWrapper style={{ marginTop: "2rem" }}>
             댕댕이의 소개글을 작성해주세요. (5자이상 200자이내)
           </S.SubTitleWrapper>
           <S.IntroduceTextField

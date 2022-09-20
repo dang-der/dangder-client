@@ -21,13 +21,7 @@ import {
 } from "../Chat.queries";
 import ChatRoomUI from "./ChatRoom.presenter";
 
-export interface IInfo {
-  userId: string;
-  dog: {
-    id: string;
-    name: string;
-  };
-}
+
 
 export interface IMessageData {
   message?: string | Maybe<string> | undefined;
@@ -46,10 +40,9 @@ export default function ChatRoomContainer() {
   const router = useRouter();
   const roomId = router.query.roomId;
 
-  const [info, setInfo] = useState<IInfo | undefined>();
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [enterRoomInfo] = useRecoilState(enteredChatRoomInfoState);
-  const [user] = useRecoilState(userInfoState);
+  const [userInfo] = useRecoilState(userInfoState);
 
   const { data: messagesData } = useQuery<
     Pick<IQuery, "fetchChatMessagesByChatRoomId">,
@@ -75,14 +68,19 @@ export default function ChatRoomContainer() {
 
     messagesData.fetchChatMessagesByChatRoomId.forEach((e: IChatMessage) => {
       console.log("fetchChatMessage", e);
+      console.log("enterRoomInfo", enterRoomInfo);
+
+      if (!enterRoomInfo || !userInfo) return;
+
       const { message, lat, lng, meetAt, type } = e;
-      const dog =
-        e.senderId === enterRoomInfo?.chatPairDog?.id
-          ? {
-              id: enterRoomInfo.chatPairDog.id,
-              neme: enterRoomInfo.chatPairDog.name,
-            }
-          : { id: enterRoomInfo?.dog?.id, name: enterRoomInfo?.dog?.name };
+      const dog = e.senderId.includes(
+        String(enterRoomInfo?.chatPairDog?.id || "")
+      )
+        ? {
+            id: enterRoomInfo?.chatPairDog?.id,
+            neme: enterRoomInfo?.chatPairDog?.name,
+          }
+        : { id: userInfo?.dog?.id || "", name: userInfo?.dog?.name || "" };
 
       const messageObj: IMessage = {
         type,
@@ -103,17 +101,9 @@ export default function ChatRoomContainer() {
   };
 
   const handleEmitConnect = async () => {
-    if (!user) return;
+    if (!userInfo?.dog) return;
 
-    const { id, name } = user?.dog;
-
-    setInfo({
-      userId: user.id,
-      dog: {
-        id,
-        name,
-      },
-    });
+    const { id, name } = userInfo?.dog;
 
     socket.emit("join", {
       roomId,
@@ -122,8 +112,8 @@ export default function ChatRoomContainer() {
   };
 
   const handleEmitSend = ({ type, data }: { type: string; data: any }) => {
+    if (!userInfo) return;
     console.log("handleEmitSend", type, data);
-    if (!info) return;
 
     const dataObjDefault: IMessageData = {
       message: "",
@@ -137,16 +127,10 @@ export default function ChatRoomContainer() {
     socket.emit("send", {
       type,
       roomId,
-      dog: { id: info.dog.id, name: info.dog.name },
+      dog: { id: userInfo?.dog?.id, name: userInfo?.dog?.name },
       data: dataObj,
     });
   };
 
-  return (
-    <ChatRoomUI
-      handleEmitSend={handleEmitSend}
-      messages={messages}
-      myInfo={info}
-    />
-  );
+  return <ChatRoomUI handleEmitSend={handleEmitSend} messages={messages} />;
 }

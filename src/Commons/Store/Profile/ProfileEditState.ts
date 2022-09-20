@@ -1,6 +1,5 @@
 import { atom } from "recoil";
 
-
 export interface IDogProfile {
   [key: string]: any;
   imageUrls: string[];
@@ -22,8 +21,8 @@ export interface IProfileInputState {
   ownerBirthDay: number;
   dogInput: IDogProfile;
 }
-export const profileInputState = atom<IProfileInputState>({
-  key: "profileInputState",
+export const profileEditState = atom<IProfileInputState>({
+  key: "profileEditState",
   default: {
     registerNumber: "",
     ownerBirthYear: 0,
@@ -43,4 +42,3 @@ export const profileInputState = atom<IProfileInputState>({
     },
   },
 });
-

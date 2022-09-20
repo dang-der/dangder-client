@@ -3,16 +3,15 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
+  exceptionModalState,
   matchedModalVisibleState,
   passBuyModalVisibleState,
 } from "../../../Commons/Store/Modal/ModalVisibleState";
 import {
   IMutation,
   IMutationCreateLikeArgs,
-  IMutationIsLikeArgs,
   IMutationJoinChatRoomArgs,
   IQuery,
-  IQueryFetchDogsDistanceArgs,
   IQueryFetchOneDogArgs,
 } from "../../../Commons/Types/Generated/types";
 import MatchedModal from "../Main/MatchedModal/MatchedModal";
@@ -29,9 +28,16 @@ import {
 
 export default function DogDetail() {
   const router = useRouter();
-  const [, setVisibleLike] = useRecoilState(matchedModalVisibleState);
-  const [, setVisibleChat] = useRecoilState(passBuyModalVisibleState);
+
+  const [matchVisible, setVisibleMatch] = useRecoilState(
+    matchedModalVisibleState
+  );
+  const [passVisible, setVisibleBuyPass] = useRecoilState(
+    passBuyModalVisibleState
+  );
   const [userInfo] = useRecoilState(userInfoState);
+  const [, setExceptionModalVisible] = useRecoilState(exceptionModalState);
+
   const { data: userIsCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
     FETCH_LOGIN_USER_IS_CERT
   );
@@ -39,16 +45,6 @@ export default function DogDetail() {
     Pick<IMutation, "joinChatRoom">,
     IMutationJoinChatRoomArgs
   >(JOIN_CHAT_ROOM);
-
-  // const [data] = useQuery<Pick<IQuery, "fetchDogsDistance">, IQueryFetchDogsDistanceArgs>(FETCH_DOG_DISTANCE)
-  // const [data] = useQuery<Pick<IQuery, "fetchMyDog">, IQueryFetchMyDogArgs>(FETCH_MY_DOG)
-
-  // const { data: distanceData } = useQuery<
-  //   Pick<IQuery, "fetchDogsDistance">,
-  //   IQueryFetchDogsDistanceArgs
-  // >(FETCH_DOG_DISTANCE, {
-  //   variables: { id: String(router.query.dogId) },
-  // });
 
   const { data: pickDogData } = useQuery<
     Pick<IQuery, "fetchOneDog">,
@@ -77,45 +73,53 @@ export default function DogDetail() {
         return;
       }
 
-      setVisibleLike(true);
+      setVisibleMatch(true);
     } catch (e) {
       console.log("handleClickLikeError", e);
+
+      if (e instanceof Error) {
+        setExceptionModalVisible({ visible: true, message: e.message });
+      }
     }
   };
 
   const handleJoinChatRoom = async () => {
     if (!userIsCert?.fetchLoginUserIsCert) {
-      setVisibleChat(true);
-    } else {
-      try {
-        const { data: joinChatRoomData } = await joinChatRoom({
-          variables: {
-            dogId: String(router.query.dogId),
-            chatPairId: String(router.query.dogId),
-          },
-        });
+      setVisibleBuyPass(true);
+      return;
+    }
 
-        if (!joinChatRoomData?.joinChatRoom.id) {
-          throw Error("채팅방 입장 실패");
-          return;
-        }
+    try {
+      const { data: joinChatRoomData } = await joinChatRoom({
+        variables: {
+          dogId: String(router.query.dogId),
+          chatPairId: String(router.query.dogId),
+        },
+      });
 
-        router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
-        setVisibleChat(false);
-      } catch (e) {
-        console.log("handleJoinChatRoomError", e);
+      setVisibleBuyPass(false);
+
+      if (!joinChatRoomData?.joinChatRoom.id) {
+        throw Error("채팅방 입장 실패");
+        return;
+      }
+
+      router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
+    } catch (e) {
+      console.log("handleJoinChatRoomError", e);
+      if (e instanceof Error) {
+        setExceptionModalVisible({ visible: true, message: e.message });
       }
     }
   };
 
   return (
     <>
-      <BuyPassTicketModal />
-      <MatchedModal />
+      {matchVisible && <MatchedModal receiveId={String(router.query.dogId)} />}
+      {passVisible && <BuyPassTicketModal />}
       <DogDetailUI
         handleCreateLike={handleCreateLike}
         handleJoinChatRoom={handleJoinChatRoom}
-        // distanceData={distanceData}
         pickDogData={pickDogData}
       />
     </>

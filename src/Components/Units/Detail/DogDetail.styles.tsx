@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { MainColor } from "../../../../styles/GlobalStyles";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -183,7 +184,8 @@ export const DetailCharacterBox = styled.div`
 export const DetailCharacter = styled.div`
   font-size: 0.75rem;
   font-weight: 400;
-  color: #ffffff;
+  color: ${MainColor};
+  /* color: #ffffff; */
   width: 5.9rem;
   height: 2.06rem;
   /* border: 0.06rem solid #d9d9d9;

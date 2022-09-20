@@ -16,21 +16,22 @@ import PlaceShareContainer from "../Place/PlaceShare.container";
 import PlanShareContainer from "../Plan/PlanShare.container";
 import ChatPlaceItem from "./ChatPlaceItem/ChatPlaceItem";
 import ChatPlanItem from "./ChatPlanItem/ChatPlanItem";
+import { useRecoilState } from "recoil";
+import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
+import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 interface ChatRoomUIProps {
   handleEmitSend: ({ type, data }: { type: string; data: any }) => void;
   messages: IMessage[];
-  myInfo: IInfo | undefined;
 }
 
-export default function ChatRoomUI({
-  handleEmitSend,
-  messages,
-  myInfo,
-}: ChatRoomUIProps) {
+export default function ChatRoomUI({ handleEmitSend, messages }: ChatRoomUIProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenPlace, setIsOpenPlace] = useState(false);
   const [isOpenPlan, setIsOpenPlan] = useState(false);
+
+  const [enterRoomInfo] = useRecoilState(enteredChatRoomInfoState);
+  const [userInfo] = useRecoilState(userInfoState);
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -82,19 +83,24 @@ export default function ChatRoomUI({
 
       <S.ChatHeader>
         <S.OtherDogContainer>
-          <S.OtherDogImage src="/favicon.ico" />
-          <S.OtherDogName>오전이</S.OtherDogName>
+          <S.OtherDogImage
+            // src={enterRoomInfo?.chatPairDog?.img[0].img || "/pug.jpg"}
+            src={"/pug.jpg"}
+          />
+          <S.OtherDogName>{enterRoomInfo?.chatPairDog?.name}</S.OtherDogName>
         </S.OtherDogContainer>
       </S.ChatHeader>
 
       <S.ChatMessagesWrapper>
         {messages.map(({ type, data, dog }: IMessage, i) => {
+          console.log("ChatMessage", type, data, dog);
+
           if (type === "text")
             return (
               <ChatMessageItem
                 key={i}
-                message={data.message}
-                isMine={dog.id === myInfo?.dog.id}
+                message={data?.message}
+                isMine={dog?.id?.includes(userInfo?.dog?.id || "")}
               />
             );
 
@@ -102,7 +108,7 @@ export default function ChatRoomUI({
             return <ChatPlaceItem key={i} dog={dog} data={data} />;
           if (type === "plan")
             return <ChatPlanItem key={i} dog={dog} data={data} />;
-          return <S.EnterMessage key={i}>{data.message}</S.EnterMessage>;
+          return <></>;
         })}
         <div ref={bottomRef}></div>
       </S.ChatMessagesWrapper>

@@ -1,5 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 import {
   IMutation,
   IMutationCreateMailTokenArgs,
@@ -22,6 +24,7 @@ const UPDATE_USER = gql`
 
 export default function PasswordResetContainer() {
   const router = useRouter();
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const [createMailToken] = useMutation<
     Pick<IMutation, "createMailToken">,
@@ -40,13 +43,20 @@ export default function PasswordResetContainer() {
 
   const handelCreateMailToken = async (email: string) => {
     try {
-      const { data } = await createMailToken({ variables: { email } });
+      const { data } = await createMailToken({
+        variables: { email, type: "resetPwd" },
+      });
 
-      if (!data) return false;
+      if (!data) {
+        throw Error("이메일 전송에 실패했습니다.");
+      }
 
       return data.createMailToken;
     } catch (e) {
       console.log("createMailTokenError", e);
+      if (e instanceof Error) {
+        setExceptionModal({ visible: true, message: e.message });
+      }
       return false;
     }
   };
@@ -54,11 +64,16 @@ export default function PasswordResetContainer() {
   const handleVerifyMailToken = async (code: string, email: string) => {
     try {
       const { data } = await verifyMailToken({ variables: { email, code } });
-      if (!data) return false;
+      if (!data) {
+        throw Error("인증번호 검사에 실패앴습니다.");
+      }
 
       return data.verifyMailToken;
     } catch (e) {
       console.log("verifyMailTokenError", e);
+      if (e instanceof Error) {
+        setExceptionModal({ visible: true, message: e.message });
+      }
       return false;
     }
   };
