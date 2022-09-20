@@ -50,8 +50,9 @@ export default function ChatRoomContainer() {
 
   const socket = useMemo(() => {
     return io("https://recipemaker.shop/dangderchats", {
-      forceNew: true,
-      transports: ["websocket"],
+      // forceNew: true,
+      transports: ["websocket", "polling"],
+      // timeout: 1000 * 60,
     });
   }, []);
 
@@ -63,6 +64,10 @@ export default function ChatRoomContainer() {
     handleOnMessage();
     handleEmitConnect();
 
+    socket.on("connection", (data) => {
+      console.log("socket - connection", data);
+    });
+
     socket.on("connect_error", (error) => {
       console.log("socketError", error);
     });
@@ -72,10 +77,10 @@ export default function ChatRoomContainer() {
       console.log("socketConnect", socket.id); // x8WIv7-mJelg7on_ALbx
     });
 
-    return () => {
-      socket.disconnect();
-      socket.close();
-    };
+    socket.on("disconnect", (_data) => {
+      socket.connect();
+      console.log("socketDisConnect", _data); // x8WIv7-mJelg7on_ALbx
+    });
   }, []);
 
   useEffect(() => {
