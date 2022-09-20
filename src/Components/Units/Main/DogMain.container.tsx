@@ -33,16 +33,14 @@ export default function DogMainContainer() {
 
   const dogId = String(userInfo?.dog?.id);
 
-  const { data } = useQuery<
+  const { data, refetch } = useQuery<
     Pick<IQuery, "fetchAroundDogs">,
     IQueryFetchAroundDogsArgs
   >(FETCH_AROUND_DOG, {
     variables: { id: dogId, page: 1 },
   });
 
-  console.log(data);
-
-  const { data: fetchDogs, refetch } = useQuery<
+  const { data: fetchDogs, refetch: nonRefetch } = useQuery<
     Pick<IQuery, "fetchDogs">,
     IQueryFetchDogsArgs
   >(FETCH_DOGS, {
@@ -75,7 +73,7 @@ export default function DogMainContainer() {
     result: boolean,
     direction: string | undefined
   ) => {
-    console.log("DogMainContainer-onVote", item, result, direction);
+    // console.log("DogMainContainer-onVote", item, result, direction);
 
     try {
       if (direction === "right") {
@@ -94,8 +92,6 @@ export default function DogMainContainer() {
             },
           },
         });
-        console.log("item", item);
-        item.pop();
 
         if (createLikeData?.createLike.isMatch) {
           setMatchedModalVisible(true);
@@ -115,10 +111,14 @@ export default function DogMainContainer() {
       {userInfo !== undefined
         ? data?.fetchAroundDogs &&
           dogsDistanceData?.fetchDogsDistance && (
-            <DogMainUI onVote={onVote} datas={DogsData} />
+            <DogMainUI onVote={onVote} datas={DogsData} refetch={refetch} />
           )
         : fetchDogs?.fetchDogs && (
-            <DogMainUI onVote={onVote} datas={nonDogsData} />
+            <DogMainUI
+              onVote={onVote}
+              datas={nonDogsData}
+              nonRefetch={nonRefetch}
+            />
           )}
     </>
   );

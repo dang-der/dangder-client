@@ -38,7 +38,6 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
 
   const getVote = (childNode: Element, parentNode: Element | null) => {
     if (!parentNode) {
-      console.log("Card-getVote : parendElement is null");
       return;
     }
 
@@ -104,16 +103,8 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
   });
 
   const onClickItem = () => {
-    // try {
-    //   if (userInfo !== undefined) {
     if (!data[0].id) return;
     router.push(`/${String(data[0].id)}`);
-    //   } else {
-
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const { data: loginUserIsCert } = useQuery<
