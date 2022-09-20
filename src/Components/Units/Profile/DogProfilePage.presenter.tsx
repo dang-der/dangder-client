@@ -36,10 +36,10 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
                 })
               } */}
             </Slider>
+            <S.DogPhoto
+              src={"https://storage.googleapis.com/" + myDogData?.img[0].img}
+            />
           </S.DogProfileImageWrapper>
-          <S.DogPhoto
-            src={"https://storage.googleapis.com/" + myDogData?.img[0].img}
-          />
           <S.DogInfo>
             <S.DogInfoHeader>
               <S.DogName>{myDogData?.name}, </S.DogName>

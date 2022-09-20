@@ -3,6 +3,8 @@ import styled from "@emotion/styled";
 import { ChangeEvent, useEffect } from "react";
 
 const Wrapper = styled.div`
+  width: 100%;
+  max-width: 576px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,14 +12,15 @@ const Wrapper = styled.div`
 
   input {
     font-size: 1rem;
-    flex-grow: 1;
+    /* flex-grow: 1; */
     font-weight: 400;
+    background-color: rebeccapurple;
   }
   span {
     font-size: 1.563rem;
-    color: #5f5f5f;
     font-weight: 400;
     gap: 0 5px;
+    background-color: rebeccapurple;
   }
 `;
 
