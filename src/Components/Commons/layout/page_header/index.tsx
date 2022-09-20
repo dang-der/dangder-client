@@ -63,6 +63,11 @@ export default function PageHeader() {
   }, [router.pathname]);
 
   const onClickBackArrow = () => {
+    if (router.pathname === "/chat/[roomId]") {
+      router.replace("/chat");
+      return;
+    }
+     
     router.back();
   };
 
