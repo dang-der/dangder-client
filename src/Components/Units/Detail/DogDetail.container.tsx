@@ -114,12 +114,14 @@ export default function DogDetail() {
         ],
       });
 
+
       setLikeModalVisible(false);
 
       if (!matchUserData?.createLike.isMatch) {
         router.back();
         return;
-      }
+        }
+
 
       setVisibleMatch(true);
     } catch (e) {
