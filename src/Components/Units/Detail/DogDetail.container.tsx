@@ -7,6 +7,7 @@ import {
   exceptionModalState,
   matchedModalVisibleState,
   passBuyModalVisibleState,
+  selectedDogIdBuyPassState,
 } from "../../../Commons/Store/Modal/ModalVisibleState";
 import {
   IMutation,
@@ -42,6 +43,7 @@ export default function DogDetail() {
   );
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModalVisible] = useRecoilState(exceptionModalState);
+  const [, setSelectedDogId] = useRecoilState(selectedDogIdBuyPassState);
 
   const { data: userIsCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
     FETCH_LOGIN_USER_IS_CERT
@@ -63,10 +65,10 @@ export default function DogDetail() {
     IMutationCreateLikeArgs
   >(CREATE_LIKE);
 
-
   const handleJoinChatRoom = async () => {
     if (!userIsCert?.fetchLoginUserIsCert) {
       setVisibleBuyPass(true);
+      setSelectedDogId(String(router.query.dogId) || "");
       return;
     }
 

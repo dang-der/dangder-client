@@ -6,6 +6,7 @@ import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 import {
   exceptionModalState,
   passBuyModalVisibleState,
+  selectedDogIdBuyPassState,
 } from "../../../Commons/Store/Modal/ModalVisibleState";
 import CustomLayoutModal from "../../Commons/Modal/CustomLayoutModal/CustomLayoutModal";
 import BlueButton from "../../Commons/Button/BlueButton";
@@ -15,18 +16,25 @@ import { useMutation } from "@apollo/client";
 import {
   IMutation,
   IMutationCreatePaymentArgs,
+  IMutationJoinChatRoomArgs,
 } from "../../../Commons/Types/Generated/types";
 import { CREATE_PAYMENT } from "./Payment.queries";
-import { FETCH_LOGIN_USER_IS_CERT } from "../Detail/DogDetail.queries";
+import {
+  FETCH_LOGIN_USER_IS_CERT,
+  JOIN_CHAT_ROOM,
+} from "../Detail/DogDetail.queries";
 import Script from "next/script";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
-
+import { useRouter } from "next/router";
 
 declare const window: typeof globalThis & {
   IMP: any;
 };
 
 export default function BuyPassTicketModal() {
+  const router = useRouter();
+
+  const [seletedDogId] = useRecoilState(selectedDogIdBuyPassState);
   const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
@@ -35,6 +43,11 @@ export default function BuyPassTicketModal() {
     Pick<IMutation, "createPayment">,
     IMutationCreatePaymentArgs
   >(CREATE_PAYMENT);
+
+  const [joinChatRoom] = useMutation<
+    Pick<IMutation, "joinChatRoom">,
+    IMutationJoinChatRoomArgs
+  >(JOIN_CHAT_ROOM);
 
   const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
     if (typeof visible === "boolean") {
@@ -76,13 +89,25 @@ export default function BuyPassTicketModal() {
             setVisible(false);
             if (!data?.createPayment.id)
               throw Error("결제에 실패했습니다. 다시 시도해주세요.");
+
+            const { data: joinChatData } = await joinChatRoom({
+              variables: {
+                dogId: userInfo?.dog?.id || "",
+                chatPairId: seletedDogId,
+              },
+            });
+
+            const roomId = joinChatData?.joinChatRoom.id;
+            if (!roomId) throw Error("채팅방에 입장할 수 없습니다.");
+
+            router.replace(`/chat/${roomId}`);
           } catch (e) {
             console.log("createPaymentError", e);
             setVisible(false);
             if (e instanceof Error) {
               setExceptionModal({
                 visible: true,
-                message: "결제에 실패했습니다. <br/> 다시 시도해주세요.",
+                message: e.message,
               });
             }
           }

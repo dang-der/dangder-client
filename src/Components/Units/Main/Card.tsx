@@ -11,7 +11,10 @@ import {
   IQuery,
 } from "../../../Commons/Types/Generated/types";
 import { useRecoilState } from "recoil";
-import { passBuyModalVisibleState } from "../../../Commons/Store/Modal/ModalVisibleState";
+import {
+  passBuyModalVisibleState,
+  selectedDogIdBuyPassState,
+} from "../../../Commons/Store/Modal/ModalVisibleState";
 import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import { JOIN_CHAT_ROOM } from "../Detail/DogDetail.queries";
@@ -25,6 +28,7 @@ interface CardProps {
 export const Card = ({ onVote, data, drag }: CardProps) => {
   const [userInfo] = useRecoilState(userInfoState);
   const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
+  const [, setSelectedDogId] = useRecoilState(selectedDogIdBuyPassState);
 
   const router = useRouter();
   const cardElem = useRef<HTMLDivElement | null>(null);
@@ -123,6 +127,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
 
     if (!loginUserIsCert?.fetchLoginUserIsCert) {
       setVisible(true);
+      setSelectedDogId(String(data[0].id));
     } else {
       try {
         const { data: joinChatRoomData } = await joinChatRoom({

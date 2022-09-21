@@ -39,14 +39,6 @@ export const JOIN_CHAT_ROOM = gql`
       chatPairId
       dog {
         id
-        name
-        sendId
-      }
-      chatMessages {
-        id
-        senderId
-        type
-        chatRoom
       }
     }
   }
