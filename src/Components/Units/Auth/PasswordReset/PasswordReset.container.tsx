@@ -8,10 +8,7 @@ import {
   IMutationUpdateUserArgs,
   IMutationVerifyMailTokenArgs,
 } from "../../../../Commons/Types/Generated/types";
-import {
-  CREATE_MAIL_TOKEN,
-  VERIFY_MAIL_TOKEN,
-} from "../SingUp/Page/SignUp.queries";
+import { CREATE_MAIL_TOKEN, VERIFY_MAIL_TOKEN } from "../SingUp/SignUp.queries";
 import PasswordResetUI from "./PasswordReset.presenter";
 
 const UPDATE_USER = gql`
