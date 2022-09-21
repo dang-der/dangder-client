@@ -17,6 +17,7 @@ export const Item = styled.div`
   }
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   font-size: 20px;
   box-shadow: 0px 10px 10px 0px rgba(150, 150, 150, 0.3);
   border-radius: 8px;
@@ -25,16 +26,16 @@ export const Item = styled.div`
 export const DogInfoWrapper = styled.div`
   width: 100%;
   height: 100%;
-
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: flex-start;
+  align-items: flex-;
   padding: 1rem;
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.05) 66.96%,
+    rgba(0, 0, 0, 0.05) 10.96%,
     #000000 100%
   );
   border-radius: 8px;
