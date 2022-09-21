@@ -89,6 +89,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
       setConstrained(false);
       controls.start({
         x: flyAwayDistance(direction),
+        transition: { duration: 0.2 },
       });
     }
   };
@@ -148,14 +149,15 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
         <>
           <S.StyledCard
             animate={controls}
+            // transition={{ delay: 0.2 }}
             dragConstraints={
-              constrained && { left: -500, right: 500, bottom: 0, top: 0 }
+              constrained && { left: -500, right: 500, bottom: 500, top: 0 }
             }
             dragElastic={1}
             ref={cardElem}
             style={{ x }}
             onDrag={getTrajectory}
-            onDragEnd={() => flyAway(50)}
+            onDragEnd={() => flyAway(100)}
             drag={drag}
           >
             <S.Item
