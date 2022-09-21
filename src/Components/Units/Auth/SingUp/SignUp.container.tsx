@@ -162,10 +162,8 @@ export default function SignUpContainer() {
     if (
       !yup
         .string()
-        .matches(
-          /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/,
-          "영문+숫자 조합 비밀번호를 입력해 주세요."
-        )
+        .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/)
+        .required()
         .isValidSync(signUpInputs.password)
     )
       return;
