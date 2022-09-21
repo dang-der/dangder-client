@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
+import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 import {
   exceptionModalState,
   matchedModalVisibleState,
@@ -105,6 +106,7 @@ export default function DogMainContainer() {
 
   return (
     <>
+      <BuyPassTicketModal />
       {matchedModalVisible && <MatchedModal receiveId={matchedId} />}
       {userInfo !== undefined
         ? data?.fetchAroundDogs &&

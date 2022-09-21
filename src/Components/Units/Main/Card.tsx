@@ -25,6 +25,10 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
   const [userInfo] = useRecoilState(userInfoState);
   const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
 
+  useEffect(() => {
+    console.log("passBuyModalVisible", visible);
+  }, [visible]);
+
   const router = useRouter();
   const cardElem = useRef<HTMLDivElement | null>(null);
 
@@ -123,16 +127,13 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
       try {
         const { data: joinChatRoomData } = await joinChatRoom({
           variables: {
-            dogId: String(router.query.dogId),
-            chatPairId: String(router.query.dogId),
+            dogId: userInfo?.user?.id || "",
+            chatPairId: String(data[0].id),
           },
         });
-
         if (!joinChatRoomData?.joinChatRoom.id) {
           throw Error("채팅방 입장 실패");
-          return;
         }
-
         router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
         setVisible(false);
       } catch (e) {
@@ -143,7 +144,6 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
 
   return (
     <>
-      <BuyPassTicketModal />
       {userInfo !== undefined ? (
         <>
           <S.StyledCard
@@ -165,6 +165,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
                   "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
                 })`,
                 backgroundSize: "cover",
+                backgroundPosition: "center center",
               }}
               onClick={onClickItem}
             >
