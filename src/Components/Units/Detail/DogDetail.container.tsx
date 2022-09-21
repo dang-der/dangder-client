@@ -63,7 +63,41 @@ export default function DogDetail() {
     IMutationCreateLikeArgs
   >(CREATE_LIKE);
 
-  const handleCreateLike = async () => {
+
+  const handleJoinChatRoom = async () => {
+    if (!userIsCert?.fetchLoginUserIsCert) {
+      setVisibleBuyPass(true);
+      return;
+    }
+
+    try {
+      const { data: joinChatRoomData } = await joinChatRoom({
+        variables: {
+          dogId: String(userInfo?.dog?.id),
+          chatPairId: String(router.query.dogId),
+        },
+      });
+
+      setVisibleBuyPass(false);
+
+      if (!joinChatRoomData?.joinChatRoom.id) {
+        throw Error("채팅방 입장 실패");
+      }
+
+      router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
+    } catch (e) {
+      console.log("handleJoinChatRoomError", e);
+      if (e instanceof Error) {
+        setExceptionModalVisible({ visible: true, message: e.message });
+      }
+    }
+  };
+
+  const onClickLike = () => {
+    setLikeModalVisible(true);
+  };
+
+  const handleCompleteAnimation = async () => {
     try {
       const { data: matchUserData } = await createLike({
         variables: {
@@ -80,45 +114,17 @@ export default function DogDetail() {
         ],
       });
 
-      setLikeModalVisible(true);
+      setLikeModalVisible(false);
+
       if (!matchUserData?.createLike.isMatch) {
+        router.back();
         return;
       }
 
       setVisibleMatch(true);
     } catch (e) {
       console.log("handleClickLikeError", e);
-
-      if (e instanceof Error) {
-        setExceptionModalVisible({ visible: true, message: e.message });
-      }
-    }
-  };
-
-  const handleJoinChatRoom = async () => {
-    if (!userIsCert?.fetchLoginUserIsCert) {
-      setVisibleBuyPass(true);
-      return;
-    }
-
-    try {
-      const { data: joinChatRoomData } = await joinChatRoom({
-        variables: {
-          dogId: String(router.query.dogId),
-          chatPairId: String(router.query.dogId),
-        },
-      });
-
-      setVisibleBuyPass(false);
-
-      if (!joinChatRoomData?.joinChatRoom.id) {
-        throw Error("채팅방 입장 실패");
-
-      }
-
-      router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
-    } catch (e) {
-      console.log("handleJoinChatRoomError", e);
+      setLikeModalVisible(false);
       if (e instanceof Error) {
         setExceptionModalVisible({ visible: true, message: e.message });
       }
@@ -127,11 +133,13 @@ export default function DogDetail() {
 
   return (
     <>
-      {likeModalVisible && <LikeModal />}
+      {likeModalVisible && (
+        <LikeModal handleCompleteAnimation={handleCompleteAnimation} />
+      )}
       {matchVisible && <MatchedModal receiveId={String(router.query.dogId)} />}
       {passVisible && <BuyPassTicketModal />}
       <DogDetailUI
-        handleCreateLike={handleCreateLike}
+        onClickLike={onClickLike}
         handleJoinChatRoom={handleJoinChatRoom}
         pickDogData={pickDogData}
       />
