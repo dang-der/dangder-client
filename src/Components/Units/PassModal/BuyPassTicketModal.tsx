@@ -1,9 +1,12 @@
 import { MouseEvent } from "react";
 
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
-import { passBuyModalVisibleState } from "../../../Commons/Store/Modal/ModalVisibleState";
+import {
+  exceptionModalState,
+  passBuyModalVisibleState,
+} from "../../../Commons/Store/Modal/ModalVisibleState";
 import CustomLayoutModal from "../../Commons/Modal/CustomLayoutModal/CustomLayoutModal";
 import BlueButton from "../../Commons/Button/BlueButton";
 import * as S from "./BuyPassTicketModal.style";
@@ -15,6 +18,7 @@ import {
 } from "../../../Commons/Types/Generated/types";
 import { CREATE_PAYMENT } from "./Payment.queries";
 import { FETCH_LOGIN_USER_IS_CERT } from "../Detail/DogDetail.queries";
+import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 
 declare const window: typeof globalThis & {
   IMP: any;
@@ -22,6 +26,8 @@ declare const window: typeof globalThis & {
 
 export default function BuyPassTicketModal() {
   const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
+  const [userInfo] = useRecoilState(userInfoState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const [createPayment] = useMutation<
     Pick<IMutation, "createPayment">,
@@ -48,8 +54,8 @@ export default function BuyPassTicketModal() {
         pay_method: "card",
         name: "댕더 패스 구매",
         amount,
-        buyer_email: "gildong@gmail.com",
-        m_redirect_url: "http://localhost:3000/chat",
+        buyer_email: userInfo?.user?.email || "",
+        m_redirect_url: "https://dangder.shop:3000/chat",
       },
       async (rsp: any) => {
         console.log(rsp);
@@ -64,15 +70,23 @@ export default function BuyPassTicketModal() {
               refetchQueries: [{ query: FETCH_LOGIN_USER_IS_CERT }],
             });
 
-            if (!data?.createPayment.id) {
-              setVisible(false);
-              return;
-            }
+            setVisible(false);
+            if (!data?.createPayment.id)
+              throw Error("결제에 실패했습니다. 다시 시도해주세요.");
           } catch (e) {
             console.log("createPaymentError", e);
+            if (e instanceof Error) {
+              setExceptionModal({
+                visible: true,
+                message: "결제에 실패했습니다. <br/> 다시 시도해주세요.",
+              });
+            }
           }
         } else {
-          alert("결제 실패. 다시 시도해 주세요.");
+          setExceptionModal({
+            visible: true,
+            message: "결제에 실패했습니다. <br/> 다시 시도해주세요.",
+          });
         }
       }
     );
