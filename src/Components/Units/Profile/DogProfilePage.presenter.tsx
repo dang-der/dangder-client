@@ -4,12 +4,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IDog } from "../../../Commons/Types/Generated/types";
+import { MouseEvent } from "react";
+import { useRouter } from "next/router";
 
 interface DogProfilePageUIProps {
-  myDogData: IDog | undefined;
+  myDogData: IDog | undefined | string;
 }
 
 export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
+  const router = useRouter();
   const settings = {
     dots: true,
     infinite: true,
@@ -18,10 +21,19 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
     slidesToScroll: 1,
   };
 
+  const onClickMyProfile =
+    (dogId: string) => (event: MouseEvent<HTMLDivElement>) => {
+      if (!(event.target instanceof HTMLDivElement)) return;
+      router.push(`/profile/${dogId}`);
+    };
+
   return (
     <S.Wrapper>
       <S.DogProfileWrapper>
-        <S.DogProfile>
+        <S.DogProfile
+          id={myDogData?.id}
+          onClick={onClickMyProfile(myDogData?.id)}
+        >
           <S.DogProfileImageWrapper>
             <Slider
               dots={settings.dots}
@@ -31,7 +43,9 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
               slidesToScroll={settings.slidesToScroll}
             >
               {myDogData?.img.map((el, i) => (
-                <S.DogPhoto src={"https://storage.googleapis.com/" + el.img} />
+                <S.DogPhoto
+                  imageUrl={"https://storage.googleapis.com/" + el.img}
+                />
               ))}
             </Slider>
           </S.DogProfileImageWrapper>

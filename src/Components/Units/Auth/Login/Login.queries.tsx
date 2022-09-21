@@ -19,8 +19,22 @@ export const FETCH_LOGIN_USER = gql`
         name
         age
         gender
+        isNeut
         description
+        interests {
+          id
+          interest
+        }
+        avoidBreeds {
+          id
+          avoidBreed
+        }
+        characters {
+          id
+          character
+        }
         img {
+          id
           img
         }
       }

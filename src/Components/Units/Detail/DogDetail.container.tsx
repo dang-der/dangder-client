@@ -113,7 +113,6 @@ export default function DogDetail() {
 
       if (!joinChatRoomData?.joinChatRoom.id) {
         throw Error("채팅방 입장 실패");
-
       }
 
       router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
