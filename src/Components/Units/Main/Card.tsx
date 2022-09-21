@@ -89,6 +89,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
       setConstrained(false);
       controls.start({
         x: flyAwayDistance(direction),
+        transition: { duration: 0.2 },
       });
     }
   };
@@ -148,15 +149,15 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
         <>
           <S.StyledCard
             animate={controls}
+            // transition={{ delay: 0.2 }}
             dragConstraints={
-              constrained && { left: 0, right: 0, top: 0, bottom: 0 }
+              constrained && { left: -500, right: 500, bottom: 500, top: 0 }
             }
             dragElastic={1}
             ref={cardElem}
             style={{ x }}
             onDrag={getTrajectory}
-            onDragEnd={() => flyAway(500)}
-            whileTap={{ scale: 1.1 }}
+            onDragEnd={() => flyAway(100)}
             drag={drag}
           >
             <S.Item
@@ -167,9 +168,8 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
                 backgroundSize: "cover",
                 backgroundPosition: "center center",
               }}
-              onClick={onClickItem}
             >
-              <S.DogInfoWrapper>
+              <S.DogInfoWrapper onClick={onClickItem} style={{ height: "20%" }}>
                 <S.DogHeaderWrapper>
                   <S.DogHeader>{data[0]?.name}, &nbsp;</S.DogHeader>
                   <S.DogHeader> {data[0]?.age}</S.DogHeader>
@@ -197,7 +197,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
         <S.StyledCard
           animate={controls}
           dragConstraints={
-            constrained && { left: 0, right: 0, top: 0, bottom: 0 }
+            constrained && { left: -500, right: 500, top: 0, bottom: 0 }
           }
           dragElastic={1}
           ref={cardElem}
