@@ -3,7 +3,10 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
-import { passBuyModalVisibleState } from "../../../Commons/Store/Modal/ModalVisibleState";
+import {
+  exceptionModalState,
+  passBuyModalVisibleState,
+} from "../../../Commons/Store/Modal/ModalVisibleState";
 import {
   IMutation,
   IMutationJoinChatRoomArgs,
@@ -22,6 +25,7 @@ export default function TodayDogList() {
 
   const [userInfo] = useRecoilState(userInfoState);
   const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const { data: todayDogData } =
     useQuery<Pick<IQuery, "fetchTodayDog">>(FETCH_TODAY_DOG);
@@ -42,33 +46,22 @@ export default function TodayDogList() {
       try {
         const { data: joinChatRoomData } = await joinChatRoom({
           variables: {
-            dogId: String(router.query.dogId),
+            dogId: userInfo?.dog?.id || "",
             chatPairId: String(router.query.dogId),
           },
         });
 
-        if (!joinChatRoomData?.joinChatRoom.id) {
-          throw Error("채팅방 입장 실패");
-          return;
-        }
+        if (!joinChatRoomData?.joinChatRoom.id) throw Error("채팅방 입장 실패");
 
         router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
-        setVisible(false);
       } catch (e) {
         console.log("handleJoinChatRoomError", e);
-        // setPassCheckModal(true);
-        // return false;
+        if (e instanceof Error) {
+          setExceptionModal({ visible: true, message: e.message });
+        }
       }
     }
   };
-  // const handleUserLogout = async () => {
-  //   try {
-  //     await userLogout();
-  //     router.push("/auth/login");
-  //   } catch (e) {
-  //     console.log("handleUserLogoutError", e);
-  //   }
-  // };
 
   return (
     <>

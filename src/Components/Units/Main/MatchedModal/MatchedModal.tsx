@@ -66,7 +66,6 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
 
       if (!data?.joinChatRoom.id) throw Error("채팅방 입장에 실패했습니다.");
 
-      setEnterRoom(data.joinChatRoom);
       const roomId = data.joinChatRoom.id;
       router.push(`/chat/${roomId}`);
     } catch (e) {

@@ -78,8 +78,6 @@ export default function DogDetail() {
         },
       });
 
-      setVisibleBuyPass(false);
-
       if (!joinChatRoomData?.joinChatRoom.id) {
         throw Error("채팅방 입장 실패");
       }

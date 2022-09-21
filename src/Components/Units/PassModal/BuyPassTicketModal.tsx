@@ -45,7 +45,6 @@ export default function BuyPassTicketModal() {
   };
 
   const onClickBuyPassTicket = () => {
-    console.log("onClickBuyPassTicket");
     const amount = 100;
     const IMP = window.IMP;
     IMP.init("imp70467342");
@@ -62,6 +61,8 @@ export default function BuyPassTicketModal() {
       async (rsp: any) => {
         console.log(rsp);
 
+        setVisible(false);
+
         if (rsp.success) {
           try {
             const { data } = await createPayment({
@@ -77,7 +78,7 @@ export default function BuyPassTicketModal() {
               throw Error("결제에 실패했습니다. 다시 시도해주세요.");
           } catch (e) {
             console.log("createPaymentError", e);
-             setVisible(false);
+            setVisible(false);
             if (e instanceof Error) {
               setExceptionModal({
                 visible: true,

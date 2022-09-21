@@ -131,7 +131,6 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
             chatPairId: String(data[0].id),
           },
         });
-        setVisible(false);
 
         if (!joinChatRoomData?.joinChatRoom.id) {
           throw Error("채팅방 입장 실패");
