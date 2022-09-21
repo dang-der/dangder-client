@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useMotionValue, useAnimation } from "framer-motion";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useRouter } from "next/router";
-import { FETCH_LOGIN_USER_IS_CERT, JOIN_CHAT_ROOM } from "./DogMain.queries";
+import { FETCH_LOGIN_USER_IS_CERT } from "./DogMain.queries";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   IMutation,
@@ -14,6 +14,7 @@ import { useRecoilState } from "recoil";
 import { passBuyModalVisibleState } from "../../../Commons/Store/Modal/ModalVisibleState";
 import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
+import { JOIN_CHAT_ROOM } from "../Detail/DogDetail.queries";
 
 interface CardProps {
   drag: boolean;
@@ -24,10 +25,6 @@ interface CardProps {
 export const Card = ({ onVote, data, drag }: CardProps) => {
   const [userInfo] = useRecoilState(userInfoState);
   const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
-
-  useEffect(() => {
-    console.log("passBuyModalVisible", visible);
-  }, [visible]);
 
   const router = useRouter();
   const cardElem = useRef<HTMLDivElement | null>(null);
@@ -122,21 +119,24 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
   >(JOIN_CHAT_ROOM);
 
   const onClickPassTicket = async () => {
+    console.log("userIsCert", loginUserIsCert?.fetchLoginUserIsCert);
+
     if (!loginUserIsCert?.fetchLoginUserIsCert) {
       setVisible(true);
     } else {
       try {
         const { data: joinChatRoomData } = await joinChatRoom({
           variables: {
-            dogId: userInfo?.user?.id || "",
+            dogId: userInfo?.dog?.id || "",
             chatPairId: String(data[0].id),
           },
         });
+        setVisible(false);
+
         if (!joinChatRoomData?.joinChatRoom.id) {
           throw Error("채팅방 입장 실패");
         }
         router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
-        setVisible(false);
       } catch (e) {
         console.log("handleJoinChatRoomError", e);
       }
@@ -149,7 +149,6 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
         <>
           <S.StyledCard
             animate={controls}
-            // transition={{ delay: 0.2 }}
             dragConstraints={
               constrained && { left: -500, right: 500, bottom: 500, top: 0 }
             }

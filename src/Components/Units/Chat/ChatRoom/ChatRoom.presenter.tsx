@@ -21,35 +21,36 @@ import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 import { v4 as uuid } from "uuid";
+import { IQuery } from "../../../../Commons/Types/Generated/types";
 
 interface ChatRoomUIProps {
   handleEmitSend: ({ type, data }: { type: string; data: any }) => void;
   messages: IMessage[] | undefined;
+  roomData: Pick<IQuery, "fetchChatRoom"> | undefined;
+  pairDog: Pick<IQuery, "fetchOneDog"> | undefined;
 }
 
 export default function ChatRoomUI({
   handleEmitSend,
   messages,
+  roomData,
+  pairDog,
 }: ChatRoomUIProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenPlace, setIsOpenPlace] = useState(false);
   const [isOpenPlan, setIsOpenPlan] = useState(false);
 
-  const [enterRoomInfo] = useRecoilState(enteredChatRoomInfoState);
   const [userInfo] = useRecoilState(userInfoState);
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const { register, handleSubmit, reset } = useForm();
 
-  console.log("enterRoomInfo", enterRoomInfo);
-
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   });
 
   const onClickSend = (inputs: any) => {
-    console.log("onClickSend", inputs);
     handleEmitSend({ type: "text", data: { message: inputs.message } });
     reset({
       message: "",
@@ -71,7 +72,13 @@ export default function ChatRoomUI({
   const messageComponents = messages?.map(
     ({ type, data, dog }: IMessage, i) => {
       if (userInfo) {
-        console.log("isMine", dog?.name, dog?.id, userInfo.dog?.id ||'userInfo 없음');
+        console.log(
+          "isMine",
+          dog?.name,
+          dog?.id,
+          userInfo.dog?.id || "userInfo 없음"
+        );
+
         if (type === "text")
           return (
             <ChatMessageItem
@@ -89,6 +96,8 @@ export default function ChatRoomUI({
       }
     }
   );
+
+  console.log("CharRoomUI", pairDog);
 
   return (
     <S.Wrapper>
@@ -115,10 +124,11 @@ export default function ChatRoomUI({
           <S.OtherDogImage
             src={
               "https://storage.googleapis.com/" +
-                enterRoomInfo?.chatPairDog?.img[0].img || "/pug.jpg"
+                pairDog?.fetchOneDog.img.filter((e) => e.isMain)?.[0]?.img ||
+              "/pug.jpg"
             }
           />
-          <S.OtherDogName>{enterRoomInfo?.chatPairDog?.name}</S.OtherDogName>
+          <S.OtherDogName>{pairDog?.fetchOneDog.name}</S.OtherDogName>
         </S.OtherDogContainer>
       </S.ChatHeader>
 

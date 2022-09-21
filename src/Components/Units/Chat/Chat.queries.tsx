@@ -10,6 +10,7 @@ export const FETCH_CHAT_ROOMS = gql`
         img {
           id
           img
+          isMain
         }
       }
       lastMessage {
@@ -30,6 +31,7 @@ export const FETCH_ONE_DOG = gql`
       img {
         id
         img
+        isMain
       }
     }
   }
@@ -47,6 +49,15 @@ export const FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID = gql`
       chatRoom {
         id
       }
+    }
+  }
+`;
+
+export const FETCH_CHAT_ROOM = gql`
+  query fetchChatRoom($roomId: String!) {
+    fetchChatRoom(roomId: $roomId) {
+      id
+      chatPairId
     }
   }
 `;
