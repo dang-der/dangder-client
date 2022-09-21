@@ -198,6 +198,7 @@ export const DetailSubMaineTitle = styled.div`
   flex-direction: column;
   margin-top: 1rem;
   margin-left: 1.43rem;
+  padding-bottom: 1rem;
 `;
 
 export const DetailCharacterTitle = styled.div`
@@ -232,11 +233,12 @@ export const DetailCharacter = styled.div`
 `;
 
 export const Tags = styled.div`
+  padding: 0.438rem;
   font-size: 0.75rem;
   font-weight: 400;
   color: ${MainColor};
   /* color: #ffffff; */
-  width: 5rem;
+  width: auto;
   height: 2rem;
   border: 0.06rem solid ${MainColor};
   border-radius: 6.25rem;
@@ -252,6 +254,7 @@ export const DetailFunctionIconWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 export const DetailFunctionMoveBack = styled.img`

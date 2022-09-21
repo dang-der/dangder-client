@@ -10,6 +10,9 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
+import { useEffect, useState } from "react";
 
 interface DogDetailUIProps {
   handleCreateLike: () => Promise<void>;
@@ -24,6 +27,7 @@ export default function DogDetailUI({
   pickDogData,
 }: DogDetailUIProps) {
   const router = useRouter();
+  const [userInfo] = useRecoilState(userInfoState);
 
   const onClickMoveBack = () => {
     router.back();
@@ -83,7 +87,7 @@ export default function DogDetailUI({
               <S.DetailIsNeut>
                 {pickDogData?.fetchOneDog.isNeut
                   ? "(중성화 했어요)"
-                  : "(증성화 안했어요)"}
+                  : "(중성화 안했어요)"}
               </S.DetailIsNeut>
             </S.DetailInfo>
             <S.DetailMoveBackWrapper>
@@ -150,17 +154,20 @@ export default function DogDetailUI({
               </div>
             )}
           </S.DetailSubMaineTitle>
-          <S.DetailFunctionIconWrapper>
-            <S.DetailFunctionMoveBack
-              onClick={onClickMoveBack}
-              src="/backIcon1.png"
-            />
-            <S.DetailFunctionMoveChat
-              onClick={onClickPass}
-              src="/passIcon.png"
-            />
-            <S.DetailFunctionLike onClick={onClickLike} src="/likeIcon.png" />
-          </S.DetailFunctionIconWrapper>
+
+          {userInfo?.dog?.id !== router.query.dogId && (
+            <S.DetailFunctionIconWrapper>
+              <S.DetailFunctionMoveBack
+                onClick={onClickMoveBack}
+                src="/backIcon1.png"
+              />
+              <S.DetailFunctionMoveChat
+                onClick={onClickPass}
+                src="/passIcon.png"
+              />
+              <S.DetailFunctionLike onClick={onClickLike} src="/likeIcon.png" />
+            </S.DetailFunctionIconWrapper>
+          )}
         </S.DetailContent>
       </S.DetailWrapper>
     </S.Wrapper>

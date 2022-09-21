@@ -16,9 +16,17 @@ const SHOW_PAGE_HEADERS = [
   "/profile",
   "/profile/edit",
   "/settings",
+  "/profile/[dogId]",
 ];
 
-const SHOW_NAVIGATION = ["/", `/[dogId]`, "/today", "/chat", "/profile"];
+const SHOW_NAVIGATION = [
+  "/",
+  `/[dogId]`,
+  "/today",
+  "/chat",
+  "/profile",
+  "/profile/[dogId]",
+];
 
 interface ILayoutProps {
   children: ReactNode;
