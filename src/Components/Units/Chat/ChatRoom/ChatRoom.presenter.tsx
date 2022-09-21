@@ -20,12 +20,17 @@ import { useRecoilState } from "recoil";
 import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
+import { v4 as uuid } from "uuid";
+
 interface ChatRoomUIProps {
   handleEmitSend: ({ type, data }: { type: string; data: any }) => void;
-  messages: IMessage[];
+  messages: IMessage[] | undefined;
 }
 
-export default function ChatRoomUI({ handleEmitSend, messages }: ChatRoomUIProps) {
+export default function ChatRoomUI({
+  handleEmitSend,
+  messages,
+}: ChatRoomUIProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenPlace, setIsOpenPlace] = useState(false);
   const [isOpenPlan, setIsOpenPlan] = useState(false);
@@ -36,6 +41,8 @@ export default function ChatRoomUI({ handleEmitSend, messages }: ChatRoomUIProps
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const { register, handleSubmit, reset } = useForm();
+
+  console.log("enterRoomInfo", enterRoomInfo);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -61,6 +68,28 @@ export default function ChatRoomUI({ handleEmitSend, messages }: ChatRoomUIProps
     setIsOpenPlan((p) => !p);
   };
 
+  const messageComponents = messages?.map(
+    ({ type, data, dog }: IMessage, i) => {
+      if (userInfo) {
+        console.log("isMine", dog?.name, dog?.id, userInfo.dog?.id ||'userInfo 없음');
+        if (type === "text")
+          return (
+            <ChatMessageItem
+              key={uuid()}
+              message={data?.message}
+              isMine={dog?.id?.includes(userInfo?.dog?.id || "")}
+            />
+          );
+
+        if (type === "place")
+          return <ChatPlaceItem key={uuid()} dog={dog} data={data} />;
+        if (type === "plan")
+          return <ChatPlanItem key={uuid()} dog={dog} data={data} />;
+        return <></>;
+      }
+    }
+  );
+
   return (
     <S.Wrapper>
       {isOpenPlace && (
@@ -84,30 +113,17 @@ export default function ChatRoomUI({ handleEmitSend, messages }: ChatRoomUIProps
       <S.ChatHeader>
         <S.OtherDogContainer>
           <S.OtherDogImage
-            // src={enterRoomInfo?.chatPairDog?.img[0].img || "/pug.jpg"}
-            src={"/pug.jpg"}
+            src={
+              "https://storage.googleapis.com/" +
+                enterRoomInfo?.chatPairDog?.img[0].img || "/pug.jpg"
+            }
           />
           <S.OtherDogName>{enterRoomInfo?.chatPairDog?.name}</S.OtherDogName>
         </S.OtherDogContainer>
       </S.ChatHeader>
 
       <S.ChatMessagesWrapper>
-        {messages.map(({ type, data, dog }: IMessage, i) => {
-          if (type === "text")
-            return (
-              <ChatMessageItem
-                key={i}
-                message={data?.message}
-                isMine={dog?.id?.includes(userInfo?.dog?.id || "")}
-              />
-            );
-
-          if (type === "place")
-            return <ChatPlaceItem key={i} dog={dog} data={data} />;
-          if (type === "plan")
-            return <ChatPlanItem key={i} dog={dog} data={data} />;
-          return <></>;
-        })}
+        {messages && messageComponents}
         <div ref={bottomRef}></div>
       </S.ChatMessagesWrapper>
 

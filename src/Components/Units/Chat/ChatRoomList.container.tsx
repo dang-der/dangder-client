@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { TrySharp } from "@mui/icons-material";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
@@ -28,6 +29,10 @@ export default function ChatListContainer() {
     IMutationDeleteChatRoomArgs
   >(DELETE_CHAT_ROOM);
 
+  useEffect(() => {
+    console.log("ChatRoomList", chatRoomListData?.fetchChatRooms);
+  }, [chatRoomListData]);
+
   const handleDeleteChatRoom = (roomId: string) => {
     try {
       deleteChatRoom({
@@ -44,7 +49,7 @@ export default function ChatListContainer() {
     }
   };
 
-  console.log("ChatRoomList", chatRoomListData?.fetchChatRooms);
+  
 
   return (
     <ChatListUI

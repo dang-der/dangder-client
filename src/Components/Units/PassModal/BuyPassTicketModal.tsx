@@ -18,7 +18,9 @@ import {
 } from "../../../Commons/Types/Generated/types";
 import { CREATE_PAYMENT } from "./Payment.queries";
 import { FETCH_LOGIN_USER_IS_CERT } from "../Detail/DogDetail.queries";
+import Script from "next/script";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
+
 
 declare const window: typeof globalThis & {
   IMP: any;
@@ -94,17 +96,16 @@ export default function BuyPassTicketModal() {
 
   return (
     <>
-      <Head>
-        <script
-          type="text/javascript"
-          src="https://code.jquery.com/jquery-1.12.4.min.js"
-        ></script>
+      <Script
+        type="text/javascript"
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+      ></Script>
 
-        <script
-          type="text/javascript"
-          src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
-        ></script>
-      </Head>
+      <Script
+        type="text/javascript"
+        src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
+      ></Script>
+
       <CustomLayoutModal toggleModalVisible={toggleModal} visible={visible}>
         <S.Wrapper>
           <CampaignRoundedIcon />

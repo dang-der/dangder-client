@@ -25,6 +25,7 @@ interface MatchedModalProps {
 }
 
 export default function MatchedModal({ receiveId }: MatchedModalProps) {
+  console.log("MatchedModal - received", receiveId);
   const router = useRouter();
 
   const [userInfo] = useRecoilState(userInfoState);
@@ -75,7 +76,7 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
   return (
     <>
       <DimWrapper>
-        <S.CloseIconWrapper onClick={toggleModal}>
+        <S.CloseIconWrapper onClick={() => setVisible(false)}>
           <CloseRoundedIcon />
         </S.CloseIconWrapper>
         <S.Wrapper>

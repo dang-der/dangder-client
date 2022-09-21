@@ -86,30 +86,33 @@ export default function ChatRoomContainer() {
   useEffect(() => {
     if (!messagesData?.fetchChatMessagesByChatRoomId) return;
 
-    messagesData.fetchChatMessagesByChatRoomId.forEach((e: IChatMessage) => {
-      if (!enterRoomInfo || !userInfo) return;
+    console.log("messagesData is update", messagesData);
+    const msgs = messagesData.fetchChatMessagesByChatRoomId.map(
+      (e: IChatMessage) => {
+        if (enterRoomInfo || userInfo) {
+          const { message, lat, lng, meetAt, type } = e;
+          const dog = e.senderId.includes(
+            String(enterRoomInfo?.chatPairDog?.id || "")
+          )
+            ? {
+                id: enterRoomInfo?.chatPairDog?.id,
+                neme: enterRoomInfo?.chatPairDog?.name,
+              }
+            : { id: userInfo?.dog?.id || "", name: userInfo?.dog?.name || "" };
 
-      const { message, lat, lng, meetAt, type } = e;
-      const dog = e.senderId.includes(
-        String(enterRoomInfo?.chatPairDog?.id || "")
-      )
-        ? {
-            id: enterRoomInfo?.chatPairDog?.id,
-            neme: enterRoomInfo?.chatPairDog?.name,
-          }
-        : { id: userInfo?.dog?.id || "", name: userInfo?.dog?.name || "" };
+          const messageObj: IMessage = {
+            type,
+            data: { meetAt, message, lat, lng },
+            dog,
+          };
 
-      const messageObj: IMessage = {
-        type,
-        data: { meetAt, message, lat, lng },
-        dog,
-      };
-
-      setMessages((p) => [...p, messageObj]);
-    });
+          return messageObj;
+        }
+      }
+    );
+    setMessages(msgs);
   }, [messagesData]);
 
-  console.log(messagesData);
   const handleOnMessage = () => {
     socket.on("message", (payload) => {
       console.log("socketOn - message", payload);
@@ -149,5 +152,11 @@ export default function ChatRoomContainer() {
     });
   };
 
-  return <ChatRoomUI handleEmitSend={handleEmitSend} messages={messages} />;
+  return (
+    <>
+      {enterRoomInfo && messagesData && (
+        <ChatRoomUI handleEmitSend={handleEmitSend} messages={messages} />
+      )}
+    </>
+  ); 
 }

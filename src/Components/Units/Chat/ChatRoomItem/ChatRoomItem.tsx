@@ -34,7 +34,15 @@ export default function ChatListItemContainer({
       />
       <S.ContentsWrapper>
         <S.AnotherDogName>{room.chatPairDog?.name}</S.AnotherDogName>
-        <S.Message>마지막 메세지 내용</S.Message>
+        <S.Message>
+          {room.lastMessage?.type === "text"
+            ? room.lastMessage.message
+            : room.lastMessage?.type === "plan"
+            ? "약속이 공유되었습니다."
+            : room.lastMessage?.type === "place"
+            ? "장소가 공유되었습니다."
+            : "매칭된 댕댕이와 대화를 나눠보세요!"}
+        </S.Message>
       </S.ContentsWrapper>
     </S.Wrapper>
   );
