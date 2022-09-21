@@ -86,6 +86,7 @@ export default function ChatRoomContainer() {
   useEffect(() => {
     if (!messagesData?.fetchChatMessagesByChatRoomId) return;
 
+    console.log("messagesData is update", messagesData);
     messagesData.fetchChatMessagesByChatRoomId.forEach((e: IChatMessage) => {
       if (!enterRoomInfo || !userInfo) return;
 
@@ -109,7 +110,6 @@ export default function ChatRoomContainer() {
     });
   }, [messagesData]);
 
-  console.log(messagesData);
   const handleOnMessage = () => {
     socket.on("message", (payload) => {
       console.log("socketOn - message", payload);
@@ -149,5 +149,11 @@ export default function ChatRoomContainer() {
     });
   };
 
-  return <ChatRoomUI handleEmitSend={handleEmitSend} messages={messages} />;
+  return (
+    <>
+      {enterRoomInfo && messagesData && (
+        <ChatRoomUI handleEmitSend={handleEmitSend} messages={messages} />
+      )}
+    </>
+  ); 
 }

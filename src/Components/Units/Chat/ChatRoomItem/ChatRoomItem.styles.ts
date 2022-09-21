@@ -14,7 +14,7 @@ export const DogImage = styled.img`
   height: 3.6rem;
   border-radius: 50%;
   background-color: gray;
-  margin-right: 0.5rem;
+  margin-right: 1.5rem;
 `;
 
 export const ContentsWrapper = styled.div`
