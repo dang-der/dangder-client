@@ -16,9 +16,11 @@ import {
   IQuery,
   IQueryFetchOneDogArgs,
 } from "../../../../Commons/Types/Generated/types";
-import { JOIN_CHAT_ROOM } from "../DogMain.queries";
+
 import { useRouter } from "next/router";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
+import { JOIN_CHAT_ROOM } from "../../Detail/DogDetail.queries";
+import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
 
 interface MatchedModalProps {
   receiveId: string;
@@ -29,6 +31,7 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
   const router = useRouter();
 
   const [userInfo] = useRecoilState(userInfoState);
+  const [, setEnterRoom] = useRecoilState(enteredChatRoomInfoState);
   const [visible, setVisible] = useRecoilState(matchedModalVisibleState);
 
   const { data: pairDogData } = useQuery<
@@ -61,10 +64,7 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
         },
       });
 
-      if (!data?.joinChatRoom.id) {
-        // 에러 다이얼로그 띄우기
-        return;
-      }
+      if (!data?.joinChatRoom.id) throw Error("채팅방 입장에 실패했습니다.");
 
       const roomId = data.joinChatRoom.id;
       router.push(`/chat/${roomId}`);

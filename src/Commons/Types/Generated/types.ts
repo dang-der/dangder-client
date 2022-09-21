@@ -242,6 +242,7 @@ export type IMutation = {
   createPassTicket: IPassTicket;
   /** Return : 생성된 결제 정보 */
   createPayment: IPayment;
+  createPaymentForPassTicket: IPassTicket;
   /** Return : 포인트 결제내역 */
   createPaymentForPoints: IPayment;
   createProduct: IProduct;
@@ -628,8 +629,7 @@ export type IQueryFetchChatMessagesByChatRoomIdArgs = {
 
 
 export type IQueryFetchChatRoomArgs = {
-  chatPairId: Scalars['String'];
-  dogId: Scalars['String'];
+  roomId: Scalars['String'];
 };
 
 

@@ -25,13 +25,6 @@ export const FETCH_DOGS_DISTANCE = gql`
   }
 `;
 
-export const JOIN_CHAT_ROOM = gql`
-  mutation joinChatRoom($dogId: String!, $chatPairId: String!) {
-    joinChatRoom(dogId: $dogId, chatPairId: $chatPairId) {
-      id
-    }
-  }
-`;
 
 export const CREATE_LIKE = gql`
   mutation createLike($createLikeInput: createLikeInput!) {

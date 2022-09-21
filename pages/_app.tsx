@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <AuthModal />
         <ExceptionModal />
+
         <ApolloSetting>
           <Global styles={globalStyles} />
           <Layout>

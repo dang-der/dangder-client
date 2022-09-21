@@ -19,10 +19,11 @@ const LottieWrapper = styled.div`
 `;
 interface LikeModalProps {
   visible?: boolean;
-  setVisible?: Dispatch<SetStateAction<boolean>>;
+  setVisible: Dispatch<SetStateAction<boolean>>;
+  handleCompleteAnimation: () => void;
 }
 
-export default function LikeModal({ setVisible }: LikeModalProps) {
+export default function LikeModal({ handleCompleteAnimation }: LikeModalProps) {
   const router = useRouter();
   // const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
   //   if (!setVisible) return;
@@ -42,7 +43,7 @@ export default function LikeModal({ setVisible }: LikeModalProps) {
             animationData={ani_like_button}
             loop={false}
             onComplete={() => {
-              router.back();
+              handleCompleteAnimation();
             }}
           />
         </LottieWrapper>

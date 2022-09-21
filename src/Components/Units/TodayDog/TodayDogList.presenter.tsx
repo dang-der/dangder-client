@@ -8,7 +8,7 @@ import * as S from "./TodayDogList.styles";
 
 interface TodayDogListUIProps {
   todayDogData: Pick<IQuery, "fetchTodayDog"> | undefined;
-  handleJoinChatRoom: () => Promise<void>;
+  handleJoinChatRoom: (pairDogId: string) => Promise<void>;
 }
 
 export default function TodayDogListUI({
@@ -25,9 +25,8 @@ export default function TodayDogListUI({
       router.push(`/${dogId}`);
     };
 
-  const onClickPass = () => {
-    handleJoinChatRoom();
-    console.log(onClickPass, "???");
+  const onClickPass = (dogId: string) => {
+    handleJoinChatRoom(dogId);
   };
 
   return (
@@ -62,7 +61,7 @@ export default function TodayDogListUI({
                 {/* <S.ListImage src={todayDogData?.fetchTodayDog.mainImg}></S.ListImage> */}
                 <S.ListFunctionIconWrapper>
                   <S.ListFunctionMoveChat
-                    onClick={onClickPass}
+                    onClick={() => onClickPass(e.id)}
                     // src={todayDogData?.fetchTodayDog.mainImg}
                     src="/passIcon.png"
                   />

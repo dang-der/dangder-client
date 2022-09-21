@@ -15,14 +15,15 @@ import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import { useEffect, useState } from "react";
 
 interface DogDetailUIProps {
-  handleCreateLike: () => Promise<void>;
+  onClickLike: () => void;
   pickDogData: Pick<IQuery, "fetchOneDog"> | undefined;
   handleJoinChatRoom: () => Promise<void>;
+  
   // distanceData: Pick<IQuery, "fetchDogsDistance"> | undefined;
 }
 
 export default function DogDetailUI({
-  handleCreateLike,
+  onClickLike,
   handleJoinChatRoom,
   pickDogData,
 }: DogDetailUIProps) {
@@ -31,10 +32,6 @@ export default function DogDetailUI({
 
   const onClickMoveBack = () => {
     router.back();
-  };
-
-  const onClickLike = () => {
-    handleCreateLike();
   };
 
   const onClickPass = () => {
