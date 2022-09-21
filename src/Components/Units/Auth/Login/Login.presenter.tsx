@@ -10,31 +10,31 @@ import * as yup from "yup";
 const schema = yup.object({
   email: yup
     .string()
-    .matches(
-      /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/gi,
-      "이메일 아이디를 @까지 정확하게 입력해 주세요.")
+    .email("이메일 아이디를 @까지 정확하게 입력해 주세요.")
     .required("이메일을 입력해주세요."),
-  password: yup          
-    .string() 
-    .matches(/[^A-Za-z0-9$]/gi, "영문+숫자 조합 비밀번호를 입력해 주세요.")
+  password: yup
+    .string()
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/,
+      "영문+숫자 조합 비밀번호를 입력해 주세요."
+    )
     .required("비밀번호를 입력해주세요"),
 });
 
-interface LoginUIProps{
-  handleUserLogin : (inputs :any) =>void
+interface LoginUIProps {
+  handleUserLogin: (inputs: any) => void;
 }
 
-export default function LoginUI({handleUserLogin} : LoginUIProps) {
+export default function LoginUI({ handleUserLogin }: LoginUIProps) {
   const router = useRouter();
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
 
-  const onClickLogin = (inputs : any) =>{
-    handleUserLogin(inputs)
-  }
- 
+  const onClickLogin = (inputs: any) => {
+    handleUserLogin(inputs);
+  };
 
   const onClickSignUp = () => {
     router.push("/auth/signup");
@@ -55,7 +55,11 @@ export default function LoginUI({handleUserLogin} : LoginUIProps) {
       <S.InputErrorWrapper>
         <S.InputWrapper>
           <EmailRoundedIcon />
-          <input type="email" {...register("email")} />
+          <input
+            type="email"
+            {...register("email")}
+            style={{ marginLeft: "1rem" }}
+          />
         </S.InputWrapper>
         <span>{formState.errors.email?.message}</span>
       </S.InputErrorWrapper>
@@ -63,7 +67,11 @@ export default function LoginUI({handleUserLogin} : LoginUIProps) {
       <S.InputErrorWrapper>
         <S.InputWrapper>
           <HttpsRoundedIcon />
-          <input type="password" {...register("password")} />
+          <input
+            type="password"
+            {...register("password")}
+            style={{ marginLeft: "1rem" }}
+          />
         </S.InputWrapper>
         <span>{formState.errors.password?.message}</span>
       </S.InputErrorWrapper>
