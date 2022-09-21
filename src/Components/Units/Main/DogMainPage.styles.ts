@@ -64,6 +64,12 @@ export const DogDescription = styled.span`
   color: #ffffff;
   font-size: 0.875rem;
   font-weight: 400;
+  width: 100%;
+  padding: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: -0.8rem;
 `;
 
 export const DogPassWrapper = styled.div`
