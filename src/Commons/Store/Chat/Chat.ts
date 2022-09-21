@@ -2,7 +2,7 @@ import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import { IChatRoomsOutput } from "../../Types/Generated/types";
 
-const { persistAtom } = recoilPersist();
+export const { persistAtom } = recoilPersist();
 
 export const enteredChatRoomInfoState = atom<IChatRoomsOutput | undefined>({
   key: "enteredChatRoomInfoState",

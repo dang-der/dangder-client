@@ -70,20 +70,23 @@ export default function ChatRoomUI({
 
   const messageComponents = messages?.map(
     ({ type, data, dog }: IMessage, i) => {
-      if (type === "text")
-        return (
-          <ChatMessageItem
-            key={uuid()}
-            message={data?.message}
-            isMine={dog?.id?.includes(userInfo?.dog?.id || "")}
-          />
-        );
+      if (userInfo) {
+        console.log("isMine", dog?.name, dog?.id, userInfo.dog?.id ||'userInfo 없음');
+        if (type === "text")
+          return (
+            <ChatMessageItem
+              key={uuid()}
+              message={data?.message}
+              isMine={dog?.id?.includes(userInfo?.dog?.id || "")}
+            />
+          );
 
-      if (type === "place")
-        return <ChatPlaceItem key={uuid()} dog={dog} data={data} />;
-      if (type === "plan")
-        return <ChatPlanItem key={uuid()} dog={dog} data={data} />;
-      return <></>;
+        if (type === "place")
+          return <ChatPlaceItem key={uuid()} dog={dog} data={data} />;
+        if (type === "plan")
+          return <ChatPlanItem key={uuid()} dog={dog} data={data} />;
+        return <></>;
+      }
     }
   );
 

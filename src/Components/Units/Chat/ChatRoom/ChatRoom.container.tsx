@@ -87,27 +87,30 @@ export default function ChatRoomContainer() {
     if (!messagesData?.fetchChatMessagesByChatRoomId) return;
 
     console.log("messagesData is update", messagesData);
-    messagesData.fetchChatMessagesByChatRoomId.forEach((e: IChatMessage) => {
-      if (!enterRoomInfo || !userInfo) return;
+    const msgs = messagesData.fetchChatMessagesByChatRoomId.map(
+      (e: IChatMessage) => {
+        if (enterRoomInfo || userInfo) {
+          const { message, lat, lng, meetAt, type } = e;
+          const dog = e.senderId.includes(
+            String(enterRoomInfo?.chatPairDog?.id || "")
+          )
+            ? {
+                id: enterRoomInfo?.chatPairDog?.id,
+                neme: enterRoomInfo?.chatPairDog?.name,
+              }
+            : { id: userInfo?.dog?.id || "", name: userInfo?.dog?.name || "" };
 
-      const { message, lat, lng, meetAt, type } = e;
-      const dog = e.senderId.includes(
-        String(enterRoomInfo?.chatPairDog?.id || "")
-      )
-        ? {
-            id: enterRoomInfo?.chatPairDog?.id,
-            neme: enterRoomInfo?.chatPairDog?.name,
-          }
-        : { id: userInfo?.dog?.id || "", name: userInfo?.dog?.name || "" };
+          const messageObj: IMessage = {
+            type,
+            data: { meetAt, message, lat, lng },
+            dog,
+          };
 
-      const messageObj: IMessage = {
-        type,
-        data: { meetAt, message, lat, lng },
-        dog,
-      };
-
-      setMessages((p) => [...p, messageObj]);
-    });
+          return messageObj;
+        }
+      }
+    );
+    setMessages(msgs);
   }, [messagesData]);
 
   const handleOnMessage = () => {
