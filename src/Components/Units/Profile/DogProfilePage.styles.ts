@@ -103,7 +103,7 @@ export const DogInfoBody = styled.div`
   flex-direction: column;
   justify-content: left;
   align-items: left;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
 `;
 
 export const DogDescription = styled.span`
@@ -111,10 +111,11 @@ export const DogDescription = styled.span`
   font-size: 1.25rem;
   font-weight: 400;
   width: 100%;
-  /* padding: 1rem; */
+  padding: 1rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-all;
   /* margin-left: -0.8rem; */
 `;
 

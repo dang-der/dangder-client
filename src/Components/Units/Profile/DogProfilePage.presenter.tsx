@@ -6,15 +6,16 @@ import "slick-carousel/slick/slick-theme.css";
 import { IDog } from "../../../Commons/Types/Generated/types";
 import { MouseEvent } from "react";
 import { useRouter } from "next/router";
+import { v4 as uuid } from "uuid";
 
 interface DogProfilePageUIProps {
-  myDogData: IDog | undefined | string;
+  myDogData: IDog | undefined;
 }
 
 export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
   const router = useRouter();
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -23,6 +24,7 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
 
   const onClickMyProfile =
     (dogId: string) => (event: MouseEvent<HTMLDivElement>) => {
+      return;
       if (!(event.target instanceof HTMLDivElement)) return;
       router.push(`/profile/${dogId}`);
     };
@@ -42,8 +44,9 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
               slidesToShow={settings.slidesToShow}
               slidesToScroll={settings.slidesToScroll}
             >
-              {myDogData?.img.map((el, i) => (
+              {myDogData?.img.map((el) => (
                 <S.DogPhoto
+                  key={uuid()}
                   imageUrl={"https://storage.googleapis.com/" + el.img}
                 />
               ))}
