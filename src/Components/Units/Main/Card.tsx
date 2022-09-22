@@ -90,7 +90,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
       setConstrained(false);
       controls.start({
         x: flyAwayDistance(direction),
-        transition: { duration: 0.2 },
+        transition: { duration: 0.1 },
       });
     }
   };
@@ -154,7 +154,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
           <S.StyledCard
             animate={controls}
             dragConstraints={
-              constrained && { left: -500, right: 500, bottom: 500, top: 0 }
+              constrained && { left: -500, right: 500, bottom: 0, top: 0 }
             }
             dragElastic={1}
             ref={cardElem}
@@ -216,10 +216,11 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
                 "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
               })`,
               backgroundSize: "cover",
+              backgroundPosition: "center center",
             }}
             onClick={onClickItem}
           >
-            <S.DogInfoWrapper>
+            <S.DogInfoWrapper onClick={onClickItem} style={{ height: "20%" }}>
               <S.DogHeaderWrapper>
                 <S.DogHeader>{data[0]?.name}, &nbsp;</S.DogHeader>
                 <S.DogHeader> {data[0]?.age}</S.DogHeader>

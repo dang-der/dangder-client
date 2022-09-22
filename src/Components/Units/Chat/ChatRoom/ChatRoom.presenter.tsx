@@ -84,7 +84,7 @@ export default function ChatRoomUI({
             <ChatMessageItem
               key={uuid()}
               message={data?.message}
-              isMine={dog?.id?.includes(userInfo?.dog?.id || "")}
+              isMine={dog?.id?.includes(userInfo?.dog?.id)}
             />
           );
 
