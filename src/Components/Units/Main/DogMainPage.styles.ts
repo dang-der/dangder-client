@@ -86,3 +86,31 @@ export const DogFemaleIcon = styled(FemaleIcon)`
 export const DogMaleIcon = styled(MaleIcon)`
   font-size: 1.6rem;
 `;
+
+export const PositionButtonWrapper = styled.div`
+  width: 100%;
+  height: 3rem;
+
+  align-self: flex-start;
+  justify-self: flex-start;
+  display: flex;
+  align-items: center;
+
+  text-align: start;
+  svg {
+    width: 2rem;
+    height: 2rem;
+    /* padding: 0.3rem; */
+  }
+`;
+
+export const IconWrapper = styled.div`
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0px 10px 10px 0px rgba(150, 150, 150, 0.3);
+`;

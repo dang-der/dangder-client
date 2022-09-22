@@ -9,7 +9,7 @@ export const snackBarState = atom<ISnackBarState>({
   key: "snackBarState",
   default: {
     type: "success",
-    visible: true,
-    message: "asdfasdf",
+    visible: false,
+    message: "",
   },
 });
