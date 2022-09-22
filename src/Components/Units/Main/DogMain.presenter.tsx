@@ -14,8 +14,6 @@ const Frame = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-
-  background-color: rebeccapurple;
 `;
 
 interface StackProps {
@@ -57,7 +55,7 @@ export default function DogMainUI({
       refetch({ page: page + 1 });
     }
 
-    if (userInfo == undefined && newStack?.length === 0) {
+    if (userInfo === undefined && newStack?.length === 0) {
       nonRefetch({ page: page + 1 });
     }
 
