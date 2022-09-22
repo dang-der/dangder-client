@@ -1,6 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { snackBarState } from "../../../Commons/Store/Modal/SnackBarState";
 import {
   IMutation,
   IMutationDeleteUserArgs,
@@ -12,9 +14,10 @@ import { DELETE_USER, USER_LOG_OUT } from "./Settings.queries";
 export default function Settings() {
   const router = useRouter();
   const [deleteUserCheckModal, setDeleteUserCheckModal] = useState(false);
+  const [, setSnackBar] = useRecoilState(snackBarState);
 
   const [userLogout] = useMutation<Pick<IMutation, "userLogout">>(USER_LOG_OUT);
-  const [] = useMutation<
+  const [deleteUser] = useMutation<
     Pick<IMutation, "deleteUser">,
     IMutationDeleteUserArgs
   >(DELETE_USER);
@@ -22,6 +25,7 @@ export default function Settings() {
   const handleUserLogout = async () => {
     try {
       await userLogout();
+      setSnackBar({ visible: true, message: "로그아웃 되었습니다." });
       router.push("/auth/login");
     } catch (e) {
       console.log("handleUserLogoutError", e);
