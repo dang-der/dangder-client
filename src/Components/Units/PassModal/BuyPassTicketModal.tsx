@@ -72,6 +72,7 @@ export default function BuyPassTicketModal() {
         pay_method: "card",
         name: "댕더 패스 구매",
         amount,
+        buyer_name: userInfo?.dog?.name || "",
         buyer_email: userInfo?.user?.email || "",
         m_redirect_url: "https://dangder.shop:3000/chat",
       },
