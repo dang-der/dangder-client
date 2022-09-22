@@ -12,10 +12,16 @@ import {
   IChatMessage,
   IQuery,
   IQueryFetchChatMessagesByChatRoomIdArgs,
+  IQueryFetchChatRoomArgs,
+  IQueryFetchOneDogArgs,
   Maybe,
 } from "../../../../Commons/Types/Generated/types";
 
-import { FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID } from "../Chat.queries";
+import {
+  FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID,
+  FETCH_CHAT_ROOM,
+  FETCH_ONE_DOG,
+} from "../Chat.queries";
 import ChatRoomUI from "./ChatRoom.presenter";
 
 export interface IMessageData {
@@ -33,18 +39,30 @@ export interface IMessage {
 
 export default function ChatRoomContainer() {
   const router = useRouter();
-  const roomId = router.query.roomId;
+  const roomId = String(router.query.roomId);
 
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [enterRoomInfo] = useRecoilState(enteredChatRoomInfoState);
+  // const [enterRoomInfo] = useRecoilState(enteredChatRoomInfoState);
   const [userInfo] = useRecoilState(userInfoState);
+
+  const { data: chatRoomData } = useQuery<
+    Pick<IQuery, "fetchChatRoom">,
+    IQueryFetchChatRoomArgs
+  >(FETCH_CHAT_ROOM, { variables: { roomId } });
+
+  const { data: pairDogData } = useQuery<
+    Pick<IQuery, "fetchOneDog">,
+    IQueryFetchOneDogArgs
+  >(FETCH_ONE_DOG, {
+    variables: { id: chatRoomData?.fetchChatRoom.chatPairId || "" },
+  });
 
   const { data: messagesData, refetch } = useQuery<
     Pick<IQuery, "fetchChatMessagesByChatRoomId">,
     IQueryFetchChatMessagesByChatRoomIdArgs
   >(FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID, {
     variables: {
-      chatRoomId: String(router.query.roomId),
+      chatRoomId: roomId,
     },
   });
 
@@ -60,27 +78,9 @@ export default function ChatRoomContainer() {
 
   useEffect(() => {
     refetch({ chatRoomId: String(router.query.roomId) });
-    console.log("chatRoom", "refetch", messagesData);
+
     handleOnMessage();
     handleEmitConnect();
-
-    socket.on("connection", (data) => {
-      console.log("socket - connection", data);
-    });
-
-    socket.on("connect_error", (error) => {
-      console.log("socketError", error);
-    });
-
-    // client-side
-    socket.on("connect", () => {
-      console.log("socketConnect", socket.id); // x8WIv7-mJelg7on_ALbx
-    });
-
-    socket.on("disconnect", (_data) => {
-      socket.connect();
-      console.log("socketDisConnect", _data); // x8WIv7-mJelg7on_ALbx
-    });
   }, []);
 
   useEffect(() => {
@@ -89,29 +89,27 @@ export default function ChatRoomContainer() {
     console.log("messagesData is update", messagesData);
     const msgs = messagesData.fetchChatMessagesByChatRoomId.map(
       (e: IChatMessage) => {
-        if (enterRoomInfo || userInfo) {
-          const { message, lat, lng, meetAt, type } = e;
-          const dog = e.senderId.includes(
-            String(enterRoomInfo?.chatPairDog?.id || "")
-          )
-            ? {
-                id: enterRoomInfo?.chatPairDog?.id,
-                neme: enterRoomInfo?.chatPairDog?.name,
-              }
-            : { id: userInfo?.dog?.id || "", name: userInfo?.dog?.name || "" };
+        const { message, lat, lng, meetAt, type } = e;
+        const dog = e.senderId.includes(
+          String(pairDogData?.fetchOneDog?.id || "")
+        )
+          ? {
+              id: pairDogData?.fetchOneDog?.id,
+              neme: pairDogData?.fetchOneDog?.name,
+            }
+          : { id: userInfo?.dog?.id || "", name: userInfo?.dog?.name || "" };
 
-          const messageObj: IMessage = {
-            type,
-            data: { meetAt, message, lat, lng },
-            dog,
-          };
+        const messageObj: IMessage = {
+          type,
+          data: { meetAt, message, lat, lng },
+          dog,
+        };
 
-          return messageObj;
-        }
+        return messageObj;
       }
     );
     setMessages(msgs);
-  }, [messagesData]);
+  }, [chatRoomData, pairDogData, messagesData]);
 
   const handleOnMessage = () => {
     socket.on("message", (payload) => {
@@ -154,9 +152,12 @@ export default function ChatRoomContainer() {
 
   return (
     <>
-      {enterRoomInfo && messagesData && (
-        <ChatRoomUI handleEmitSend={handleEmitSend} messages={messages} />
-      )}
+      <ChatRoomUI
+        handleEmitSend={handleEmitSend}
+        messages={messages}
+        pairDog={pairDogData}
+        roomData={chatRoomData}
+      />
     </>
-  ); 
+  );
 }

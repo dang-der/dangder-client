@@ -3,6 +3,8 @@ import styled from "@emotion/styled";
 import { Card } from "./Card";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
+import * as S from "./DogMainPage.styles";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 
 const Frame = styled.div`
   width: 100%;
@@ -31,6 +33,8 @@ export default function DogMainUI({
   const [stack, setStack] = useState(datas);
   const [page, setPage] = useState(1);
 
+  console.log("DogMainUI", datas);
+
   const pop = (array: any[] | undefined) => {
     if (!array) return;
 
@@ -51,7 +55,7 @@ export default function DogMainUI({
       refetch({ page: page + 1 });
     }
 
-    if (userInfo == undefined && newStack?.length === 0) {
+    if (userInfo === undefined && newStack?.length === 0) {
       nonRefetch({ page: page + 1 });
     }
 
@@ -61,6 +65,14 @@ export default function DogMainUI({
   return (
     <>
       <Frame>
+        {userInfo && (
+          <S.PositionButtonWrapper>
+            <S.IconWrapper>
+              <SettingsRoundedIcon />
+            </S.IconWrapper>
+          </S.PositionButtonWrapper>
+        )}
+
         {(stack || []).map((item: any, index: any) => {
           const isTop = index === (stack?.length || 0) - 1;
 

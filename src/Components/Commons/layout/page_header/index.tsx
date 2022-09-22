@@ -39,6 +39,10 @@ export default function PageHeader() {
       path: "/settings",
       title: "설정",
     },
+    {
+      path: "/profile/[dogId]",
+      title: "마이 댕댕이",
+    },
   ];
 
   const pageTitleRef = useRef<HTMLSpanElement>(null);
@@ -67,7 +71,7 @@ export default function PageHeader() {
       router.replace("/chat");
       return;
     }
-     
+
     router.back();
   };
 

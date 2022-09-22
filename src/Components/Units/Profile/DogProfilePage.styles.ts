@@ -45,7 +45,11 @@ export const DogProfileImageWrapper = styled.div`
   height: 100%;
 `;
 
-export const DogPhoto = styled.img`
+interface DogPhotoStyleProps {
+  imageUrl: string;
+}
+
+export const DogPhoto = styled.div`
   width: calc(576px - 4rem);
   max-width: 576px;
   height: calc(100vh - 20rem);
@@ -56,6 +60,14 @@ export const DogPhoto = styled.img`
   background-size: cover;
   background-position: center;
   border-radius: 10px;
+  background-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 60%,
+      rgba(0, 0, 0, 0.05) 70%,
+      rgba(0, 0, 0, 0.7) 85%,
+      #000000 116.48%
+    ),
+    url(${(props: DogPhotoStyleProps) => props.imageUrl});
 `;
 
 export const DogInfo = styled.div`
@@ -70,6 +82,7 @@ export const DogInfoHeader = styled.div`
   display: flex;
   justify-content: left;
   align-items: left;
+  margin-left: 1rem;
 `;
 
 export const DogName = styled.span`
@@ -90,6 +103,7 @@ export const DogInfoBody = styled.div`
   flex-direction: column;
   justify-content: left;
   align-items: left;
+  margin-left: 1rem;
 `;
 
 export const DogDescription = styled.span`
@@ -111,6 +125,7 @@ export const ProfileEditButtonWrapper = styled.div`
   justify-content: center;
   align-items: flex-end;
   bottom: 0;
+  margin-top: -0.7rem;
 `;
 
 export const ProfileEditButton = styled.div`
