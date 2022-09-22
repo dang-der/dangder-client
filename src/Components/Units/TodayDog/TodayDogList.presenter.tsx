@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import { MouseEvent } from "react";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
   IQuery,
   ITodayLikeDogOutput,
@@ -16,6 +18,7 @@ export default function TodayDogListUI({
   handleJoinChatRoom,
 }: TodayDogListUIProps) {
   const router = useRouter();
+  const [userInfo] = useRecoilState(userInfoState);
 
   console.log("TodayDogListUI", todayDogData);
 
@@ -59,13 +62,16 @@ export default function TodayDogListUI({
                   }}
                 /> */}
                 {/* <S.ListImage src={todayDogData?.fetchTodayDog.mainImg}></S.ListImage> */}
-                <S.ListFunctionIconWrapper>
-                  <S.ListFunctionMoveChat
-                    onClick={() => onClickPass(e.id)}
-                    // src={todayDogData?.fetchTodayDog.mainImg}
-                    src="/passIcon.png"
-                  />
-                </S.ListFunctionIconWrapper>
+                {userInfo?.user && (
+                  <S.ListFunctionIconWrapper>
+                    <S.ListFunctionMoveChat
+                      onClick={() => onClickPass(e.id)}
+                      // src={todayDogData?.fetchTodayDog.mainImg}
+                      src="/passIcon.png"
+                    />
+                  </S.ListFunctionIconWrapper>
+                )}
+
                 <S.ListInfo>
                   <S.ListName>{e.name},</S.ListName>
                   <S.ListAge>{e.age}</S.ListAge>

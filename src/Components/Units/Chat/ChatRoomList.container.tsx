@@ -15,7 +15,7 @@ import ChatListUI from "./ChatRoomList.presenter";
 export default function ChatListContainer() {
   const [userInfo] = useRecoilState(userInfoState);
 
-  const { data: chatRoomListData } = useQuery<
+  const { data: chatRoomListData, refetch } = useQuery<
     Pick<IQuery, "fetchChatRooms">,
     IQueryFetchChatRoomsArgs
   >(FETCH_CHAT_ROOMS, {
@@ -30,8 +30,8 @@ export default function ChatListContainer() {
   >(DELETE_CHAT_ROOM);
 
   useEffect(() => {
-    console.log("ChatRoomList", chatRoomListData?.fetchChatRooms);
-  }, [chatRoomListData]);
+    refetch({ dogId: userInfo?.dog?.id || "" });
+  });
 
   const handleDeleteChatRoom = (roomId: string) => {
     try {

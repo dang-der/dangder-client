@@ -18,14 +18,14 @@ import { useQuery } from "@apollo/client";
 import NonmemberModal from "./NonmemberModal/NonmemberModal";
 
 interface DogDetailUIProps {
-  handleCreateLike: () => Promise<void>;
+  handleClickLike: () => Promise<void>;
   pickDogData: Pick<IQuery, "fetchOneDog"> | undefined;
   handleJoinChatRoom: () => Promise<void>;
   // distanceData: Pick<IQuery, "fetchDogsDistance"> | undefined;
 }
 
 export default function DogDetailUI({
-  handleCreateLike,
+  handleClickLike,
   handleJoinChatRoom,
   pickDogData,
 }: DogDetailUIProps) {
@@ -42,7 +42,7 @@ export default function DogDetailUI({
   };
 
   const onClickLike = () => {
-    handleCreateLike();
+    handleClickLike();
   };
 
   const onClickPass = () => {
@@ -97,7 +97,7 @@ export default function DogDetailUI({
                   <S.DetailIsNeut>
                     {pickDogData?.fetchOneDog.isNeut
                       ? "(중성화 했어요)"
-                      : "(증성화 안했어요)"}
+                      : "(중성화 안했어요)"}
                   </S.DetailIsNeut>
                 </S.DetailInfo>
                 <S.DetailMoveBackWrapper>

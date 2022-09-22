@@ -120,14 +120,12 @@ export default function DogDetail() {
         ],
       });
 
-
-
       setLikeModalVisible(false);
 
       if (!matchUserData?.createLike.isMatch) {
         router.back();
         return;
-        }
+      }
 
       setVisibleMatch(true);
     } catch (e) {
@@ -141,7 +139,6 @@ export default function DogDetail() {
 
   return (
     <>
-
       {nonMemberVisble && <NonmemberModal />}
 
       {likeModalVisible && (
@@ -151,7 +148,7 @@ export default function DogDetail() {
       {matchVisible && <MatchedModal receiveId={String(router.query.dogId)} />}
       {passVisible && <BuyPassTicketModal />}
       <DogDetailUI
-        onClickLike={onClickLike}
+        handleClickLike={onClickLike}
         handleJoinChatRoom={handleJoinChatRoom}
         pickDogData={pickDogData}
       />

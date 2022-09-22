@@ -90,14 +90,16 @@ export default function ChatRoomContainer() {
     const msgs = messagesData.fetchChatMessagesByChatRoomId.map(
       (e: IChatMessage) => {
         const { message, lat, lng, meetAt, type } = e;
-        const dog = e.senderId.includes(
-          String(pairDogData?.fetchOneDog?.id || "")
-        )
+        console.log("메세지 데이터", e);
+        const dog = e.senderId.includes(userInfo?.dog?.id || "undefined")
           ? {
-              id: pairDogData?.fetchOneDog?.id,
-              neme: pairDogData?.fetchOneDog?.name,
+              id: e.senderId,
+              neme: userInfo?.dog?.name,
             }
-          : { id: userInfo?.dog?.id || "", name: userInfo?.dog?.name || "" };
+          : {
+              id: e.senderId,
+              name: pairDogData?.fetchOneDog?.name,
+            };
 
         const messageObj: IMessage = {
           type,
