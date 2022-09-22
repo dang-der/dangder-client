@@ -6,6 +6,7 @@ import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
   exceptionModalState,
   matchedModalVisibleState,
+  nonmemberModalVisible,
   passBuyModalVisibleState,
   selectedDogIdBuyPassState,
 } from "../../../Commons/Store/Modal/ModalVisibleState";
@@ -29,6 +30,7 @@ import {
   FETCH_ONE_DOG,
   JOIN_CHAT_ROOM,
 } from "./DogDetail.queries";
+import NonmemberModal from "./NonmemberModal/NonmemberModal";
 
 export default function DogDetail() {
   const router = useRouter();
@@ -40,6 +42,10 @@ export default function DogDetail() {
   );
   const [passVisible, setVisibleBuyPass] = useRecoilState(
     passBuyModalVisibleState
+  );
+
+  const [nonMemberVisble, setVisbleNonMember] = useRecoilState(
+    nonmemberModalVisible
   );
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModalVisible] = useRecoilState(exceptionModalState);
@@ -115,13 +121,13 @@ export default function DogDetail() {
       });
 
 
+
       setLikeModalVisible(false);
 
       if (!matchUserData?.createLike.isMatch) {
         router.back();
         return;
         }
-
 
       setVisibleMatch(true);
     } catch (e) {
@@ -135,9 +141,13 @@ export default function DogDetail() {
 
   return (
     <>
+
+      {nonMemberVisble && <NonmemberModal />}
+
       {likeModalVisible && (
         <LikeModal handleCompleteAnimation={handleCompleteAnimation} />
       )}
+
       {matchVisible && <MatchedModal receiveId={String(router.query.dogId)} />}
       {passVisible && <BuyPassTicketModal />}
       <DogDetailUI
