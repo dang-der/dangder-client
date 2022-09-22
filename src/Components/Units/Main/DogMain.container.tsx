@@ -49,6 +49,8 @@ export default function DogMainContainer() {
   });
 
   const nonDogsData = fetchDogs?.fetchDogs.map((el) => [el]);
+  console.log("DogMainContainer - nonDogsData", nonDogsData);
+  console.log("DogMainContainer - data", data);
 
   const { data: dogsDistanceData } = useQuery<
     Pick<IQuery, "fetchDogsDistance">,
@@ -113,7 +115,7 @@ export default function DogMainContainer() {
           dogsDistanceData?.fetchDogsDistance && (
             <DogMainUI onVote={onVote} datas={DogsData} refetch={refetch} />
           )
-        : fetchDogs?.fetchDogs && (
+        : nonDogsData && (
             <DogMainUI
               onVote={onVote}
               datas={nonDogsData}

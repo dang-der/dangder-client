@@ -29,13 +29,16 @@ export default function ApolloSetting(props: IApolloSettingProps) {
   const router = useRouter();
 
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const [userInfo, ] = useRecoilState(userInfoState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const restoreToken = useRecoilValueLoadable(restoreAccessTokenLoadable);
 
   useEffect(() => {
     if (router.asPath.includes("auth")) return;
     restoreToken.toPromise().then((newAccessToken) => {
+      if (!newAccessToken) {
+        setUserInfo(undefined);
+      }
       setAccessToken(newAccessToken);
     });
   }, []);
