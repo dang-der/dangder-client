@@ -110,6 +110,7 @@ export default function DogMainContainer() {
     <>
       <BuyPassTicketModal />
       {matchedModalVisible && <MatchedModal receiveId={matchedId} />}
+      
       {userInfo !== undefined
         ? data?.fetchAroundDogs &&
           dogsDistanceData?.fetchDogsDistance && (

@@ -23,3 +23,17 @@ export const DogImageWrapper = styled.img`
   background-color: aliceblue;
   object-fit: cover;
 `;
+
+export const CloseIconWrapper = styled.div`
+  cursor: pointer;
+  align-self: flex-end;
+  position: relative;
+  top: 2rem;
+  right: 2rem;
+  svg {
+    width: 2rem;
+    height: 2rem;
+    color: white;
+  }
+`;
+

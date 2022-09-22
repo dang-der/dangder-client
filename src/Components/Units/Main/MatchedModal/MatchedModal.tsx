@@ -3,7 +3,10 @@ import { useRecoilState } from "recoil";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Lottie from "lottie-react";
 
-import { matchedModalVisibleState } from "../../../../Commons/Store/Modal/ModalVisibleState";
+import {
+  exceptionModalState,
+  matchedModalVisibleState,
+} from "../../../../Commons/Store/Modal/ModalVisibleState";
 import BlueButton from "../../../Commons/Button/BlueButton";
 import { DimWrapper } from "../../../Commons/Modal/CustomLayoutModal/CustomLayoutModal";
 import * as S from "./MatchedModal.styles";
@@ -31,8 +34,8 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
   const router = useRouter();
 
   const [userInfo] = useRecoilState(userInfoState);
-  const [, setEnterRoom] = useRecoilState(enteredChatRoomInfoState);
   const [visible, setVisible] = useRecoilState(matchedModalVisibleState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const { data: pairDogData } = useQuery<
     Pick<IQuery, "fetchOneDog">,
@@ -64,12 +67,17 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
         },
       });
 
+      setVisible(false);
+
       if (!data?.joinChatRoom.id) throw Error("채팅방 입장에 실패했습니다.");
 
       const roomId = data.joinChatRoom.id;
       router.push(`/chat/${roomId}`);
     } catch (e) {
       console.log("joinChatRoomError", e);
+      if (e instanceof Error) {
+        setExceptionModal({ visible: true, message: e.message });
+      }
     }
   };
 

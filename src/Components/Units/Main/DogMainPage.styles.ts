@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
+import { MainColor } from "../../../../styles/GlobalStyles";
 
 export const StyledCard = styled(motion.div)`
   position: absolute;
@@ -31,7 +32,7 @@ export const DogInfoWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-;
-  padding: 1rem;
+  padding: 1.5rem;
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
@@ -96,23 +97,23 @@ export const DogMaleIcon = styled(MaleIcon)`
 export const PositionButtonWrapper = styled.div`
   width: 100%;
   height: 3rem;
-
   align-self: flex-start;
   justify-self: flex-start;
   display: flex;
   align-items: center;
-
   text-align: start;
+  margin-left: 1.5rem;
   svg {
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: ${MainColor};
     /* padding: 0.3rem; */
   }
 `;
 
 export const IconWrapper = styled.div`
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;

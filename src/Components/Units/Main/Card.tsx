@@ -172,7 +172,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
                 backgroundPosition: "center center",
               }}
             >
-              <S.DogInfoWrapper onClick={onClickItem} style={{ height: "20%" }}>
+              <S.DogInfoWrapper onClick={onClickItem} style={{ height: "30%" }}>
                 <S.DogHeaderWrapper>
                   <S.DogHeader>{data[0]?.name}, &nbsp;</S.DogHeader>
                   <S.DogHeader> {data[0]?.age}</S.DogHeader>
@@ -220,7 +220,7 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
             }}
             onClick={onClickItem}
           >
-            <S.DogInfoWrapper onClick={onClickItem} style={{ height: "20%" }}>
+            <S.DogInfoWrapper onClick={onClickItem} style={{ height: "30%" }}>
               <S.DogHeaderWrapper>
                 <S.DogHeader>{data[0]?.name}, &nbsp;</S.DogHeader>
                 <S.DogHeader> {data[0]?.age}</S.DogHeader>

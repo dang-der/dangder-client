@@ -12,9 +12,15 @@ import {
   IQuery,
   IQueryFetchUserArgs,
 } from "../../../../Commons/Types/Generated/types";
-import { DELETE_USER, FETCH_LOGIN_USER, FETCH_USER } from "../Settings.queries";
+import {
+  DELETE_USER,
+  FETCH_LOGIN_USER,
+  FETCH_USER,
+  USER_LOG_OUT,
+} from "../Settings.queries";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 import { useRecoilState } from "recoil";
+import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
 
 interface DeleteUserModalProps {
   title: string;
@@ -31,7 +37,9 @@ export default function DeleteUserModal({
   const router = useRouter();
 
   const [userInfo] = useRecoilState(userInfoState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
+  const [userLogout] = useMutation<Pick<IMutation, "userLogout">>(USER_LOG_OUT);
   const [deleteUser] = useMutation<
     Pick<IMutation, "deleteUser">,
     IMutationDeleteUserArgs
@@ -50,6 +58,8 @@ export default function DeleteUserModal({
     if (!userInfo?.user) return;
 
     try {
+      await userLogout();
+
       const { data } = await deleteUser({
         variables: {
           email: userInfo?.user?.email,
@@ -58,10 +68,11 @@ export default function DeleteUserModal({
       console.log("onClickDeleteUser", data);
       router.push("/auth/login");
     } catch (e) {
-      // console.log("onClickDeleteUserError", e);
-      // router.push("/auth/login");
+      console.log("onClickDeleteUserError", e);
+      if (e instanceof Error) {
+        setExceptionModal({ visible: true, message: e.message });
+      }
     }
-    // router.push("/auth/login");
   };
 
   return (

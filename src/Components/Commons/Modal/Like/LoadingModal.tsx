@@ -19,7 +19,7 @@ const LottieWrapper = styled.div`
 `;
 interface LikeModalProps {
   visible?: boolean;
-  setVisible: Dispatch<SetStateAction<boolean>>;
+  setVisible?: Dispatch<SetStateAction<boolean>>;
   handleCompleteAnimation: () => void;
 }
 

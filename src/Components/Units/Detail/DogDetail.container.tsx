@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
@@ -70,6 +70,10 @@ export default function DogDetail() {
     Pick<IMutation, "createLike">,
     IMutationCreateLikeArgs
   >(CREATE_LIKE);
+
+  useEffect(() => {
+    console.log("nonMemberVisible", nonMemberVisble);
+  }, [nonMemberVisble]);
 
   const handleJoinChatRoom = async () => {
     if (!userIsCert?.fetchLoginUserIsCert) {

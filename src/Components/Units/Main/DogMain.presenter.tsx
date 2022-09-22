@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import * as S from "./DogMainPage.styles";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import NearMeRoundedIcon from "@mui/icons-material/NearMeRounded";
 
 const Frame = styled.div`
   width: 100%;
@@ -68,7 +69,7 @@ export default function DogMainUI({
         {userInfo && (
           <S.PositionButtonWrapper>
             <S.IconWrapper>
-              <SettingsRoundedIcon />
+              <NearMeRoundedIcon />
             </S.IconWrapper>
           </S.PositionButtonWrapper>
         )}
