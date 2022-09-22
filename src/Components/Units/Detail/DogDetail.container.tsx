@@ -6,6 +6,7 @@ import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
   exceptionModalState,
   matchedModalVisibleState,
+  nonmemberModalVisible,
   passBuyModalVisibleState,
 } from "../../../Commons/Store/Modal/ModalVisibleState";
 import {
@@ -28,6 +29,7 @@ import {
   FETCH_ONE_DOG,
   JOIN_CHAT_ROOM,
 } from "./DogDetail.queries";
+import NonmemberModal from "./NonmemberModal/NonmemberModal";
 
 export default function DogDetail() {
   const router = useRouter();
@@ -39,6 +41,10 @@ export default function DogDetail() {
   );
   const [passVisible, setVisibleBuyPass] = useRecoilState(
     passBuyModalVisibleState
+  );
+
+  const [nonMemberVisble, setVisbleNonMember] = useRecoilState(
+    nonmemberModalVisible
   );
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModalVisible] = useRecoilState(exceptionModalState);
@@ -113,7 +119,6 @@ export default function DogDetail() {
 
       if (!joinChatRoomData?.joinChatRoom.id) {
         throw Error("채팅방 입장 실패");
-
       }
 
       router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
@@ -127,6 +132,7 @@ export default function DogDetail() {
 
   return (
     <>
+      {nonMemberVisble && <NonmemberModal />}
       {likeModalVisible && <LikeModal />}
       {matchVisible && <MatchedModal receiveId={String(router.query.dogId)} />}
       {passVisible && <BuyPassTicketModal />}

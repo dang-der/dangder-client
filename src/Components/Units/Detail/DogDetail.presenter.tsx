@@ -10,7 +10,10 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FETCH_LOGIN_USER_IS_CERT } from "./DogDetail.queries";
+import {
+  FETCH_LOGIN_USER,
+  FETCH_LOGIN_USER_IS_CERT,
+} from "./DogDetail.queries";
 import { useQuery } from "@apollo/client";
 import NonmemberModal from "./NonmemberModal/NonmemberModal";
 
@@ -27,9 +30,12 @@ export default function DogDetailUI({
   pickDogData,
 }: DogDetailUIProps) {
   const router = useRouter();
-  const { data: userIsCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
-    FETCH_LOGIN_USER_IS_CERT
-  );
+  // const { data: userIsCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
+  //   FETCH_LOGIN_USER_IS_CERT
+  // );
+
+  const { data: loginUser } =
+    useQuery<Pick<IQuery, "fetchLoginUser">>(FETCH_LOGIN_USER);
 
   const onClickMoveBack = () => {
     router.back();
@@ -54,7 +60,7 @@ export default function DogDetailUI({
   console.log(pickDogData);
   return (
     <>
-      {!userIsCert?.fetchLoginUserIsCert && (
+      {loginUser?.fetchLoginUser.user?.id !== undefined ? (
         <S.Wrapper>
           <S.DetailWrapper>
             <S.DetailImageWrapper>
@@ -175,8 +181,10 @@ export default function DogDetailUI({
             </S.DetailContent>
           </S.DetailWrapper>
         </S.Wrapper>
-      )}{" "}
-      : {userIsCert?.fetchLoginUserIsCert && <NonmemberModal />}
+      ) : (
+        <NonmemberModal />
+      )}
+      {/* : {loginUser?.fetchLoginUser && <NonmemberModal />} */}
     </>
   );
 }
