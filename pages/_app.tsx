@@ -8,6 +8,7 @@ import Layout from "../src/Components/Commons/layout";
 import ApolloSetting from "../src/Commons/Settings/apollosetting";
 import AuthModal from "../src/Components/Commons/Modal/AuthModal/AuthModal";
 import ExceptionModal from "../src/Components/Commons/Modal/ExceptionModal/ExceptionModal";
+import SuccessSnack from "../src/Components/Commons/Modal/SuccessSnack/SuccessSnack";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -15,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <AuthModal />
         <ExceptionModal />
-
+        <SuccessSnack />
         <ApolloSetting>
           <Global styles={globalStyles} />
           <Layout>

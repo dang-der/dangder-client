@@ -37,6 +37,7 @@ import {
   UPLOAD_FILE,
 } from "../../Profile/Init/InitProfile.queries";
 import useGeolocation from "react-hook-geolocation";
+import { snackBarState } from "../../../../Commons/Store/Modal/SnackBarState";
 
 export default function SignUpContainer() {
   const router = useRouter();
@@ -46,6 +47,7 @@ export default function SignUpContainer() {
   const [regNumInputs, setRegNumInputs] = useRecoilState(regNumInputState);
   const [dogInfoInputs, setDogInfoInputs] = useRecoilState(dogInfoInputState);
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
+  const [, setSnackBar] = useRecoilState(snackBarState);
 
   const [currentPage, setCurrentPage] = useState(0);
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
@@ -282,6 +284,10 @@ export default function SignUpContainer() {
 
       if (!createDogData?.createDog) throw Error("강아지 등록에 실패했습니다.");
 
+      setSnackBar({
+        visible: true,
+        message: "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.",
+      });
       router.replace("/auth/login");
       initState();
     } catch (e) {
