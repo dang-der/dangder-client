@@ -11,6 +11,7 @@ export const FETCH_AROUND_DOG = gql`
       img {
         id
         img
+        isMain
       }
     }
   }
@@ -24,7 +25,6 @@ export const FETCH_DOGS_DISTANCE = gql`
     }
   }
 `;
-
 
 export const CREATE_LIKE = gql`
   mutation createLike($createLikeInput: createLikeInput!) {
@@ -52,6 +52,7 @@ export const FETCH_DOGS = gql`
       description
       img {
         img
+        isMain
       }
     }
   }

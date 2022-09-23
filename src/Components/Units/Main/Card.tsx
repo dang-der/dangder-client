@@ -147,6 +147,10 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
     }
   };
 
+  // ""https://storage.googleapis.com/" + data[0].img?.[0].img
+
+  console.log("Image", data[0].img[0].img.replace(" ", "%20"));
+  console.log("Card", data);
   return (
     <>
       {userInfo !== undefined ? (
@@ -166,7 +170,12 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
             <S.Item
               style={{
                 backgroundImage: `url(${
-                  "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
+                  data[0].img?.[0].img
+                    ? `https://storage.googleapis.com/${data[0].img[0].img.replace(
+                        " ",
+                        "%20"
+                      )}`
+                    : "/pug.jpg"
                 })`,
                 backgroundSize: "cover",
                 backgroundPosition: "center center",
@@ -213,7 +222,12 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
           <S.Item
             style={{
               backgroundImage: `url(${
-                "https://storage.googleapis.com/" + data[0].img?.[0].img || ""
+                data[0].img?.[0].img
+                  ? `https://storage.googleapis.com/${data[0].img[0].img.replace(
+                      " ",
+                      "%20"
+                    )}`
+                  : "/pug.jpg"
               })`,
               backgroundSize: "cover",
               backgroundPosition: "center center",

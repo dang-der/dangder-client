@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 `;
 
 const HeaderWrapper = styled.div`
-  height: 4rem;
+  height: 4.5rem;
 `;
 
 const ContentsWrapper = styled.div`

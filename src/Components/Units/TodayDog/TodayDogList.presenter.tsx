@@ -44,7 +44,10 @@ export default function TodayDogListUI({
                 onClick={onClickMoveDogDetail(e.id)}
               >
                 <S.GradientBox
-                  imageUrl={"https://storage.googleapis.com/" + e.mainImg || ""}
+                  imageUrl={
+                    "https://storage.googleapis.com/" +
+                      e.mainImg.replace(" ", "%20") || ""
+                  }
                   // style={{
                   //   backgroundImage: `url(${
                   //     "https://storage.googleapis.com/" +
