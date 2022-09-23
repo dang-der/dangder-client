@@ -76,14 +76,14 @@ export const DogDescription = styled.span`
 export const DogPassWrapper = styled.div`
   cursor: pointer;
   position: absolute;
-  bottom: 1.5rem;
-  right: -1rem;
+  bottom: 3rem;
+  right: 0.7rem;
   padding: 0;
 `;
 
 export const DogPassIcon = styled.img`
-  width: 7rem;
-  height: 7rem;
+  width: 4rem;
+  height: 4rem;
 `;
 
 export const DogFemaleIcon = styled(FemaleIcon)`

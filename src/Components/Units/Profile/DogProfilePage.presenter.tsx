@@ -24,7 +24,6 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
 
   const onClickMyProfile =
     (dogId: string) => (event: MouseEvent<HTMLDivElement>) => {
-      return;
       if (!(event.target instanceof HTMLDivElement)) return;
       router.push(`/profile/${dogId}`);
     };
@@ -63,9 +62,9 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
           </S.DogInfo>
         </S.DogProfile>
         <S.ProfileEditButtonWrapper>
-          <Link href="/profile/edit">
+          <div onClick={() => {}}>
             <S.ProfileEditButton>수정</S.ProfileEditButton>
-          </Link>
+          </div>
         </S.ProfileEditButtonWrapper>
       </S.DogProfileWrapper>
       <S.SettingWrapper>

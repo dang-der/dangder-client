@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { MouseEvent, useEffect } from "react";
 
 import { useRecoilState, useResetRecoilState } from "recoil";
 import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
@@ -12,11 +12,12 @@ import CustomLayoutModal from "../../Commons/Modal/CustomLayoutModal/CustomLayou
 import BlueButton from "../../Commons/Button/BlueButton";
 import * as S from "./BuyPassTicketModal.style";
 import Head from "next/head";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   IMutation,
   IMutationCreatePaymentArgs,
   IMutationJoinChatRoomArgs,
+  IQuery,
 } from "../../../Commons/Types/Generated/types";
 import { CREATE_PAYMENT } from "./Payment.queries";
 import {
@@ -43,6 +44,10 @@ export default function BuyPassTicketModal() {
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
   const [, setSnackBar] = useRecoilState(snackBarState);
 
+  const { data: isCertData } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
+    FETCH_LOGIN_USER_IS_CERT
+  );
+
   const [createPayment] = useMutation<
     Pick<IMutation, "createPayment">,
     IMutationCreatePaymentArgs
@@ -52,6 +57,49 @@ export default function BuyPassTicketModal() {
     Pick<IMutation, "joinChatRoom">,
     IMutationJoinChatRoomArgs
   >(JOIN_CHAT_ROOM);
+
+  useEffect(() => {
+    const joinChat = async () => {
+      try {
+        const { data: joinChatData } = await joinChatRoom({
+          variables: {
+            dogId: userInfo?.dog?.id || "",
+            chatPairId: seletedDogId,
+          },
+        });
+
+        const roomId = joinChatData?.joinChatRoom.id;
+        if (!roomId) throw Error("채팅방에 입장할 수 없습니다.");
+
+        return roomId;
+      } catch (e) {
+        setExceptionModal({
+          visible: true,
+          message: "채팅방 입장에 실패했습니다. 다시 시도해주세요.",
+        });
+        return null;
+      }
+    };
+
+    if (isCertData?.fetchLoginUserIsCert) {
+      joinChat().then((result) => {
+        if (result === null) {
+          setExceptionModal({
+            visible: true,
+            message: "채팅방 입장에 실패했습니다. 다시 시도해주세요.",
+          });
+          return;
+        }
+
+        setSnackBar({
+          visible: true,
+          message: "채팅 신청 완료! 채팅방으로 이동합니다.",
+        });
+
+        router.replace(`/chat/${result}`);
+      });
+    }
+  }, [isCertData?.fetchLoginUserIsCert]);
 
   const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
     if (typeof visible === "boolean") {
