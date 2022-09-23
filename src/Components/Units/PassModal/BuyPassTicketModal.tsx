@@ -58,49 +58,6 @@ export default function BuyPassTicketModal() {
     IMutationJoinChatRoomArgs
   >(JOIN_CHAT_ROOM);
 
-  useEffect(() => {
-    const joinChat = async () => {
-      try {
-        const { data: joinChatData } = await joinChatRoom({
-          variables: {
-            dogId: userInfo?.dog?.id || "",
-            chatPairId: seletedDogId,
-          },
-        });
-
-        const roomId = joinChatData?.joinChatRoom.id;
-        if (!roomId) throw Error("채팅방에 입장할 수 없습니다.");
-
-        return roomId;
-      } catch (e) {
-        setExceptionModal({
-          visible: true,
-          message: "채팅방 입장에 실패했습니다. 다시 시도해주세요.",
-        });
-        return null;
-      }
-    };
-
-    if (isCertData?.fetchLoginUserIsCert) {
-      joinChat().then((result) => {
-        if (result === null) {
-          setExceptionModal({
-            visible: true,
-            message: "채팅방 입장에 실패했습니다. 다시 시도해주세요.",
-          });
-          return;
-        }
-
-        setSnackBar({
-          visible: true,
-          message: "채팅 신청 완료! 채팅방으로 이동합니다.",
-        });
-
-        router.replace(`/chat/${result}`);
-      });
-    }
-  }, [isCertData?.fetchLoginUserIsCert]);
-
   const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
     if (typeof visible === "boolean") {
       setVisible(visible);
