@@ -377,6 +377,12 @@ export type IMutationCreatePaymentArgs = {
 };
 
 
+export type IMutationCreatePaymentForPassTicketArgs = {
+  impUid: Scalars['String'];
+  payMoney: Scalars['Float'];
+};
+
+
 export type IMutationCreatePaymentForPointsArgs = {
   impUid: Scalars['String'];
   payMoney: Scalars['Float'];

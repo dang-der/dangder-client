@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_PAYMENT = gql`
-  mutation createPayment($impUid: String!, $payMoney: Float!) {
-    createPayment(impUid: $impUid, payMoney: $payMoney) {
+  mutation createPaymentForPassTicket($impUid: String!, $payMoney: Float!) {
+    createPaymentForPassTicket(impUid: $impUid, payMoney: $payMoney) {
       id
     }
   }
