@@ -45,7 +45,7 @@ export default function LoginUI({ handleUserLogin }: LoginUIProps) {
   };
 
   const onClickNonmember = () => {
-    router.push("/");
+    router.push("/main");
   };
 
   return (

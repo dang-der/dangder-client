@@ -6,7 +6,7 @@ import { GrayD9 } from "../../../../../styles/GlobalStyles";
 export default function LogoHeader() {
   return (
     <Wrapper>
-      <Link href="/">
+      <Link href="/main">
         <Logo src="/logo.svg" />
       </Link>
 

@@ -9,14 +9,17 @@ import ApolloSetting from "../src/Commons/Settings/apollosetting";
 import AuthModal from "../src/Components/Commons/Modal/AuthModal/AuthModal";
 import ExceptionModal from "../src/Components/Commons/Modal/ExceptionModal/ExceptionModal";
 import SuccessSnack from "../src/Components/Commons/Modal/SuccessSnack/SuccessSnack";
+import UseCheckVisit from "../src/Commons/Library/UseCheckVisit";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Wrapper>
       <RecoilRoot>
+        <UseCheckVisit />
         <AuthModal />
         <ExceptionModal />
         <SuccessSnack />
+
         <ApolloSetting>
           <Global styles={globalStyles} />
           <Layout>

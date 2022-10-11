@@ -13,7 +13,7 @@ export default function IntroLike() {
       <S.SubTitle>지금 당장 댕댕이와 만나보세요</S.SubTitle>
 
       <S.ButtonWrapper>
-        <Link href="/landing">
+        <Link href="/">
           <S.Button>다음</S.Button>
         </Link>
       </S.ButtonWrapper>
