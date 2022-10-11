@@ -12,10 +12,7 @@ interface ProfileInput2PageProps {
   interests: IInterest[];
   // avoidBreeds: string[];
 }
-export default function ProfileInput2Page({
-  
-  
-}: ProfileInput2PageProps) {
+export default function ProfileInput2Page({}: ProfileInput2PageProps) {
   const [inputs, setInputs] = useRecoilState(profileInputState);
 
   const fakeCharacters: ICharacter[] = [

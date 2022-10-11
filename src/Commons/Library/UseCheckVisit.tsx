@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { visitedState } from "../Store/Auth/AccessToken";
 
