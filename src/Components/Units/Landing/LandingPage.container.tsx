@@ -6,7 +6,7 @@ export default function Landing() {
   const router = useRouter();
 
   const onClickNonmember = () => {
-    router.push("/");
+    router.push("/main");
   };
 
   return (

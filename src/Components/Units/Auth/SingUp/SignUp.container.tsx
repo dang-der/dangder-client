@@ -18,7 +18,7 @@ import {
   IMutationVerifyMailTokenArgs,
   IQuery,
 } from "../../../../Commons/Types/Generated/types";
-import { emailSchema } from "./Page/EmailInputPage";
+
 import SignUpUI from "./SignUp.presenter";
 import {
   CREATE_MAIL_TOKEN,

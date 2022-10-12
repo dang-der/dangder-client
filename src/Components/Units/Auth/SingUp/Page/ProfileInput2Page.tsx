@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { dogInfoInputState } from "../../../../../Commons/Store/Auth/SignUpState";
-import { profileInputState } from "../../../../../Commons/Store/Profile/ProfileInitState";
 import {
   IAvoidBreed,
   ICharacter,
@@ -68,21 +66,6 @@ export default function ProfileInput2Page({
             onClick={onClickValue("interests", e.interest)}
           >
             {e.interest}
-          </S.Tag>
-        ))}
-      </S.TagWrapper>
-
-      <S.SubTitleWrapper style={{ marginTop: "2.5rem" }}>
-        우리 댕댕이가 무서워하는 견종을 선택해주세요.
-      </S.SubTitleWrapper>
-      <S.TagWrapper>
-        {(avoidBreeds || []).map((e: IAvoidBreed, i) => (
-          <S.Tag
-            key={i}
-            isSelected={inputs.avoid.includes(e.avoidBreed)}
-            onClick={onClickValue("avoid", e.avoidBreed)}
-          >
-            {e.avoidBreed}
           </S.Tag>
         ))}
       </S.TagWrapper>

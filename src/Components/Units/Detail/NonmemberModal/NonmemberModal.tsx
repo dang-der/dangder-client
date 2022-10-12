@@ -25,7 +25,7 @@ export default function NonmemberModal({ dogImageUrl }: NonmemberModalProps) {
 
   const onClickClose = () => {
     console.log("onClickClose", visible);
-    router.replace("/");
+    router.replace("/main");
     setVisible(false);
   };
 

@@ -43,7 +43,7 @@ export default function LoginContainer() {
       if (!data) return;
       setUserInfo(data.fetchLoginUser);
 
-      router.replace("/");
+      router.replace("/main");
     } catch (e) {
       console.log("LoginError", e);
       if (e instanceof Error) {
