@@ -6,17 +6,23 @@ import {
   IQueryFetchMyDogArgs,
 } from "../../../../Commons/Types/Generated/types";
 import { FETCH_MY_DOG } from "../DogProfilePage.queries";
+import { FETCH_CHARACTERS, FETCH_INTERESTS } from "../Init/InitProfile.queries";
 import DogProfileEditUI from "./DogProfileEditPage.presenter";
 
 export default function DogProfileEditPage() {
   const [userInfo] = useRecoilState(userInfoState);
 
-  const { data: myDogData } = useQuery<
-    Pick<IQuery, "fetchMyDog">,
-    IQueryFetchMyDogArgs
-  >(FETCH_MY_DOG, {
-    variables: { userId: userInfo?.user?.id || "" },
-  });
+  const { data: charactersData } =
+    useQuery<Pick<IQuery, "fetchCharacters">>(FETCH_CHARACTERS);
 
-  return <DogProfileEditUI myDog={myDogData?.fetchMyDog} />;
+  const { data: interestsData } =
+    useQuery<Pick<IQuery, "fetchInterests">>(FETCH_INTERESTS);
+
+  return (
+    <DogProfileEditUI
+      myDog={userInfo?.dog}
+      charactersData={charactersData}
+      interestsData={interestsData}
+    />
+  );
 }

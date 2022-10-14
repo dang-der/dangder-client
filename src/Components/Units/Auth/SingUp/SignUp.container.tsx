@@ -269,7 +269,7 @@ export default function SignUpContainer() {
             description: dogInfoInputs.introduce,
             interests: dogInfoInputs.interests,
             characters: dogInfoInputs.characters,
-            avoidBreeds: dogInfoInputs.avoid,
+
             locations: {
               lat: geo.latitude || 0,
               lng: geo.longitude || 0,

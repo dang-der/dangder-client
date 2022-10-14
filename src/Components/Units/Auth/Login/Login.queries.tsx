@@ -14,6 +14,7 @@ export const FETCH_LOGIN_USER = gql`
         email
         pet
       }
+
       dog {
         id
         name
@@ -24,10 +25,6 @@ export const FETCH_LOGIN_USER = gql`
         interests {
           id
           interest
-        }
-        avoidBreeds {
-          id
-          avoidBreed
         }
         characters {
           id
