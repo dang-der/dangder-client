@@ -27,13 +27,6 @@ export type IAroundDogOutput = {
   dogId: Scalars['String'];
 };
 
-export type IAvoidBreed = {
-  __typename?: 'AvoidBreed';
-  avoidBreed: Scalars['String'];
-  dogs: Array<IDog>;
-  id: Scalars['String'];
-};
-
 export type IBlockUser = {
   __typename?: 'BlockUser';
   blockId: Scalars['String'];
@@ -95,18 +88,12 @@ export type IChatRoomsOutput = {
   lastMessage?: Maybe<IChatMessage>;
 };
 
-export type ICreateAvoidBreedsInput = {
-  /** 기피견종명 */
-  avoidBreed: Array<Scalars['String']>;
-};
-
 export type ICreateBlockUserInput = {
   blockId: Scalars['String'];
 };
 
 export type ICreateDogInput = {
   age: Scalars['Int'];
-  avoidBreeds?: InputMaybe<Array<Scalars['String']>>;
   birthday?: InputMaybe<Scalars['String']>;
   characters?: InputMaybe<Array<Scalars['String']>>;
   description: Scalars['String'];
@@ -154,7 +141,6 @@ export type ICreateUserInput = {
 export type IDog = {
   __typename?: 'Dog';
   age: Scalars['Int'];
-  avoidBreeds: Array<IAvoidBreed>;
   birthday?: Maybe<Scalars['String']>;
   breeds: Array<IBreed>;
   characters: Array<ICharacter>;
@@ -221,8 +207,6 @@ export type IMutation = {
   cancelPaymentForPoints: IPayment;
   /** Return : 가입성공한 관리자 계정 정보 */
   createAdminUser: IAdminUser;
-  /** 기피견종 목록 추가 */
-  createAvoidBreeds: Array<IAvoidBreed>;
   /** Return : 차단된 유저 정보 */
   createBlockUser: IBlockUser;
   createCharacter: ICharacter;
@@ -238,13 +222,16 @@ export type IMutation = {
   createLike: ICreateLikeOutput;
   /** Return : 메일발송 성공 여부 (true / false) */
   createMailToken: Scalars['Boolean'];
+  /** Return : 주문 정보 */
   createOrder: IOrder;
+  /** Return : 생성된 패스 티켓 정보 */
   createPassTicket: IPassTicket;
   /** Return : 생성된 결제 정보 */
   createPayment: IPayment;
   createPaymentForPassTicket: IPassTicket;
   /** Return : 포인트 결제내역 */
   createPaymentForPoints: IPayment;
+  /** Return : 생성된 상품 정보 */
   createProduct: IProduct;
   /** Return : 생성된 신고 게시물 */
   createReport: IReport;
@@ -257,8 +244,11 @@ export type IMutation = {
   deleteChatRoom: Scalars['Boolean'];
   deleteDog: Scalars['Boolean'];
   deleteInterest: Scalars['Boolean'];
+  /** Return : 주문 삭제된 시간 */
   deleteOrder: Scalars['Boolean'];
+  /** Return : deletedAt(패스 티켓 정보 삭제된 시간) */
   deletePassTicket: Scalars['Boolean'];
+  /** Return : 상품 삭제된 시간 */
   deleteProduct: Scalars['Boolean'];
   /** Return : deletedAt(유저 정보 삭제된 시간) */
   deleteUser: Scalars['Boolean'];
@@ -273,7 +263,9 @@ export type IMutation = {
   restoreAdminAccessToken: Scalars['String'];
   updateDog: IDog;
   updateDogsLocation: ILocation;
+  /** Return : 업데이트 된 주문 정보 */
   updateOrder: IOrder;
+  /** Return : 업데이트 된 상품 정보 */
   updateProduct: IProduct;
   /** Return : 바뀐 유저 정보 */
   updateUser: IUser;
@@ -307,11 +299,6 @@ export type IMutationCancelPaymentForPointsArgs = {
 export type IMutationCreateAdminUserArgs = {
   account: Scalars['String'];
   password: Scalars['String'];
-};
-
-
-export type IMutationCreateAvoidBreedsArgs = {
-  CreateAvoidBreedsInput: ICreateAvoidBreedsInput;
 };
 
 
@@ -566,8 +553,6 @@ export type IProduct = {
 export type IQuery = {
   __typename?: 'Query';
   fetchAroundDogs: Array<IDog>;
-  /** 기피 견종 목록 조회 */
-  fetchAvoidBreeds: Array<IAvoidBreed>;
   /** Return : 차단된 유저 정보 */
   fetchBlockUser: IBlockUser;
   /** Return : 차단된 모든 유저 정보 */
@@ -580,7 +565,7 @@ export type IQuery = {
   fetchChatMessagesByChatRoomId: Array<IChatMessage>;
   /** Return : 조회된 채팅방 정보 */
   fetchChatRoom: IChatRoom;
-  /** Return : 채팅방id, 상대강아지정보, 나의강아지정보, 채팅방의 마지막메시지 */
+  /** Return : 채팅방id, 상대강아지정보, 채팅방의 마지막메시지 */
   fetchChatRooms: Array<IChatRoomsOutput>;
   fetchDogImage: Array<IDogImage>;
   /**  Return : 모든 강아지 정보 */
@@ -589,16 +574,20 @@ export type IQuery = {
   fetchInterests: Array<IInterest>;
   /** Return : 로그인한 유저, 유저의 강아지 데이터 */
   fetchLoginUser: IUserOutput;
-  /** 로그인중인 유저의 이용권 유효 여부 확인하기 */
+  /** 로그인 중인 유저의 이용권 유효 여부 확인하기 */
   fetchLoginUserIsCert: Scalars['Boolean'];
   fetchMainDogImage: Array<IDogImage>;
   /** 유저 정보로 내 강아지 정보 조회 */
   fetchMyDog: IDog;
   /** 한마리의 강아지 정보 조회 */
   fetchOneDog: IDog;
+  /** Return : 주문 정보 */
   fetchOrderById: IOrder;
+  /** Return : 주문 정보 */
   fetchOrderByPhone: IOrder;
+  /** Return : 패스 티켓 정보 */
   fetchPassTicket: IPassTicket;
+  /** Return : 조회한 상품 정보 */
   fetchProduct: IProduct;
   /** Return : 신고 정보 */
   fetchTarget: IReport;
@@ -616,11 +605,6 @@ export type IQuery = {
 export type IQueryFetchAroundDogsArgs = {
   id: Scalars['String'];
   page: Scalars['Float'];
-};
-
-
-export type IQueryFetchAvoidBreedsArgs = {
-  search?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -727,7 +711,6 @@ export type ITodayLikeDogOutput = {
 
 export type IUpdateDogInput = {
   age?: InputMaybe<Scalars['Int']>;
-  avoidBreeds?: InputMaybe<Array<Scalars['String']>>;
   birthday?: InputMaybe<Scalars['String']>;
   characters?: InputMaybe<Array<Scalars['String']>>;
   description?: InputMaybe<Scalars['String']>;
