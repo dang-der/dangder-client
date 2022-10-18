@@ -10,9 +10,13 @@ import { v4 as uuid } from "uuid";
 
 interface DogProfilePageUIProps {
   myDogData: IDog | undefined;
+  handlePassTicket: () => Promise<void>;
 }
 
-export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
+export default function DogProfilePageUI({
+  myDogData,
+  handlePassTicket,
+}: DogProfilePageUIProps) {
   const router = useRouter();
   const settings = {
     dots: false,
@@ -27,6 +31,10 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
       if (!(event.target instanceof HTMLDivElement)) return;
       router.push(`/profile/${dogId}`);
     };
+
+  const onClickPassTicket = () => {
+    handlePassTicket();
+  };
 
   return (
     <S.Wrapper>
@@ -74,6 +82,12 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
             <S.RightArrowIcon />
           </S.DogProfileSetting>
         </Link>
+      </S.SettingWrapper>
+      <S.SettingWrapper>
+        <S.DogPassSetting>
+          <S.SettingSpan onClick={onClickPassTicket}>댕더패스</S.SettingSpan>
+          <S.RightArrowIcon />
+        </S.DogPassSetting>
       </S.SettingWrapper>
     </S.Wrapper>
   );
