@@ -136,7 +136,7 @@ export default function InitProfileContainer() {
                 birthday: dogBirth,
                 interests: inputs.dogInput.interests,
                 characters: inputs.dogInput.characters,
-                avoidBreeds: ["asdfsdf", "불독"],
+
                 locations: {
                   lat: location?.lat || 0,
                   lng: location?.lng || 0,
@@ -163,7 +163,6 @@ export default function InitProfileContainer() {
               birthday: dogBirth,
               interests: inputs.dogInput.interests,
               characters: inputs.dogInput.characters,
-              avoidBreeds: ["asdfsdf", "불독"],
               locations: {
                 lat: location?.lat || 0,
                 lng: location?.lng || 0,

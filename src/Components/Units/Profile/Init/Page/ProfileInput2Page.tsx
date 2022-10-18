@@ -10,7 +10,6 @@ import * as S from "./Page.styles";
 interface ProfileInput2PageProps {
   characters: ICharacter[];
   interests: IInterest[];
-  // avoidBreeds: string[];
 }
 export default function ProfileInput2Page({}: ProfileInput2PageProps) {
   const [inputs, setInputs] = useRecoilState(profileInputState);

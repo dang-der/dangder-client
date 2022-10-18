@@ -62,9 +62,9 @@ export default function DogProfilePageUI({ myDogData }: DogProfilePageUIProps) {
           </S.DogInfo>
         </S.DogProfile>
         <S.ProfileEditButtonWrapper>
-          <div onClick={() => {}}>
+          <Link href={"/profile/edit"}>
             <S.ProfileEditButton>수정</S.ProfileEditButton>
-          </div>
+          </Link>
         </S.ProfileEditButtonWrapper>
       </S.DogProfileWrapper>
       <S.SettingWrapper>

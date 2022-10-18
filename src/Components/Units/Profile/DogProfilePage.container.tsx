@@ -16,6 +16,7 @@ export default function DogProfilePage() {
     IQueryFetchMyDogArgs
   >(FETCH_MY_DOG, {
     variables: { userId: userInfo?.user?.id || "" },
+    fetchPolicy: "cache-and-network",
   });
 
   console.log("MyDogPage", myDogData);

@@ -3,7 +3,15 @@ import styled from "@emotion/styled";
 export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ChangeDogWrapper = styled.div`
@@ -85,11 +93,11 @@ export const CheckBirthUnknowingnessWrapper = styled.div`
 `;
 
 export const IntroduceTextField = styled.textarea`
-  width: 90%;
+  width: 100%;
   height: 8.125rem;
   border: 1px solid #000000;
   border-radius: 26px;
-  margin-top: 0.625rem;
+  margin-top: 1rem;
   padding: 1.25rem;
   font-size: 0.875rem;
 `;

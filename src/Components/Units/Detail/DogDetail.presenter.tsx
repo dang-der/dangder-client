@@ -158,20 +158,7 @@ export default function DogDetailUI({
                 </div>
               )}
             </S.DetailSubMaineTitle>
-            <S.DetailSubMaineTitle>
-              {(pickDogData?.fetchOneDog.avoidBreeds.length || 0) > 0 && (
-                <div>
-                  <S.DetailCharacterTitle>기피견종</S.DetailCharacterTitle>
-                  <S.DetailCharacterBox>
-                    <S.DetailCharacter>
-                      {pickDogData?.fetchOneDog?.avoidBreeds.map((e) => (
-                        <S.Tags key={e.id}>{e.avoidBreed}</S.Tags>
-                      ))}
-                    </S.DetailCharacter>
-                  </S.DetailCharacterBox>
-                </div>
-              )}
-            </S.DetailSubMaineTitle>
+
             <S.DetailFunctionIconWrapper>
               <S.DetailFunctionMoveBack
                 onClick={onClickMoveBack}
