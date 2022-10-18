@@ -58,8 +58,6 @@ export default function SignUpContainer() {
   const { data: interestsData } =
     useQuery<Pick<IQuery, "fetchInterests">>(FETCH_INTERESTS);
 
-  const { data: avoidBreedsData } =
-    useQuery<Pick<IQuery, "fetchAvoidBreeds">>(FETCH_AVOID_BREEDS);
 
   const [createMailToken] = useMutation<
     Pick<IMutation, "createMailToken">,
@@ -341,7 +339,7 @@ export default function SignUpContainer() {
         handleCreateUserAndDog={handleCreateUserAndDog}
         charactersData={charactersData}
         interestsData={interestsData}
-        avoidBreedsData={avoidBreedsData}
+        
       />
     </>
   );

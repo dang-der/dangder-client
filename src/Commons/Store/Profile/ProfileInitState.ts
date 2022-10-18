@@ -10,7 +10,6 @@ export interface IDogProfile {
   introduce: string;
   characters: string[];
   interests: string[];
-  avoid: any;
 }
 
 export interface IProfileInputState {
@@ -35,7 +34,6 @@ export const profileInputState = atom<IProfileInputState>({
       introduce: "",
       characters: [],
       interests: [],
-      avoid: [],
     },
   },
 });

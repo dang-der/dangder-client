@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, memo, useRef } from "react";
 import { checkValidationFile } from "../../../Commons/Library/ValidationFile";
 
 const UploadImageButton = styled.img`
@@ -15,7 +15,7 @@ interface ImageFileInputProps {
   onChangeFile: (file: File) => void;
 }
 
-export default function ImageFileInput({
+function ImageFileInput({
   defaultImageUrl,
   onChangeFile,
 }: ImageFileInputProps) {
@@ -36,8 +36,16 @@ export default function ImageFileInput({
 
   return (
     <div onClick={onClickUploadImageButton}>
-      <UploadImageButton src={defaultImageUrl || "/ic_upload_image.svg"} />
+      <UploadImageButton
+        src={
+          defaultImageUrl?.startsWith("dangder")
+            ? `https://storage.googleapis.com/${defaultImageUrl}`
+            : defaultImageUrl || "/ic_upload_image.svg"
+        }
+      />
       <input type="file" hidden ref={fileRef} onChange={onChangeFileInput} />
     </div>
   );
 }
+
+export default memo(ImageFileInput);

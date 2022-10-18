@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
 import { dogInfoInputState } from "../../../../../Commons/Store/Auth/SignUpState";
 import {
-  IAvoidBreed,
   ICharacter,
   IInterest,
 } from "../../../../../Commons/Types/Generated/types";
@@ -10,12 +9,10 @@ import * as S from "../../../Profile/Init/Page/Page.styles";
 interface ProfileInput2PageProps {
   characters: ICharacter[] | undefined;
   interests: IInterest[] | undefined;
-  avoidBreeds: IAvoidBreed[] | undefined;
 }
 export default function ProfileInput2Page({
   characters,
   interests,
-  avoidBreeds,
 }: ProfileInput2PageProps) {
   const [inputs, setInputs] = useRecoilState(dogInfoInputState);
 

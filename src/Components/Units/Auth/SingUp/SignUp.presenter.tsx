@@ -27,7 +27,7 @@ interface SignUpUIprops {
   handleCreateUserAndDog: () => void;
   charactersData: Pick<IQuery, "fetchCharacters"> | undefined;
   interestsData: Pick<IQuery, "fetchInterests"> | undefined;
-  avoidBreedsData: Pick<IQuery, "fetchAvoidBreeds"> | undefined;
+  
 }
 export default function SignUpUI({
   currentPageIndex,
@@ -40,7 +40,6 @@ export default function SignUpUI({
   handleCreateUserAndDog,
   charactersData,
   interestsData,
-  avoidBreedsData,
 }: SignUpUIprops) {
   const [verifyError] = useRecoilState(verifyErrorState);
   const onClickNext = () => {
@@ -104,7 +103,7 @@ export default function SignUpUI({
             <ProfileInput2Page
               interests={interestsData?.fetchInterests}
               characters={charactersData?.fetchCharacters}
-              avoidBreeds={avoidBreedsData?.fetchAvoidBreeds}
+              
             />
           </Page>
         </PageStack>
