@@ -56,6 +56,10 @@ export default function DogProfileEditPage() {
 
     console.log("프로필 변경", inputs);
 
+    // 나중에 에러 스낵바 만들어서 예외처리하기...
+    if (inputs.introduce === "") return;
+    if (inputs.age === 0) return;
+
     const updateDogInput: IUpdateDogInput = {};
 
     if (inputs.age !== userInfo?.dog?.age) updateDogInput.age = inputs.age;

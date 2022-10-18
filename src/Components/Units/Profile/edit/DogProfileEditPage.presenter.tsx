@@ -12,21 +12,7 @@ import LargeButton from "../../../Commons/Button/LargeButton";
 import { dogProfileEditState } from "../../../../Commons/Store/Profile/ProfileEditState";
 
 const schema = yup.object({
-  birthYear: yup
-    .number()
-    .lessThan(2022, "올바른 생년월일을 입력해주세요.")
-    .required("생년월일을 입력해주세요.")
-    .typeError(""),
-  birthMonth: yup
-    .number()
-    .typeError("")
-    .max(12, "올바른 생년월일을 입력해주세요.")
-    .required("생년월일을 입력해주세요."),
-  birthDay: yup
-    .number()
-    .typeError("")
-    .max(31, "올바른 생년월일을 입력해주세요.")
-    .required("생년월일을 입력해주세요."),
+  age: yup.string().required("나이를 입력해주세요."),
   introduce: yup
     .string()
     .min(5, "최소 5자 이상의 내용을 입력해주세요.")
