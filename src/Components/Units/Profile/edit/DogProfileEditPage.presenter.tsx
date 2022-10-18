@@ -1,32 +1,15 @@
 import * as S from "./DogProfileEditPage.styles";
 import { useForm } from "react-hook-form";
-import { Checkbox } from "antd";
-import { v4 as uuid } from "uuid";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { profileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
-import {
-  ICharacter,
-  IDog,
-  IInterest,
-  IQuery,
-} from "../../../../Commons/Types/Generated/types";
-import { ChangeEvent, useEffect, useLayoutEffect } from "react";
-import { CheckboxChangeEvent } from "antd/lib/checkbox";
+import { IDog, IQuery } from "../../../../Commons/Types/Generated/types";
+import { ChangeEvent, useEffect } from "react";
+
 import ImageFileInput from "../../../Commons/FileInput/ImageFileInput";
 import LineInput from "../../../Commons/LineInputs/LineInput";
-import { userInfo } from "os";
-import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
-import BirthInput from "../../../Commons/LineInputs/BirthInput/BirthInput";
+import LargeButton from "../../../Commons/Button/LargeButton";
 import { dogProfileEditState } from "../../../../Commons/Store/Profile/ProfileEditState";
-
-interface ProfileInput2PageProps {
-  characters: ICharacter[];
-  interests: IInterest[];
-  // avoidBreeds: string[];
-}
 
 const schema = yup.object({
   birthYear: yup
@@ -54,16 +37,18 @@ const schema = yup.object({
 interface DogProfileEditUIProps {
   myDog: IDog;
   charactersData: Pick<IQuery, "fetchCharacters"> | undefined;
-  interestsData: Pick<IQuery, "fetchInterests"> | undefined;
+  interestsData: Pick<IQuery, "fetchInterestCategory"> | undefined;
+  handleUpdateDog: () => void;
 }
 
 export default function DogProfileEditUI({
   myDog,
   charactersData,
   interestsData,
+  handleUpdateDog,
 }: DogProfileEditUIProps) {
   const [inputs, setInputs] = useRecoilState(dogProfileEditState);
-  const { register, formState, reset } = useForm({
+  const { register, reset } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
@@ -71,8 +56,8 @@ export default function DogProfileEditUI({
   useEffect(() => {
     setInputs({
       age: myDog.age,
-      interests: myDog.interests,
-      characters: myDog.characters,
+      interests: myDog.interests.map((e) => e.interest),
+      characters: myDog.characters.map((e) => e.character),
       introduce: myDog.description,
       imageUrls: myDog.img.map((e) => e.img),
       imageFiles: [],
@@ -119,6 +104,21 @@ export default function DogProfileEditUI({
     }));
   };
 
+  const onClickValue = (category: string, value: string) => () => {
+    setInputs((p) => {
+      const copy = [...p[category]];
+
+      inputs[category].includes(value)
+        ? copy.splice(copy.indexOf(value), 1)
+        : copy.push(value);
+
+      return {
+        ...p,
+        [category]: copy,
+      };
+    });
+  };
+
   return (
     <>
       <S.Wrapper>
@@ -133,7 +133,7 @@ export default function DogProfileEditUI({
             .fill(0)
             .map((e, i) => (
               <ImageFileInput
-                key={uuid()}
+                key={i}
                 onChangeFile={onChangeFile(i)}
                 defaultImageUrl={inputs.imageUrls[i]}
               />
@@ -173,8 +173,8 @@ export default function DogProfileEditUI({
           {(charactersData?.fetchCharacters || []).map((e, i) => (
             <S.Tag
               key={i}
-              isSelected={inputs.characters.includes(e)}
-              // onClick={onClickValue("characters", e.character)}
+              isSelected={inputs.characters.includes(e.character)}
+              onClick={onClickValue("characters", e.character)}
             >
               {e.character}
             </S.Tag>
@@ -185,16 +185,18 @@ export default function DogProfileEditUI({
           우리 댕댕이의 관심사를 설정해주세요.
         </S.SubTitleWrapper>
         <S.TagWrapper>
-          {(interestsData?.fetchInterests || []).map((e, i) => (
+          {(interestsData?.fetchInterestCategory || []).map((e, i) => (
             <S.Tag
               key={i}
               isSelected={inputs.interests.includes(e.interest)}
-              // onClick={onClickValue("interests", e.interest)}
+              onClick={onClickValue("interests", e.interest)}
             >
               {e.interest}
             </S.Tag>
           ))}
         </S.TagWrapper>
+
+        <LargeButton title="수정하기" onClick={handleUpdateDog} />
       </S.Wrapper>
     </>
   );

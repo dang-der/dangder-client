@@ -26,8 +26,7 @@ interface SignUpUIprops {
   handleProfileInput: () => void;
   handleCreateUserAndDog: () => void;
   charactersData: Pick<IQuery, "fetchCharacters"> | undefined;
-  interestsData: Pick<IQuery, "fetchInterests"> | undefined;
-  
+  interestsData: Pick<IQuery, "fetchInterestCategory"> | undefined;
 }
 export default function SignUpUI({
   currentPageIndex,
@@ -101,9 +100,8 @@ export default function SignUpUI({
 
           <Page>
             <ProfileInput2Page
-              interests={interestsData?.fetchInterests}
+              interests={interestsData?.fetchInterestCategory}
               characters={charactersData?.fetchCharacters}
-              
             />
           </Page>
         </PageStack>

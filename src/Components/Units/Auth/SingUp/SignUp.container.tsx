@@ -30,7 +30,6 @@ import * as yup from "yup";
 import LoadingModal from "../../../Commons/Modal/Loading/LoadingModal";
 import {
   CREATE_DOG,
-  FETCH_AVOID_BREEDS,
   FETCH_CHARACTERS,
   FETCH_INTERESTS,
   GET_DOG_INFO,
@@ -56,8 +55,7 @@ export default function SignUpContainer() {
     useQuery<Pick<IQuery, "fetchCharacters">>(FETCH_CHARACTERS);
 
   const { data: interestsData } =
-    useQuery<Pick<IQuery, "fetchInterests">>(FETCH_INTERESTS);
-
+    useQuery<Pick<IQuery, "fetchInterestCategory">>(FETCH_INTERESTS);
 
   const [createMailToken] = useMutation<
     Pick<IMutation, "createMailToken">,
@@ -314,7 +312,6 @@ export default function SignUpContainer() {
       introduce: "",
       characters: [],
       interests: [],
-      avoid: [],
     });
 
     setRegNumInputs({

@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { ICharacter, IInterest } from "../../Types/Generated/types";
+
 
 export interface IDogProfile {
   [key: string]: any;
@@ -7,8 +7,8 @@ export interface IDogProfile {
   imageFiles: File[];
   age: number;
   introduce: string;
-  characters: ICharacter[];
-  interests: IInterest[];
+  characters: string[];
+  interests: string[];
 }
 
 export const dogProfileEditState = atom<IDogProfile>({

@@ -7,6 +7,11 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 20px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ChangeDogWrapper = styled.div`

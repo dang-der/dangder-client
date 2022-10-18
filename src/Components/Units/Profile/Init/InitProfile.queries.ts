@@ -16,9 +16,8 @@ export const FETCH_CHARACTERS = gql`
 `;
 
 export const FETCH_INTERESTS = gql`
-  query fetchInterests {
-    fetchInterests {
-      id
+  query fetchInterestCategory {
+    fetchInterestCategory {
       interest
     }
   }
