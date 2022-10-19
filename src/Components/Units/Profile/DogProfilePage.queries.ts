@@ -39,3 +39,9 @@ export const UPDATE_DOG = gql`
     }
   }
 `;
+
+export const FETCH_LOGIN_USER_IS_CERT = gql`
+  query fetchLoginUserIsCert {
+    fetchLoginUserIsCert
+  }
+`;
