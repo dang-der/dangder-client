@@ -49,3 +49,17 @@ export const CurrentPositionWrapper = styled.div`
     height: 2rem;
   }
 `;
+
+export const Header = styled.div`
+  height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: absolute;
+  z-index: 3;
+
+  svg {
+    font-size: 2rem;
+  }
+`;
