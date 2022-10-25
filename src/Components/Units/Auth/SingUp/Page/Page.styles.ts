@@ -71,3 +71,25 @@ export const IntroduceTextField = styled.textarea`
   padding: 1.25rem;
   font-size: 0.875rem;
 `;
+
+export const TagWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+`;
+
+interface TagStyleProps {
+  isSelected: boolean;
+}
+export const Tag = styled.span`
+  padding: 0.438rem;
+  border: 1px solid #767676;
+  border-color: ${(props: TagStyleProps) =>
+    props.isSelected ? "#304FFE" : "#767676"};
+  border-radius: 6.25rem;
+  margin-right: 0.813rem;
+  margin-bottom: 0.813rem;
+  cursor: pointer;
+  background-color: ${(props) => (props.isSelected ? "#304FFE12" : "#ffffff")};
+`;

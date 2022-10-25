@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import {
   dogInfoInputState,
@@ -87,6 +87,11 @@ export default function SignUpContainer() {
     IMutationUploadFileArgs
   >(UPLOAD_FILE);
 
+  useEffect(() => {
+    return () => {
+      initState();
+    };
+  }, []);
   const handleNextPage = () => {
     if (currentPage + 1 > 5) return;
     setCurrentPage((p) => p + 1);
@@ -336,7 +341,6 @@ export default function SignUpContainer() {
         handleCreateUserAndDog={handleCreateUserAndDog}
         charactersData={charactersData}
         interestsData={interestsData}
-        
       />
     </>
   );
