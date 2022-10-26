@@ -17,7 +17,7 @@ export const LogoImage = styled.img`
 `;
 
 export const InputErrorWrapper = styled.div`
-  width: 70%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
@@ -30,7 +30,7 @@ export const InputErrorWrapper = styled.div`
 
 export const InputWrapper = styled.div`
   width: 100%;
-  height: 3rem;
+  height: 3.6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -47,11 +47,11 @@ export const InputWrapper = styled.div`
 
 export const LoginButton = styled.button`
   cursor: pointer;
-  width: 70%;
-  height: 3rem;
+  width: 80%;
+  height: 4.5rem;
   border: none;
   border-radius: 100px;
-  margin: 2rem 0;
+  margin: 3rem 0;
   background-color: ${MainColor};
   color: white;
   font-weight: 700;
@@ -59,20 +59,11 @@ export const LoginButton = styled.button`
 `;
 
 export const JoinWrapper = styled.span`
-  margin-top: 0.6rem;
+  margin-top: 1rem;
   font-size: 0.9rem;
   color: #d9d9d9;
   u {
     color: black;
     cursor: pointer;
   }
-`;
-
-export const SocialButtonsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8vh;
-  gap: 2rem;
 `;

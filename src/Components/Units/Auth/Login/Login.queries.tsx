@@ -6,17 +6,6 @@ export const USER_LOGIN = gql`
   }
 `;
 
-export const FETCH_ONLY_USER = gql`
-  query fetchLoginUser {
-    fetchLoginUser {
-      user {
-        id
-        email
-      }
-    }
-  }
-`;
-
 export const FETCH_LOGIN_USER = gql`
   query fetchLoginUser {
     fetchLoginUser {
