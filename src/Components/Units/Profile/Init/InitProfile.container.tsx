@@ -1,16 +1,22 @@
-import { useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import moment from "moment";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import useGeolocation from "react-hook-geolocation";
 import { useRecoilState } from "recoil";
 import { exceptionModalState } from "../../../../Commons/Store/Modal/ModalVisibleState";
+import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
+
+import { IProfileInputState } from "../../../../Commons/Store/Profile/ProfileInitState";
 import {
   IMutation,
   IMutationCreateDogArgs,
   IMutationGetDogInfoArgs,
+  IMutationUpdateDogArgs,
   IMutationUploadFileArgs,
   IQuery,
 } from "../../../../Commons/Types/Generated/types";
-
+import ErrorModal from "../../../Commons/Modal/ErrorModal/ErrorModal";
 import LoadingModal from "../../../Commons/Modal/Loading/LoadingModal";
 import InitProfileUI from "./InitProfile.presenter";
 import {
@@ -18,41 +24,24 @@ import {
   FETCH_CHARACTERS,
   FETCH_INTERESTS,
   GET_DOG_INFO,
+  UPDATE_DOG,
   UPLOAD_FILE,
 } from "./InitProfile.queries";
-import {
-  dogInfoInputState,
-  regNumInputState,
-} from "../../../../Commons/Store/Auth/SignUpState";
-
-import * as yup from "yup";
-import {
-  FETCH_LOGIN_USER,
-  FETCH_ONLY_USER,
-} from "../../Auth/Login/Login.queries";
-import { useRouter } from "next/router";
-import { snackBarState } from "../../../../Commons/Store/Modal/SnackBarState";
-
-import { getAccessToken } from "../../../../Commons/Library/getAccessToken";
 
 export default function InitProfileContainer() {
   const router = useRouter();
   const geo = useGeolocation();
-  const client = useApolloClient();
 
-  const [regNumInputs, setRegNumInputs] = useRecoilState(regNumInputState);
-  const [dogInfoInputs, setDogInfoInputs] = useRecoilState(dogInfoInputState);
+  const [regNumErrorVisible, setRegNumErrorVisible] = useState(false);
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
-  const [, setSnackBar] = useRecoilState(snackBarState);
+  const [userInfo] = useRecoilState(userInfoState);
 
-  const [currentPage, setCurrentPage] = useState(0);
-  const [loadingModalVisible, setLoadingModalVisible] = useState(false);
 
   const { data: charactersData } =
     useQuery<Pick<IQuery, "fetchCharacters">>(FETCH_CHARACTERS);
 
   const { data: interestsData } =
-    useQuery<Pick<IQuery, "fetchInterestCategory">>(FETCH_INTERESTS);
+    useQuery<Pick<IQuery, "fetchInterests">>(FETCH_INTERESTS);
 
   const [getDogInfo] = useMutation<
     Pick<IMutation, "getDogInfo">,
@@ -69,182 +58,164 @@ export default function InitProfileContainer() {
     IMutationUploadFileArgs
   >(UPLOAD_FILE);
 
-  const handleNextPage = () => {
-    if (currentPage + 1 > 5) return;
-    setCurrentPage((p) => p + 1);
-  };
+  const [updateDog] = useMutation<
+    Pick<IMutation, "updateDog">,
+    IMutationUpdateDogArgs
+  >(UPDATE_DOG);
 
-  const handlePrevPage = () => {
-    if (currentPage === 0) {
-      router.replace("/auth/login");
-      return;
-    }
+  const handleCheckDogRegisterNumber = async (inputs: any) => {
+    console.log("handleCheckDogRegisterNumber", inputs);
 
-    setCurrentPage((p) => p - 1);
-  };
-
-  const handleCheckDogRegisterNumber = async () => {
     if (
-      !yup
-        .string()
-        .max(15)
-        .required()
-        .isValidSync(regNumInputs.registerNumber) ||
-      !yup
-        .string()
-        .max(4)
-        .required()
-        .isValidSync(regNumInputs.ownerBirthYear) ||
-      !yup
-        .string()
-        .max(2)
-        .required()
-        .isValidSync(regNumInputs.ownerBirthMonth) ||
-      !yup.string().max(2).required().isValidSync(regNumInputs.ownerBirthDay)
+      !inputs.registerNumber ||
+      !inputs.ownerBirthYear ||
+      !inputs.ownerBirthMonth ||
+      !inputs.ownerBirthDay
     ) {
-      return;
+      return false;
     }
 
     const birth =
-      String(regNumInputs.ownerBirthYear).substring(2) +
-      String(regNumInputs.ownerBirthMonth).padStart(2, "0") +
-      String(regNumInputs.ownerBirthDay).padStart(2, "0");
+      String(inputs.ownerBirthYear).substring(2) +
+      String(inputs.ownerBirthMonth).padStart(2, "0") +
+      String(inputs.ownerBirthDay).padStart(2, "0");
 
     try {
-      setLoadingModalVisible(true);
       const { data } = await getDogInfo({
         variables: {
-          dogRegNum: regNumInputs.registerNumber,
+          dogRegNum: inputs.registerNumber,
           ownerBirth: birth,
         },
       });
 
-      if (!data?.getDogInfo) throw Error("등록된 댕댕이가 아닙니다.");
-
-      handleNextPage();
+      console.log("getDogInfo", data);
+      return true;
     } catch (e) {
       console.log("handleCheckDogRegister", e);
-      setExceptionModal({
-        visible: true,
-        message: "댕댕이를 찾을 수 없습니다.<br/> 입력한 정보를 확인해주세요.",
-      });
-    } finally {
-      setLoadingModalVisible(false);
+      setRegNumErrorVisible(true);
+      return false;
     }
   };
 
-  const handleProfileInput = () => {
-    if (!dogInfoInputs.imageUrls[0] || !dogInfoInputs.imageFiles[0]) {
-      setExceptionModal({
-        visible: true,
-        message: "이미지 등록은 필수입니다.",
-      });
-      return;
-    }
+  const handleCreateDog =
+    (location: { lat: number; lng: number } | undefined) =>
+    async (inputs: IProfileInputState) => {
+      console.log("handleCreateDog", router.query);
 
-    if (dogInfoInputs.age === 0 || !dogInfoInputs.introduce) return;
+      const ownerBirth =
+        String(inputs.ownerBirthYear).substring(2) +
+        String(inputs.ownerBirthMonth).padStart(2, "0") +
+        String(inputs.ownerBirthDay).padStart(2, "0");
 
-    handleNextPage();
-  };
+      const dogBirth =
+        String(inputs.dogInput.dogBirthYear) +
+        String(inputs.dogInput.dogBirthMonth).padStart(2, "0") +
+        String(inputs.dogInput.dogBirthDay).padStart(2, "0");
 
-  const handleCreateDog = async () => {
-    try {
-      const newToken = await getAccessToken();
+      const age = moment().diff(moment(dogBirth), "years");
 
-      console.log(newToken);
-      const { data: userInfo } = await client.query<
-        Pick<IQuery, "fetchLoginUser">
-      >({
-        query: FETCH_ONLY_USER,
-        context: {
-          headers: {
-            Authorization: `Bearer ${newToken}`,
-          },
-        },
-      });
-
-      if (!userInfo.fetchLoginUser.user?.id)
-        throw Error("회원정보가 없습니다.");
-
-      const birth =
-        String(regNumInputs.ownerBirthYear).substring(2) +
-        String(regNumInputs.ownerBirthMonth).padStart(2, "0") +
-        String(regNumInputs.ownerBirthDay).padStart(2, "0");
-
-      const { data: filesData } = await uploadFiles({
-        variables: { files: dogInfoInputs.imageFiles },
-      });
-
-      if (!filesData)
-        throw Error("이미지 업로드에 실패했습니다. <br/> 다시 시도해주세요.");
-
-      const { data: createDogData } = await createDog({
-        variables: {
-          createDogInput: {
-            age: dogInfoInputs.age,
-            description: dogInfoInputs.introduce,
-            interests: dogInfoInputs.interests,
-            characters: dogInfoInputs.characters,
-
-            locations: {
-              lat: geo.latitude || 0,
-              lng: geo.longitude || 0,
-            },
-            img: filesData.uploadFile,
-            userId: userInfo.fetchLoginUser.user.id,
-          },
-          dogRegNum: regNumInputs.registerNumber,
-          ownerBirth: birth,
-        },
-      });
-
-      if (!createDogData?.createDog) throw Error("강아지 등록에 실패했습니다.");
-
-      setSnackBar({
-        visible: true,
-        message: "강아지 등록 성공!",
-      });
-      router.replace("/main");
-    } catch (e) {
-      if (e instanceof Error) {
-        setExceptionModal({
-          visible: true,
-          message: e.message,
+      try {
+        const { data: filesData } = await uploadFiles({
+          variables: { files: inputs.dogInput.imageFiles },
         });
+
+        if (!filesData) {
+          setExceptionModal({
+            visible: true,
+            message: "이미지 업로드에 실패했습니다. <br/> 다시 시도해주세요.",
+          });
+          return false;
+        }
+
+        if (router.query.init !== "false") {
+          const { data: result } = await createDog({
+            variables: {
+              createDogInput: {
+                age: Number(age) || 1,
+                description: inputs.dogInput.introduce,
+                birthday: dogBirth,
+                interests: inputs.dogInput.interests,
+                characters: inputs.dogInput.characters,
+
+                locations: {
+                  lat: location?.lat || 0,
+                  lng: location?.lng || 0,
+                },
+                img: filesData.uploadFile,
+                userId: String(router.query.user || ""),
+              },
+              dogRegNum: inputs.registerNumber,
+              ownerBirth,
+            },
+          });
+          console.log("handleCreateDog", result);
+          return !!result?.createDog;
+        }
+
+        console.log("CreateDog", userInfo);
+        if (!userInfo?.dog) return;
+
+        const { data: result } = await updateDog({
+          variables: {
+            updateDogInput: {
+              age: Number(age) || 1,
+              description: inputs.dogInput.introduce,
+              birthday: dogBirth,
+              interests: inputs.dogInput.interests,
+              characters: inputs.dogInput.characters,
+              locations: {
+                lat: location?.lat || 0,
+                lng: location?.lng || 0,
+              },
+              img: filesData.uploadFile,
+              userId: String(router.query.user || ""),
+            },
+            dogRegNum: inputs.registerNumber,
+            ownerBirth,
+            dogId: userInfo?.dog?.id,
+          },
+        });
+
+        console.log("handleUpdateDog", result);
+        return !!result?.updateDog;
+
+      } catch (e) {
+        console.log("handleClickCreateDog", e);
+
+        if (e instanceof Error) {
+          setExceptionModal({
+            visible: true,
+            message: e.message,
+          });
+        }
+        return false;
       }
-    }
-  };
-
-  const initState = () => {
-    setDogInfoInputs({
-      imageUrls: [],
-      imageFiles: [],
-      age: 0,
-      introduce: "",
-      characters: [],
-      interests: [],
-    });
-
-    setRegNumInputs({
-      registerNumber: "",
-      ownerBirthYear: 0,
-      ownerBirthDay: 0,
-      ownerBirthMonth: 0,
-    });
-  };
+    };
 
   return (
     <>
-      {loadingModalVisible && <LoadingModal />}
-      <InitProfileUI
-        currentPageIndex={currentPage}
-        handleCheckDogRegisterNumber={handleCheckDogRegisterNumber}
-        handleCreateDog={handleCreateDog}
-        handlePrevPage={handlePrevPage}
-        handleProfileInput={handleProfileInput}
-        charactersData={charactersData}
-        interestsData={interestsData}
+      <ErrorModal
+        title="등록된 댕댕이의 정보를 <br/> 찾을 수 없습니다."
+        subTitle="입력한 정보와 등록한 정보가 일치한지 <br/> 다시 확인해주세요."
+        visible={regNumErrorVisible}
+        setVisible={setRegNumErrorVisible}
       />
+
+      {!geo.latitude && <LoadingModal />}
+
+      {geo.latitude && (
+        <InitProfileUI
+          selectedData={{
+            characters: charactersData,
+            interests: interestsData,
+          }}
+          handleCheckDogRegisterNumber={handleCheckDogRegisterNumber}
+          handleCreateDog={handleCreateDog({
+            lat: geo.latitude,
+            lng: geo.longitude,
+          })}
+        />
+      )}
     </>
   );
 }

@@ -4,7 +4,7 @@ import {
   ICharacter,
   IInterestCategoryOutput,
 } from "../../../../../Commons/Types/Generated/types";
-import * as S from "./Page.styles";
+import * as S from "../../../Profile/Init/Page/Page.styles";
 
 interface ProfileInput2PageProps {
   characters: ICharacter[] | undefined;
