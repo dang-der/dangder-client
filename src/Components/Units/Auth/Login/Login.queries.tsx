@@ -6,6 +6,7 @@ export const USER_LOGIN = gql`
   }
 `;
 
+
 export const FETCH_ONLY_USER = gql`
   query fetchSocialLoginUser {
     fetchSocialLoginUser {
