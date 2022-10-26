@@ -151,9 +151,8 @@ export default function InitProfileContainer() {
     try {
       const newToken = await getAccessToken();
 
-      console.log(newToken);
       const { data: userInfo } = await client.query<
-        Pick<IQuery, "fetchLoginUser">
+        Pick<IQuery, "fetchSocialLoginUser">
       >({
         query: FETCH_ONLY_USER,
         context: {
@@ -163,7 +162,7 @@ export default function InitProfileContainer() {
         },
       });
 
-      if (!userInfo.fetchLoginUser.user?.id)
+      if (!userInfo.fetchSocialLoginUser?.id)
         throw Error("회원정보가 없습니다.");
 
       const birth =
@@ -191,7 +190,7 @@ export default function InitProfileContainer() {
               lng: geo.longitude || 0,
             },
             img: filesData.uploadFile,
-            userId: userInfo.fetchLoginUser.user.id,
+            userId: userInfo.fetchSocialLoginUser.id,
           },
           dogRegNum: regNumInputs.registerNumber,
           ownerBirth: birth,
