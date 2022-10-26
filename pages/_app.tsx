@@ -10,8 +10,14 @@ import AuthModal from "../src/Components/Commons/Modal/AuthModal/AuthModal";
 import ExceptionModal from "../src/Components/Commons/Modal/ExceptionModal/ExceptionModal";
 import SuccessSnack from "../src/Components/Commons/Modal/SuccessSnack/SuccessSnack";
 import UseCheckVisit from "../src/Commons/Library/UseCheckVisit";
+import { AdminGlobalStyles } from "../styles/AdminGlobalStyles";
+import { useRouter } from "next/router";
+
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  console.log((router.pathname).includes('admin'))
+
   return (
     <Wrapper>
       <RecoilRoot>
@@ -20,12 +26,17 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ExceptionModal />
         <SuccessSnack />
 
-        <ApolloSetting>
+        {(router.pathname).includes('admin') ? (<ApolloSetting>
+          <Global styles={AdminGlobalStyles} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ApolloSetting>) : (<ApolloSetting>
           <Global styles={globalStyles} />
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </ApolloSetting>
+        </ApolloSetting>)}
       </RecoilRoot>
     </Wrapper>
   );
