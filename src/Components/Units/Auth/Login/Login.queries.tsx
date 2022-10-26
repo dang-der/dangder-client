@@ -10,6 +10,7 @@ export const FETCH_ONLY_USER = gql`
   query fetchSocialLoginUser {
     fetchSocialLoginUser {
       id
+      pet
     }
   }
 `;

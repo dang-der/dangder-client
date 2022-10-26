@@ -26,10 +26,7 @@ import {
 } from "../../../../Commons/Store/Auth/SignUpState";
 
 import * as yup from "yup";
-import {
-  FETCH_LOGIN_USER,
-  FETCH_ONLY_USER,
-} from "../../Auth/Login/Login.queries";
+import { FETCH_ONLY_USER } from "../../Auth/Login/Login.queries";
 import { useRouter } from "next/router";
 import { snackBarState } from "../../../../Commons/Store/Modal/SnackBarState";
 
@@ -149,7 +146,7 @@ export default function InitProfileContainer() {
 
   const handleCreateDog = async () => {
     try {
-      const newToken = await getAccessToken();
+      const newToken: string = (await getAccessToken()) || "";
 
       const { data: userInfo } = await client.query<
         Pick<IQuery, "fetchSocialLoginUser">
