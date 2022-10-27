@@ -22,6 +22,7 @@ import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 import { v4 as uuid } from "uuid";
 import { IQuery } from "../../../../Commons/Types/Generated/types";
+import Link from "next/link";
 
 interface ChatRoomUIProps {
   handleEmitSend: ({ type, data }: { type: string; data: any }) => void;
@@ -131,6 +132,14 @@ export default function ChatRoomUI({
           <S.OtherDogName>{pairDog?.fetchOneDog.name}</S.OtherDogName>
         </S.OtherDogContainer>
       </S.ChatHeader>
+
+      <S.ReviewButtonWrapper>
+        {pairDog?.fetchOneDog.name}님과 만남이 마음에 드셨나요?? <br></br>매칭
+        후기를 남겨주세요 👉🏻{" "}
+        <Link href={"/review/write"}>
+          <u>리뷰 남기기</u>
+        </Link>
+      </S.ReviewButtonWrapper>
 
       <S.ChatMessagesWrapper>
         {messages && messageComponents}
