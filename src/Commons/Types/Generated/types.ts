@@ -129,12 +129,6 @@ export type ICreateProductInput = {
   productName: Scalars['String'];
 };
 
-export type ICreateReportInput = {
-  reportContent: Scalars['String'];
-  reportId: Scalars['String'];
-  targetId: Scalars['String'];
-};
-
 export type ICreateReviewInput = {
   receiveReviewId: Scalars['String'];
   reviewDetail: Scalars['String'];
@@ -195,6 +189,7 @@ export type IInterest = {
 
 export type IInterestCategoryOutput = {
   __typename?: 'InterestCategoryOutput';
+  iChatRoomId: Scalars['String'];
   interest: Scalars['String'];
   interestImg: Scalars['String'];
   subTitle: Scalars['String'];
@@ -284,6 +279,7 @@ export type IMutation = {
   /** Return : 생성된 신고 게시물 */
   createReport: IReport;
   createReview: IReview;
+  createReviewDetail: IReviewDetail;
   /** Return : 가입된 유저 정보 */
   createUser: IUser;
   /** Return : 계정 삭제 여부 */
@@ -302,6 +298,7 @@ export type IMutation = {
   /** Return : 상품 삭제된 시간 */
   deleteProduct: Scalars['Boolean'];
   deleteReview: Scalars['Boolean'];
+  deleteReviewDetail: Scalars['Boolean'];
   /** Return : deletedAt(유저 정보 삭제된 시간) */
   deleteUser: Scalars['Boolean'];
   getDogInfo: Scalars['Boolean'];
@@ -440,12 +437,19 @@ export type IMutationCreateProductArgs = {
 
 
 export type IMutationCreateReportArgs = {
-  createReportInput: ICreateReportInput;
+  reportContent: Scalars['String'];
+  targetId: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
 export type IMutationCreateReviewArgs = {
   createReviewInput: ICreateReviewInput;
+};
+
+
+export type IMutationCreateReviewDetailArgs = {
+  reviewDetail: Scalars['String'];
 };
 
 
@@ -500,6 +504,11 @@ export type IMutationDeleteProductArgs = {
 
 
 export type IMutationDeleteReviewArgs = {
+  id: Scalars['String'];
+};
+
+
+export type IMutationDeleteReviewDetailArgs = {
   id: Scalars['String'];
 };
 
@@ -688,6 +697,7 @@ export type IQuery = {
   /** Return : 조회한 상품 정보 */
   fetchProduct: IProduct;
   fetchReceiveReviews: Array<IReview>;
+  fetchReviewDetails: Array<IReviewDetail>;
   fetchSendReviews: Array<IReview>;
   /** Return : 로그인한 유저 데이터 */
   fetchSocialLoginUser: IUser;
@@ -835,6 +845,12 @@ export type IReview = {
   reviewDetail: Scalars['String'];
   reviewMessage: Scalars['String'];
   sendReview: IDog;
+};
+
+export type IReviewDetail = {
+  __typename?: 'ReviewDetail';
+  id: Scalars['String'];
+  reviewDetail: Scalars['String'];
 };
 
 /** 인기댕댕 */

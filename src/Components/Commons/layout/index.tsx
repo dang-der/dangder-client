@@ -17,6 +17,7 @@ const SHOW_PAGE_HEADERS = [
   "/profile/edit",
   "/settings",
   "/profile/[dogId]",
+  "/review/write",
 ];
 
 const SHOW_NAVIGATION = [
