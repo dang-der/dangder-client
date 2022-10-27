@@ -4,9 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
 import { io } from "socket.io-client";
 
-import { socket } from "../../../../Commons/Socket";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
-import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
 
 import {
   IChatMessage,
@@ -14,8 +12,10 @@ import {
   IQueryFetchChatMessagesByChatRoomIdArgs,
   IQueryFetchChatRoomArgs,
   IQueryFetchOneDogArgs,
+  IQueryFetchReviewsArgs,
   Maybe,
 } from "../../../../Commons/Types/Generated/types";
+import { IS_REVIEW_WRITED } from "../../Review/Review.queries";
 
 import {
   FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID,
@@ -55,6 +55,16 @@ export default function ChatRoomContainer() {
     IQueryFetchOneDogArgs
   >(FETCH_ONE_DOG, {
     variables: { id: chatRoomData?.fetchChatRoom.chatPairId || "" },
+  });
+
+  const { data: isReviewWritedData } = useQuery<
+    Pick<IQuery, "fetchReviews">,
+    IQueryFetchReviewsArgs
+  >(IS_REVIEW_WRITED, {
+    variables: {
+      myId: userInfo?.dog?.id || "",
+      targetId: pairDogData?.fetchOneDog.id || "",
+    },
   });
 
   const { data: messagesData, refetch } = useQuery<
@@ -159,6 +169,7 @@ export default function ChatRoomContainer() {
         messages={messages}
         pairDog={pairDogData}
         roomData={chatRoomData}
+        isReviewWrited={isReviewWritedData?.fetchReviews || true}
       />
     </>
   );

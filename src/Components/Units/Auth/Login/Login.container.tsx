@@ -23,7 +23,7 @@ export default function LoginContainer() {
 
   const [, setAccessToken] = useRecoilState(accessTokenState);
   const [, setUserInfo] = useRecoilState(userInfoState);
-  const [, setExeptionModal] = useRecoilState(exceptionModalState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const handleUserLogin = async (inputs: any) => {
 
@@ -47,7 +47,7 @@ export default function LoginContainer() {
     } catch (e) {
       console.log("LoginError", e);
       if (e instanceof Error) {
-        setExeptionModal({ visible: true, message: e.message });
+        setExceptionModal({ visible: true, message: e.message });
       }
     }
 

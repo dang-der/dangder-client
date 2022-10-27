@@ -131,8 +131,8 @@ export type ICreateProductInput = {
 
 export type ICreateReviewInput = {
   receiveReviewId: Scalars['String'];
-  reviewDetail: Scalars['String'];
-  reviewMessage: Scalars['String'];
+  reviewDetail?: InputMaybe<Array<Scalars['String']>>;
+  reviewMessage?: InputMaybe<Scalars['String']>;
   sendReview: Scalars['String'];
 };
 
@@ -698,6 +698,7 @@ export type IQuery = {
   fetchProduct: IProduct;
   fetchReceiveReviews: Array<IReview>;
   fetchReviewDetails: Array<IReviewDetail>;
+  fetchReviews: Scalars['Boolean'];
   fetchSendReviews: Array<IReview>;
   /** Return : 로그인한 유저 데이터 */
   fetchSocialLoginUser: IUser;
@@ -810,6 +811,12 @@ export type IQueryFetchReceiveReviewsArgs = {
 };
 
 
+export type IQueryFetchReviewsArgs = {
+  myId: Scalars['String'];
+  targetId: Scalars['String'];
+};
+
+
 export type IQueryFetchSendReviewsArgs = {
   id: Scalars['String'];
 };
@@ -842,7 +849,7 @@ export type IReview = {
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
   receiveReviewId: Scalars['String'];
-  reviewDetail: Scalars['String'];
+  reviewDetail: Array<IReviewDetail>;
   reviewMessage: Scalars['String'];
   sendReview: IDog;
 };
@@ -890,7 +897,7 @@ export type IUpdateProductInput = {
 
 export type IUpdateReviewInput = {
   receiveReviewId?: InputMaybe<Scalars['String']>;
-  reviewDetail?: InputMaybe<Scalars['String']>;
+  reviewDetail?: InputMaybe<Array<Scalars['String']>>;
   reviewMessage?: InputMaybe<Scalars['String']>;
   sendReview?: InputMaybe<Scalars['String']>;
 };
