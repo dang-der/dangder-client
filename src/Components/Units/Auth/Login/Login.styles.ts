@@ -67,3 +67,13 @@ export const JoinWrapper = styled.span`
     cursor: pointer;
   }
 `;
+
+
+export const SocialButtonsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8vh;
+  gap: 2rem;
+`;
