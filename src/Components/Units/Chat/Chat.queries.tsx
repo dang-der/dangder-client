@@ -58,6 +58,10 @@ export const FETCH_CHAT_ROOM = gql`
     fetchChatRoom(roomId: $roomId) {
       id
       chatPairId
+      dog {
+        id
+        name
+      }
     }
   }
 `;
@@ -65,5 +69,15 @@ export const FETCH_CHAT_ROOM = gql`
 export const DELETE_CHAT_ROOM = gql`
   mutation deleteChatRoom($id: String!) {
     deleteChatRoom(id: $id)
+  }
+`;
+
+export const FETCH_ICHAT_MESSAGES_BY_ICHAT_ROOM_ID = gql`
+  query fetchIChatMessagesByIChatRoomId($iChatRoomId: String!) {
+    fetchIChatMessagesByIChatRoomId(iChatRoomId: $iChatRoomId) {
+      senderId
+      type
+      message
+    }
   }
 `;
