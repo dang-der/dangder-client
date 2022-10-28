@@ -75,6 +75,23 @@ export default function DogProfilePageUI({
           </Link>
         </S.ProfileEditButtonWrapper>
       </S.DogProfileWrapper>
+
+      <S.SettingWrapper>
+        <S.DogPassSetting>
+          <S.SettingSpan onClick={onClickPassTicket}>댕더패스</S.SettingSpan>
+          <S.RightArrowIcon />
+        </S.DogPassSetting>
+      </S.SettingWrapper>
+
+      <S.SettingWrapper>
+        <Link href={`/review/${myDogData?.id || ""}`}>
+          <S.DogProfileSetting>
+            <S.SettingSpan>내가 받은 매칭 후기</S.SettingSpan>
+            <S.RightArrowIcon />
+          </S.DogProfileSetting>
+        </Link>
+      </S.SettingWrapper>
+
       <S.SettingWrapper>
         <Link href="/settings">
           <S.DogProfileSetting>
@@ -82,12 +99,6 @@ export default function DogProfilePageUI({
             <S.RightArrowIcon />
           </S.DogProfileSetting>
         </Link>
-      </S.SettingWrapper>
-      <S.SettingWrapper>
-        <S.DogPassSetting>
-          <S.SettingSpan onClick={onClickPassTicket}>댕더패스</S.SettingSpan>
-          <S.RightArrowIcon />
-        </S.DogPassSetting>
       </S.SettingWrapper>
     </S.Wrapper>
   );

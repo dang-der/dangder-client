@@ -18,6 +18,7 @@ const SHOW_PAGE_HEADERS = [
   "/settings",
   "/profile/[dogId]",
   "/review/write",
+  "/review/[dogId]",
 ];
 
 const SHOW_NAVIGATION = [
@@ -42,6 +43,7 @@ const Wrapper = styled.div`
 
 const HeaderWrapper = styled.div`
   height: 4.5rem;
+  background-color: white;
 `;
 
 const ContentsWrapper = styled.div`
