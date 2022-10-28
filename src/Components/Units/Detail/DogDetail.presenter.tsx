@@ -1,29 +1,24 @@
 import { useRouter } from "next/router";
 import {
-  IDog,
   IDogImage,
   IQuery,
+  IReview,
 } from "../../../Commons/Types/Generated/types";
 import * as S from "./DogDetail.styles";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {
-  FETCH_LOGIN_USER,
-  FETCH_LOGIN_USER_IS_CERT,
-} from "./DogDetail.queries";
-import { useQuery } from "@apollo/client";
-import NonmemberModal from "./NonmemberModal/NonmemberModal";
+
 import { useRecoilState } from "recoil";
 import { nonmemberModalVisible } from "../../../Commons/Store/Modal/ModalVisibleState";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import { useEffect } from "react";
+import ReviewItem from "../Review/Item/ReviewItem";
 
 interface DogDetailUIProps {
-  handleClickLike: () => void;
   pickDogData: Pick<IQuery, "fetchOneDog"> | undefined;
+  reviews: IReview[];
+  handleClickLike: () => void;
   handleJoinChatRoom: () => Promise<void>;
   // distanceData: Pick<IQuery, "fetchDogsDistance"> | undefined;
 }
@@ -32,12 +27,10 @@ export default function DogDetailUI({
   handleClickLike,
   handleJoinChatRoom,
   pickDogData,
+  reviews,
 }: DogDetailUIProps) {
   const router = useRouter();
-  const [nonmemberModal, setNonmemberModal] = useRecoilState(
-    nonmemberModalVisible
-  );
-
+  const [, setNonmemberModal] = useRecoilState(nonmemberModalVisible);
   const [userInfo] = useRecoilState(userInfoState);
 
   useEffect(() => {
@@ -66,7 +59,6 @@ export default function DogDetailUI({
     slidesToScroll: 1,
   };
 
-  console.log(pickDogData);
   return (
     <>
       <S.Wrapper>
@@ -108,22 +100,8 @@ export default function DogDetailUI({
                     : "(중성화 안했어요)"}
                 </S.DetailIsNeut>
               </S.DetailInfo>
-              <S.DetailMoveBackWrapper>
-                {/* <S.DetailContentMoveBack
-                onClick={onClickMoveBack}
-                src="/backIcon.png"
-              /> */}
-              </S.DetailMoveBackWrapper>
-              {/* <S.DetailReport>
-                            <S.DetailMoveReport onClick={onClickMoveReport}></S.DetailMoveReport>
-                            </S.DetailReport> */}
             </S.DetailMaineTitle>
-            {/* <S.DistanceWrapper>
-            <LocationOnIcon style={{ cursor: "pointer" }} />
-            <S.DetailKm>
-              {distanceData?.fetchDogsDistance?.}Km
-            </S.DetailKm>
-          </S.DistanceWrapper> */}
+
             <S.DetailSubTitle>
               <S.DetailIntroduce>
                 {pickDogData?.fetchOneDog.description}
@@ -171,10 +149,23 @@ export default function DogDetailUI({
               <S.DetailFunctionLike onClick={onClickLike} src="/likeIcon.png" />
             </S.DetailFunctionIconWrapper>
           </S.DetailContent>
+
+          <S.ReviewsWrapper>
+            <S.SubTitleWrapper>
+              👩🏻‍💻 {pickDogData?.fetchOneDog.name}님이 받은 매칭 후기
+            </S.SubTitleWrapper>
+            {[
+              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
+              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
+              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
+              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
+              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
+            ].map((e) => (
+              <ReviewItem key={e.id} review={e} />
+            ))}
+          </S.ReviewsWrapper>
         </S.DetailWrapper>
       </S.Wrapper>
-
-      {/* : {loginUser?.fetchLoginUser && <NonmemberModal />} */}
     </>
   );
 }

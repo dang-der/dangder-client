@@ -65,6 +65,7 @@ export default function ChatRoomContainer() {
       myId: userInfo?.dog?.id || "",
       targetId: pairDogData?.fetchOneDog.id || "",
     },
+    fetchPolicy: "cache-and-network",
   });
 
   const { data: messagesData, refetch } = useQuery<
@@ -169,7 +170,9 @@ export default function ChatRoomContainer() {
         messages={messages}
         pairDog={pairDogData}
         roomData={chatRoomData}
-        isReviewWrited={isReviewWritedData?.fetchReviews || true}
+        isReviewWrited={
+          isReviewWritedData ? isReviewWritedData.fetchReviews : true
+        }
       />
     </>
   );
