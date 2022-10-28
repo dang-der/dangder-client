@@ -305,7 +305,7 @@ export const ReviewsWrapper = styled.div`
 `;
 
 export const SubTitleWrapper = styled.div`
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   margin-right: 5px;
   margin-bottom: 1.5rem;

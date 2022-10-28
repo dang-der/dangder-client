@@ -154,13 +154,7 @@ export default function DogDetailUI({
             <S.SubTitleWrapper>
               👩🏻‍💻 {pickDogData?.fetchOneDog.name}님이 받은 매칭 후기
             </S.SubTitleWrapper>
-            {[
-              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
-              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
-              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
-              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
-              { reviewDetail: "ddd", reviewMessage: "sdfasdf" },
-            ].map((e) => (
+            {reviews.map((e) => (
               <ReviewItem key={e.id} review={e} />
             ))}
           </S.ReviewsWrapper>

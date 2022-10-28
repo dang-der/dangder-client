@@ -13,9 +13,10 @@ export const FETCH_RECEIVE_REVIEWS = gql`
   query fetchReceiveReviews($id: String!) {
     fetchReceiveReviews(id: $id) {
       reviewMessage
-      # reviewDetail {
-      #   reviewDetail
-      # }
+      reviewDetail {
+        id
+        reviewDetail
+      }
       sendReview {
         name
         img {

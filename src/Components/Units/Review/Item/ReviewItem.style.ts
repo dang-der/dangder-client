@@ -18,6 +18,7 @@ export const ReviewerInfoWrapper = styled.div`
     height: 4.5rem;
     background-color: gray;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   span {
@@ -39,22 +40,22 @@ export const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 1rem 0;
+  gap: 0.5rem;
 `;
 
 export const Tag = styled.span`
-  padding: 0.438rem;
-  border: 1px solid #767676;
-  border-color: #304ffe;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid lightgray;
   border-radius: 6.25rem;
-  margin-right: 0.813rem;
-  margin-bottom: 0.813rem;
   background-color: white;
+  font-size: 0.7rem;
 `;
 
 export const MessageWrapper = styled.span`
   width: 100%;
   white-space: normal;
   word-break: break-all;
+  padding: 0.5rem;
 `;
 
 export const Line = styled.div`
@@ -63,3 +64,4 @@ export const Line = styled.div`
   background-color: gray;
   margin-bottom: 0.5rem;
 `;
+

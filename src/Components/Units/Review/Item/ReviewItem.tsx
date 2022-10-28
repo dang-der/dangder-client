@@ -2,23 +2,29 @@ import { IReview } from "../../../../Commons/Types/Generated/types";
 import * as S from "./ReviewItem.style";
 
 interface IReviewItemProps {
-  review: IReview | any;
+  review: IReview;
 }
 export default function ReviewItem({ review }: IReviewItemProps) {
   return (
     <>
       <S.Wrapper>
         <S.ReviewerInfoWrapper>
-          <img />
-          <span>name</span>
+          <img
+            src={`https://storage.googleapis.com/${
+              review.sendReview.img.filter((e) => e.isMain)[0].img
+            }`}
+          />
+          <span>{review.sendReview.name}</span>
         </S.ReviewerInfoWrapper>
 
         <S.ContentsWrapper>
-          <S.TagWrapper>{}</S.TagWrapper>
+          <S.TagWrapper>
+            {review.reviewDetail.map((e) => (
+              <S.Tag key={e.id}>{e.reviewDetail}</S.Tag>
+            ))}
+          </S.TagWrapper>
 
-          <S.MessageWrapper>
-            dsjflkasjdlfkjas;ldjflaksjdfl;kasjdf;lkajsd;lfkj
-          </S.MessageWrapper>
+          <S.MessageWrapper>{review.reviewMessage}</S.MessageWrapper>
         </S.ContentsWrapper>
       </S.Wrapper>
       <S.Line />
