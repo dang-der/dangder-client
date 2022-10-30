@@ -45,7 +45,7 @@ export default function ChatRoomContainer({
   refetch,
 }: IChatRoomContainerProps) {
   const router = useRouter();
-  const roomId = String(router.query.roomId);
+  // const roomId = String(router.query.roomId);
 
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [userInfo] = useRecoilState(userInfoState);
@@ -59,9 +59,10 @@ export default function ChatRoomContainer({
   useEffect(() => {
     refetch && refetch();
 
+    if (!router.query.roomId) return;
     handleOnMessage();
     handleEmitConnect();
-  }, []);
+  }, [router.query]);
 
   useEffect(() => {
     if (!messagesData) return;
@@ -100,8 +101,9 @@ export default function ChatRoomContainer({
 
     const { id, name } = userInfo?.dog;
 
+    console.log("connect", router.query.roomId);
     socket.emit("join", {
-      roomId,
+      [isGroupChat ? "iRoomId" : "roomId"]: String(router.query.roomId),
       dog: { id, name },
     });
   };
@@ -120,7 +122,7 @@ export default function ChatRoomContainer({
 
     socket.emit(isGroupChat ? "sendInterest" : "send", {
       type,
-      roomId,
+      [isGroupChat ? "iRoomId" : "roomId"]: String(router.query.roomId),
       dog: { id: userInfo?.dog?.id, name: userInfo?.dog?.name },
       data: dataObj,
     });
