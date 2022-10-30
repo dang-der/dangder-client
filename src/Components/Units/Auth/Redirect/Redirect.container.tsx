@@ -14,7 +14,6 @@ import { FETCH_ONLY_USER } from "../Login/Login.queries";
 export default function RedirectContainer() {
   const router = useRouter();
   const client = useApolloClient();
-  const [, setAccessToken] = useRecoilState(accessTokenState);
 
   const [loadingModalVisible, setLoadingModalVisible] = useState(true);
   const [, setAccessToken] = useRecoilState(accessTokenState);

@@ -151,7 +151,6 @@ export default function ChatRoomContainer({
         messages={messages}
         pairDog={pairDogData}
         handleEmitSend={handleEmitSend}
-        roomData={chatRoomData}
         isReviewWrited={
           isReviewWritedData ? isReviewWritedData.fetchReviews : true
         }
