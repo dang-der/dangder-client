@@ -1,5 +1,5 @@
-// import DogReportSuccess from "../../../src/Report/reportSuccess/DogReportSuccess.container";
+import DogReportSuccess from "../../../src/Components/Units/Report/reportSuccess/DogReportSuccess.container";
 
 export default function ReportSuccessPage() {
-  return <div>sdfasdf</div>;
+  return <DogReportSuccess />;
 }

@@ -1,13 +1,15 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 export const ReportInfo = styled.div`
-  width: 25.875rem;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -21,18 +23,15 @@ export const ReportInfoTop = styled.div`
 `;
 
 export const ReportIcon = styled.div`
+  svg {
     width: 3rem;
     height: 3rem;
-    border-bottom: 2.4rem solid red;
-    border-top: 1.6rem solid transparent;
-    border-left: 1.6rem solid transparent;
-    border-right: 1.6rem solid transparent;
-    margin-top: 15.5rem;
+    color: red;
+  }
 `;
 
 export const ReportTitle = styled.div`
   font-size: 1rem;
-  font-weight: 275;
   color: #000000;
   margin-top: 1rem;
 `;
