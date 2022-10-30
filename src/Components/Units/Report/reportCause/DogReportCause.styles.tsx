@@ -1,8 +1,5 @@
 import styled from "@emotion/styled";
 
-interface ISubmitButtonProps {
-  isActive: boolean;
-}
 
 export const Wrapper = styled.div`
   width: 100%;
