@@ -38,11 +38,9 @@ export default function ChatRoomUI({
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenPlace, setIsOpenPlace] = useState(false);
   const [isOpenPlan, setIsOpenPlan] = useState(false);
-
   const [userInfo] = useRecoilState(userInfoState);
 
   const bottomRef = useRef<HTMLDivElement>(null);
-
   const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {

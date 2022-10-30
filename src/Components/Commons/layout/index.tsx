@@ -17,6 +17,7 @@ const SHOW_PAGE_HEADERS = [
   "/profile/edit",
   "/settings",
   "/profile/[dogId]",
+  "/interests/chat/[roomId]",
 ];
 
 const SHOW_NAVIGATION = [

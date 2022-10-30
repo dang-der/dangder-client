@@ -41,7 +41,7 @@ export default function ChatRoomPage() {
     },
   });
 
-  const refetchMessages = (roomId: string) => {
+  const refetchMessages = () => {
     refetch({ chatRoomId: roomId });
   };
 

@@ -72,6 +72,18 @@ export const DELETE_CHAT_ROOM = gql`
   }
 `;
 
+export const FETCH_INTEREST_CHAT_ROOM = gql`
+  query fetchInterestChatRoom($iRoomId: String!) {
+    fetchInterestChatRoom(iRoomId: $iRoomId) {
+      interest {
+        id
+        interest
+        title
+      }
+    }
+  }
+`;
+
 export const FETCH_ICHAT_MESSAGES_BY_ICHAT_ROOM_ID = gql`
   query fetchIChatMessagesByIChatRoomId($iChatRoomId: String!) {
     fetchIChatMessagesByIChatRoomId(iChatRoomId: $iChatRoomId) {
