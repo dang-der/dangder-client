@@ -47,23 +47,16 @@ export default function PageHeader() {
 
   const pageTitleRef = useRef<HTMLSpanElement>(null);
 
-  const [title, setTitle] = useState("");
-
   useEffect(() => {
-    setTitle(title);
     if (!pageTitleRef.current) return;
-    pageTitleRef.current.innerText = title;
-  }, [title]);
+    const i = pages.findIndex((e) => e.path === router.pathname);
 
-  useEffect(() => {
-    for (let i = 0; i < pages.length; i++) {
-      if (router.pathname === pages[i].path) {
-        setTitle(pages[i].title);
-        if (!pageTitleRef.current) return;
-        pageTitleRef.current.innerText = title;
-        console.log("ref: ", pageTitleRef.current);
-      }
+    if (i === -1) {
+      pageTitleRef.current.innerText = "";
+      return;
     }
+
+    pageTitleRef.current.innerText = pages[i].title;
   }, [router.pathname]);
 
   const onClickBackArrow = () => {
