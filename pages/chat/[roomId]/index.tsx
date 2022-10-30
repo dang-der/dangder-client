@@ -41,12 +41,16 @@ export default function ChatRoomPage() {
     },
   });
 
+  const refetchMessages = (roomId: string) => {
+    refetch({ chatRoomId: roomId });
+  };
+
   return (
     <ChatRoomContainer
       isGroupChat={false}
       pairDogData={pairDogData?.fetchOneDog}
       messagesData={messagesData?.fetchChatMessagesByChatRoomId}
-      refetch={refetch}
+      refetch={refetchMessages}
     />
   );
 }

@@ -34,7 +34,7 @@ interface IChatRoomContainerProps {
   chatRoomData?: IChatRoom | IInterestChatRoom | undefined;
   pairDogData?: IDog | undefined;
   messagesData?: IChatMessage[] | IInterestChatMessage[] | undefined;
-  refetch?: any;
+  refetch?: (roomId: string) => void;
 }
 
 export default function ChatRoomContainer({
@@ -57,9 +57,7 @@ export default function ChatRoomContainer({
   }, []);
 
   useEffect(() => {
-    isGroupChat
-      ? refetch({ iChatRoomId: String(router.query.roomId) })
-      : refetch({ chatRoomId: String(router.query.roomId) });
+    refetch && refetch(String(router.query.roomId));
 
     handleOnMessage();
     handleEmitConnect();
