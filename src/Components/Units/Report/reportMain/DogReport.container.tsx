@@ -29,7 +29,7 @@ export default function DogReport() {
   >(CREATE_REPORT);
 
   const handleClickNext = async () => {
-    if (currentPageIndex === 2) {
+    if (currentPageIndex === 1) {
       try {
         const result = await createReport({
           variables: {
@@ -46,6 +46,8 @@ export default function DogReport() {
           visible: true,
           message: "신고 내용이 정상적으로 접수되었습니다.",
         });
+
+        router.back();
       } catch (e) {
         if (e instanceof Error) {
           setExceptionModal({

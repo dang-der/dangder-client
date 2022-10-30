@@ -12,7 +12,7 @@ export default function DogReportUI({ handleClickNext }: IDogReportUIProps) {
           <S.ReportIcon>
             <ReportProblemRoundedIcon />
           </S.ReportIcon>
-          <S.ReportTitle>폭군 님 신고하기</S.ReportTitle>
+          <S.ReportTitle>신고하기</S.ReportTitle>
         </S.ReportInfoTop>
         <S.ReportInfoMid>
           <S.ReportContentClosedIcon></S.ReportContentClosedIcon>
@@ -23,7 +23,7 @@ export default function DogReportUI({ handleClickNext }: IDogReportUIProps) {
         <S.ReportInfoMid>
           <S.ReportContentRescueIcon></S.ReportContentRescueIcon>
           <S.ReportContentRescue>
-            지금 당장 위험에 처한 경우 구조대에 연락하세요
+            지금 당장 위험에 처한 경우 구조대에 연락하세요.
           </S.ReportContentRescue>
         </S.ReportInfoMid>
       </S.ReportInfo>
