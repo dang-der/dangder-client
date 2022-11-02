@@ -1,3 +1,4 @@
+import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -12,9 +13,6 @@ import {
   IInterestChatMessage,
   IInterestChatRoom,
   IQuery,
-  IQueryFetchChatMessagesByChatRoomIdArgs,
-  IQueryFetchChatRoomArgs,
-  IQueryFetchOneDogArgs,
   IQueryFetchReviewsArgs,
   Maybe,
 } from "../../../../Commons/Types/Generated/types";
@@ -54,18 +52,18 @@ export default function ChatRoomContainer({
 
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [userInfo] = useRecoilState(userInfoState);
-  
+
   const { data: isReviewWritedData } = useQuery<
     Pick<IQuery, "fetchReviews">,
     IQueryFetchReviewsArgs
   >(IS_REVIEW_WRITED, {
     variables: {
       myId: userInfo?.dog?.id || "",
-      targetId: pairDogData?.fetchOneDog.id || "",
+      targetId: pairDogData?.id || "",
     },
     fetchPolicy: "cache-and-network",
   });
-  
+
   const socket = useMemo(() => {
     return io("https://recipemaker.shop/dangderchats", {
       transports: ["websocket", "polling"],
@@ -151,7 +149,6 @@ export default function ChatRoomContainer({
         messages={messages}
         pairDog={pairDogData}
         handleEmitSend={handleEmitSend}
-        roomData={chatRoomData}
         isReviewWrited={
           isReviewWritedData ? isReviewWritedData.fetchReviews : true
         }

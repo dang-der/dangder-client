@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -48,6 +49,7 @@ export default function DogReport() {
         });
 
         router.back();
+
       } catch (e) {
         if (e instanceof Error) {
           setExceptionModal({

@@ -46,7 +46,6 @@ const pages = [
 
 export default function PageHeader() {
   const router = useRouter();
-  const [selectedInterest] = useRecoilState(selectedInterestGroupChatState);
   const pageTitleRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
