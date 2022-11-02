@@ -17,6 +17,7 @@ export default function RedirectContainer() {
   const [, setAccessToken] = useRecoilState(accessTokenState);
 
   const [loadingModalVisible, setLoadingModalVisible] = useState(true);
+  const [, setAccessToken] = useRecoilState(accessTokenState);
 
   useEffect(() => {
     fetchUserInfo();

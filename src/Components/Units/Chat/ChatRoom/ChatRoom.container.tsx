@@ -1,4 +1,3 @@
-import {  useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -8,6 +7,10 @@ import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 import {
   IChatMessage,
+  IChatRoom,
+  IDog,
+  IInterestChatMessage,
+  IInterestChatRoom,
   IQuery,
   IQueryFetchChatMessagesByChatRoomIdArgs,
   IQueryFetchChatRoomArgs,
@@ -16,12 +19,6 @@ import {
   Maybe,
 } from "../../../../Commons/Types/Generated/types";
 import { IS_REVIEW_WRITED } from "../../Review/Review.queries";
-
-import {
-  FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID,
-  FETCH_CHAT_ROOM,
-  FETCH_ONE_DOG,
-} from "../Chat.queries";
 import ChatRoomUI from "./ChatRoom.presenter";
 
 export interface IMessageData {
@@ -37,26 +34,27 @@ export interface IMessage {
   dog?: { id?: string | undefined; name?: string | undefined };
 }
 
-export default function ChatRoomContainer() {
+interface IChatRoomContainerProps {
+  isGroupChat: boolean;
+  chatRoomData?: IChatRoom | IInterestChatRoom | undefined;
+  pairDogData?: IDog | undefined;
+  messagesData?: IChatMessage[] | IInterestChatMessage[] | undefined;
+  refetch?: () => void;
+}
+
+export default function ChatRoomContainer({
+  isGroupChat,
+  chatRoomData,
+  pairDogData,
+  messagesData,
+  refetch,
+}: IChatRoomContainerProps) {
   const router = useRouter();
-  const roomId = String(router.query.roomId);
+  // const roomId = String(router.query.roomId);
 
   const [messages, setMessages] = useState<IMessage[]>([]);
-  // const [enterRoomInfo] = useRecoilState(enteredChatRoomInfoState);
   const [userInfo] = useRecoilState(userInfoState);
-
-  const { data: chatRoomData } = useQuery<
-    Pick<IQuery, "fetchChatRoom">,
-    IQueryFetchChatRoomArgs
-  >(FETCH_CHAT_ROOM, { variables: { roomId } });
-
-  const { data: pairDogData } = useQuery<
-    Pick<IQuery, "fetchOneDog">,
-    IQueryFetchOneDogArgs
-  >(FETCH_ONE_DOG, {
-    variables: { id: chatRoomData?.fetchChatRoom.chatPairId || "" },
-  });
-
+  
   const { data: isReviewWritedData } = useQuery<
     Pick<IQuery, "fetchReviews">,
     IQueryFetchReviewsArgs
@@ -67,66 +65,49 @@ export default function ChatRoomContainer() {
     },
     fetchPolicy: "cache-and-network",
   });
-
-  const { data: messagesData, refetch } = useQuery<
-    Pick<IQuery, "fetchChatMessagesByChatRoomId">,
-    IQueryFetchChatMessagesByChatRoomIdArgs
-  >(FETCH_CHAT_MESSAGES_BY_CHAT_ROOM_ID, {
-    variables: {
-      chatRoomId: roomId,
-    },
-  });
-
+  
   const socket = useMemo(() => {
     return io("https://recipemaker.shop/dangderchats", {
-      // forceNew: true,
       transports: ["websocket", "polling"],
-      // timeout: 1000 * 60,
     });
   }, []);
 
-  console.log("ChatRoomContainer", messagesData);
-
   useEffect(() => {
-    refetch({ chatRoomId: String(router.query.roomId) });
+    refetch && refetch();
 
+    if (!router.query.roomId) return;
     handleOnMessage();
     handleEmitConnect();
-  }, []);
+  }, [router.query]);
 
   useEffect(() => {
-    if (!messagesData?.fetchChatMessagesByChatRoomId) return;
+    if (!messagesData) return;
 
-    console.log("messagesData is update", messagesData);
-    const msgs = messagesData.fetchChatMessagesByChatRoomId.map(
-      (e: IChatMessage) => {
-        const { message, lat, lng, meetAt, type } = e;
-        console.log("메세지 데이터", e);
-        const dog = e.senderId.includes(userInfo?.dog?.id || "undefined")
-          ? {
-              id: e.senderId,
-              neme: userInfo?.dog?.name,
-            }
-          : {
-              id: e.senderId,
-              name: pairDogData?.fetchOneDog?.name,
-            };
+    const msgs = messagesData.map((e: IChatMessage | IInterestChatMessage) => {
+      const { message, lat, lng, meetAt, type } = e;
+      const dog = e.senderId.includes(userInfo?.dog?.id || "undefined")
+        ? {
+            id: e.senderId,
+            neme: userInfo?.dog?.name,
+          }
+        : {
+            id: e.senderId,
+            name: pairDogData?.name,
+          };
 
-        const messageObj: IMessage = {
-          type,
-          data: { meetAt, message, lat, lng },
-          dog,
-        };
+      const messageObj: IMessage = {
+        type,
+        data: { meetAt, message, lat, lng },
+        dog,
+      };
 
-        return messageObj;
-      }
-    );
+      return messageObj;
+    });
     setMessages(msgs);
   }, [chatRoomData, pairDogData, messagesData]);
 
   const handleOnMessage = () => {
     socket.on("message", (payload) => {
-      console.log("socketOn - message", payload);
       setMessages((p) => [...p, payload]);
     });
   };
@@ -136,15 +117,15 @@ export default function ChatRoomContainer() {
 
     const { id, name } = userInfo?.dog;
 
+    console.log("connect", router.query.roomId);
     socket.emit("join", {
-      roomId,
+      [isGroupChat ? "iRoomId" : "roomId"]: String(router.query.roomId),
       dog: { id, name },
     });
   };
 
   const handleEmitSend = ({ type, data }: { type: string; data: any }) => {
     if (!userInfo) return;
-    console.log("handleEmitSend", type, data);
 
     const dataObjDefault: IMessageData = {
       message: "",
@@ -155,9 +136,9 @@ export default function ChatRoomContainer() {
 
     const dataObj: IMessageData = { ...dataObjDefault, ...data };
 
-    socket.emit("send", {
+    socket.emit(isGroupChat ? "sendInterest" : "send", {
       type,
-      roomId,
+      [isGroupChat ? "iRoomId" : "roomId"]: String(router.query.roomId),
       dog: { id: userInfo?.dog?.id, name: userInfo?.dog?.name },
       data: dataObj,
     });
@@ -166,9 +147,10 @@ export default function ChatRoomContainer() {
   return (
     <>
       <ChatRoomUI
-        handleEmitSend={handleEmitSend}
+        isGroupChat={isGroupChat}
         messages={messages}
         pairDog={pairDogData}
+        handleEmitSend={handleEmitSend}
         roomData={chatRoomData}
         isReviewWrited={
           isReviewWritedData ? isReviewWritedData.fetchReviews : true
