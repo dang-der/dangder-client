@@ -12,6 +12,9 @@ export const FETCH_CHAT_ROOMS = gql`
           img
           isMain
         }
+        # user {
+        #   id
+        # }
       }
       lastMessage {
         senderId
@@ -32,6 +35,9 @@ export const FETCH_ONE_DOG = gql`
         id
         img
         isMain
+      }
+      user {
+        id
       }
     }
   }
