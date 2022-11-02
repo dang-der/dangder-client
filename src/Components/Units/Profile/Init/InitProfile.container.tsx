@@ -31,7 +31,6 @@ import { useRouter } from "next/router";
 import { snackBarState } from "../../../../Commons/Store/Modal/SnackBarState";
 
 import { getAccessToken } from "../../../../Commons/Library/getAccessToken";
-import { accessTokenState } from "../../../../Commons/Store/Auth/AccessToken";
 
 export default function InitProfileContainer() {
   const router = useRouter();
@@ -42,7 +41,6 @@ export default function InitProfileContainer() {
   const [dogInfoInputs, setDogInfoInputs] = useRecoilState(dogInfoInputState);
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
   const [, setSnackBar] = useRecoilState(snackBarState);
-  const [, setAccessToken] = useRecoilState(accessTokenState);
 
   const [currentPage, setCurrentPage] = useState(0);
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
@@ -198,7 +196,6 @@ export default function InitProfileContainer() {
 
       if (!createDogData?.createDog) throw Error("강아지 등록에 실패했습니다.");
 
-      setAccessToken(newToken);
       setSnackBar({
         visible: true,
         message: "강아지 등록 성공!",
