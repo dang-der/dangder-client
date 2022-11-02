@@ -16,11 +16,13 @@ import {
   IMutationJoinChatRoomArgs,
   IQuery,
   IQueryFetchOneDogArgs,
+  IQueryFetchReceiveReviewsArgs,
 } from "../../../Commons/Types/Generated/types";
 import LikeModal from "../../Commons/Modal/Like/LoadingModal";
 import { FETCH_AROUND_DOG } from "../Main/DogMain.queries";
 import MatchedModal from "../Main/MatchedModal/MatchedModal";
 import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
+import { FETCH_RECEIVE_REVIEWS } from "../Review/Review.queries";
 
 import DogDetailUI from "./DogDetail.presenter";
 import {
@@ -44,7 +46,7 @@ export default function DogDetail() {
     passBuyModalVisibleState
   );
 
-  const [nonMemberVisble, setVisbleNonMember] = useRecoilState(
+  const [nonMemberVisible, setVisibleNonMember] = useRecoilState(
     nonmemberModalVisible
   );
   const [userInfo] = useRecoilState(userInfoState);
@@ -54,10 +56,6 @@ export default function DogDetail() {
   const { data: userIsCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
     FETCH_LOGIN_USER_IS_CERT
   );
-  const [joinChatRoom] = useMutation<
-    Pick<IMutation, "joinChatRoom">,
-    IMutationJoinChatRoomArgs
-  >(JOIN_CHAT_ROOM);
 
   const { data: pickDogData } = useQuery<
     Pick<IQuery, "fetchOneDog">,
@@ -66,14 +64,28 @@ export default function DogDetail() {
     variables: { id: String(router.query.dogId) },
   });
 
+  const { data: receivedReviewsData } = useQuery<
+    Pick<IQuery, "fetchReceiveReviews">,
+    IQueryFetchReceiveReviewsArgs
+  >(FETCH_RECEIVE_REVIEWS, {
+    variables: { id: String(router.query.dogId) },
+  });
+
+  console.log("review", receivedReviewsData);
+
   const [createLike] = useMutation<
     Pick<IMutation, "createLike">,
     IMutationCreateLikeArgs
   >(CREATE_LIKE);
 
+  const [joinChatRoom] = useMutation<
+    Pick<IMutation, "joinChatRoom">,
+    IMutationJoinChatRoomArgs
+  >(JOIN_CHAT_ROOM);
+
   useEffect(() => {
-    console.log("nonMemberVisible", nonMemberVisble);
-  }, [nonMemberVisble]);
+    console.log("nonMemberVisible", nonMemberVisible);
+  }, [nonMemberVisible]);
 
   const handleJoinChatRoom = async () => {
     if (!userIsCert?.fetchLoginUserIsCert) {
@@ -143,7 +155,7 @@ export default function DogDetail() {
 
   return (
     <>
-      {nonMemberVisble && <NonmemberModal />}
+      {nonMemberVisible && <NonmemberModal />}
 
       {likeModalVisible && (
         <LikeModal handleCompleteAnimation={handleCompleteAnimation} />
@@ -151,10 +163,12 @@ export default function DogDetail() {
 
       {matchVisible && <MatchedModal receiveId={String(router.query.dogId)} />}
       {passVisible && <BuyPassTicketModal />}
+
       <DogDetailUI
         handleClickLike={onClickLike}
         handleJoinChatRoom={handleJoinChatRoom}
         pickDogData={pickDogData}
+        reviews={receivedReviewsData?.fetchReceiveReviews || []}
       />
     </>
   );

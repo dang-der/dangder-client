@@ -11,9 +11,14 @@ import {
   IDog,
   IInterestChatMessage,
   IInterestChatRoom,
+  IQuery,
+  IQueryFetchChatMessagesByChatRoomIdArgs,
+  IQueryFetchChatRoomArgs,
+  IQueryFetchOneDogArgs,
+  IQueryFetchReviewsArgs,
   Maybe,
 } from "../../../../Commons/Types/Generated/types";
-
+import { IS_REVIEW_WRITED } from "../../Review/Review.queries";
 import ChatRoomUI from "./ChatRoom.presenter";
 
 export interface IMessageData {
@@ -49,7 +54,18 @@ export default function ChatRoomContainer({
 
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [userInfo] = useRecoilState(userInfoState);
-
+  
+  const { data: isReviewWritedData } = useQuery<
+    Pick<IQuery, "fetchReviews">,
+    IQueryFetchReviewsArgs
+  >(IS_REVIEW_WRITED, {
+    variables: {
+      myId: userInfo?.dog?.id || "",
+      targetId: pairDogData?.fetchOneDog.id || "",
+    },
+    fetchPolicy: "cache-and-network",
+  });
+  
   const socket = useMemo(() => {
     return io("https://recipemaker.shop/dangderchats", {
       transports: ["websocket", "polling"],
@@ -135,6 +151,10 @@ export default function ChatRoomContainer({
         messages={messages}
         pairDog={pairDogData}
         handleEmitSend={handleEmitSend}
+        roomData={chatRoomData}
+        isReviewWrited={
+          isReviewWritedData ? isReviewWritedData.fetchReviews : true
+        }
       />
     </>
   );

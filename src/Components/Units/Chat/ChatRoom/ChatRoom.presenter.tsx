@@ -5,7 +5,6 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 
-
 import ChatMessageItem from "./ChatMessageItem/ChatMessageItem";
 import * as S from "./ChatRoom.styles";
 import { useEffect, useRef, useState } from "react";
@@ -21,12 +20,15 @@ import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 import { v4 as uuid } from "uuid";
 import { IDog, IQuery } from "../../../../Commons/Types/Generated/types";
+import Link from "next/link";
+
 
 interface ChatRoomUIProps {
   isGroupChat: boolean;
   messages: IMessage[] | undefined;
   pairDog: IDog | undefined;
   handleEmitSend: ({ type, data }: { type: string; data: any }) => void;
+  isReviewWrited: boolean | undefined;
 }
 
 export default function ChatRoomUI({
@@ -34,12 +36,13 @@ export default function ChatRoomUI({
   messages,
   pairDog,
   isGroupChat,
+  isReviewWrited,
+
 }: ChatRoomUIProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenPlace, setIsOpenPlace] = useState(false);
   const [isOpenPlan, setIsOpenPlan] = useState(false);
   const [userInfo] = useRecoilState(userInfoState);
-
   const bottomRef = useRef<HTMLDivElement>(null);
   const { register, handleSubmit, reset } = useForm();
 
@@ -120,6 +123,18 @@ export default function ChatRoomUI({
           </S.OtherDogContainer>
         </S.ChatHeader>
       )}
+
+      <S.ReviewButtonWrapper hidden={isReviewWrited}>
+        {pairDog?.fetchOneDog.name}님과 만남이 마음에 드셨나요?? <br></br>매칭
+        후기를 남겨주세요 👉🏻{" "}
+        <Link
+          href={`/review/write?send=${userInfo?.dog?.id || ""}&receive=${
+            pairDog?.fetchOneDog.id || ""
+          }`}
+        >
+          <u>리뷰 남기기</u>
+        </Link>
+      </S.ReviewButtonWrapper>
 
       <S.ChatMessagesWrapper>
         {messages && messageComponents}

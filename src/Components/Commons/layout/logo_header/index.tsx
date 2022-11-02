@@ -31,6 +31,8 @@ const Wrapper = styled.div`
   max-width: 576px;
   width: 100%;
   height: 4.5rem;
+  background-color: white;
+  z-index: 10;
   @media screen and (max-width: 576px) {
     left: 0;
     transform: translateX(0);

@@ -14,6 +14,7 @@ import { FETCH_ONLY_USER } from "../Login/Login.queries";
 export default function RedirectContainer() {
   const router = useRouter();
   const client = useApolloClient();
+  const [, setAccessToken] = useRecoilState(accessTokenState);
 
   const [loadingModalVisible, setLoadingModalVisible] = useState(true);
   const [, setAccessToken] = useRecoilState(accessTokenState);
@@ -25,7 +26,6 @@ export default function RedirectContainer() {
   const fetchUserInfo = async () => {
     try {
       const token: string = (await getAccessToken()) || "";
-
       const { data: userInfo } = await client.query<
         Pick<IQuery, "fetchSocialLoginUser">
       >({

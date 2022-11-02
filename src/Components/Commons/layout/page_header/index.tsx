@@ -49,7 +49,6 @@ export default function PageHeader() {
   const [selectedInterest] = useRecoilState(selectedInterestGroupChatState);
   const pageTitleRef = useRef<HTMLSpanElement>(null);
 
-  console.log("pageHeader", router);
   useEffect(() => {
     if (!pageTitleRef.current) return;
 
