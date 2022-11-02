@@ -43,6 +43,14 @@ export default function PageHeader() {
       path: "/profile/[dogId]",
       title: "마이 댕댕이",
     },
+    {
+      path: "/review/write",
+      title: "매칭 후기 작성",
+    },
+    {
+      path: "/review/[dogId]",
+      title: "내가 받은 매칭 후기",
+    },
   ];
 
   const pageTitleRef = useRef<HTMLSpanElement>(null);

@@ -161,3 +161,10 @@ export const OpenMenuIconWrapper = styled.div`
     transition: all ease 0.4s;
   }
 `;
+
+export const ReviewButtonWrapper = styled.span`
+  text-align: center;
+  u {
+    cursor: pointer;
+  }
+`;
