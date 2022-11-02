@@ -12,15 +12,9 @@ import ReportProblemRoundedIcon from "@mui/icons-material/ReportProblemRounded";
 
 import * as S from "./ChatRoomList.styles";
 import ChatListItem from "./ChatRoomItem/ChatRoomItem";
-import {
-  IChatRoom,
-  IChatRoomsOutput,
-} from "../../../Commons/Types/Generated/types";
+import { IChatRoomsOutput } from "../../../Commons/Types/Generated/types";
 import { useState } from "react";
 import DeleteChatRoomModal from "./DeleteChatRoomModal/DeleteChatRoomModal";
-import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 
 interface ChatListUIProps {
   chatList: IChatRoomsOutput[] | undefined;

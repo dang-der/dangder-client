@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
+
 import {
   IDogImage,
   IQuery,
   IReview,
 } from "../../../Commons/Types/Generated/types";
+
 import * as S from "./DogDetail.styles";
 
 import "slick-carousel/slick/slick.css";
