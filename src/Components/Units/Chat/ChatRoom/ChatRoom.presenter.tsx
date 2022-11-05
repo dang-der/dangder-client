@@ -85,7 +85,7 @@ export default function ChatRoomUI({
           return <ChatPlaceItem key={uuid()} dog={dog} data={data} />;
         if (type === "plan")
           return <ChatPlanItem key={uuid()} dog={dog} data={data} />;
-        return <></>;
+        return <div key={uuid()}></div>;
       }
     }
   );
@@ -124,17 +124,19 @@ export default function ChatRoomUI({
         </S.ChatHeader>
       )}
 
-      <S.ReviewButtonWrapper hidden={isReviewWrited}>
-        {pairDog?.fetchOneDog.name}님과 만남이 마음에 드셨나요?? <br></br>매칭
-        후기를 남겨주세요 👉🏻{" "}
-        <Link
-          href={`/review/write?send=${userInfo?.dog?.id || ""}&receive=${
-            pairDog?.fetchOneDog.id || ""
-          }`}
-        >
-          <u>리뷰 남기기</u>
-        </Link>
-      </S.ReviewButtonWrapper>
+      {!isGroupChat && (
+        <S.ReviewButtonWrapper hidden={isReviewWrited}>
+          {pairDog?.name}님과 만남이 마음에 드셨나요?? <br></br>매칭 후기를
+          남겨주세요 👉🏻{" "}
+          <Link
+            href={`/review/write?send=${userInfo?.dog?.id || ""}&receive=${
+              pairDog?.id || ""
+            }`}
+          >
+            <u>리뷰 남기기</u>
+          </Link>
+        </S.ReviewButtonWrapper>
+      )}
 
       <S.ChatMessagesWrapper>
         {messages && messageComponents}

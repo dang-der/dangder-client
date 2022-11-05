@@ -258,6 +258,7 @@ export type IMutation = {
   /** Return : 생성된 채팅방 정보 */
   createChatRoom: IChatRoom;
   createDog: IDog;
+  createIChatMessage: IInterestChatMessage;
   createIamportAuth: Scalars['Boolean'];
   /** 관심사 항목 생성 */
   createInterest: IInterest;
@@ -306,6 +307,8 @@ export type IMutation = {
   isLike: Scalars['Boolean'];
   /** Return : 참가할 채팅방 정보(fetch + create) */
   joinChatRoom: IChatRoom;
+  /** Return : 참가할 채팅방 정보 */
+  joinIChatRoom: IInterestChatRoom;
   /** Return : 재발급된 AccessToken */
   restoreAccessToken: Scalars['String'];
   /** Return : 재발급된 AdminAccessToken */
@@ -383,6 +386,12 @@ export type IMutationCreateDogArgs = {
   createDogInput: ICreateDogInput;
   dogRegNum: Scalars['String'];
   ownerBirth: Scalars['String'];
+};
+
+
+export type IMutationCreateIChatMessageArgs = {
+  iRoomId: Scalars['String'];
+  testMsg: Scalars['String'];
 };
 
 
@@ -533,6 +542,12 @@ export type IMutationIsLikeArgs = {
 export type IMutationJoinChatRoomArgs = {
   chatPairId: Scalars['String'];
   dogId: Scalars['String'];
+};
+
+
+export type IMutationJoinIChatRoomArgs = {
+  email: Scalars['String'];
+  iChatRoomId: Scalars['String'];
 };
 
 

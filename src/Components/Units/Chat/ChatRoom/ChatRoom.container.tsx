@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -12,11 +12,15 @@ import {
   IDog,
   IInterestChatMessage,
   IInterestChatRoom,
+  IMutation,
+  IMutationJoinIChatRoomArgs,
   IQuery,
   IQueryFetchReviewsArgs,
   Maybe,
 } from "../../../../Commons/Types/Generated/types";
+import { FETCH_LOGIN_USER_IS_CERT } from "../../Profile/DogProfilePage.queries";
 import { IS_REVIEW_WRITED } from "../../Review/Review.queries";
+import { JOIN_I_CHAT_ROOM } from "../Chat.queries";
 import ChatRoomUI from "./ChatRoom.presenter";
 
 export interface IMessageData {
@@ -48,7 +52,6 @@ export default function ChatRoomContainer({
   refetch,
 }: IChatRoomContainerProps) {
   const router = useRouter();
-  // const roomId = String(router.query.roomId);
 
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [userInfo] = useRecoilState(userInfoState);
@@ -74,6 +77,7 @@ export default function ChatRoomContainer({
     refetch && refetch();
 
     if (!router.query.roomId) return;
+
     handleOnMessage();
     handleEmitConnect();
   }, [router.query]);
@@ -115,7 +119,6 @@ export default function ChatRoomContainer({
 
     const { id, name } = userInfo?.dog;
 
-    console.log("connect", router.query.roomId);
     socket.emit("join", {
       [isGroupChat ? "iRoomId" : "roomId"]: String(router.query.roomId),
       dog: { id, name },

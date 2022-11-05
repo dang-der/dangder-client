@@ -82,7 +82,6 @@ export default function BuyPassTicketModal() {
         m_redirect_url: "https://dangder.shop:3000/chat",
       },
       async (rsp: any) => {
-        console.log(rsp);
 
         setVisible(false);
 
