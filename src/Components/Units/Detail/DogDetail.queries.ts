@@ -32,6 +32,9 @@ export const FETCH_ONE_DOG = gql`
         img
         isMain
       }
+      user {
+        id
+      }
     }
   }
 `;
