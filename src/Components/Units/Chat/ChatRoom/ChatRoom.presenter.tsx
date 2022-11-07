@@ -125,11 +125,11 @@ export default function ChatRoomUI({
       )}
 
       <S.ReviewButtonWrapper hidden={isReviewWrited}>
-        {pairDog?.fetchOneDog.name}님과 만남이 마음에 드셨나요?? <br></br>매칭
-        후기를 남겨주세요 👉🏻{" "}
+        {pairDog?.name}님과 만남이 마음에 드셨나요?? <br></br>매칭 후기를
+        남겨주세요 👉🏻{" "}
         <Link
           href={`/review/write?send=${userInfo?.dog?.id || ""}&receive=${
-            pairDog?.fetchOneDog.id || ""
+            pairDog?.id || ""
           }`}
         >
           <u>리뷰 남기기</u>
