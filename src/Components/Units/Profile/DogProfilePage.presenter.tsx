@@ -10,12 +10,12 @@ import { v4 as uuid } from "uuid";
 
 interface DogProfilePageUIProps {
   myDogData: IDog | undefined;
-  handlePassTicket: () => Promise<void>;
+  handleClickPassTicket: () => void;
 }
 
 export default function DogProfilePageUI({
   myDogData,
-  handlePassTicket,
+  handleClickPassTicket,
 }: DogProfilePageUIProps) {
   const router = useRouter();
   const settings = {
@@ -32,16 +32,12 @@ export default function DogProfilePageUI({
       router.push(`/profile/${dogId}`);
     };
 
-  const onClickPassTicket = () => {
-    handlePassTicket();
-  };
-
   return (
     <S.Wrapper>
       <S.DogProfileWrapper>
         <S.DogProfile
           id={myDogData?.id}
-          onClick={onClickMyProfile(myDogData?.id)}
+          onClick={onClickMyProfile(myDogData?.id || "")}
         >
           <S.DogProfileImageWrapper>
             <Slider
@@ -76,9 +72,9 @@ export default function DogProfilePageUI({
         </S.ProfileEditButtonWrapper>
       </S.DogProfileWrapper>
 
-      <S.SettingWrapper>
+      <S.SettingWrapper onClick={handleClickPassTicket}>
         <S.DogPassSetting>
-          <S.SettingSpan onClick={onClickPassTicket}>댕더패스</S.SettingSpan>
+          <S.SettingSpan>댕더패스</S.SettingSpan>
           <S.RightArrowIcon />
         </S.DogPassSetting>
       </S.SettingWrapper>

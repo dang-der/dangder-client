@@ -20,8 +20,6 @@ export default function PassTickModal() {
   // };
 
   const onClickClose = () => {
-    console.log("onClickClose", visible);
-    // router.replace("/profile");
     setVisible(false);
   };
 

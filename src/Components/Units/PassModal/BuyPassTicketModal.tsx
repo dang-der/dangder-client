@@ -1,7 +1,5 @@
 import { MouseEvent, ReactNode } from "react";
-
 import { useRecoilState } from "recoil";
-
 import {
   exceptionModalState,
   passBuyModalVisibleState,
@@ -18,7 +16,6 @@ import { CREATE_PAYMENT } from "./Payment.queries";
 import { FETCH_LOGIN_USER_IS_CERT } from "../Detail/DogDetail.queries";
 import Script from "next/script";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
-import { snackBarState } from "../../../Commons/Store/Modal/SnackBarState";
 
 declare const window: typeof globalThis & {
   IMP: any;
@@ -28,7 +25,7 @@ interface BuyPassTicketModalProps {
   title: string;
   icon: ReactNode;
   redirectUrl: string;
-  onSuccess: () => void;
+  onSuccess?: () => void;
 }
 
 export default function BuyPassTicketModal({
@@ -40,7 +37,6 @@ export default function BuyPassTicketModal({
   const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
-  const [, setSnackBar] = useRecoilState(snackBarState);
 
   const [createPayment] = useMutation<
     Pick<IMutation, "createPayment">,
@@ -83,6 +79,7 @@ export default function BuyPassTicketModal({
               refetchQueries: [{ query: FETCH_LOGIN_USER_IS_CERT }],
             });
 
+            if (!onSuccess) return;
             onSuccess();
           } catch (e) {
             console.log("구매 다이얼로그", e);
