@@ -86,17 +86,14 @@ export const FETCH_CATEGORY_DOGS = gql`
       name
       age
       gender
-      interest {
+      interests {
         id
         interest
-        interestImg
-        title
-        subTitle
-        fetchDogs
-        iChatRoom
       }
       description
-      user
+      user {
+        id
+      }
       img {
         img
         isMain
@@ -112,6 +109,7 @@ export const FETCH_INTEREST_CATEGORY = gql`
       interestImg
       title
       subTitle
+      iChatRoomId
     }
   }
 `;

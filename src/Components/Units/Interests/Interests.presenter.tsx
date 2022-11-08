@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { InterestsCard } from "./InterestsCard";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import * as S from "./Interests.styles";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import NearMeRoundedIcon from "@mui/icons-material/NearMeRounded";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/router";
-import {
-  IInterestCategoryOutput,
-  IQuery,
-} from "../../../Commons/Types/Generated/types";
+import { IDog } from "../../../Commons/Types/Generated/types";
 
 const Frame = styled.div`
   width: 100%;
-  height: 100%;
+  height: 90%;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -23,27 +18,34 @@ const Frame = styled.div`
   position: relative;
 `;
 
+const ChatIcon = styled.img`
+  width: 2rem;
+  height: 2rem;
+`;
 interface StackProps {
   onVote: (data: any, vote: boolean, direction: string | undefined) => void;
-  datas: any;
+  datas: IDog[] | undefined;
   refetch?: any;
-  nonRefetch?: any;
-  interestCategoryData: Pick<IQuery, "fetchInterestCategory"> | undefined;
+  handleClickPassTicket: (pairId: string) => Promise<void>;
+  handleClickChat: () => void;
 }
 
 export default function InterestsUI({
   onVote,
   datas,
   refetch,
-  nonRefetch,
-  interestCategoryData,
+  handleClickPassTicket,
+  handleClickChat,
 }: StackProps) {
   const [userInfo] = useRecoilState(userInfoState);
-  const [stack, setStack] = useState(datas);
+  const [stack, setStack] = useState<IDog[] | undefined>();
   const [page, setPage] = useState(1);
   const router = useRouter();
 
-  console.log("DogMainUI", datas);
+  useEffect(() => {
+    if (!datas) return;
+    setStack(datas);
+  }, [datas]);
 
   const pop = (array: any[] | undefined) => {
     if (!array) return;
@@ -65,19 +67,10 @@ export default function InterestsUI({
       refetch({ page: page + 1 });
     }
 
-    if (userInfo === undefined && newStack?.length === 0) {
-      nonRefetch({ page: page + 1 });
-    }
-
     onVote(item, vote, direction);
   };
 
   const onClickBackArrow = () => {
-    if (router.pathname === "/chat/[roomId]") {
-      router.replace("/chat");
-      return;
-    }
-
     router.back();
   };
 
@@ -88,34 +81,18 @@ export default function InterestsUI({
           onClick={onClickBackArrow}
           style={{ cursor: "pointer" }}
         />
-        {interestCategoryData ? (
-          interestCategoryData?.fetchInterestCategory.map(
-            (e: IInterestCategoryOutput) => {
-              return (
-                <S.InterestTitleWrapper key={e.interest} id={e.interest}>
-                  <S.InterestTitle>{e.title}</S.InterestTitle>
-                </S.InterestTitleWrapper>
-              );
-            }
-          )
-        ) : (
-          <></>
-        )}
-        <ChatIcon src="/chat.svg" />
+        <S.PageTitleWrapper>{router.query.interest}</S.PageTitleWrapper>
+
+        <ChatIcon
+          src="/chat.svg"
+          style={{ cursor: "pointer" }}
+          onClick={handleClickChat}
+        />
       </S.HeaderWrapper>
       <Frame>
-        {userInfo && (
-          <S.PositionButtonWrapper>
-            <S.IconWrapper>
-              <NearMeRoundedIcon />
-            </S.IconWrapper>
-          </S.PositionButtonWrapper>
-        )}
-
         {(stack || []).map((item: any, index: any) => {
           const isTop = index === (stack?.length || 0) - 1;
-
-          console.log("stack", stack);
+          console.log("stack", item);
           return (
             <InterestsCard
               drag={isTop}
@@ -124,6 +101,7 @@ export default function InterestsUI({
                 handleVote(item, result, direction)
               }
               data={item}
+              handleClickPassTicket={handleClickPassTicket}
             />
           );
         })}
@@ -131,8 +109,3 @@ export default function InterestsUI({
     </>
   );
 }
-
-const ChatIcon = styled.img`
-  width: 2rem;
-  height: 2rem;
-`;

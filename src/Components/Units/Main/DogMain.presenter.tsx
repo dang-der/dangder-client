@@ -17,11 +17,11 @@ const Frame = styled.div`
 `;
 
 interface StackProps {
-  onVote: (data: any, vote: boolean, direction: string | undefined) => void;
   datas: any;
   refetch?: any;
   nonRefetch?: any;
-  handleBuyTicket?: (pairId: string) => Promise<void>;
+  onVote: (data: any, vote: boolean, direction: string | undefined) => void;
+  handleClickBuyTicket?: (pairId: string) => Promise<void>;
 }
 
 export default function DogMainUI({
@@ -29,7 +29,7 @@ export default function DogMainUI({
   datas,
   refetch,
   nonRefetch,
-  handleBuyTicket,
+  handleClickBuyTicket,
 }: StackProps) {
   const [userInfo] = useRecoilState(userInfoState);
   const [stack, setStack] = useState(datas);
@@ -83,7 +83,7 @@ export default function DogMainUI({
                 handleVote(item, result, direction)
               }
               data={item}
-              handleBuyPass={handleBuyTicket}
+              handleBuyPass={handleClickBuyTicket}
             />
           );
         })}

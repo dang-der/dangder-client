@@ -25,7 +25,7 @@ export const WaveOne = styled.div`
 `;
 
 export const TodayPickImageWrapper = styled.img`
-  width: 11.75rem;
+  /* width: 11.75rem;
   height: 12.813rem;
-  margin-top: -16rem;
+  margin-top: -16rem; */
 `;
