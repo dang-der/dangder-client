@@ -307,5 +307,3 @@ export const SubTitleWrapper = styled.div`
   margin-right: 5px;
   margin-bottom: 1.5rem;
 `;
-
-

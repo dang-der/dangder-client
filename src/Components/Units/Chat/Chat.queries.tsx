@@ -99,3 +99,11 @@ export const FETCH_ICHAT_MESSAGES_BY_ICHAT_ROOM_ID = gql`
     }
   }
 `;
+
+export const JOIN_I_CHAT_ROOM = gql`
+  mutation joinIChatRoom($email: String!, $iChatRoomId: String!) {
+    joinIChatRoom(email: $email, iChatRoomId: $iChatRoomId) {
+      id
+    }
+  }
+`;
