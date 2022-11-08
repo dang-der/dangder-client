@@ -23,10 +23,6 @@ export const FETCH_ONE_DOG = gql`
         id
         interest
       }
-      avoidBreeds {
-        id
-        avoidBreed
-      }
       characters {
         id
         character

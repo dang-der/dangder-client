@@ -295,3 +295,20 @@ export const ReactSlick = styled(Slider)`
   /* padding: 20px 0; */
   /* list-style-type: none; */
 `;
+
+export const ReviewsWrapper = styled.div`
+  width: 100%;
+  padding: 0 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+`;
+
+export const SubTitleWrapper = styled.div`
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-right: 5px;
+  margin-bottom: 1.5rem;
+`;
+
+

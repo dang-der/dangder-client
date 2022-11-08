@@ -33,8 +33,12 @@ export const exceptionModalState = atom<IExceptionModal>({
   },
 });
 
-
 export const selectedDogIdBuyPassState = atom<string>({
   key: "selectedDogIdBuyPassState",
   default: "",
+});
+
+export const PassTickModalVisible = atom<boolean>({
+  key: "PassTickModalVisibleState",
+  default: false,
 });

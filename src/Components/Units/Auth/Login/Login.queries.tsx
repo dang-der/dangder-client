@@ -6,6 +6,16 @@ export const USER_LOGIN = gql`
   }
 `;
 
+
+export const FETCH_ONLY_USER = gql`
+  query fetchSocialLoginUser {
+    fetchSocialLoginUser {
+      id
+      pet
+    }
+  }
+`;
+
 export const FETCH_LOGIN_USER = gql`
   query fetchLoginUser {
     fetchLoginUser {
@@ -14,6 +24,7 @@ export const FETCH_LOGIN_USER = gql`
         email
         pet
       }
+
       dog {
         id
         name
@@ -24,10 +35,6 @@ export const FETCH_LOGIN_USER = gql`
         interests {
           id
           interest
-        }
-        avoidBreeds {
-          id
-          avoidBreed
         }
         characters {
           id

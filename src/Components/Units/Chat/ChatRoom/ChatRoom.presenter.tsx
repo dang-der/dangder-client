@@ -5,11 +5,10 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 
-
 import ChatMessageItem from "./ChatMessageItem/ChatMessageItem";
 import * as S from "./ChatRoom.styles";
 import { useEffect, useRef, useState } from "react";
-import { IInfo, IMessage } from "./ChatRoom.container";
+import { IMessage } from "./ChatRoom.container";
 import { DimWrapper } from "../../../Commons/Modal/CustomLayoutModal/CustomLayoutModal";
 
 import PlaceShareContainer from "../Place/PlaceShare.container";
@@ -17,33 +16,34 @@ import PlanShareContainer from "../Plan/PlanShare.container";
 import ChatPlaceItem from "./ChatPlaceItem/ChatPlaceItem";
 import ChatPlanItem from "./ChatPlanItem/ChatPlanItem";
 import { useRecoilState } from "recoil";
-import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
 import { userInfoState } from "../../../../Commons/Store/Auth/UserInfoState";
 
 import { v4 as uuid } from "uuid";
-import { IQuery } from "../../../../Commons/Types/Generated/types";
+import { IDog, IQuery } from "../../../../Commons/Types/Generated/types";
+import Link from "next/link";
+
 
 interface ChatRoomUIProps {
-  handleEmitSend: ({ type, data }: { type: string; data: any }) => void;
+  isGroupChat: boolean;
   messages: IMessage[] | undefined;
-  roomData: Pick<IQuery, "fetchChatRoom"> | undefined;
-  pairDog: Pick<IQuery, "fetchOneDog"> | undefined;
+  pairDog: IDog | undefined;
+  handleEmitSend: ({ type, data }: { type: string; data: any }) => void;
+  isReviewWrited: boolean | undefined;
 }
 
 export default function ChatRoomUI({
   handleEmitSend,
   messages,
-  roomData,
   pairDog,
+  isGroupChat,
+  isReviewWrited,
+
 }: ChatRoomUIProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenPlace, setIsOpenPlace] = useState(false);
   const [isOpenPlan, setIsOpenPlan] = useState(false);
-
   const [userInfo] = useRecoilState(userInfoState);
-
   const bottomRef = useRef<HTMLDivElement>(null);
-
   const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
@@ -72,19 +72,12 @@ export default function ChatRoomUI({
   const messageComponents = messages?.map(
     ({ type, data, dog }: IMessage, i) => {
       if (userInfo) {
-        console.log(
-          "isMine",
-          dog?.name,
-          dog?.id,
-          userInfo.dog?.id || "userInfo 없음"
-        );
-
         if (type === "text")
           return (
             <ChatMessageItem
               key={uuid()}
               message={data?.message}
-              isMine={dog?.id?.includes(userInfo?.dog?.id)}
+              isMine={dog?.id?.includes(String(userInfo?.dog?.id))}
             />
           );
 
@@ -96,8 +89,6 @@ export default function ChatRoomUI({
       }
     }
   );
-
-  console.log("CharRoomUI", pairDog);
 
   return (
     <S.Wrapper>
@@ -119,18 +110,31 @@ export default function ChatRoomUI({
         </DimWrapper>
       )}
 
-      <S.ChatHeader>
-        <S.OtherDogContainer>
-          <S.OtherDogImage
-            src={
-              "https://storage.googleapis.com/" +
-                pairDog?.fetchOneDog.img.filter((e) => e.isMain)?.[0]?.img ||
-              "/pug.jpg"
-            }
-          />
-          <S.OtherDogName>{pairDog?.fetchOneDog.name}</S.OtherDogName>
-        </S.OtherDogContainer>
-      </S.ChatHeader>
+      {!isGroupChat && (
+        <S.ChatHeader>
+          <S.OtherDogContainer>
+            <S.OtherDogImage
+              src={
+                "https://storage.googleapis.com/" +
+                  pairDog?.img.filter((e) => e.isMain)?.[0]?.img || "/pug.jpg"
+              }
+            />
+            <S.OtherDogName>{pairDog?.name}</S.OtherDogName>
+          </S.OtherDogContainer>
+        </S.ChatHeader>
+      )}
+
+      <S.ReviewButtonWrapper hidden={isReviewWrited}>
+        {pairDog?.fetchOneDog.name}님과 만남이 마음에 드셨나요?? <br></br>매칭
+        후기를 남겨주세요 👉🏻{" "}
+        <Link
+          href={`/review/write?send=${userInfo?.dog?.id || ""}&receive=${
+            pairDog?.fetchOneDog.id || ""
+          }`}
+        >
+          <u>리뷰 남기기</u>
+        </Link>
+      </S.ReviewButtonWrapper>
 
       <S.ChatMessagesWrapper>
         {messages && messageComponents}
@@ -139,11 +143,14 @@ export default function ChatRoomUI({
 
       <S.ChatInputWrapper isOpen={isOpenMenu}>
         <S.MessageInputWrapper onSubmit={handleSubmit(onClickSend)}>
-          <S.IconWrapper type="button" onClick={onClickPlusIcon}>
-            <S.OpenMenuIconWrapper isOpen={isOpenMenu}>
-              <AddRoundedIcon />
-            </S.OpenMenuIconWrapper>
-          </S.IconWrapper>
+          {!isGroupChat && (
+            <S.IconWrapper type="button" onClick={onClickPlusIcon}>
+              <S.OpenMenuIconWrapper isOpen={isOpenMenu}>
+                <AddRoundedIcon />
+              </S.OpenMenuIconWrapper>
+            </S.IconWrapper>
+          )}
+
           <S.MessageInput
             {...register("message")}
             placeholder="메세지를 입력해주세요."

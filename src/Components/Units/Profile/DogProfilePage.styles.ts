@@ -154,16 +154,31 @@ export const SettingWrapper = styled.div`
   width: 100%;
   height: 2rem;
   background-color: #ffffff;
-  margin-top: 20px;
+  /* margin-top: 3rem; */
+  cursor: pointer;
 `;
 
 export const DogProfileSetting = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  padding: 0.6rem 0;
+  height: 3.5rem;
+  border-top: 1px solid #ebebeb;
+  /* border-bottom: 1px solid #ebebeb; */
+  margin-top: 3rem;
+  cursor: pointer;
+`;
+
+export const DogPassSetting = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3.5rem;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
+  margin-top: 3rem;
 `;
 
 export const SettingSpan = styled.span`

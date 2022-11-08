@@ -12,6 +12,9 @@ export const FETCH_CHAT_ROOMS = gql`
           img
           isMain
         }
+        # user {
+        #   id
+        # }
       }
       lastMessage {
         senderId
@@ -32,6 +35,9 @@ export const FETCH_ONE_DOG = gql`
         id
         img
         isMain
+      }
+      user {
+        id
       }
     }
   }
@@ -58,6 +64,10 @@ export const FETCH_CHAT_ROOM = gql`
     fetchChatRoom(roomId: $roomId) {
       id
       chatPairId
+      dog {
+        id
+        name
+      }
     }
   }
 `;
@@ -65,5 +75,27 @@ export const FETCH_CHAT_ROOM = gql`
 export const DELETE_CHAT_ROOM = gql`
   mutation deleteChatRoom($id: String!) {
     deleteChatRoom(id: $id)
+  }
+`;
+
+export const FETCH_INTEREST_CHAT_ROOM = gql`
+  query fetchInterestChatRoom($iRoomId: String!) {
+    fetchInterestChatRoom(iRoomId: $iRoomId) {
+      interest {
+        id
+        interest
+        title
+      }
+    }
+  }
+`;
+
+export const FETCH_ICHAT_MESSAGES_BY_ICHAT_ROOM_ID = gql`
+  query fetchIChatMessagesByIChatRoomId($iChatRoomId: String!) {
+    fetchIChatMessagesByIChatRoomId(iChatRoomId: $iChatRoomId) {
+      senderId
+      type
+      message
+    }
   }
 `;

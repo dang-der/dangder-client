@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Link from "next/link";
 
 const schema = yup.object({
   email: yup
@@ -90,6 +91,20 @@ export default function LoginUI({ handleUserLogin }: LoginUIProps) {
       <S.JoinWrapper>
         <u onClick={onClickNonmember}>비회원으로 둘러보기🐾</u>
       </S.JoinWrapper>
+
+      <S.SocialButtonsWrapper>
+        <Link href={"https://recipemaker.shop/login/google"}>
+          <img src="/google_login.svg" />
+        </Link>
+
+        <Link href={"https://recipemaker.shop/login/naver"}>
+          <img src="/naver_login.svg" />
+        </Link>
+
+        <Link href={"https://recipemaker.shop/login/kakao"}>
+          <img src="/kakao_login.svg" />
+        </Link>
+      </S.SocialButtonsWrapper>
     </S.Wrapper>
   );
 }

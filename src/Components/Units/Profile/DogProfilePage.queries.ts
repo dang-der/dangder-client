@@ -31,3 +31,17 @@ export const FETCH_DOG_IMAGE = gql`
     }
   }
 `;
+
+export const UPDATE_DOG = gql`
+  mutation updateDog($dogId: String!, $updateDogInput: UpdateDogInput!) {
+    updateDog(dogId: $dogId, updateDogInput: $updateDogInput) {
+      id
+    }
+  }
+`;
+
+export const FETCH_LOGIN_USER_IS_CERT = gql`
+  query fetchLoginUserIsCert {
+    fetchLoginUserIsCert
+  }
+`;

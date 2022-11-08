@@ -40,7 +40,6 @@ export interface IDogProfile {
   introduce: string;
   characters: string[];
   interests: string[];
-  avoid: any;
 }
 export const dogInfoInputState = atom<IDogProfile>({
   key: "dogInfoInputState",
@@ -51,7 +50,6 @@ export const dogInfoInputState = atom<IDogProfile>({
     introduce: "",
     characters: [],
     interests: [],
-    avoid: [],
   },
 });
 
