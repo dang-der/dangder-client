@@ -127,24 +127,24 @@ export default function DogMainContainer() {
 
   const onClickPassTicket = async (pairId: string) => {
     setSelectedId(pairId);
-    checkIsCert();
+    checkIsCert(pairId);
   };
 
-  const checkIsCert = async () => {
+  const checkIsCert = async (pairId: string) => {
     if (!loginUserIsCert?.fetchLoginUserIsCert) {
       setBuyPassModalVisible(true);
       return;
     }
 
-    handleJoinChatRoom();
+    handleJoinChatRoom(pairId);
   };
 
-  const handleJoinChatRoom = async () => {
+  const handleJoinChatRoom = async (pairId?: string) => {
     try {
       const { data: joinChatRoomData } = await joinChatRoom({
         variables: {
           dogId: userInfo?.dog?.id || "",
-          chatPairId: selectedId,
+          chatPairId: pairId || selectedId,
         },
       });
 
@@ -166,7 +166,7 @@ export default function DogMainContainer() {
         icon={<CampaignRoundedIcon />}
         redirectUrl="https://dangder.shop:3000/chat"
         onSuccess={handleJoinChatRoom}
-      />{" "}
+      />
       {matchedModalVisible && <MatchedModal receiveId={matchedId} />}
       {userInfo !== undefined
         ? data?.fetchAroundDogs &&
@@ -175,7 +175,7 @@ export default function DogMainContainer() {
               onVote={onVote}
               datas={DogsData}
               refetch={refetch}
-              handleBuyTicket={onClickPassTicket}
+              handleClickBuyTicket={onClickPassTicket}
             />
           )
         : nonDogsData && (

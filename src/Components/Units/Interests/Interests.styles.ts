@@ -6,7 +6,7 @@ import { MainColor } from "../../../../styles/GlobalStyles";
 
 export const HeaderWrapper = styled.div`
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 3.1rem;
@@ -140,4 +140,11 @@ export const IconWrapper = styled.div`
   background-color: white;
   border-radius: 50%;
   box-shadow: 0px 10px 10px 0px rgba(150, 150, 150, 0.3);
+`;
+
+export const PageTitleWrapper = styled.div`
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 1rem;
+  width: 100%;
 `;

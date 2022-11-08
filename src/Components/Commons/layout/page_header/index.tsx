@@ -52,8 +52,7 @@ export default function PageHeader() {
     if (!pageTitleRef.current) return;
 
     if (router.pathname === "/interests/chat/[roomId]") {
-      // todo : 민철님 관심사 페이지 작업 완료되면 연결해서 작업
-      pageTitleRef.current.innerText = "selectedInterest";
+      pageTitleRef.current.innerText = String(router.query.interest) || "";
       return;
     }
     const i = pages.findIndex((e) => e.path === router.pathname);

@@ -78,7 +78,7 @@ export default function TodayDogList() {
 
   return (
     <>
-      <BuyPassTicketModal />
+      {/* <BuyPassTicketModal /> */}
       <TodayDogListUI
         todayDogData={todayDogData}
         handleJoinChatRoom={handleJoinChatRoom}

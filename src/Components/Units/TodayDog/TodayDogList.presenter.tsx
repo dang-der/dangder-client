@@ -36,9 +36,6 @@ export default function TodayDogListUI({
     setValue(newValue);
   };
 
-  console.log("TodayDogListUI", todayDogData);
-  console.log("interestCategory", interestCategoryData);
-
   const onClickMoveDogDetail =
     (dogId: string) => (event: MouseEvent<HTMLDivElement>) => {
       if (!(event.target instanceof HTMLDivElement)) return;
@@ -50,8 +47,9 @@ export default function TodayDogListUI({
   };
 
   const onClickInterests =
-    (interests: string) => (event: MouseEvent<HTMLDivElement>) => {
-      router.push(`/interests`);
+    (interest: string, chatRoomId: string) =>
+    (event: MouseEvent<HTMLDivElement>) => {
+      router.push(`/interests?interest=${interest}&id=${chatRoomId}`);
     };
 
   return (
@@ -98,8 +96,7 @@ export default function TodayDogListUI({
                 );
               })
             ) : (
-              <></>
-              // <TodayDogNonePage />
+              <TodayDogNonePage />
             )}
           </TabPanel>
           <TabPanel value="2">
@@ -112,7 +109,7 @@ export default function TodayDogListUI({
                       <S.InterestWrapper key={e.interest}>
                         <S.InterestsImageWrapper
                           id={e.interest}
-                          onClick={onClickInterests(e.interest)}
+                          onClick={onClickInterests(e.interest, e.iChatRoomId)}
                         >
                           <S.InterestGradientBox
                             imageUrl={
