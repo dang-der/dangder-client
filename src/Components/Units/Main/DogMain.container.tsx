@@ -6,10 +6,12 @@ import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 import {
   exceptionModalState,
   matchedModalVisibleState,
+  passBuyModalVisibleState,
 } from "../../../Commons/Store/Modal/ModalVisibleState";
 import {
   IMutation,
   IMutationCreateLikeArgs,
+  IMutationJoinChatRoomArgs,
   IQuery,
   IQueryFetchAroundDogsArgs,
   IQueryFetchDogsArgs,
@@ -21,13 +23,21 @@ import {
   FETCH_DOGS_DISTANCE,
   CREATE_LIKE,
   FETCH_DOGS,
+  FETCH_LOGIN_USER_IS_CERT,
 } from "./DogMain.queries";
 import MatchedModal from "./MatchedModal/MatchedModal";
+import { JOIN_CHAT_ROOM } from "../Detail/DogDetail.queries";
+import { useRouter } from "next/router";
+import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
 export default function DogMainContainer() {
+  const router = useRouter();
+
   const [matchedId, setMatchedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useState("");
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
+  const [, setBuyPassModalVisible] = useRecoilState(passBuyModalVisibleState);
   const [matchedModalVisible, setMatchedModalVisible] = useRecoilState(
     matchedModalVisibleState
   );
@@ -106,15 +116,67 @@ export default function DogMainContainer() {
     }
   };
 
+  const { data: loginUserIsCert } = useQuery<
+    Pick<IQuery, "fetchLoginUserIsCert">
+  >(FETCH_LOGIN_USER_IS_CERT);
+
+  const [joinChatRoom] = useMutation<
+    Pick<IMutation, "joinChatRoom">,
+    IMutationJoinChatRoomArgs
+  >(JOIN_CHAT_ROOM);
+
+  const onClickPassTicket = async (pairId: string) => {
+    setSelectedId(pairId);
+    checkIsCert();
+  };
+
+  const checkIsCert = async () => {
+    if (!loginUserIsCert?.fetchLoginUserIsCert) {
+      setBuyPassModalVisible(true);
+      return;
+    }
+
+    handleJoinChatRoom();
+  };
+
+  const handleJoinChatRoom = async () => {
+    try {
+      const { data: joinChatRoomData } = await joinChatRoom({
+        variables: {
+          dogId: userInfo?.dog?.id || "",
+          chatPairId: selectedId,
+        },
+      });
+
+      if (!joinChatRoomData?.joinChatRoom.id) {
+        throw Error("채팅방 입장 실패");
+      }
+      router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
+    } catch (e) {
+      console.log("handleJoinChatRoomError", e);
+    }
+  };
+
   return (
     <>
-      <BuyPassTicketModal />
+      <BuyPassTicketModal
+        title="먼저 말을 걸기 위해서 <br />
+            댕더 패스 구매가 필요해요!
+            <br />"
+        icon={<CampaignRoundedIcon />}
+        redirectUrl="https://dangder.shop:3000/chat"
+        onSuccess={handleJoinChatRoom}
+      />{" "}
       {matchedModalVisible && <MatchedModal receiveId={matchedId} />}
-      
       {userInfo !== undefined
         ? data?.fetchAroundDogs &&
           dogsDistanceData?.fetchDogsDistance && (
-            <DogMainUI onVote={onVote} datas={DogsData} refetch={refetch} />
+            <DogMainUI
+              onVote={onVote}
+              datas={DogsData}
+              refetch={refetch}
+              handleBuyTicket={onClickPassTicket}
+            />
           )
         : nonDogsData && (
             <DogMainUI

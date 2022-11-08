@@ -12,22 +12,11 @@ const DeepDimWrapper = styled(DimWrapper)`
 `;
 
 export default function PassTickModal() {
-  const router = useRouter();
   const [visible, setVisible] = useRecoilState(PassTickModalVisible);
 
-  // const onClickMoveToSignUP = () => {
-  //   router.push("/auth/signup");
-  // };
-
   const onClickClose = () => {
-    console.log("onClickClose", visible);
-    // router.replace("/profile");
     setVisible(false);
   };
-
-  // const onClickMoveToLogin = () => {
-  //   router.push("/auth/login");
-  // };
 
   return (
     <>

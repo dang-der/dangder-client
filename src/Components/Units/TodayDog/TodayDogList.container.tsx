@@ -52,7 +52,6 @@ export default function TodayDogList() {
   >(JOIN_CHAT_ROOM);
 
   const handleJoinChatRoom = async (pairDogId: string) => {
-    console.log("handleClickChatRoom");
     if (!userIsCert?.fetchLoginUserIsCert) {
       setVisible(true);
       setSelectedDogId(pairDogId);

@@ -3,32 +3,18 @@ import React, { useRef, useEffect, useState } from "react";
 import { useMotionValue, useAnimation } from "framer-motion";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useRouter } from "next/router";
-import { FETCH_LOGIN_USER_IS_CERT } from "./DogMain.queries";
-import { useMutation, useQuery } from "@apollo/client";
-import {
-  IMutation,
-  IMutationJoinChatRoomArgs,
-  IQuery,
-} from "../../../Commons/Types/Generated/types";
 import { useRecoilState } from "recoil";
-import {
-  passBuyModalVisibleState,
-  selectedDogIdBuyPassState,
-} from "../../../Commons/Store/Modal/ModalVisibleState";
-import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
-import { JOIN_CHAT_ROOM } from "../Detail/DogDetail.queries";
 
 interface CardProps {
   drag: boolean;
   onVote: (result: boolean, direction: string | undefined) => void;
   data: any;
+  handleBuyPass?: (pairId: string) => Promise<void>;
 }
 
-export const Card = ({ onVote, data, drag }: CardProps) => {
+export const Card = ({ onVote, data, drag, handleBuyPass }: CardProps) => {
   const [userInfo] = useRecoilState(userInfoState);
-  const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
-  const [, setSelectedDogId] = useRecoilState(selectedDogIdBuyPassState);
 
   const router = useRouter();
   const cardElem = useRef<HTMLDivElement | null>(null);
@@ -113,44 +99,11 @@ export const Card = ({ onVote, data, drag }: CardProps) => {
     router.push(`/${String(data[0].id)}`);
   };
 
-  const { data: loginUserIsCert } = useQuery<
-    Pick<IQuery, "fetchLoginUserIsCert">
-  >(FETCH_LOGIN_USER_IS_CERT);
-
-  const [joinChatRoom] = useMutation<
-    Pick<IMutation, "joinChatRoom">,
-    IMutationJoinChatRoomArgs
-  >(JOIN_CHAT_ROOM);
-
-  const onClickPassTicket = async () => {
-    console.log("userIsCert", loginUserIsCert?.fetchLoginUserIsCert);
-
-    if (!loginUserIsCert?.fetchLoginUserIsCert) {
-      setVisible(true);
-      setSelectedDogId(String(data[0].id));
-    } else {
-      try {
-        const { data: joinChatRoomData } = await joinChatRoom({
-          variables: {
-            dogId: userInfo?.dog?.id || "",
-            chatPairId: String(data[0].id),
-          },
-        });
-
-        if (!joinChatRoomData?.joinChatRoom.id) {
-          throw Error("채팅방 입장 실패");
-        }
-        router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
-      } catch (e) {
-        console.log("handleJoinChatRoomError", e);
-      }
-    }
+  const onClickPassTicket = () => {
+    if (!handleBuyPass) return;
+    handleBuyPass(data[0].id);
   };
 
-  // ""https://storage.googleapis.com/" + data[0].img?.[0].img
-
-  console.log("Image", data[0].img[0].img.replace(" ", "%20"));
-  console.log("Card", data);
   return (
     <>
       {userInfo !== undefined ? (
