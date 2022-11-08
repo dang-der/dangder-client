@@ -53,6 +53,14 @@ export default function DogDetailUI({
     handleJoinChatRoom();
   };
 
+  const onClickReport = () => {
+    router.push(
+      `/report?id=${userInfo?.user?.id || ""}&targetId=${
+        pickDogData?.fetchOneDog.user.id || ""
+      }`
+    );
+  };
+
   const settings = {
     dots: true,
     infinite: true,
@@ -85,8 +93,10 @@ export default function DogDetailUI({
           <S.DetailContent>
             <S.DetailMaineTitle>
               <S.DetailInfo>
-                <S.DetailName>{pickDogData?.fetchOneDog.name},</S.DetailName>
-                <S.DetailAge>{pickDogData?.fetchOneDog.age}</S.DetailAge>
+                <S.DetailName>
+                  {pickDogData?.fetchOneDog.name},{" "}
+                  {pickDogData?.fetchOneDog.age}
+                </S.DetailName>
               </S.DetailInfo>
               <S.DetailInfo>
                 <S.DetailGender>
@@ -144,11 +154,18 @@ export default function DogDetailUI({
                 onClick={onClickMoveBack}
                 src="/backIcon1.png"
               />
-              <S.DetailFunctionMoveChat
+              <S.DetailFunctionMoveBack
                 onClick={onClickPass}
                 src="/passIcon.png"
               />
-              <S.DetailFunctionLike onClick={onClickLike} src="/likeIcon.png" />
+              <S.DetailFunctionMoveBack
+                onClick={onClickLike}
+                src="/likeIcon.png"
+              />
+              <S.DetailFunctionMoveBack
+                onClick={onClickReport}
+                src="/report_btn.png"
+              />
             </S.DetailFunctionIconWrapper>
           </S.DetailContent>
 
