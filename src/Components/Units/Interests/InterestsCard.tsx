@@ -245,6 +245,9 @@ export const InterestsCard = ({ onVote, data, drag }: CardProps) => {
               <S.DogDescription>{data[0]?.description}</S.DogDescription>
             </S.DogInfoWrapper>
           </S.Item>
+          <S.DogPassWrapper onClick={onClickPassTicket}>
+            <S.DogPassIcon src="/passIcon.png" />
+          </S.DogPassWrapper>
         </S.StyledCard>
       )}
     </>

@@ -4,6 +4,26 @@ import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import { MainColor } from "../../../../styles/GlobalStyles";
 
+export const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+  height: 3.1rem;
+  padding: 2.5rem;
+`;
+
+export const InterestTitleWrapper = styled.div``;
+
+export const InterestTitle = styled.div`
+  /* display: flex;
+  justify-content: center; */
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 1rem;
+  color: #000000;
+`;
+
 export const StyledCard = styled(motion.div)`
   position: absolute;
 `;

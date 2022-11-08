@@ -6,11 +6,13 @@ import MaleIcon from "@mui/icons-material/Male";
 export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  /* background-color: red; */
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: start;
+  gap: 1.5rem;
+  /* justify-content: space-around; */
+
   /* border-radius: 1.25rem 1.25rem 0rem 0rem; */
   /* margin-top: 1rem; */
 `;
@@ -57,12 +59,6 @@ export const GradientBox = styled.div`
     url(${(props: GradientBoxStyleProps) => props.imageUrl});
   background-position: center center;
   background-size: cover;
-`;
-
-export const ListImage = styled.span`
-  width: 100%;
-  height: 100%;
-  border-radius: 1.25rem;
 `;
 
 export const ListFunctionIconWrapper = styled.div`
@@ -112,8 +108,8 @@ export const InterestWrapper = styled.div`
   height: 20rem;
   margin-top: 1rem;
   /* margin-left: 0.5rem; */
-  display: flex;
-  flex-direction: column;
+
+  /* flex-direction: row; */
   /* border-radius: 1.25rem 1.25rem 0rem 0rem; */
   /* margin-bottom: -15rem; */
 `;
@@ -121,7 +117,7 @@ export const InterestWrapper = styled.div`
 export const InterestsImageWrapper = styled.div`
   width: 100%;
   height: 100%;
-  margin-right: 1.5rem;
+  /* margin-right: 1.5rem; */
   /* width: 15rem;
   height: 22rem; */
   border-radius: 1.25rem;
@@ -130,7 +126,11 @@ export const InterestsImageWrapper = styled.div`
   cursor: pointer;
 `;
 
-export const InterestPlayGradientBox = styled.div`
+interface InterestGradientBoxStyleProps {
+  imageUrl: string;
+}
+
+export const InterestGradientBox = styled.div`
   /* width: 100%;
   height: 100%; */
   display: flex;
@@ -145,7 +145,7 @@ export const InterestPlayGradientBox = styled.div`
       rgba(0, 0, 0, 0.7) 70%,
       #000000 116.48%
     ),
-    url("/play.jpeg");
+    url(${(props: InterestGradientBoxStyleProps) => props.imageUrl});
   background-position: center center;
   background-size: cover;
 `;
@@ -210,106 +210,6 @@ export const InterestName = styled.div`
   font-weight: 500;
   color: #b3b3b3;
   margin-left: 0.9rem;
-`;
-
-export const InterestWalkGradientBox = styled.div`
-  /* width: 100%;
-  height: 100%; */
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 20rem;
-  border-radius: 1.25rem;
-  background-image: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.05) 35%,
-      rgba(0, 0, 0, 0.7) 70%,
-      #000000 116.48%
-    ),
-    url("/walk.png");
-  background-position: center center;
-  background-size: cover;
-`;
-
-export const InterestCafeGradientBox = styled.div`
-  /* width: 100%;
-  height: 100%; */
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 20rem;
-  border-radius: 1.25rem;
-  background-image: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.05) 35%,
-      rgba(0, 0, 0, 0.7) 70%,
-      #000000 116.48%
-    ),
-    url("/cafe.png");
-  background-position: center center;
-  background-size: cover;
-`;
-
-export const InterestEatGradientBox = styled.div`
-  /* width: 100%;
-  height: 100%; */
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 20rem;
-  border-radius: 1.25rem;
-  background-image: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.05) 35%,
-      rgba(0, 0, 0, 0.7) 70%,
-      #000000 116.48%
-    ),
-    url("/eat.jpeg");
-  background-position: center center;
-  background-size: cover;
-`;
-
-export const InterestBouncyGradientBox = styled.div`
-  /* width: 100%;
-  height: 100%; */
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 20rem;
-  border-radius: 1.25rem;
-  background-image: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.05) 35%,
-      rgba(0, 0, 0, 0.7) 70%,
-      #000000 116.48%
-    ),
-    url("/bouncy.jpeg");
-  background-position: center center;
-  background-size: cover;
-`;
-
-export const InterestTimidGradientBox = styled.div`
-  /* width: 100%;
-  height: 100%; */
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 20rem;
-  border-radius: 1.25rem;
-  background-image: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.05) 35%,
-      rgba(0, 0, 0, 0.7) 70%,
-      #000000 116.48%
-    ),
-    url("/timid.jpeg");
-  background-position: center center;
-  background-size: cover;
 `;
 
 export const StyledCard = styled(motion.div)`

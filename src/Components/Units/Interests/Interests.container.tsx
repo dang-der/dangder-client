@@ -11,10 +11,16 @@ import {
   IMutation,
   IMutationCreateLikeArgs,
   IQuery,
+  IQueryFetchCategoryDogsArgs,
   IQueryFetchDogsArgs,
 } from "../../../Commons/Types/Generated/types";
 import DogMainUI from "./Interests.presenter";
-import { CREATE_LIKE, FETCH_DOGS, FETCH_INTERESTS } from "./Interests.queries";
+import {
+  CREATE_LIKE,
+  FETCH_CATEGORY_DOGS,
+  FETCH_DOGS,
+  FETCH_INTEREST_CATEGORY,
+} from "./Interests.queries";
 import MatchedModal from "./MatchedModal/MatchedModal";
 
 export default function InterestsContainer() {
@@ -27,12 +33,16 @@ export default function InterestsContainer() {
 
   const dogId = String(userInfo?.dog?.id);
 
-  const { data, refetch } = useQuery<
-    Pick<IQuery, "fetchInterests">,
-    IQueryFetchInterestsArgs
-  >(FETCH_INTERESTS, {
-    variables: { id: dogId, page: 1 },
-  });
+  const { data: interestCategoryData, refetch } = useQuery<
+    Pick<IQuery, "fetchInterestCategory">
+  >(FETCH_INTEREST_CATEGORY, { variables: { interest: dogId } });
+
+  // const { data, refetch } = useQuery<
+  //   Pick<IQuery, "fetchCategoryDogs">,
+  //   IQueryFetchCategoryDogsArgs
+  // >(FETCH_CATEGORY_DOGS, {
+  //   variables: { interest: dogId },
+  // });
 
   const { data: fetchDogs, refetch: nonRefetch } = useQuery<
     Pick<IQuery, "fetchDogs">,
@@ -43,7 +53,7 @@ export default function InterestsContainer() {
 
   const nonDogsData = fetchDogs?.fetchDogs.map((el) => [el]);
 
-  const DogsData = data?.fetchInterests.map(() => []);
+  const DogsData = interestCategoryData?.fetchInterestCategory.map(() => []);
 
   const [createLike] = useMutation<
     Pick<IMutation, "createLike">,
@@ -86,6 +96,7 @@ export default function InterestsContainer() {
       }
     }
   };
+  console.log(interestCategoryData);
 
   return (
     <>
@@ -93,7 +104,7 @@ export default function InterestsContainer() {
       {matchedModalVisible && <MatchedModal receiveId={matchedId} />}
 
       {userInfo !== undefined
-        ? data?.fetchInterests && (
+        ? interestCategoryData?.fetchInterestCategory && (
             <DogMainUI onVote={onVote} datas={DogsData} refetch={refetch} />
           )
         : nonDogsData && (

@@ -1,14 +1,52 @@
 import { gql } from "@apollo/client";
 
-export const FETCH_INTERESTS = gql`
-  query fetchInterests {
-    fetchInterests {
-      id
-      fetchInterest
-      dogs
+// export const FETCH_INTEREST_CATEGORY = gql`
+//   query fetchInterestCategory {
+//     fetchInterestCategory {
+//       interest
+//       interestImg
+//       title
+//       subTitle
+//     }
+//   }
+// `;
+
+export const FETCH_INTEREST_CATEGORY = gql`
+  query fetchInterestCategory {
+    fetchInterestCategory {
+      interest
+      interestImg
+      title
+      subTitle
     }
   }
 `;
+
+// export const FETCH_CATEGORY_DOGS = gql`
+//   query fetchCategoryDogs($interest: String!) {
+//     fetchCategoryDogs(interest: $interest) {
+//       id
+//       name
+//       age
+//       gender
+//       interest {
+//         id
+//         interest
+//         interestImg
+//         title
+//         subTitle
+//         fetchDogs
+//         iChatRoom
+//       }
+//       description
+//       user
+//       img {
+//         img
+//         isMain
+//       }
+//     }
+//   }
+// `;
 
 export const CREATE_LIKE = gql`
   mutation createLike($createLikeInput: createLikeInput!) {
@@ -34,6 +72,11 @@ export const FETCH_DOGS = gql`
       age
       gender
       description
+      interests {
+        id
+        interest
+        title
+      }
       img {
         img
         isMain

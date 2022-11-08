@@ -26,6 +26,7 @@ const SHOW_NAVIGATION = [
   "/chat",
   "/profile",
   "/profile/[dogId]",
+  "/interests",
 ];
 
 interface ILayoutProps {

@@ -88,10 +88,6 @@ export type IChatRoomsOutput = {
   lastMessage?: Maybe<IChatMessage>;
 };
 
-export type ICreateBlockUserInput = {
-  blockId: Scalars['String'];
-};
-
 export type ICreateDogInput = {
   age: Scalars['Int'];
   birthday?: InputMaybe<Scalars['String']>;
@@ -101,6 +97,13 @@ export type ICreateDogInput = {
   interests?: InputMaybe<Array<Scalars['String']>>;
   locations: ILocationInput;
   userId: Scalars['String'];
+};
+
+export type ICreateInterestInput = {
+  interest: Scalars['String'];
+  interestImg: Scalars['String'];
+  subTitle: Scalars['String'];
+  title: Scalars['String'];
 };
 
 /** 좋아요를 눌렀을 때 매칭여부와 sendId, receiveId */
@@ -126,9 +129,11 @@ export type ICreateProductInput = {
   productName: Scalars['String'];
 };
 
-export type ICreateReportInput = {
-  reportContent: Scalars['String'];
-  reportId: Scalars['String'];
+export type ICreateReviewInput = {
+  receiveReviewId: Scalars['String'];
+  reviewDetail?: InputMaybe<Array<Scalars['String']>>;
+  reviewMessage?: InputMaybe<Scalars['String']>;
+  sendReview: Scalars['String'];
 };
 
 export type ICreateUserInput = {
@@ -155,6 +160,10 @@ export type IDog = {
   name: Scalars['String'];
   registerNumber: Scalars['String'];
   sendId: Array<ILike>;
+  sendReview: Array<IReview>;
+  targetAgeMax?: Maybe<Scalars['Int']>;
+  targetAgeMin?: Maybe<Scalars['Int']>;
+  targetDistance?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
   user: IUser;
 };
@@ -170,8 +179,42 @@ export type IDogImage = {
 export type IInterest = {
   __typename?: 'Interest';
   dogs: Array<IDog>;
+  iChatRoom: IInterestChatRoom;
   id: Scalars['String'];
   interest: Scalars['String'];
+  interestImg: Scalars['String'];
+  subTitle: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type IInterestCategoryOutput = {
+  __typename?: 'InterestCategoryOutput';
+  iChatRoomId: Scalars['String'];
+  interest: Scalars['String'];
+  interestImg: Scalars['String'];
+  subTitle: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type IInterestChatMessage = {
+  __typename?: 'InterestChatMessage';
+  id: Scalars['String'];
+  interestChatRoom: IInterestChatRoom;
+  lat?: Maybe<Scalars['Float']>;
+  lng?: Maybe<Scalars['Float']>;
+  meetAt?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  senderId: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type IInterestChatRoom = {
+  __typename?: 'InterestChatRoom';
+  createdAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  interest: IInterest;
+  interestChatMessages: Array<IInterestChatMessage>;
 };
 
 export type ILike = {
@@ -207,7 +250,7 @@ export type IMutation = {
   cancelPaymentForPoints: IPayment;
   /** Return : 가입성공한 관리자 계정 정보 */
   createAdminUser: IAdminUser;
-  /** Return : 차단된 유저 정보 */
+  /** Return: 차단된 유저 정보 */
   createBlockUser: IBlockUser;
   createCharacter: ICharacter;
   /** Return : 생성된 채팅 메시지 정보 */
@@ -215,6 +258,7 @@ export type IMutation = {
   /** Return : 생성된 채팅방 정보 */
   createChatRoom: IChatRoom;
   createDog: IDog;
+  createIChatMessage: IInterestChatMessage;
   createIamportAuth: Scalars['Boolean'];
   /** 관심사 항목 생성 */
   createInterest: IInterest;
@@ -235,6 +279,8 @@ export type IMutation = {
   createProduct: IProduct;
   /** Return : 생성된 신고 게시물 */
   createReport: IReport;
+  createReview: IReview;
+  createReviewDetail: IReviewDetail;
   /** Return : 가입된 유저 정보 */
   createUser: IUser;
   /** Return : 계정 삭제 여부 */
@@ -244,12 +290,16 @@ export type IMutation = {
   deleteChatRoom: Scalars['Boolean'];
   deleteDog: Scalars['Boolean'];
   deleteInterest: Scalars['Boolean'];
+  /** Return : 채팅방 삭제 여부  (true, false) */
+  deleteInterestChatRoom: Scalars['Boolean'];
   /** Return : 주문 삭제된 시간 */
   deleteOrder: Scalars['Boolean'];
   /** Return : deletedAt(패스 티켓 정보 삭제된 시간) */
   deletePassTicket: Scalars['Boolean'];
   /** Return : 상품 삭제된 시간 */
   deleteProduct: Scalars['Boolean'];
+  deleteReview: Scalars['Boolean'];
+  deleteReviewDetail: Scalars['Boolean'];
   /** Return : deletedAt(유저 정보 삭제된 시간) */
   deleteUser: Scalars['Boolean'];
   getDogInfo: Scalars['Boolean'];
@@ -257,16 +307,23 @@ export type IMutation = {
   isLike: Scalars['Boolean'];
   /** Return : 참가할 채팅방 정보(fetch + create) */
   joinChatRoom: IChatRoom;
+  /** Return : 참가할 채팅방 정보 */
+  joinIChatRoom: IInterestChatRoom;
   /** Return : 재발급된 AccessToken */
   restoreAccessToken: Scalars['String'];
   /** Return : 재발급된 AdminAccessToken */
   restoreAdminAccessToken: Scalars['String'];
+  /** Return : 유저 정보 */
+  stopUser: IUser;
   updateDog: IDog;
   updateDogsLocation: ILocation;
   /** Return : 업데이트 된 주문 정보 */
   updateOrder: IOrder;
   /** Return : 업데이트 된 상품 정보 */
   updateProduct: IProduct;
+  updateReview: IReview;
+  updateTargetAge: IDog;
+  updateTargetDistance: IDog;
   /** Return : 바뀐 유저 정보 */
   updateUser: IUser;
   /** Return : 버킷 주소 (파일 위치). prefix : [https://storage.googleapis.com/] */
@@ -303,7 +360,8 @@ export type IMutationCreateAdminUserArgs = {
 
 
 export type IMutationCreateBlockUserArgs = {
-  createBlockUserInput: ICreateBlockUserInput;
+  blockId: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
@@ -331,8 +389,14 @@ export type IMutationCreateDogArgs = {
 };
 
 
+export type IMutationCreateIChatMessageArgs = {
+  iRoomId: Scalars['String'];
+  testMsg: Scalars['String'];
+};
+
+
 export type IMutationCreateInterestArgs = {
-  interest: Scalars['String'];
+  createInterestInput: ICreateInterestInput;
 };
 
 
@@ -382,8 +446,19 @@ export type IMutationCreateProductArgs = {
 
 
 export type IMutationCreateReportArgs = {
-  createReportInput: ICreateReportInput;
+  reportContent: Scalars['String'];
+  targetId: Scalars['String'];
   userId: Scalars['String'];
+};
+
+
+export type IMutationCreateReviewArgs = {
+  createReviewInput: ICreateReviewInput;
+};
+
+
+export type IMutationCreateReviewDetailArgs = {
+  reviewDetail: Scalars['String'];
 };
 
 
@@ -417,6 +492,11 @@ export type IMutationDeleteInterestArgs = {
 };
 
 
+export type IMutationDeleteInterestChatRoomArgs = {
+  id: Scalars['String'];
+};
+
+
 export type IMutationDeleteOrderArgs = {
   id: Scalars['String'];
 };
@@ -428,6 +508,16 @@ export type IMutationDeletePassTicketArgs = {
 
 
 export type IMutationDeleteProductArgs = {
+  id: Scalars['String'];
+};
+
+
+export type IMutationDeleteReviewArgs = {
+  id: Scalars['String'];
+};
+
+
+export type IMutationDeleteReviewDetailArgs = {
   id: Scalars['String'];
 };
 
@@ -455,10 +545,19 @@ export type IMutationJoinChatRoomArgs = {
 };
 
 
+export type IMutationJoinIChatRoomArgs = {
+  email: Scalars['String'];
+  iChatRoomId: Scalars['String'];
+};
+
+
+export type IMutationStopUserArgs = {
+  id: Scalars['String'];
+};
+
+
 export type IMutationUpdateDogArgs = {
   dogId: Scalars['String'];
-  dogRegNum?: InputMaybe<Scalars['String']>;
-  ownerBirth?: InputMaybe<Scalars['String']>;
   updateDogInput: IUpdateDogInput;
 };
 
@@ -479,6 +578,24 @@ export type IMutationUpdateOrderArgs = {
 export type IMutationUpdateProductArgs = {
   id: Scalars['String'];
   updateProductInput: IUpdateProductInput;
+};
+
+
+export type IMutationUpdateReviewArgs = {
+  updateReviewInput: IUpdateReviewInput;
+};
+
+
+export type IMutationUpdateTargetAgeArgs = {
+  dogId: Scalars['String'];
+  targetAgeMax: Scalars['Float'];
+  targetAgeMin: Scalars['Float'];
+};
+
+
+export type IMutationUpdateTargetDistanceArgs = {
+  dogId: Scalars['String'];
+  targetDistance: Scalars['Float'];
 };
 
 
@@ -559,6 +676,7 @@ export type IQuery = {
   fetchBlockUsers: Array<IBlockUser>;
   /** 견종 종류 조회 */
   fetchBreeds: IBreed;
+  fetchCategoryDogs: Array<IDog>;
   /** 성격 정보 조회 */
   fetchCharacters: Array<ICharacter>;
   /** Return : chatRoomId로 찾은 메시지들의 정보 */
@@ -571,7 +689,11 @@ export type IQuery = {
   /**  Return : 모든 강아지 정보 */
   fetchDogs: Array<IDog>;
   fetchDogsDistance: Array<IAroundDogOutput>;
-  fetchInterests: Array<IInterest>;
+  /** Return : iChatRoomId로 찾은 메시지들의 정보 */
+  fetchIChatMessagesByIChatRoomId: Array<IInterestChatMessage>;
+  fetchInterestCategory: Array<IInterestCategoryOutput>;
+  /** Return : 조회된 관심사 채팅방 정보 */
+  fetchInterestChatRoom: IInterestChatRoom;
   /** Return : 로그인한 유저, 유저의 강아지 데이터 */
   fetchLoginUser: IUserOutput;
   /** 로그인 중인 유저의 이용권 유효 여부 확인하기 */
@@ -589,6 +711,12 @@ export type IQuery = {
   fetchPassTicket: IPassTicket;
   /** Return : 조회한 상품 정보 */
   fetchProduct: IProduct;
+  fetchReceiveReviews: Array<IReview>;
+  fetchReviewDetails: Array<IReviewDetail>;
+  fetchReviews: Scalars['Boolean'];
+  fetchSendReviews: Array<IReview>;
+  /** Return : 로그인한 유저 데이터 */
+  fetchSocialLoginUser: IUser;
   /** Return : 신고 정보 */
   fetchTarget: IReport;
   /** return : 좋아요 많이 받은 12마리 댕댕이 */
@@ -610,6 +738,11 @@ export type IQueryFetchAroundDogsArgs = {
 
 export type IQueryFetchBlockUserArgs = {
   blockId: Scalars['String'];
+};
+
+
+export type IQueryFetchCategoryDogsArgs = {
+  interest: Scalars['String'];
 };
 
 
@@ -643,6 +776,16 @@ export type IQueryFetchDogsDistanceArgs = {
 };
 
 
+export type IQueryFetchIChatMessagesByIChatRoomIdArgs = {
+  iChatRoomId: Scalars['String'];
+};
+
+
+export type IQueryFetchInterestChatRoomArgs = {
+  iRoomId: Scalars['String'];
+};
+
+
 export type IQueryFetchMainDogImageArgs = {
   dogId: Scalars['String'];
 };
@@ -669,11 +812,27 @@ export type IQueryFetchOrderByPhoneArgs = {
 
 
 export type IQueryFetchPassTicketArgs = {
-  id: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
 export type IQueryFetchProductArgs = {
+  id: Scalars['String'];
+};
+
+
+export type IQueryFetchReceiveReviewsArgs = {
+  id: Scalars['String'];
+};
+
+
+export type IQueryFetchReviewsArgs = {
+  myId: Scalars['String'];
+  targetId: Scalars['String'];
+};
+
+
+export type IQueryFetchSendReviewsArgs = {
   id: Scalars['String'];
 };
 
@@ -698,6 +857,22 @@ export type IReport = {
   reportContent: Scalars['String'];
   targetId: Scalars['String'];
   user: IUser;
+};
+
+export type IReview = {
+  __typename?: 'Review';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  receiveReviewId: Scalars['String'];
+  reviewDetail: Array<IReviewDetail>;
+  reviewMessage: Scalars['String'];
+  sendReview: IDog;
+};
+
+export type IReviewDetail = {
+  __typename?: 'ReviewDetail';
+  id: Scalars['String'];
+  reviewDetail: Scalars['String'];
 };
 
 /** 인기댕댕 */
@@ -735,6 +910,13 @@ export type IUpdateProductInput = {
   productName?: InputMaybe<Scalars['String']>;
 };
 
+export type IUpdateReviewInput = {
+  receiveReviewId?: InputMaybe<Scalars['String']>;
+  reviewDetail?: InputMaybe<Array<Scalars['String']>>;
+  reviewMessage?: InputMaybe<Scalars['String']>;
+  sendReview?: InputMaybe<Scalars['String']>;
+};
+
 export type IUpdateUserInput = {
   ddMoney?: InputMaybe<Scalars['Int']>;
   donateGrade?: InputMaybe<Scalars['String']>;
@@ -749,6 +931,7 @@ export type IUpdateUserInput = {
 
 export type IUser = {
   __typename?: 'User';
+  blockUsers: Array<IBlockUser>;
   createdAt: Scalars['DateTime'];
   ddMoney: Scalars['Int'];
   dog: IDog;
@@ -757,12 +940,13 @@ export type IUser = {
   email: Scalars['String'];
   id: Scalars['String'];
   isCert: Scalars['Boolean'];
-  passTicket: IPassTicket;
-  payment: IPayment;
+  isStop: Scalars['Boolean'];
+  passTickets: Array<IPassTicket>;
+  payments: Array<IPayment>;
   pet: Scalars['Boolean'];
   phone: Scalars['String'];
-  report: IReport;
   reportCnt: Scalars['Int'];
+  reports: Array<IReport>;
   updatedAt: Scalars['DateTime'];
 };
 
