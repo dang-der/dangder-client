@@ -23,7 +23,6 @@ export default function ChatListItemContainer({
     router.push(`/chat/${String(room?.id || "")}`);
   };
 
-  console.log("Rooms", room);
   return (
     <S.Wrapper onClick={handleClickItem}>
       <S.DogImage

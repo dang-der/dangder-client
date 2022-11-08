@@ -120,7 +120,6 @@ export default function InitProfileContainer() {
 
       handleNextPage();
     } catch (e) {
-      console.log("handleCheckDogRegister", e);
       setExceptionModal({
         visible: true,
         message: "댕댕이를 찾을 수 없습니다.<br/> 입력한 정보를 확인해주세요.",

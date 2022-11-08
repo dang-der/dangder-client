@@ -148,7 +148,6 @@ export default function SignUpContainer() {
       if (!data?.verifyMailToken) throw Error("인증번호가 일치하지 않습니다.");
       handleNextPage();
     } catch (e) {
-      console.log("verifyMailTokenError", e);
       if (e instanceof Error) {
         setExceptionModal({ visible: true, message: e.message });
       }
@@ -169,7 +168,6 @@ export default function SignUpContainer() {
   };
 
   const handleCheckDogRegisterNumber = async () => {
-    console.log("handleCheckDog");
     if (
       !yup
         .string()
@@ -208,7 +206,6 @@ export default function SignUpContainer() {
 
       handleNextPage();
     } catch (e) {
-      console.log("handleCheckDogRegister", e);
       setExceptionModal({
         visible: true,
         message: "댕댕이를 찾을 수 없습니다.<br/> 입력한 정보를 확인해주세요.",

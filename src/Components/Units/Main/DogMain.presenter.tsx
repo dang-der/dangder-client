@@ -33,7 +33,7 @@ export default function DogMainUI({
 }: StackProps) {
   const [userInfo] = useRecoilState(userInfoState);
   const [stack, setStack] = useState(datas);
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
 
   const pop = (array: any[] | undefined) => {
     if (!array) return;

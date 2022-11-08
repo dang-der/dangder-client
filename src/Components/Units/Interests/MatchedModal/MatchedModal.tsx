@@ -30,7 +30,6 @@ interface MatchedModalProps {
 }
 
 export default function MatchedModal({ receiveId }: MatchedModalProps) {
-  console.log("MatchedModal - received", receiveId);
   const router = useRouter();
 
   const [userInfo] = useRecoilState(userInfoState);
@@ -47,8 +46,6 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
     IMutationJoinChatRoomArgs
   >(JOIN_CHAT_ROOM);
 
-  console.log("MatchedModal", pairDogData);
-
   const toggleModal = (visible: boolean | MouseEvent<HTMLElement>) => {
     if (typeof visible === "boolean") {
       setVisible(visible);
@@ -58,7 +55,6 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
   };
 
   const onClickChat = async () => {
-    console.log("onClickChat");
     try {
       const { data } = await joinChatRoom({
         variables: {
@@ -74,7 +70,6 @@ export default function MatchedModal({ receiveId }: MatchedModalProps) {
       const roomId = data.joinChatRoom.id;
       router.push(`/chat/${roomId}`);
     } catch (e) {
-      console.log("joinChatRoomError", e);
       if (e instanceof Error) {
         setExceptionModal({ visible: true, message: e.message });
       }

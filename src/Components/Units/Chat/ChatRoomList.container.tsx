@@ -54,13 +54,10 @@ export default function ChatListContainer() {
           },
         ],
       });
-    } catch (e) {
-      console.log("deleteChatRoomError", e);
-    }
+    } catch (e) {}
   };
 
   const handleReportUser = async (targetDogId: string | undefined) => {
-    console.log("handleReportUser", targetDogId);
     if (!targetDogId) return;
 
     try {

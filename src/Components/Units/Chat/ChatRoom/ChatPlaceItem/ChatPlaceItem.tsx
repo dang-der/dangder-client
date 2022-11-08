@@ -15,7 +15,6 @@ export default function ChatPlaceItem({ dog, data }: ChatPlaceItemProps) {
   const staticMapRef = useRef<HTMLDivElement>(null);
 
   const onClickSeePlace = () => {
-    console.log("onClickSeePlace", staticMapRef.current);
     staticMapRef.current?.firstChild?.click();
   };
 

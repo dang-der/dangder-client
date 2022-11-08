@@ -19,10 +19,6 @@ export default function Navigation() {
     setActive(links.indexOf(router.asPath));
   }, [router]);
 
-  useEffect(() => {
-    console.log("nav - active menu", isActive);
-  }, [isActive]);
-
   const onClickToggle =
     (activeIndex: number) => (event: MouseEvent<HTMLDivElement>) => {
       setActive(activeIndex);

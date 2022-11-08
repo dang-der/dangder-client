@@ -83,7 +83,6 @@ export default function BuyPassTicketModal({
             if (!onSuccess) return;
             onSuccess();
           } catch (e) {
-            console.log("구매 다이얼로그", e);
             if (e instanceof Error) {
               setExceptionModal({
                 visible: true,

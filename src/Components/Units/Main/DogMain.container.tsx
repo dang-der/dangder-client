@@ -59,8 +59,6 @@ export default function DogMainContainer() {
   });
 
   const nonDogsData = fetchDogs?.fetchDogs.map((el) => [el]);
-  console.log("DogMainContainer - nonDogsData", nonDogsData);
-  console.log("DogMainContainer - data", data);
 
   const { data: dogsDistanceData } = useQuery<
     Pick<IQuery, "fetchDogsDistance">,
@@ -84,8 +82,6 @@ export default function DogMainContainer() {
     result: boolean,
     direction: string | undefined
   ) => {
-    console.log("DogMainContainer-onVote", item, result, direction);
-
     try {
       if (direction === "right") {
         if (userInfo === undefined) {
@@ -153,7 +149,6 @@ export default function DogMainContainer() {
       }
       router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
     } catch (e) {
-      console.log("handleJoinChatRoomError", e);
     }
   };
 

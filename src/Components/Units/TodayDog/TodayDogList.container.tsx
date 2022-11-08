@@ -1,16 +1,10 @@
 import { useMutation, useQuery } from "@apollo/client";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
-import {
-  exceptionModalState,
-  passBuyModalVisibleState,
-  selectedDogIdBuyPassState,
-} from "../../../Commons/Store/Modal/ModalVisibleState";
+import { passBuyModalVisibleState } from "../../../Commons/Store/Modal/ModalVisibleState";
 import {
   IMutation,
   IMutationJoinChatRoomArgs,
@@ -19,21 +13,19 @@ import {
 import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 import TodayDogListUI from "./TodayDogList.presenter";
 import {
-  FETCH_CATEGORY_DOGS,
   FETCH_INTEREST_CATEGORY,
   FETCH_LOGIN_USER_IS_CERT,
   FETCH_TODAY_DOG,
   JOIN_CHAT_ROOM,
 } from "./TodayDogList.queries";
+import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
 export default function TodayDogList() {
   const router = useRouter();
 
-  const [open, setOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
   const [userInfo] = useRecoilState(userInfoState);
-  const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
-  const [, setExceptionModal] = useRecoilState(exceptionModalState);
-  const [, setSelectedDogId] = useRecoilState(selectedDogIdBuyPassState);
+  const [, setBuyPassModalVisible] = useRecoilState(passBuyModalVisibleState);
 
   const { data: interestCategoryData } = useQuery<
     Pick<IQuery, "fetchInterestCategory">
@@ -42,46 +34,60 @@ export default function TodayDogList() {
   const { data: todayDogData } =
     useQuery<Pick<IQuery, "fetchTodayDog">>(FETCH_TODAY_DOG);
 
-  const { data: userIsCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
-    FETCH_LOGIN_USER_IS_CERT
-  );
+  const { data: loginUserIsCert } = useQuery<
+    Pick<IQuery, "fetchLoginUserIsCert">
+  >(FETCH_LOGIN_USER_IS_CERT);
 
   const [joinChatRoom] = useMutation<
     Pick<IMutation, "joinChatRoom">,
     IMutationJoinChatRoomArgs
   >(JOIN_CHAT_ROOM);
 
-  const handleJoinChatRoom = async (pairDogId: string) => {
-    if (!userIsCert?.fetchLoginUserIsCert) {
-      setVisible(true);
-      setSelectedDogId(pairDogId);
-    } else {
-      try {
-        const { data: joinChatRoomData } = await joinChatRoom({
-          variables: {
-            dogId: userInfo?.dog?.id || "",
-            chatPairId: pairDogId,
-          },
-        });
+  const onClickPassTicket = async (pairId: string) => {
+    setSelectedId(pairId);
+    checkIsCert(pairId);
+  };
 
-        if (!joinChatRoomData?.joinChatRoom.id) throw Error("채팅방 입장 실패");
-        setOpen(true);
-        router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
-      } catch (e) {
-        console.log("handleJoinChatRoomError", e);
-        if (e instanceof Error) {
-          setExceptionModal({ visible: true, message: e.message });
-        }
+  const checkIsCert = async (pairId: string) => {
+    if (!loginUserIsCert?.fetchLoginUserIsCert) {
+      setBuyPassModalVisible(true);
+      return;
+    }
+
+    handleJoinChatRoom(pairId);
+  };
+
+  const handleJoinChatRoom = async (pairId?: string) => {
+    try {
+      const { data: joinChatRoomData } = await joinChatRoom({
+        variables: {
+          dogId: userInfo?.dog?.id || "",
+          chatPairId: pairId || selectedId,
+        },
+      });
+
+      if (!joinChatRoomData?.joinChatRoom.id) {
+        throw Error("채팅방 입장 실패");
       }
+      router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
+    } catch (e) {
+      console.log("handleJoinChatRoomError", e);
     }
   };
 
   return (
     <>
-      {/* <BuyPassTicketModal /> */}
+      <BuyPassTicketModal
+        title="먼저 말을 걸기 위해서 <br />
+            댕더 패스 구매가 필요해요!
+            <br />"
+        icon={<CampaignRoundedIcon />}
+        redirectUrl="https://dangder.shop:3000/chat"
+        onSuccess={handleJoinChatRoom}
+      />
       <TodayDogListUI
         todayDogData={todayDogData}
-        handleJoinChatRoom={handleJoinChatRoom}
+        handleClickPassTicket={onClickPassTicket}
         interestCategoryData={interestCategoryData}
       />
     </>

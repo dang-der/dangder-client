@@ -20,7 +20,6 @@ export default function PlaceShareContainer({
   >();
 
   const onClickPlaceShare = () => {
-    console.log("onClickPlaceShare");
     handleEmitSend({
       type: "place",
       data: position,
@@ -29,16 +28,14 @@ export default function PlaceShareContainer({
   };
 
   const onChangeMarker = ({ lat, lng }: { lat: number; lng: number }) => {
-    console.log("onChangeMarker", lat, lng);
     setPosition({ lat, lng });
   };
 
   const getCurrentPosition = () => {
-    console.log("getCurrentPosition");
+    
     if (!navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log("getCurrentPosition", position);
       setPosition({
         lat: position.coords.latitude,
         lng: position.coords.longitude,

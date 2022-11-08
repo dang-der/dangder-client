@@ -21,7 +21,6 @@ export default function SettingsUI({
 }: SettingsUIProps) {
   const router = useRouter();
   const [userInfo] = useRecoilState(userInfoState);
-  console.log(handleUserLogout);
 
   const onClickLogout = () => {
     handleUserLogout();

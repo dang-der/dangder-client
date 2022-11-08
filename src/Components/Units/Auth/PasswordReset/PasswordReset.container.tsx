@@ -50,7 +50,6 @@ export default function PasswordResetContainer() {
 
       return data.createMailToken;
     } catch (e) {
-      console.log("createMailTokenError", e);
       if (e instanceof Error) {
         setExceptionModal({ visible: true, message: e.message });
       }
@@ -67,7 +66,6 @@ export default function PasswordResetContainer() {
 
       return data.verifyMailToken;
     } catch (e) {
-      console.log("verifyMailTokenError", e);
       if (e instanceof Error) {
         setExceptionModal({ visible: true, message: e.message });
       }
@@ -86,11 +84,8 @@ export default function PasswordResetContainer() {
         },
       });
 
-      console.log("updateUser", data?.updateUser);
       if (data?.updateUser.id) router.replace("/auth/login");
-    } catch (e) {
-      console.log("updateUserError", e);
-    }
+    } catch (e) {}
   };
 
   return (

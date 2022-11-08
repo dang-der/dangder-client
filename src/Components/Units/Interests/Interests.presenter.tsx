@@ -92,7 +92,7 @@ export default function InterestsUI({
       <Frame>
         {(stack || []).map((item: any, index: any) => {
           const isTop = index === (stack?.length || 0) - 1;
-          console.log("stack", item);
+
           return (
             <InterestsCard
               drag={isTop}

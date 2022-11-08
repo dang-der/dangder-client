@@ -10,8 +10,11 @@ export const FetchLoginUserHook = () => {
   const { data } = useQuery<Pick<IQuery, "fetchLoginUser">>(FETCH_LOGIN_USER);
 
   useEffect(() => {
-    console.log("FetchLoginUser", data);
-    if (!data?.fetchLoginUser) return;
+    
+    if (!data?.fetchLoginUser) {
+      setUserInfo(undefined);
+      return;
+    }
 
     setUserInfo(data.fetchLoginUser);
   }, [data]);

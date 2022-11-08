@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
-import { useRecoilState } from "recoil";
-import { selectedInterestGroupChatState } from "../../../../Commons/Store/Chat/Chat";
+
 
 const pages = [
   {

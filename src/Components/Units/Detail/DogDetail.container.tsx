@@ -105,7 +105,6 @@ export default function DogDetail() {
 
       router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
     } catch (e) {
-      console.log("handleJoinChatRoomError", e);
       if (e instanceof Error) {
         setExceptionModalVisible({ visible: true, message: e.message });
       }
@@ -142,7 +141,6 @@ export default function DogDetail() {
 
       setVisibleMatch(true);
     } catch (e) {
-      console.log("handleClickLikeError", e);
       setLikeModalVisible(false);
       if (e instanceof Error) {
         setExceptionModalVisible({ visible: true, message: e.message });

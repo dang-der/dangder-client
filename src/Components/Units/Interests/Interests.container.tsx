@@ -64,8 +64,6 @@ export default function InterestsContainer() {
     result: boolean,
     direction: string | undefined
   ) => {
-    console.log("DogMainContainer-onVote", item, result, direction);
-
     try {
       if (direction === "right") {
         if (userInfo === undefined) {
@@ -123,9 +121,7 @@ export default function InterestsContainer() {
         throw Error("채팅방 입장 실패");
       }
       router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
-    } catch (e) {
-      console.log("handleJoinChatRoomError", e);
-    }
+    } catch (e) {}
   };
 
   const handleClickChat = () => {

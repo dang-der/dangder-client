@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
 import { MouseEvent } from "react";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
-  IDog,
   IInterestCategoryOutput,
   IQuery,
   ITodayLikeDogOutput,
@@ -19,13 +18,13 @@ import TabPanel from "@mui/lab/TabPanel";
 
 interface TodayDogListUIProps {
   todayDogData: Pick<IQuery, "fetchTodayDog"> | undefined;
-  handleJoinChatRoom: (pairDogId: string) => Promise<void>;
+  handleClickPassTicket: (pairDogId: string) => Promise<void>;
   interestCategoryData: Pick<IQuery, "fetchInterestCategory"> | undefined;
 }
 
 export default function TodayDogListUI({
   todayDogData,
-  handleJoinChatRoom,
+  handleClickPassTicket,
   interestCategoryData,
 }: TodayDogListUIProps) {
   const router = useRouter();
@@ -43,14 +42,12 @@ export default function TodayDogListUI({
     };
 
   const onClickPass = (dogId: string) => {
-    handleJoinChatRoom(dogId);
+    handleClickPassTicket(dogId);
   };
 
-  const onClickInterests =
-    (interest: string, chatRoomId: string) =>
-    (event: MouseEvent<HTMLDivElement>) => {
-      router.push(`/interests?interest=${interest}&id=${chatRoomId}`);
-    };
+  const onClickInterests = (interest: string, chatRoomId: string) => () => {
+    router.push(`/interests?interest=${interest}&id=${chatRoomId}`);
+  };
 
   return (
     <S.Wrapper>
@@ -65,7 +62,6 @@ export default function TodayDogListUI({
           <TabPanel value="1">
             {todayDogData ? (
               todayDogData?.fetchTodayDog.map((e: ITodayLikeDogOutput) => {
-                console.log("todayDog", e);
                 return (
                   <S.ListWrapper key={e.id}>
                     <S.ListImageWrapper
@@ -104,7 +100,6 @@ export default function TodayDogListUI({
               {interestCategoryData ? (
                 interestCategoryData?.fetchInterestCategory.map(
                   (e: IInterestCategoryOutput) => {
-                    console.log("categoryDogs", e);
                     return (
                       <S.InterestWrapper key={e.interest}>
                         <S.InterestsImageWrapper
