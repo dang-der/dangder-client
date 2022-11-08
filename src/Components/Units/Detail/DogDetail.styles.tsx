@@ -77,13 +77,11 @@ export const DetailMoveBackWrapper = styled.div`
 // `;
 
 export const DetailMaineTitle = styled.div`
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 2.43rem;
-  margin-top: 2.43rem;
+  margin: 2.43rem;
 `;
 
 export const DetailInfo = styled.div`
@@ -92,6 +90,7 @@ export const DetailInfo = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+
   /* margin-left: 2.43rem;
   margin-top: 3.6975rem; */
 `;
@@ -253,6 +252,7 @@ export const DetailFunctionIconWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+
   margin-top: 1rem;
   margin-bottom: 1rem;
 `;
@@ -260,9 +260,6 @@ export const DetailFunctionIconWrapper = styled.div`
 export const DetailFunctionMoveBack = styled.img`
   width: 6rem;
   height: 6rem;
-  /* border: 0.5rem solid red;
-    border-radius: 50%; */
-  margin-right: 1rem;
   cursor: pointer;
 `;
 
@@ -298,7 +295,7 @@ export const ReactSlick = styled(Slider)`
 
 export const ReviewsWrapper = styled.div`
   width: 100%;
-  padding: 0 2.5rem;
+  padding: 2.43rem;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -310,5 +307,3 @@ export const SubTitleWrapper = styled.div`
   margin-right: 5px;
   margin-bottom: 1.5rem;
 `;
-
-

@@ -67,6 +67,7 @@ export default function BuyPassTicketModal({
         m_redirect_url: redirectUrl,
       },
       async (rsp: any) => {
+
         setVisible(false);
 
         if (rsp.success) {

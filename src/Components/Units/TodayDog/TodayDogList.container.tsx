@@ -19,6 +19,8 @@ import {
 import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
 import TodayDogListUI from "./TodayDogList.presenter";
 import {
+  FETCH_CATEGORY_DOGS,
+  FETCH_INTEREST_CATEGORY,
   FETCH_LOGIN_USER_IS_CERT,
   FETCH_TODAY_DOG,
   JOIN_CHAT_ROOM,
@@ -32,6 +34,10 @@ export default function TodayDogList() {
   const [visible, setVisible] = useRecoilState(passBuyModalVisibleState);
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
   const [, setSelectedDogId] = useRecoilState(selectedDogIdBuyPassState);
+
+  const { data: interestCategoryData } = useQuery<
+    Pick<IQuery, "fetchInterestCategory">
+  >(FETCH_INTEREST_CATEGORY);
 
   const { data: todayDogData } =
     useQuery<Pick<IQuery, "fetchTodayDog">>(FETCH_TODAY_DOG);
@@ -76,6 +82,7 @@ export default function TodayDogList() {
       <TodayDogListUI
         todayDogData={todayDogData}
         handleJoinChatRoom={handleJoinChatRoom}
+        interestCategoryData={interestCategoryData}
       />
     </>
   );
