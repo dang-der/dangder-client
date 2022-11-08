@@ -37,7 +37,7 @@ export default function DogMainContainer() {
   const [selectedId, setSelectedId] = useState("");
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModal] = useRecoilState(exceptionModalState);
-  const [, setVisible] = useRecoilState(passBuyModalVisibleState);
+  const [, setBuyPassModalVisible] = useRecoilState(passBuyModalVisibleState);
   const [matchedModalVisible, setMatchedModalVisible] = useRecoilState(
     matchedModalVisibleState
   );
@@ -127,27 +127,33 @@ export default function DogMainContainer() {
 
   const onClickPassTicket = async (pairId: string) => {
     setSelectedId(pairId);
+    checkIsCert();
+  };
+
+  const checkIsCert = async () => {
+    if (!loginUserIsCert?.fetchLoginUserIsCert) {
+      setBuyPassModalVisible(true);
+      return;
+    }
+
+    handleJoinChatRoom();
   };
 
   const handleJoinChatRoom = async () => {
-    if (!loginUserIsCert?.fetchLoginUserIsCert) {
-      setVisible(true);
-    } else {
-      try {
-        const { data: joinChatRoomData } = await joinChatRoom({
-          variables: {
-            dogId: userInfo?.dog?.id || "",
-            chatPairId: selectedId,
-          },
-        });
+    try {
+      const { data: joinChatRoomData } = await joinChatRoom({
+        variables: {
+          dogId: userInfo?.dog?.id || "",
+          chatPairId: selectedId,
+        },
+      });
 
-        if (!joinChatRoomData?.joinChatRoom.id) {
-          throw Error("채팅방 입장 실패");
-        }
-        router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
-      } catch (e) {
-        console.log("handleJoinChatRoomError", e);
+      if (!joinChatRoomData?.joinChatRoom.id) {
+        throw Error("채팅방 입장 실패");
       }
+      router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
+    } catch (e) {
+      console.log("handleJoinChatRoomError", e);
     }
   };
 

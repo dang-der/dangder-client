@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
@@ -47,9 +47,7 @@ export default function DogDetail() {
     passBuyModalVisibleState
   );
 
-  const [nonMemberVisible, setVisibleNonMember] = useRecoilState(
-    nonmemberModalVisible
-  );
+  const [nonMemberVisible] = useRecoilState(nonmemberModalVisible);
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModalVisible] = useRecoilState(exceptionModalState);
   const [, setSelectedDogId] = useRecoilState(selectedDogIdBuyPassState);
