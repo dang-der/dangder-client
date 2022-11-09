@@ -39,8 +39,17 @@ export default function LoginContainer() {
 
       setAccessToken(accessToken);
 
-      const { data } = await client.query({ query: FETCH_LOGIN_USER });
-      if (!data) return;
+      const { data } = await client.query({
+        query: FETCH_LOGIN_USER,
+        context: {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      });
+
+      if (!data) throw Error("유저 정보를 찾을 수 없습니다.");
+      
       setUserInfo(data.fetchLoginUser);
 
       router.replace("/main");
