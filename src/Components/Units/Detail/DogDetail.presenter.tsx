@@ -149,24 +149,26 @@ export default function DogDetailUI({
               )}
             </S.DetailSubMaineTitle>
 
-            <S.DetailFunctionIconWrapper>
-              <S.DetailFunctionMoveBack
-                onClick={onClickMoveBack}
-                src="/backIcon1.png"
-              />
-              <S.DetailFunctionMoveBack
-                onClick={onClickPass}
-                src="/passIcon.png"
-              />
-              <S.DetailFunctionMoveBack
-                onClick={onClickLike}
-                src="/likeIcon.png"
-              />
-              <S.DetailFunctionMoveBack
-                onClick={onClickReport}
-                src="/report_btn.png"
-              />
-            </S.DetailFunctionIconWrapper>
+            {router.pathname.includes("profile") || (
+              <S.DetailFunctionIconWrapper>
+                <S.DetailFunctionMoveBack
+                  onClick={onClickMoveBack}
+                  src="/backIcon1.png"
+                />
+                <S.DetailFunctionMoveBack
+                  onClick={onClickPass}
+                  src="/passIcon.png"
+                />
+                <S.DetailFunctionMoveBack
+                  onClick={onClickLike}
+                  src="/likeIcon.png"
+                />
+                <S.DetailFunctionMoveBack
+                  onClick={onClickReport}
+                  src="/report_btn.png"
+                />
+              </S.DetailFunctionIconWrapper>
+            )}
           </S.DetailContent>
 
           <S.ReviewsWrapper>
