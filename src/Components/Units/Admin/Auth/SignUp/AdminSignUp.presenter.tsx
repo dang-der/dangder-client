@@ -77,39 +77,43 @@ export default function AdminSignUpUI() {
       <S.FormTitle>Sign up</S.FormTitle>
       <S.FormWrapper>
         <Form onSubmitCapture={handleSubmit(onClickAdminSignUp)}>
-          <Form.Item>
-            <S.FormLabel>Email :</S.FormLabel>
-            <S.FormInput
-              type="text"
-              placeholder="admin@gmail.com"
-              {...register("account")}
-            />
-          </Form.Item>
-          <S.ErrorInputMsg>{formState.errors.account?.message}</S.ErrorInputMsg>
+          <S.SignUpInputWrapper>
+            <Form.Item>
+              <S.FormLabel>Email :</S.FormLabel>
+              <S.FormInput
+                type="text"
+                placeholder="admin@gmail.com"
+                {...register("account")}
+              />
+              <S.ErrorInputMsg>
+                {formState.errors.account?.message}
+              </S.ErrorInputMsg>
+            </Form.Item>
 
-          <Form.Item>
-            <S.FormLabel>Password: </S.FormLabel>
-            <S.FormInput
-              type="password"
-              placeholder="password"
-              {...register("password")}
-            />
-          </Form.Item>
-          <S.ErrorInputMsg>
-            {formState.errors.password?.message}
-          </S.ErrorInputMsg>
+            <Form.Item>
+              <S.FormLabel>Password: </S.FormLabel>
+              <S.FormInput
+                type="password"
+                placeholder="password"
+                {...register("password")}
+              />
+            </Form.Item>
+            <S.ErrorInputMsg>
+              {formState.errors.password?.message}
+            </S.ErrorInputMsg>
 
-          <Form.Item>
-            <S.FormLabel>Confirm Password :</S.FormLabel>
-            <S.FormInput
-              type="password"
-              placeholder="confirm password"
-              {...register("repassword")}
-            />
-          </Form.Item>
-          <S.ErrorInputMsg>
-            {formState.errors.repassword?.message}
-          </S.ErrorInputMsg>
+            <Form.Item>
+              <S.FormLabel>Confirm Password :</S.FormLabel>
+              <S.FormInput
+                type="password"
+                placeholder="confirm password"
+                {...register("repassword")}
+              />
+            </Form.Item>
+            <S.ErrorInputMsg>
+              {formState.errors.repassword?.message}
+            </S.ErrorInputMsg>
+          </S.SignUpInputWrapper>
 
           <S.ButtonWrapper>
             <S.SignupButton htmlType="submit">회원가입</S.SignupButton>

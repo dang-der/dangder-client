@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
-import { Form, Button } from "antd";
+import { Button } from "antd";
 
 export const Wrapper = styled.div`
   width: 100%;
+  min-width: 550px;
   height: 100vh;
   display: flex;
   flex-direction: column;

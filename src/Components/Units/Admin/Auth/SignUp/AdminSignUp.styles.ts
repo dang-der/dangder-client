@@ -41,24 +41,19 @@ export const LoginForm = styled(Form)`
   align-items: center;
 `;
 
-export const EmailWrapper = styled.div`
-  margin-left: 1.2rem;
-`;
-
-export const PasswordWrapper = styled.div`
-  /* width: 300px; */
-`;
-
-export const RePasswordWrapper = styled.div`
-  width: 300px;
+export const SignUpInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
 `;
 
 export const FormInput = styled.input`
-  width: 300px;
+  width: 200px;
   height: 30px;
   background-color: #f6f6f6;
   padding: 15px;
-  margin: 20px 0px 0px 10px;
+  margin: 10px 0px 0px 5px;
   border: 1px solid #cccccc;
   border-radius: 5px;
 `;
@@ -90,7 +85,7 @@ export const LoginFooter = styled.div`
 export const FooterSpan = styled.span`
   color: #71717b;
   font-weight: 600;
-  margin-right: 4px;
+  margin-right: 6px;
 `;
 
 export const MovetoJoinSpan = styled.span`

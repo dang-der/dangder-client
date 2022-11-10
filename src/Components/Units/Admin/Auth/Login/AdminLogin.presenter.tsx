@@ -13,7 +13,6 @@ import {
 import { ADMIN_LOGIN } from "./AdminLogin.quries";
 import { useRecoilState } from "recoil";
 import { adminAccessTokenState } from "../../../../../Commons/Store/Admin/AccessToken";
-import { adminInfoState } from "../../../../../Commons/Store/Admin/AdminInfoState";
 import { useRouter } from "next/router";
 
 const schema = yup.object({
@@ -49,15 +48,13 @@ export default function AdminLoginUI() {
   const router = useRouter();
 
   const [, setAdminAccessToken] = useRecoilState(adminAccessTokenState);
-  const [, setAdminInfoState] = useRecoilState(adminInfoState);
 
   const handleAdminLogin = async (inputs: any) => {
     try {
       const result = await adminLogin({
         variables: { ...inputs },
       });
-      console.log(result);
-      console.log("로그인 성공");
+
       const accessToken = result.data?.adminLogin || "";
 
       if (!accessToken) {
