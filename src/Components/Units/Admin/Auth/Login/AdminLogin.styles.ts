@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Form, Button, Input } from "antd";
+import { Form, Button } from "antd";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -32,22 +32,47 @@ export const FormWrapper = styled.div`
   box-shadow: 8px 8px 15px 0px rgba(0, 0, 0, 0.15);
 `;
 
-export const LoginForm = styled(Form)`
+export const LoginForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
   align-items: center;
 `;
 
 export const EmailWrapper = styled.div`
-  margin-left: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
-export const PasswordWrapper = styled.div``;
+export const AccountInput = styled.input`
+  height: 15px;
+  padding: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background-color: #f6f6f6;
+`;
 
-export const LoginInput = styled(Input)`
-  width: 181.5px;
+export const PasswordWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const PasswordInput = styled.input`
+  height: 15px;
+  padding: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background-color: #f6f6f6;
 `;
 
 export const LoginButton = styled(Button)`
@@ -77,4 +102,8 @@ export const MovetoJoinButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const InputErrors = styled.span`
+  color: tomato;
 `;

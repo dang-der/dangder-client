@@ -7,7 +7,6 @@ import PageHeader from "./page_header";
 
 const SHOW_LOGO_HEADERS = ["/main", `/[dogId]`];
 
-// TODO: 채팅방 - 약속 설정에 페이지 타이틀 헤더 추가
 const SHOW_PAGE_HEADERS = [
   "/auth/password-reset",
   "/today",
@@ -26,6 +25,14 @@ const SHOW_NAVIGATION = [
   "/chat",
   "/profile",
   "/profile/[dogId]",
+];
+
+const SHOW_ADMIN_NAVIGATION = [
+  "/admin/user",
+  "/admin/dogs",
+  "/admin/report",
+  "/admin/block",
+  "/admin/payments",
 ];
 
 interface ILayoutProps {
@@ -56,13 +63,13 @@ const TabWrapper = styled.div`
   height: 4rem;
 `;
 
-// TODO: 불필요한 리렌더링 막기
 export default function Layout(props: ILayoutProps) {
   const router = useRouter();
 
   const isShowLogoHeader = SHOW_LOGO_HEADERS.includes(router.pathname);
   const isShowPageHeader = SHOW_PAGE_HEADERS.includes(router.pathname);
   const isShowNavigation = SHOW_NAVIGATION.includes(router.pathname);
+  const isShowAdminNavigation = SHOW_ADMIN_NAVIGATION.includes(router.pathname);
 
   return (
     <Wrapper>

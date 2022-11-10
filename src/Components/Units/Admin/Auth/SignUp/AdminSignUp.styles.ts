@@ -3,6 +3,7 @@ import { Button, Form } from "antd";
 
 export const Wrapper = styled.div`
   width: 100%;
+  min-width: 550px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,7 +25,7 @@ export const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: left;
+  align-items: center;
   width: 500px;
   height: 400px;
   border-radius: 10px;
@@ -41,15 +42,36 @@ export const LoginForm = styled(Form)`
 `;
 
 export const EmailWrapper = styled.div`
-  width: 300px;
+  margin-left: 1.2rem;
 `;
 
 export const PasswordWrapper = styled.div`
-  width: 300px;
+  /* width: 300px; */
 `;
 
 export const RePasswordWrapper = styled.div`
   width: 300px;
+`;
+
+export const FormInput = styled.input`
+  width: 300px;
+  height: 30px;
+  background-color: #f6f6f6;
+  padding: 15px;
+  margin: 20px 0px 0px 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+`;
+
+export const FormLabel = styled.label`
+  font-weight: 500;
+`;
+
+export const ButtonWrapper = styled(Form.Item)`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SignupButton = styled(Button)`
@@ -74,4 +96,8 @@ export const FooterSpan = styled.span`
 export const MovetoJoinSpan = styled.span`
   font-weight: 500;
   text-decoration: underline;
+`;
+
+export const ErrorInputMsg = styled.div`
+  color: tomato;
 `;
