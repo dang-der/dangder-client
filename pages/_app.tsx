@@ -12,33 +12,48 @@ import SuccessSnack from "../src/Components/Commons/Modal/SuccessSnack/SuccessSn
 import UseCheckVisit from "../src/Commons/Library/UseCheckVisit";
 import { AdminGlobalStyles } from "../styles/AdminGlobalStyles";
 import { useRouter } from "next/router";
-
+import AdminNavigation from "../src/Components/Commons/layout/admin_navigation";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  console.log((router.pathname).includes('admin'))
+
+  const SHOW_ADMIN_NAVIGATION = [
+    "/admin/user",
+    "/admin/dogs",
+    "/admin/report",
+    "/admin/block",
+    "/admin/payments",
+  ];
+
+  const isShowAdminNavigation = SHOW_ADMIN_NAVIGATION.includes(router.pathname);
 
   return (
-    <Wrapper>
-      <RecoilRoot>
-        <UseCheckVisit />
-        <AuthModal />
-        <ExceptionModal />
-        <SuccessSnack />
-
-        {(router.pathname).includes('admin') ? (<ApolloSetting>
-          <Global styles={AdminGlobalStyles} />
-          <Layout>
+    <>
+      {router.pathname.includes("admin") ? (
+        <RecoilRoot>
+          <ApolloSetting>
+            <Global styles={AdminGlobalStyles} />
+            {isShowAdminNavigation && <AdminNavigation />}
             <Component {...pageProps} />
-          </Layout>
-        </ApolloSetting>) : (<ApolloSetting>
-          <Global styles={globalStyles} />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ApolloSetting>)}
-      </RecoilRoot>
-    </Wrapper>
+          </ApolloSetting>
+        </RecoilRoot>
+      ) : (
+        <Wrapper>
+          <RecoilRoot>
+            <UseCheckVisit />
+            <AuthModal />
+            <ExceptionModal />
+            <SuccessSnack />
+            <ApolloSetting>
+              <Global styles={globalStyles} />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ApolloSetting>
+          </RecoilRoot>
+        </Wrapper>
+      )}
+    </>
   );
 }
 

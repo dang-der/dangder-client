@@ -1,11 +1,11 @@
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 export const AdminGlobalStyles = css`
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'InfinitySans';
+    font-family: "InfinitySans";
   }
 
   html {
@@ -18,8 +18,7 @@ export const AdminGlobalStyles = css`
     position: relative;
   }
 
-  h1
-  h2,
+  h1 h2,
   h3,
   h4,
   h5,

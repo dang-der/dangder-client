@@ -19,7 +19,6 @@ const SHOW_PAGE_HEADERS = [
   "/interests/chat/[roomId]",
   "/review/write",
   "/review/[dogId]",
-
 ];
 
 const SHOW_NAVIGATION = [
@@ -30,14 +29,6 @@ const SHOW_NAVIGATION = [
   "/profile",
   "/profile/[dogId]",
   "/interests",
-];
-
-const SHOW_ADMIN_NAVIGATION = [
-  "/admin/user",
-  "/admin/dogs",
-  "/admin/report",
-  "/admin/block",
-  "/admin/payments",
 ];
 
 interface ILayoutProps {
@@ -75,7 +66,6 @@ export default function Layout(props: ILayoutProps) {
   const isShowLogoHeader = SHOW_LOGO_HEADERS.includes(router.pathname);
   const isShowPageHeader = SHOW_PAGE_HEADERS.includes(router.pathname);
   const isShowNavigation = SHOW_NAVIGATION.includes(router.pathname);
-  const isShowAdminNavigation = SHOW_ADMIN_NAVIGATION.includes(router.pathname);
 
   return (
     <Wrapper>
