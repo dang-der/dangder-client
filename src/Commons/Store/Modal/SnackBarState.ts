@@ -1,7 +1,8 @@
+import { AlertColor } from "@mui/material";
 import { atom } from "recoil";
 
 interface ISnackBarState {
-  type?: string;
+  type?: AlertColor;
   visible: boolean;
   message: string;
 }

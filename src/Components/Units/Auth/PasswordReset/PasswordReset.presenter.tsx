@@ -62,9 +62,7 @@ export default function PasswordResetUI({
     setTimerVisible(false);
   }, []);
 
-  useEffect(() => {
-    console.log(buttonActive);
-  }, [buttonActive]);
+
 
   const onClickAuthRequest = async () => {
     if (timerVisible) return;
@@ -90,7 +88,7 @@ export default function PasswordResetUI({
   const onClickUpdate = () => {
     if (Object.values(getValues()).every((e) => e) && verifyError === "") {
       handleUpdateUser(getValues("email"), getValues("password"));
-      console.log("onClickUpdatePassword");
+
       return;
     }
 
@@ -101,7 +99,6 @@ export default function PasswordResetUI({
     const name = e.target.name;
     const value = e.target.value;
 
-    console.log(name, value);
     if (name === "email") setButtonActive((p) => [!!value, p[1]]);
     if (name === "code") setButtonActive((p) => [p[0], !!value]);
   };

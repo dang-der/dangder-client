@@ -6,7 +6,6 @@ export interface IDogProfile {
   imageUrls: string[];
   imageFiles: File[];
   age: number;
-  isUnknownDogBirth: boolean;
   introduce: string;
   characters: string[];
   interests: string[];
@@ -30,7 +29,6 @@ export const profileInputState = atom<IProfileInputState>({
       imageUrls: [],
       imageFiles: [],
       age: 0,
-      isUnknownDogBirth: false,
       introduce: "",
       characters: [],
       interests: [],

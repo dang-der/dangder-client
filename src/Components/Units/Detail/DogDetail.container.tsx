@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import {
@@ -16,11 +16,13 @@ import {
   IMutationJoinChatRoomArgs,
   IQuery,
   IQueryFetchOneDogArgs,
+  IQueryFetchReceiveReviewsArgs,
 } from "../../../Commons/Types/Generated/types";
 import LikeModal from "../../Commons/Modal/Like/LoadingModal";
 import { FETCH_AROUND_DOG } from "../Main/DogMain.queries";
 import MatchedModal from "../Main/MatchedModal/MatchedModal";
 import BuyPassTicketModal from "../PassModal/BuyPassTicketModal";
+import { FETCH_RECEIVE_REVIEWS } from "../Review/Review.queries";
 
 import DogDetailUI from "./DogDetail.presenter";
 import {
@@ -31,6 +33,7 @@ import {
   JOIN_CHAT_ROOM,
 } from "./DogDetail.queries";
 import NonmemberModal from "./NonmemberModal/NonmemberModal";
+import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
 export default function DogDetail() {
   const router = useRouter();
@@ -44,9 +47,7 @@ export default function DogDetail() {
     passBuyModalVisibleState
   );
 
-  const [nonMemberVisble, setVisbleNonMember] = useRecoilState(
-    nonmemberModalVisible
-  );
+  const [nonMemberVisible] = useRecoilState(nonmemberModalVisible);
   const [userInfo] = useRecoilState(userInfoState);
   const [, setExceptionModalVisible] = useRecoilState(exceptionModalState);
   const [, setSelectedDogId] = useRecoilState(selectedDogIdBuyPassState);
@@ -54,10 +55,6 @@ export default function DogDetail() {
   const { data: userIsCert } = useQuery<Pick<IQuery, "fetchLoginUserIsCert">>(
     FETCH_LOGIN_USER_IS_CERT
   );
-  const [joinChatRoom] = useMutation<
-    Pick<IMutation, "joinChatRoom">,
-    IMutationJoinChatRoomArgs
-  >(JOIN_CHAT_ROOM);
 
   const { data: pickDogData } = useQuery<
     Pick<IQuery, "fetchOneDog">,
@@ -66,22 +63,34 @@ export default function DogDetail() {
     variables: { id: String(router.query.dogId) },
   });
 
+  const { data: receivedReviewsData } = useQuery<
+    Pick<IQuery, "fetchReceiveReviews">,
+    IQueryFetchReceiveReviewsArgs
+  >(FETCH_RECEIVE_REVIEWS, {
+    variables: { id: String(router.query.dogId) },
+  });
+
   const [createLike] = useMutation<
     Pick<IMutation, "createLike">,
     IMutationCreateLikeArgs
   >(CREATE_LIKE);
 
-  useEffect(() => {
-    console.log("nonMemberVisible", nonMemberVisble);
-  }, [nonMemberVisble]);
+  const [joinChatRoom] = useMutation<
+    Pick<IMutation, "joinChatRoom">,
+    IMutationJoinChatRoomArgs
+  >(JOIN_CHAT_ROOM);
 
-  const handleJoinChatRoom = async () => {
+  const checkIsCert = async () => {
     if (!userIsCert?.fetchLoginUserIsCert) {
       setVisibleBuyPass(true);
       setSelectedDogId(String(router.query.dogId) || "");
       return;
     }
 
+    handleJoinChatRoom();
+  };
+
+  const handleJoinChatRoom = async () => {
     try {
       const { data: joinChatRoomData } = await joinChatRoom({
         variables: {
@@ -91,12 +100,11 @@ export default function DogDetail() {
       });
 
       if (!joinChatRoomData?.joinChatRoom.id) {
-        throw Error("채팅방 입장 실패");
+        throw Error("채팅방에 입장할 수 없습니다.");
       }
 
       router.push(`/chat/${joinChatRoomData.joinChatRoom.id}`);
     } catch (e) {
-      console.log("handleJoinChatRoomError", e);
       if (e instanceof Error) {
         setExceptionModalVisible({ visible: true, message: e.message });
       }
@@ -133,7 +141,6 @@ export default function DogDetail() {
 
       setVisibleMatch(true);
     } catch (e) {
-      console.log("handleClickLikeError", e);
       setLikeModalVisible(false);
       if (e instanceof Error) {
         setExceptionModalVisible({ visible: true, message: e.message });
@@ -143,18 +150,29 @@ export default function DogDetail() {
 
   return (
     <>
-      {nonMemberVisble && <NonmemberModal />}
+      {nonMemberVisible && <NonmemberModal />}
 
       {likeModalVisible && (
         <LikeModal handleCompleteAnimation={handleCompleteAnimation} />
       )}
 
       {matchVisible && <MatchedModal receiveId={String(router.query.dogId)} />}
-      {passVisible && <BuyPassTicketModal />}
+      {passVisible && (
+        <BuyPassTicketModal
+          title="먼저 말을 걸기 위해서 <br />
+            댕더 패스 구매가 필요해요!
+            <br />"
+          icon={<CampaignRoundedIcon />}
+          redirectUrl="https://dangder.shop:3000/chat"
+          onSuccess={handleJoinChatRoom}
+        />
+      )}
+
       <DogDetailUI
         handleClickLike={onClickLike}
-        handleJoinChatRoom={handleJoinChatRoom}
+        handleJoinChatRoom={checkIsCert}
         pickDogData={pickDogData}
+        reviews={receivedReviewsData?.fetchReceiveReviews || []}
       />
     </>
   );

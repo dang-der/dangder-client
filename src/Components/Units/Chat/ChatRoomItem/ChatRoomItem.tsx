@@ -2,11 +2,8 @@
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { enteredChatRoomInfoState } from "../../../../Commons/Store/Chat/Chat";
-import {
-  
-  IChatRoomsOutput,
-} from "../../../../Commons/Types/Generated/types";
-
+import { IChatRoomsOutput } from "../../../../Commons/Types/Generated/types";
+import { MouseEvent } from "react";
 
 import * as S from "./ChatRoomItem.styles";
 
@@ -20,13 +17,12 @@ export default function ChatListItemContainer({
 
   const [, setEnterRoomInfo] = useRecoilState(enteredChatRoomInfoState);
 
-  const handleClickItem = () => {
+  const handleClickItem = (e: MouseEvent<HTMLDivElement>) => {
     setEnterRoomInfo(room);
 
     router.push(`/chat/${String(room?.id || "")}`);
   };
 
-  console.log("Rooms", room);
   return (
     <S.Wrapper onClick={handleClickItem}>
       <S.DogImage

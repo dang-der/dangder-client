@@ -78,3 +78,38 @@ export const FETCH_LOGIN_USER_IS_CERT = gql`
 //     }
 //   }
 // `;
+
+export const FETCH_CATEGORY_DOGS = gql`
+  query fetchCategoryDogs($interest: String!) {
+    fetchCategoryDogs(interest: $interest) {
+      id
+      name
+      age
+      gender
+      interests {
+        id
+        interest
+      }
+      description
+      user {
+        id
+      }
+      img {
+        img
+        isMain
+      }
+    }
+  }
+`;
+
+export const FETCH_INTEREST_CATEGORY = gql`
+  query fetchInterestCategory {
+    fetchInterestCategory {
+      interest
+      interestImg
+      title
+      subTitle
+      iChatRoomId
+    }
+  }
+`;

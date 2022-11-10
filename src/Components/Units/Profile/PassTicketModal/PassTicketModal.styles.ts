@@ -1,19 +1,36 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* span {
-    color: white;
-    font-weight: 500;
-    font-size: 1rem;
-    text-align: center;
-    margin-top: 2.5rem;
-  } */
+  background-image: url("/bg_ticket.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+`;
+
+export const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 2.5rem;
+  span {
+    padding: 0.5rem;
+  }
+`;
+
+export const TextWrapper = styled.span`
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
 `;
 
 export const DogImageWrapper = styled.img`

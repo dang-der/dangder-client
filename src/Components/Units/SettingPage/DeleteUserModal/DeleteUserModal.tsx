@@ -53,7 +53,6 @@ export default function DeleteUserModal({
     if (!visible) setVisible((p) => !p);
   };
 
-  // console.log("fetchUser", data?.fetchUser);
   const onClickDeleteUser = async () => {
     if (!userInfo?.user) return;
 
@@ -65,10 +64,9 @@ export default function DeleteUserModal({
           email: userInfo?.user?.email,
         },
       });
-      console.log("onClickDeleteUser", data);
+
       router.push("/auth/login");
     } catch (e) {
-      console.log("onClickDeleteUserError", e);
       if (e instanceof Error) {
         setExceptionModal({ visible: true, message: e.message });
       }

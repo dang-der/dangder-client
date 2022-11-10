@@ -8,14 +8,14 @@ export default function IntroLike() {
     <S.Wrapper>
       <S.MainImageWrapper>
         <S.MainImage src="/intro3.png" />
-        <Lottie animationData={ani_like} loop={true} />
+        <Lottie className="haha" animationData={ani_like} loop={true} />
       </S.MainImageWrapper>
       <S.SubTitle>지금 당장 댕댕이와 만나보세요</S.SubTitle>
 
       <S.ButtonWrapper>
-        <Link href="/">
-          <S.Button>다음</S.Button>
-        </Link>
+        <S.Button>
+          <Link href="/">다음</Link>
+        </S.Button>
       </S.ButtonWrapper>
     </S.Wrapper>
   );

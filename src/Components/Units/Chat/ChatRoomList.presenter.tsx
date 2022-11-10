@@ -8,6 +8,7 @@ import {
 } from "react-swipeable-list";
 import "react-swipeable-list/dist/styles.css";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import ReportProblemRoundedIcon from "@mui/icons-material/ReportProblemRounded";
 
 import * as S from "./ChatRoomList.styles";
 import ChatListItem from "./ChatRoomItem/ChatRoomItem";
@@ -18,19 +19,21 @@ import DeleteChatRoomModal from "./DeleteChatRoomModal/DeleteChatRoomModal";
 interface ChatListUIProps {
   chatList: IChatRoomsOutput[] | undefined;
   handleDeleteChatRoom: (roomId: string) => void;
+  handleReportUser: (targetDogId: string) => void;
 }
 export default function ChatListUI({
   chatList,
   handleDeleteChatRoom,
+  handleReportUser,
 }: ChatListUIProps) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deletedRoomId, setDeletedRoomId] = useState<string>();
 
-  const trailingActions = ({ roomId }: any) => (
+  const trailingActions = (room: IChatRoomsOutput) => (
     <TrailingActions>
       <SwipeAction
         onClick={() => {
-          setDeletedRoomId(roomId);
+          setDeletedRoomId(String(room.id));
           setDeleteModalVisible((p) => !p);
         }}
       >
@@ -38,6 +41,21 @@ export default function ChatListUI({
           <S.SwipeContentsWrapper>
             <CloseRoundedIcon />
             <span>매치취소</span>
+          </S.SwipeContentsWrapper>
+        </S.SwipeMenu>
+      </SwipeAction>
+
+      <SwipeAction
+        onClick={() => {
+          if (!room.id) return;
+          handleDeleteChatRoom(room.id);
+          handleReportUser(String(room.chatPairDog?.id));
+        }}
+      >
+        <S.SwipeMenu backgroundColor="gray">
+          <S.SwipeContentsWrapper>
+            <ReportProblemRoundedIcon />
+            <span>신고하기</span>
           </S.SwipeContentsWrapper>
         </S.SwipeMenu>
       </SwipeAction>
@@ -61,11 +79,11 @@ export default function ChatListUI({
       )}
       <S.Wrapper>
         <S.ChatListContainer>
-          <SwipeableList fullSwipe={false} threshold={0.5} type={ListType.IOS}>
+          <SwipeableList type={ListType.IOS} threshold={0.3}>
             {(chatList || []).map((e: IChatRoomsOutput) => {
               return (
                 <SwipeableListItem
-                  trailingActions={trailingActions({ roomId: e.id || "" })}
+                  trailingActions={trailingActions(e)}
                   key={uuid()}
                 >
                   <ChatListItem room={e} />

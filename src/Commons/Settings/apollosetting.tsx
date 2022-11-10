@@ -45,9 +45,6 @@ export default function ApolloSetting(props: IApolloSettingProps) {
     });
   }, []);
 
-  useEffect(() => {
-    console.log("userInfo", userInfo);
-  }, [userInfo]);
 
   const errorLink = onError(({ graphQLErrors, operation, forward }) => {
 

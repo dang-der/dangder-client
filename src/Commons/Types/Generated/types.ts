@@ -129,16 +129,10 @@ export type ICreateProductInput = {
   productName: Scalars['String'];
 };
 
-export type ICreateReportInput = {
-  reportContent: Scalars['String'];
-  reportId: Scalars['String'];
-  targetId: Scalars['String'];
-};
-
 export type ICreateReviewInput = {
   receiveReviewId: Scalars['String'];
-  reviewDetail: Scalars['String'];
-  reviewMessage: Scalars['String'];
+  reviewDetail?: InputMaybe<Array<Scalars['String']>>;
+  reviewMessage?: InputMaybe<Scalars['String']>;
   sendReview: Scalars['String'];
 };
 
@@ -195,6 +189,7 @@ export type IInterest = {
 
 export type IInterestCategoryOutput = {
   __typename?: 'InterestCategoryOutput';
+  iChatRoomId: Scalars['String'];
   interest: Scalars['String'];
   interestImg: Scalars['String'];
   subTitle: Scalars['String'];
@@ -263,6 +258,7 @@ export type IMutation = {
   /** Return : 생성된 채팅방 정보 */
   createChatRoom: IChatRoom;
   createDog: IDog;
+  createIChatMessage: IInterestChatMessage;
   createIamportAuth: Scalars['Boolean'];
   /** 관심사 항목 생성 */
   createInterest: IInterest;
@@ -284,6 +280,7 @@ export type IMutation = {
   /** Return : 생성된 신고 게시물 */
   createReport: IReport;
   createReview: IReview;
+  createReviewDetail: IReviewDetail;
   /** Return : 가입된 유저 정보 */
   createUser: IUser;
   /** Return : 계정 삭제 여부 */
@@ -302,6 +299,7 @@ export type IMutation = {
   /** Return : 상품 삭제된 시간 */
   deleteProduct: Scalars['Boolean'];
   deleteReview: Scalars['Boolean'];
+  deleteReviewDetail: Scalars['Boolean'];
   /** Return : deletedAt(유저 정보 삭제된 시간) */
   deleteUser: Scalars['Boolean'];
   getDogInfo: Scalars['Boolean'];
@@ -309,6 +307,8 @@ export type IMutation = {
   isLike: Scalars['Boolean'];
   /** Return : 참가할 채팅방 정보(fetch + create) */
   joinChatRoom: IChatRoom;
+  /** Return : 참가할 채팅방 정보 */
+  joinIChatRoom: IInterestChatRoom;
   /** Return : 재발급된 AccessToken */
   restoreAccessToken: Scalars['String'];
   /** Return : 재발급된 AdminAccessToken */
@@ -389,6 +389,12 @@ export type IMutationCreateDogArgs = {
 };
 
 
+export type IMutationCreateIChatMessageArgs = {
+  iRoomId: Scalars['String'];
+  testMsg: Scalars['String'];
+};
+
+
 export type IMutationCreateInterestArgs = {
   createInterestInput: ICreateInterestInput;
 };
@@ -440,12 +446,19 @@ export type IMutationCreateProductArgs = {
 
 
 export type IMutationCreateReportArgs = {
-  createReportInput: ICreateReportInput;
+  reportContent: Scalars['String'];
+  targetId: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
 export type IMutationCreateReviewArgs = {
   createReviewInput: ICreateReviewInput;
+};
+
+
+export type IMutationCreateReviewDetailArgs = {
+  reviewDetail: Scalars['String'];
 };
 
 
@@ -504,6 +517,11 @@ export type IMutationDeleteReviewArgs = {
 };
 
 
+export type IMutationDeleteReviewDetailArgs = {
+  id: Scalars['String'];
+};
+
+
 export type IMutationDeleteUserArgs = {
   email: Scalars['String'];
 };
@@ -524,6 +542,12 @@ export type IMutationIsLikeArgs = {
 export type IMutationJoinChatRoomArgs = {
   chatPairId: Scalars['String'];
   dogId: Scalars['String'];
+};
+
+
+export type IMutationJoinIChatRoomArgs = {
+  email: Scalars['String'];
+  iChatRoomId: Scalars['String'];
 };
 
 
@@ -688,6 +712,8 @@ export type IQuery = {
   /** Return : 조회한 상품 정보 */
   fetchProduct: IProduct;
   fetchReceiveReviews: Array<IReview>;
+  fetchReviewDetails: Array<IReviewDetail>;
+  fetchReviews: Scalars['Boolean'];
   fetchSendReviews: Array<IReview>;
   /** Return : 로그인한 유저 데이터 */
   fetchSocialLoginUser: IUser;
@@ -786,7 +812,7 @@ export type IQueryFetchOrderByPhoneArgs = {
 
 
 export type IQueryFetchPassTicketArgs = {
-  id: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
@@ -797,6 +823,12 @@ export type IQueryFetchProductArgs = {
 
 export type IQueryFetchReceiveReviewsArgs = {
   id: Scalars['String'];
+};
+
+
+export type IQueryFetchReviewsArgs = {
+  myId: Scalars['String'];
+  targetId: Scalars['String'];
 };
 
 
@@ -832,9 +864,15 @@ export type IReview = {
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
   receiveReviewId: Scalars['String'];
-  reviewDetail: Scalars['String'];
+  reviewDetail: Array<IReviewDetail>;
   reviewMessage: Scalars['String'];
   sendReview: IDog;
+};
+
+export type IReviewDetail = {
+  __typename?: 'ReviewDetail';
+  id: Scalars['String'];
+  reviewDetail: Scalars['String'];
 };
 
 /** 인기댕댕 */
@@ -874,7 +912,7 @@ export type IUpdateProductInput = {
 
 export type IUpdateReviewInput = {
   receiveReviewId?: InputMaybe<Scalars['String']>;
-  reviewDetail?: InputMaybe<Scalars['String']>;
+  reviewDetail?: InputMaybe<Array<Scalars['String']>>;
   reviewMessage?: InputMaybe<Scalars['String']>;
   sendReview?: InputMaybe<Scalars['String']>;
 };

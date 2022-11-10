@@ -18,6 +18,9 @@ export const MainImageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .haha {
+    height: 50%;
+  }
   div {
     width: 80%;
     position: absolute;

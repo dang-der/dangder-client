@@ -23,7 +23,7 @@ export default function LoginContainer() {
 
   const [, setAccessToken] = useRecoilState(accessTokenState);
   const [, setUserInfo] = useRecoilState(userInfoState);
-  const [, setExeptionModal] = useRecoilState(exceptionModalState);
+  const [, setExceptionModal] = useRecoilState(exceptionModalState);
 
   const handleUserLogin = async (inputs: any) => {
 
@@ -39,15 +39,24 @@ export default function LoginContainer() {
 
       setAccessToken(accessToken);
 
-      const { data } = await client.query({ query: FETCH_LOGIN_USER });
-      if (!data) return;
+      const { data } = await client.query({
+        query: FETCH_LOGIN_USER,
+        context: {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      });
+
+      if (!data) throw Error("유저 정보를 찾을 수 없습니다.");
+      
       setUserInfo(data.fetchLoginUser);
 
       router.replace("/main");
     } catch (e) {
       console.log("LoginError", e);
       if (e instanceof Error) {
-        setExeptionModal({ visible: true, message: e.message });
+        setExceptionModal({ visible: true, message: e.message });
       }
     }
 

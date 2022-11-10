@@ -4,7 +4,6 @@ import { Card } from "./Card";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../Commons/Store/Auth/UserInfoState";
 import * as S from "./DogMainPage.styles";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import NearMeRoundedIcon from "@mui/icons-material/NearMeRounded";
 
 const Frame = styled.div`
@@ -18,10 +17,11 @@ const Frame = styled.div`
 `;
 
 interface StackProps {
-  onVote: (data: any, vote: boolean, direction: string | undefined) => void;
   datas: any;
   refetch?: any;
   nonRefetch?: any;
+  onVote: (data: any, vote: boolean, direction: string | undefined) => void;
+  handleClickBuyTicket?: (pairId: string) => Promise<void>;
 }
 
 export default function DogMainUI({
@@ -29,12 +29,11 @@ export default function DogMainUI({
   datas,
   refetch,
   nonRefetch,
+  handleClickBuyTicket,
 }: StackProps) {
   const [userInfo] = useRecoilState(userInfoState);
   const [stack, setStack] = useState(datas);
-  const [page, setPage] = useState(1);
-
-  console.log("DogMainUI", datas);
+  const [page] = useState(1);
 
   const pop = (array: any[] | undefined) => {
     if (!array) return;
@@ -76,8 +75,6 @@ export default function DogMainUI({
 
         {(stack || []).map((item: any, index: any) => {
           const isTop = index === (stack?.length || 0) - 1;
-
-          console.log("stack", stack);
           return (
             <Card
               drag={isTop}
@@ -86,6 +83,7 @@ export default function DogMainUI({
                 handleVote(item, result, direction)
               }
               data={item}
+              handleBuyPass={handleClickBuyTicket}
             />
           );
         })}

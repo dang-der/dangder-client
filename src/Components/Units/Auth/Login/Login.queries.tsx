@@ -23,6 +23,7 @@ export const FETCH_LOGIN_USER = gql`
         id
         email
         pet
+        isCert
       }
 
       dog {

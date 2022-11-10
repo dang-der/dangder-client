@@ -45,3 +45,12 @@ export const FETCH_LOGIN_USER_IS_CERT = gql`
     fetchLoginUserIsCert
   }
 `;
+
+export const FETCH_PASS_TICKET = gql`
+  query fetchPassTicket($email: String!) {
+    fetchPassTicket(email: $email) {
+      createdAt
+      expiredAt
+    }
+  }
+`;
