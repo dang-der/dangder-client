@@ -7,7 +7,6 @@ import PageHeader from "./page_header";
 
 const SHOW_LOGO_HEADERS = ["/main", `/[dogId]`];
 
-// TODO: 채팅방 - 약속 설정에 페이지 타이틀 헤더 추가
 const SHOW_PAGE_HEADERS = [
   "/auth/password-reset",
   "/today",
@@ -20,7 +19,6 @@ const SHOW_PAGE_HEADERS = [
   "/interests/chat/[roomId]",
   "/review/write",
   "/review/[dogId]",
-
 ];
 
 const SHOW_NAVIGATION = [
@@ -62,7 +60,6 @@ const TabWrapper = styled.div`
   height: 4rem;
 `;
 
-// TODO: 불필요한 리렌더링 막기
 export default function Layout(props: ILayoutProps) {
   const router = useRouter();
 
