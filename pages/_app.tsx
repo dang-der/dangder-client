@@ -18,10 +18,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   const SHOW_ADMIN_NAVIGATION = [
-    "/admin/user",
+    "/admin/users",
     "/admin/dogs",
-    "/admin/report",
-    "/admin/block",
+    "/admin/reports",
+    "/admin/blocks",
     "/admin/payments",
   ];
 

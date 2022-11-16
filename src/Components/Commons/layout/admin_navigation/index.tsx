@@ -12,8 +12,8 @@ interface IProps {}
 
 const menuItems: MenuProps["items"] = [
   {
-    label: <Link href="/admin/user">유저 관리</Link>,
-    key: "user",
+    label: <Link href="/admin/users">유저 관리</Link>,
+    key: "users",
     icon: <AccountCircleIcon />,
   },
   {
@@ -22,13 +22,13 @@ const menuItems: MenuProps["items"] = [
     icon: <PetsIcon />,
   },
   {
-    label: <Link href="/admin/report">신고 내용 관리</Link>,
-    key: "report",
+    label: <Link href="/admin/reports">신고 내용 관리</Link>,
+    key: "reports",
     icon: <ReportIcon />,
   },
   {
-    label: <Link href="/admin/block">차단 유저 관리</Link>,
-    key: "block",
+    label: <Link href="/admin/blocks">차단 유저 관리</Link>,
+    key: "blocks",
     icon: <BlockIcon />,
   },
   {
@@ -39,7 +39,7 @@ const menuItems: MenuProps["items"] = [
 ];
 
 const AdminNavigation = ({}: IProps): ReactElement => {
-  const [current, setCurrent] = useState("user");
+  const [current, setCurrent] = useState("users");
 
   const onMenu: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
