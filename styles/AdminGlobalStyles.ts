@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
 export const AdminGlobalStyles = css`
   * {
@@ -44,4 +45,13 @@ export const AdminGlobalStyles = css`
   li {
     list-style: none;
   }
+`;
+
+export const AdminWrapper = styled.div`
+  display: flex;
+  padding: 1rem;
+`;
+
+export const ContentsWrapper = styled.div`
+  margin: 1rem 0 0 4rem;
 `;

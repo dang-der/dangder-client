@@ -65,20 +65,24 @@ const AdminNavigation = ({}: IProps): ReactElement => {
 export default AdminNavigation;
 
 const Wrapper = styled.div`
-  width: 100vw;
-  height: 100%;
+  width: 236px;
+  height: 875px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  box-shadow: 0px 1px 4px 0px #726060;
+  padding: 2rem 0;
 `;
 
 const MenuWrapper = styled.nav`
-  width: 200px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
+  align-items: center;
 `;
 
 const LogoImage = styled.img`
   width: 150px;
   height: 100px;
-  margin: 0 auto;
+  margin-bottom: 2px;
 `;
