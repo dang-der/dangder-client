@@ -30,6 +30,7 @@ export type IAroundDogOutput = {
 export type IBlockUser = {
   __typename?: 'BlockUser';
   blockId: Scalars['String'];
+  email: Scalars['String'];
   id: Scalars['String'];
   user: IUser;
 };
@@ -166,6 +167,21 @@ export type IDog = {
   targetDistance?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
   user: IUser;
+};
+
+export type IDogElasticsearchOutPut = {
+  __typename?: 'DogElasticsearchOutPut';
+  age?: Maybe<Scalars['Int']>;
+  createdAt: Scalars['String'];
+  deletedAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  gender: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  registerNumber: Scalars['String'];
+  updatedAt?: Maybe<Scalars['String']>;
+  userId: Scalars['String'];
 };
 
 export type IDogImage = {
@@ -321,7 +337,6 @@ export type IMutation = {
   updateOrder: IOrder;
   /** Return : 업데이트 된 상품 정보 */
   updateProduct: IProduct;
-  updateReview: IReview;
   updateTargetAge: IDog;
   updateTargetDistance: IDog;
   /** Return : 바뀐 유저 정보 */
@@ -581,11 +596,6 @@ export type IMutationUpdateProductArgs = {
 };
 
 
-export type IMutationUpdateReviewArgs = {
-  updateReviewInput: IUpdateReviewInput;
-};
-
-
 export type IMutationUpdateTargetAgeArgs = {
   dogId: Scalars['String'];
   targetAgeMax: Scalars['Float'];
@@ -650,6 +660,7 @@ export type IPassTicket = {
 export type IPayment = {
   __typename?: 'Payment';
   createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
   id: Scalars['String'];
   impUid: Scalars['String'];
   payMoney: Scalars['Int'];
@@ -669,6 +680,7 @@ export type IProduct = {
 
 export type IQuery = {
   __typename?: 'Query';
+  fetchAllReviews: Array<IReview>;
   fetchAroundDogs: Array<IDog>;
   /** Return : 차단된 유저 정보 */
   fetchBlockUser: IBlockUser;
@@ -688,6 +700,8 @@ export type IQuery = {
   fetchDogImage: Array<IDogImage>;
   /**  Return : 모든 강아지 정보 */
   fetchDogs: Array<IDog>;
+  /** 강아지 검색 */
+  fetchDogsBySearch: Array<IDogElasticsearchOutPut>;
   fetchDogsDistance: Array<IAroundDogOutput>;
   /** Return : iChatRoomId로 찾은 메시지들의 정보 */
   fetchIChatMessagesByIChatRoomId: Array<IInterestChatMessage>;
@@ -709,9 +723,13 @@ export type IQuery = {
   fetchOrderByPhone: IOrder;
   /** Return : 패스 티켓 정보 */
   fetchPassTicket: IPassTicket;
+  /** Return : 결제 정보 */
+  fetchPayments: IPayment;
   /** Return : 조회한 상품 정보 */
   fetchProduct: IProduct;
   fetchReceiveReviews: Array<IReview>;
+  /** Return : 신고 정보 */
+  fetchReports: Array<IReportOutput>;
   fetchReviewDetails: Array<IReviewDetail>;
   fetchReviews: Scalars['Boolean'];
   fetchSendReviews: Array<IReview>;
@@ -725,6 +743,8 @@ export type IQuery = {
   fetchUser: IUser;
   /** Return : 전체 유저 정보 */
   fetchUsers: Array<IUser>;
+  /** 유저 검색 */
+  fetchUsersBySearch: Array<IUserElasticsearchOutPut>;
   /** Return : 신고 정보 */
   fetchWhoReport: IReport;
 };
@@ -738,6 +758,11 @@ export type IQueryFetchAroundDogsArgs = {
 
 export type IQueryFetchBlockUserArgs = {
   blockId: Scalars['String'];
+};
+
+
+export type IQueryFetchBlockUsersArgs = {
+  page: Scalars['Float'];
 };
 
 
@@ -768,6 +793,11 @@ export type IQueryFetchDogImageArgs = {
 
 export type IQueryFetchDogsArgs = {
   page: Scalars['Float'];
+};
+
+
+export type IQueryFetchDogsBySearchArgs = {
+  search?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -816,6 +846,11 @@ export type IQueryFetchPassTicketArgs = {
 };
 
 
+export type IQueryFetchPaymentsArgs = {
+  page: Scalars['Float'];
+};
+
+
 export type IQueryFetchProductArgs = {
   id: Scalars['String'];
 };
@@ -823,6 +858,11 @@ export type IQueryFetchProductArgs = {
 
 export type IQueryFetchReceiveReviewsArgs = {
   id: Scalars['String'];
+};
+
+
+export type IQueryFetchReportsArgs = {
+  page: Scalars['Float'];
 };
 
 
@@ -838,6 +878,7 @@ export type IQueryFetchSendReviewsArgs = {
 
 
 export type IQueryFetchTargetArgs = {
+  page: Scalars['Float'];
   targetId: Scalars['String'];
 };
 
@@ -847,16 +888,36 @@ export type IQueryFetchUserArgs = {
 };
 
 
+export type IQueryFetchUsersArgs = {
+  page: Scalars['Float'];
+};
+
+
+export type IQueryFetchUsersBySearchArgs = {
+  search?: InputMaybe<Scalars['String']>;
+};
+
+
 export type IQueryFetchWhoReportArgs = {
+  page: Scalars['Float'];
   userId: Scalars['String'];
 };
 
 export type IReport = {
   __typename?: 'Report';
+  email: Scalars['String'];
   id: Scalars['String'];
   reportContent: Scalars['String'];
   targetId: Scalars['String'];
   user: IUser;
+};
+
+/** fetchReports의 Return Type */
+export type IReportOutput = {
+  __typename?: 'ReportOutput';
+  email?: Maybe<Scalars['String']>;
+  reportContent?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
 };
 
 export type IReview = {
@@ -910,13 +971,6 @@ export type IUpdateProductInput = {
   productName?: InputMaybe<Scalars['String']>;
 };
 
-export type IUpdateReviewInput = {
-  receiveReviewId?: InputMaybe<Scalars['String']>;
-  reviewDetail?: InputMaybe<Array<Scalars['String']>>;
-  reviewMessage?: InputMaybe<Scalars['String']>;
-  sendReview?: InputMaybe<Scalars['String']>;
-};
-
 export type IUpdateUserInput = {
   ddMoney?: InputMaybe<Scalars['Int']>;
   donateGrade?: InputMaybe<Scalars['String']>;
@@ -948,6 +1002,17 @@ export type IUser = {
   reportCnt: Scalars['Int'];
   reports: Array<IReport>;
   updatedAt: Scalars['DateTime'];
+};
+
+export type IUserElasticsearchOutPut = {
+  __typename?: 'UserElasticsearchOutPut';
+  createdAt: Scalars['String'];
+  deletedAt: Scalars['String'];
+  dogId?: Maybe<Scalars['String']>;
+  dogName?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  isStop: Scalars['Boolean'];
+  reportCnt: Scalars['Int'];
 };
 
 /** fetchLoginUser 의 Return Type */

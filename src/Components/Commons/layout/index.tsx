@@ -57,7 +57,9 @@ const ContentsWrapper = styled.div`
 `;
 
 const TabWrapper = styled.div`
-  height: 4rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 export default function Layout(props: ILayoutProps) {
@@ -77,6 +79,7 @@ export default function Layout(props: ILayoutProps) {
       )}
 
       <ContentsWrapper>{props.children}</ContentsWrapper>
+
       {isShowNavigation && (
         <TabWrapper>
           <Navigation />

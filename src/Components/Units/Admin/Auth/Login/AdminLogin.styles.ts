@@ -2,13 +2,14 @@ import styled from "@emotion/styled";
 import { Button } from "antd";
 
 export const Wrapper = styled.div`
-  width: 100%;
+  width: 100vw;
   min-width: 550px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: -1rem 0 0 -4rem;
 `;
 
 export const LogoImage = styled.img`
