@@ -11,7 +11,7 @@ import moment from "moment";
 import "moment/locale/ko";
 import _ from "lodash";
 
-export default function AdminUsersUI(props) {
+export default function AdminUsersUI() {
   const [page, setPage] = useState<number>(1);
   const [keyword, setKeyword] = useState<string>("");
 
@@ -22,7 +22,7 @@ export default function AdminUsersUI(props) {
     }
   );
 
-  const { data: fetchUsersBySearchData, refetch } = useQuery<
+  const { data: fetchUsersBySearchData } = useQuery<
     Pick<IQuery, "fetchUsersBySearch">,
     IQueryFetchUsersBySearchArgs
   >(FETCH_USERS_BY_SEARCH, {
@@ -32,7 +32,6 @@ export default function AdminUsersUI(props) {
   console.log(fetchUsersBySearchData);
 
   const getDebounce = _.debounce((value: string) => {
-    refetch({ search: value });
     onChangeKeyword(value);
   }, 200);
 
@@ -55,7 +54,7 @@ export default function AdminUsersUI(props) {
           <S.ColumnHeaderBasic>이메일</S.ColumnHeaderBasic>
           <S.ColumnHeaderTitle>펫 여부</S.ColumnHeaderTitle>
           <S.ColumnHeaderBasic>계정 생성일</S.ColumnHeaderBasic>
-          <S.ColumnHeaderBasic>신고 누적수</S.ColumnHeaderBasic>
+          <S.ColumnHeaderBasic>신고 누적 수</S.ColumnHeaderBasic>
         </S.TableRow>
         {data?.fetchUsers.map((el) => (
           <S.Row key={el.id}>
@@ -66,7 +65,9 @@ export default function AdminUsersUI(props) {
             <S.ColumnBasic>
               {moment(el.createdAt, "YYYYMMDD hh:mm a").format("YYYY.MM.DD")}
             </S.ColumnBasic>
-            <S.ColumnBasic>{el.reportCnt}</S.ColumnBasic>
+            <S.ColumnBasic>
+              {el.reportCnt ? el.reportCnt + "회" : "-"}
+            </S.ColumnBasic>
           </S.Row>
         ))}
       </S.TableWrapper>

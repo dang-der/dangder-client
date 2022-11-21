@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import PetsIcon from "@mui/icons-material/Pets";
 import { SearchOutlined } from "@ant-design/icons";
 
 export const Wrapper = styled.div`
@@ -14,11 +14,11 @@ export const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 200px;
+  width: 220px;
   height: 40px;
 `;
 
-export const TitleIcon = styled(AccountCircleIcon)`
+export const TitleIcon = styled(PetsIcon)`
   font-size: 42px;
 `;
 
@@ -64,7 +64,7 @@ export const ColumnHeaderBasic = styled.div`
 `;
 
 export const ColumnHeaderTitle = styled.div`
-  width: 20%;
+  width: 50%;
   font-weight: 700;
   text-align: center;
 `;
@@ -83,7 +83,7 @@ export const ColumnBasic = styled.div`
 `;
 
 export const ColumnTitle = styled.div`
-  width: 20%;
+  width: 50%;
   text-align: center;
   cursor: pointer;
 
@@ -91,6 +91,15 @@ export const ColumnTitle = styled.div`
     color: #1890ff;
     font-weight: 600;
   }
+`;
+
+interface IkeywordProps {
+  isSearch: boolean;
+}
+
+export const FindKeyword = styled.span<IkeywordProps>`
+  color: ${(props) => (props.isSearch ? "tomato" : "default")};
+  font-weight: ${(props) => (props.isSearch ? "700" : "default")};
 `;
 
 export const SearchWrapper = styled.div`
