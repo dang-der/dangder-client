@@ -64,7 +64,7 @@ export default function AdminLoginUI() {
       }
 
       setAdminAccessToken(accessToken);
-      router.push("/admin/user");
+      router.push("/admin/users");
     } catch (e) {
       if (e instanceof Error) {
         Modal.error({ content: e.message });
