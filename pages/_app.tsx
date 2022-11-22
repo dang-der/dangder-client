@@ -18,19 +18,18 @@ import {
 import { useRouter } from "next/router";
 import AdminNavigation from "../src/Components/Commons/layout/admin_navigation";
 
+
+const SHOW_ADMIN_NAVIGATION = [
+  "/admin/users",
+  "/admin/dogs",
+  "/admin/reports",
+  "/admin/blocks",
+  "/admin/payments",
+];
+
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-
-  const SHOW_ADMIN_NAVIGATION = [
-    "/admin/users",
-    "/admin/dogs",
-    "/admin/reports",
-    "/admin/blocks",
-    "/admin/payments",
-  ];
-
   const isShowAdminNavigation = SHOW_ADMIN_NAVIGATION.includes(router.pathname);
-
   return (
     <>
       {router.pathname.includes("admin") ? (

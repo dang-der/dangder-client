@@ -8,7 +8,6 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import { ReactElement, useState } from "react";
 import styled from "@emotion/styled";
 
-interface IProps {}
 
 const menuItems: MenuProps["items"] = [
   {
