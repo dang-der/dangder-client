@@ -7,6 +7,7 @@ import PageHeader from "./page_header";
 
 const SHOW_LOGO_HEADERS = ["/main", `/[dogId]`];
 
+// TODO: 채팅방 - 약속 설정에 페이지 타이틀 헤더 추가
 const SHOW_PAGE_HEADERS = [
   "/auth/password-reset",
   "/today",
@@ -57,11 +58,10 @@ const ContentsWrapper = styled.div`
 `;
 
 const TabWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  height: 4rem;
 `;
 
+// TODO: 불필요한 리렌더링 막기
 export default function Layout(props: ILayoutProps) {
   const router = useRouter();
 
@@ -79,7 +79,6 @@ export default function Layout(props: ILayoutProps) {
       )}
 
       <ContentsWrapper>{props.children}</ContentsWrapper>
-
       {isShowNavigation && (
         <TabWrapper>
           <Navigation />
